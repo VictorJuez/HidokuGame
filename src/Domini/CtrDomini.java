@@ -12,6 +12,15 @@ public class CtrDomini {
     }
 
     public void insertarHidato() {
+        /*
+        * Simplemente creado para testear el siguiente input:
+        *   Q,CA,3,4
+        *   #,1,?,#
+        *   ?,?,?,?
+        *   7,?,9,#
+        *
+        *   lo unico que hace es printarlo.
+         */
         String params,tablero = "";
         Scanner myScanner = new Scanner(System.in);
         params = myScanner.next();
@@ -20,6 +29,10 @@ public class CtrDomini {
         tablero += myScanner.next();
         System.out.println(params);
         System.out.println(tablero);
+    }
+
+    public void generarHidato(){
+        //Mahias aqui es donde puedes poner tu funcion.
     }
 
 }
