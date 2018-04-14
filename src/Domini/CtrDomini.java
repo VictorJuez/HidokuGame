@@ -1,7 +1,5 @@
 package Domini;
 
-import java.util.Scanner;
-
 public class CtrDomini {
 
     public CtrDomini() {
@@ -11,24 +9,10 @@ public class CtrDomini {
         System.out.println("Hello World!");
     }
 
-    public void insertarHidato() {
-        /*
-        * Simplemente creado para testear el siguiente input:
-        *   Q,CA,3,4
-        *   #,1,?,#
-        *   ?,?,?,?
-        *   7,?,9,#
-        *
-        *   lo unico que hace es printarlo.
-         */
-        String params,tablero = "";
-        Scanner myScanner = new Scanner(System.in);
-        params = myScanner.next();
-        tablero = myScanner.next();
-        tablero += myScanner.next();
-        tablero += myScanner.next();
-        System.out.println(params);
-        System.out.println(tablero);
+    public void insertarHidato(int filas, int columnas, String[][] tab) {
+
+        Tablero t = new Tablero(filas,columnas,tab);
+        t.print();
     }
 
     public void generarHidato(){
