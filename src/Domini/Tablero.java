@@ -10,23 +10,12 @@ public class Tablero extends Mapa {
         this.filas = filas;
         this.columnas = columnas;
         this.matrix = tab;
-        //this.matrix = new char[filas][columnas];
-
-        /*for(int i = 0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) matrix[i][j]= 'c';
-        }*/
-
-        //System.out.println(matrix);
+        this.ID = 1;
     }
 
-    public void print(){
-        System.out.println("filas: "+filas);
-        System.out.println("columnas: "+columnas);
-        System.out.println("Tablero:");
-        for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) System.out.print(matrix[i][j]);
-            System.out.print("\n");
-        }
+    public String[][] getMatrix() {
+        return matrix;
     }
+
 
 }

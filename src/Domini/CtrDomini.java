@@ -9,11 +9,13 @@ public class CtrDomini {
         System.out.println("Hello World!");
     }
 
-    public void insertarHidato(int filas, int columnas, String[][] tab) {
+    public Tablero insertarHidato(int filas, int columnas, String[][] tab) {
 
         Tablero t = new Tablero(filas,columnas,tab);
-        t.print();
+        return t;
     }
+
+
 
     public void generarHidato(){
         //Mahias aqui es donde puedes poner tu funcion.

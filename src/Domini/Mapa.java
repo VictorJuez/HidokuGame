@@ -1,7 +1,11 @@
 package Domini;
 
 public class Mapa {
-    private int ID;
+    protected int ID;
 
     public Mapa(){}
+
+    public int getID() {
+        return ID;
+    }
 }
