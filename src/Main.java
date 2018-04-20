@@ -1,5 +1,4 @@
 import Domini.CtrDomini;
-import Domini.Tablero;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,36 +6,52 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static Scanner myScanner;
+    private static CtrDomini ctDomini;
+
     public static void main(String[] args) {
+        ctDomini = new CtrDomini();
+        System.out.println("Hidato Game");
+        String introduction = "Introduce qué operación desea ejecutar:\n"+
+                "\t1) Insertar un nuevo hidato\n"+
+                "\t2) Lista hidatos\n"+
+                "\tx) Para salir del juego\n";
 
-        System.out.println("Introduce un hidato válido:");
-        String params = "";
-        Scanner myScanner = new Scanner(System.in);
-        params = myScanner.next();
-
-        int filas = Integer.parseInt(String.valueOf(params.charAt(5)));
-        int columnas = Integer.parseInt(String.valueOf(params.charAt(7)));
-
-        String[][] tab = new String[filas][columnas];
-
-        for(int i=0; i<filas; ++i) {
-            String filaTab = myScanner.next();
-            List<String> items = Arrays.asList(filaTab.split("\\s*,\\s*"));
-            tab[i] = items.toArray(tab[i]);
+        System.out.println(introduction);
+        String op = "";
+        myScanner = new Scanner(System.in);
+        op = myScanner.next();
+        boolean active = true;
+        while(active) {
+            switch (op){
+                case "1":
+                    insertarHidato();
+                    break;
+                case "2":
+                    listaHidatos();
+                    break;
+                case "x":
+                    System.out.println("exiting game...");
+                    active = false;
+                    break;
+                default:
+                    System.out.println("this operation does not exist");
+                    break;
+            }
+            if (active) {
+                System.out.println("---------------------------------------\n\n"
+                        +introduction);
+                op = myScanner.next();
+            }
         }
 
-        CtrDomini ctDomini = new CtrDomini();
-        Tablero t = ctDomini.insertarHidato(filas,columnas,tab);
-        print(t);
 
     }
 
-    public static void print(Tablero t){
-       String[][] matrix = t.getMatrix();
-
+    public static void printTablero(String[][] matrix){
         int filas = matrix.length;
         int columnas = matrix[0].length;
-        System.out.println("filas: "+filas);
+        System.out.println("\nfilas: "+filas);
         System.out.println("columnas: "+columnas);
         System.out.println("Tablero:");
         for(int i=0; i<filas; ++i){
@@ -44,4 +59,30 @@ public class Main {
             System.out.print("\n");
         }
     }
-}
+
+    public static void insertarHidato(){
+        System.out.println("Introduce un hidato válido:");
+        String params = "";
+        params = myScanner.next();
+        int filas = Integer.parseInt(String.valueOf(params.charAt(5)));
+        int columnas = Integer.parseInt(String.valueOf(params.charAt(7)));
+
+        String[][] tab = new String[filas][columnas];
+
+        for (int i = 0; i < filas; ++i) {
+            String filaTab = myScanner.next();
+            List<String> items = Arrays.asList(filaTab.split("\\s*,\\s*"));
+            tab[i] = items.toArray(tab[i]);
+        }
+
+        String[][] t = ctDomini.insertarHidato(filas, columnas, tab);
+        printTablero(t);
+    }
+
+    public static void listaHidatos(){
+        List l = ctDomini.listaHidatos();
+        for(int i=0; i<l.size(); ++i) {
+            System.out.println("ID: "+l.get(i));
+            }
+        }
+    }
