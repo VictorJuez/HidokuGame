@@ -1,12 +1,15 @@
 package Domini;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.util.UUID;
+import java.util.Vector;
 
 public class Tablero extends Mapa {
     private boolean adyacenciaAngulos;
-    private int filas;
-    private int columnas;
-    private String[][] matrix;
+    private static int filas;
+    private static int columnas;
+    private static String[][] matrix;
 
     private Tablero(){
         //Not allowed
@@ -19,6 +22,7 @@ public class Tablero extends Mapa {
         t.matrix = tab;
         t.ID = UUID.randomUUID().toString();
         instances.add(t.ID);
+        hidatoValido();
         return t;
     }
 
@@ -26,5 +30,90 @@ public class Tablero extends Mapa {
         return matrix;
     }
 
+    public static void hidatoValido(){
+        String[][] A = matrix;
+        Vector<Integer> v = new Vector<>();
+        v.add(2);
+        v.add(3);
+        v.add(4);
+        v.add(5);
+        v.add(6);
+        v.add(8);
+        String[][] r = backtrackingResolucio(0,0, A, v);
+        //System.out.println(r);
+        for(int i=0; i<r.length; ++i){
+            for(int j=0; j<r[0].length; ++j) System.out.print(r[i][j]);
+            System.out.println();
+        }
+    }
 
+    private static String[][] backtrackingResolucio(int x, int y, String[][] A, Vector v){
+        //System.out.print("hellooo");
+        if(v.size() == 0) {
+            System.out.println("finiished");
+            return A;
+        }
+        else{
+            if(A[x][y].equals("?")){
+                System.out.println("Interrogant al ["+x+"],["+y+"]");
+                for(int i =0; i<v.size(); ++i){
+                    int aux = (int) v.get(i);
+                    for(int k=1; k<=4; ++k){
+                        int xx = x;
+                        int yy = y;
+                        switch (k){
+                            case 1: //checking left
+                                xx=x;
+                                yy=y-1;
+                                break;
+                            case 2: //checking up
+                                xx=x-1;
+                                yy=y;
+                                break;
+                            case 3: //checking right
+                                xx=x;
+                                yy=y+1;
+                                break;
+                            case 4: //checking down
+                                xx=x+1;
+                                yy=y;
+                            break;
+                        }
+
+                        if(posicioCorrecte(xx,yy,A, (Integer) v.get(i))){
+                            System.out.println("Posicio correcte! "+xx+", "+yy);
+                            //checking left
+                            A[x][y] = String.valueOf(aux);
+                            v.remove(i);
+                            backtrackingResolucio(xx,yy,A,v);
+                            v.add(i,aux);
+                            A[x][y] = "?";
+                        }
+                    }
+                }
+            }
+            else {
+                if (y < A[0].length) ++y;
+                else {
+                    ++x;
+                    y = 0;
+                }
+                backtrackingResolucio(x, y, A, v);
+            }
+        }
+
+        return A;
+    }
+
+    private static boolean posicioCorrecte(int x, int y, String[][] A, int toInsert){
+        if(x<0 || y<0) return false;
+        try {
+            int tableValue = Integer.parseInt(A[x][y]);
+            if (tableValue < toInsert || tableValue > toInsert) return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+        return false;
+    }
 }
