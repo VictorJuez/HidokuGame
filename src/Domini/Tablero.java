@@ -34,26 +34,22 @@ public class Tablero extends Mapa {
 
     public static void hidatoValido(){
         String[][] A = matrix;
-        Vector<Integer> v = new Vector<>();
-        v.add(2);
-        v.add(3);
-        v.add(4);
-        v.add(5);
-        v.add(6);
-        v.add(8);
-        String[][] r = backtrackingResolucio(0,0, A, v);
-        //System.out.println(r);
-        for(int i=0; i<r.length; ++i){
-            for(int j=0; j<r[0].length; ++j) System.out.print(r[i][j]);
-            System.out.println();
-        }
+        Vector<Integer> v;
+        v = numerosRestants();
+        backtrackingResolucio(0,0, A, v);
     }
 
-    private static String[][] backtrackingResolucio(int x, int y, String[][] A, Vector v){
-        //System.out.print("hellooo");
+    private static void backtrackingResolucio(int x, int y, String[][] A, Vector v){
+        System.out.println("Now iterating over: "+x+", "+y);
+        System.out.println(v+"\n");
+        if(y >= A[0].length) {
+            y=0;
+            if(x+1 >= A.length) processa(A);
+            else ++x;
+        }
         if(v.size() == 0) {
             System.out.println("finiished");
-            return A;
+            processa(A);
         }
         else{
             if(A[x][y].equals("?")){
@@ -79,15 +75,15 @@ public class Tablero extends Mapa {
                             case 4: //checking down
                                 xx=x+1;
                                 yy=y;
-                            break;
+                                break;
                         }
 
                         if(posicioCorrecte(xx,yy,A, (Integer) v.get(i))){
-                            System.out.println("Posicio correcte! "+xx+", "+yy);
+                            System.out.println("Posicio correcte! "+xx+", "+yy+"| Posem el "+aux);
                             //checking left
                             A[x][y] = String.valueOf(aux);
                             v.remove(i);
-                            backtrackingResolucio(xx,yy,A,v);
+                            backtrackingResolucio(x,++y,A,v);
                             v.add(i,aux);
                             A[x][y] = "?";
                         }
@@ -95,16 +91,31 @@ public class Tablero extends Mapa {
                 }
             }
             else {
-                if (y < A[0].length) ++y;
-                else {
-                    ++x;
-                    y = 0;
-                }
-                backtrackingResolucio(x, y, A, v);
+                backtrackingResolucio(x, ++y, A, v);
             }
         }
+    }
 
-        return A;
+    private static boolean posicioCorrecte(int x, int y, String[][] A, int toInsert){
+        if(x<0 || y<0 || x>=A.length || y>=A[0].length) return false;
+        try {
+            int tableValue = Integer.parseInt(A[x][y]);
+            if (tableValue == toInsert-1 || tableValue == toInsert+1) {
+                System.out.println("tableValue: "+ tableValue + ", toInsert"+ toInsert);
+                return true;
+            }
+        }
+        catch (Exception e){
+            return false;
+        }
+        return false;
+    }
+
+    private static void processa(String[][] A){
+        for(int i=0; i<A.length; ++i){
+            for(int j=0; j<A[0].length; ++j) System.out.print(A[i][j]);
+            System.out.println();
+        }
     }
 
     private static Vector<Integer> numerosRestants(){   //aixo es podria guardar tot com si fos un atribut
@@ -128,15 +139,4 @@ public class Tablero extends Mapa {
 
     }
 
-    private static boolean posicioCorrecte(int x, int y, String[][] A, int toInsert){
-        if(x<0 || y<0) return false;
-        try {
-            int tableValue = Integer.parseInt(A[x][y]);
-            if (tableValue < toInsert || tableValue > toInsert) return true;
-        }
-        catch (Exception e){
-            return false;
-        }
-        return false;
-    }
 }
