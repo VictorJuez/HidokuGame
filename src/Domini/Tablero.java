@@ -15,6 +15,8 @@ public class Tablero extends Mapa {
         //Not allowed
     }
 
+
+
     public static Tablero createTablero(int filas, int columnas, String[][] tab){
         Tablero t = new Tablero();
         t.filas = filas;
@@ -103,6 +105,27 @@ public class Tablero extends Mapa {
         }
 
         return A;
+    }
+
+    private static Vector<Integer> numerosRestants(){   //aixo es podria guardar tot com si fos un atribut
+        Vector<String> existents = new Vector<>();   //numeros que existeixen a la matrix
+        int interrogants = 0;
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (matrix[i][j].equals("?")) {
+                    interrogants += 1;
+                }
+                else if (!matrix[i][j].equals("#") && !matrix[i][j].equals("*")){
+                    existents.add(matrix[i][j]);
+                }
+            }
+        }
+        Vector<Integer> total = new Vector<>();
+        for(int k = 0; k < interrogants + existents.size(); k++){
+            if (!existents.contains(Integer.toString(k+1))) total.add(k+1);
+        }
+        return total;
+
     }
 
     private static boolean posicioCorrecte(int x, int y, String[][] A, int toInsert){
