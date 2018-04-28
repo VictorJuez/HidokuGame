@@ -36,48 +36,31 @@ public class Tablero extends Mapa {
         String[][] A = matrix;
         Vector<Integer> v;
         v = numerosRestants();
-        backtrackingResolucio(0,0, A, v);
+        backtrackingResolucio(0,A, v);
     }
 
-    private static void backtrackingResolucio(int x, int y, String[][] A, Vector v){
+    private static void backtrackingResolucio(int k, String[][] A, Vector v){
+        if(k>=filas*columnas) return;
+        int x = k/columnas;
+        int y = k%columnas;
+        System.out.println(v);
         if(v.size() == 0) {
-            System.out.println("finiished");
             processa(A);
         }
         else{
-            System.out.println("Now iterating over: "+x+", "+y);
-            System.out.println(v+"\n");
             if(A[x][y].equals("?")){
-                System.out.println("Interrogant al ["+x+"],["+y+"]");
-                for(int i =0; i<v.size(); ++i){
-                    int aux = (int) v.get(i);
-                    System.out.println("checking if we can insert value: "+aux);
-                    if(posicioCorrecte(x,y,A, (Integer) v.get(i), v)){
-                        System.out.println("Posicio correcte! "+x+", "+y+"| Posem el "+aux);
-                        //checking left
-                        A[x][y] = String.valueOf(aux);
-                        v.remove(i);
-                        if(y+1 == A[0].length) {
-                            if(x+1 == A.length) backtrackingResolucio(0,0, A,v);
-                            else backtrackingResolucio(x+1,0,A,v);
-                        }
-                        else backtrackingResolucio(x,y+1,A,v);
-                        //v.add(i,aux);
-                        //A[x][y] = "?";
-                    }
+                int aux = (int) v.get(0);
+                if(posicioCorrecte(x,y,A, aux, v)) {
+                    A[x][y] = String.valueOf(aux);
+                    v.remove(0);
+                    backtrackingResolucio(0, A ,v);
+                    v.add(0,aux);
+                    A[x][y] = "?";
                 }
-                if(y+1 == A[0].length) {
-                    if(x+1 == A.length) backtrackingResolucio(0,0, A,v);
-                    else backtrackingResolucio(x+1,0,A,v);
-                }
-                else backtrackingResolucio(x,y+1,A,v);
+                else backtrackingResolucio(k+1,A,v);
             }
             else {
-                if(y+1 == A[0].length) {
-                    if(x+1 == A.length) backtrackingResolucio(0,0, A,v);
-                    else backtrackingResolucio(x+1,0,A,v);
-                }
-                else backtrackingResolucio(x,y+1,A,v);
+                backtrackingResolucio(k+1,A,v);
             }
         }
     }
@@ -109,10 +92,7 @@ public class Tablero extends Mapa {
             }
             if(xx>=0 && yy>=0 && xx<A.length && yy<A[0].length) {
 
-                System.out.println("Checking position [" + xx + "," + yy + "]");
-
                 if (isInteger(A[xx][yy])) {
-                    System.out.println(A[xx][yy] + " is integer!!");
                     int tableValue = Integer.parseInt(A[xx][yy]);
 
                     if (tableValue == toInsert - 1) adjacentPetit = true;
@@ -133,7 +113,7 @@ public class Tablero extends Mapa {
 
     private static void processa(String[][] A){
         for(int i=0; i<A.length; ++i){
-            for(int j=0; j<A[0].length; ++j) System.out.print(A[i][j]);
+            for(int j=0; j<A[0].length; ++j) System.out.print(A[i][j]+",");
             System.out.println();
         }
     }
