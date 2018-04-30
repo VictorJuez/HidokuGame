@@ -8,7 +8,7 @@ public class CtrDomini {
     }
 
     public String[][] insertarHidato(int filas, int columnas, String[][] tab) {
-        Tablero t = Tablero.createTablero(filas,columnas,tab);
+        TableroCuadrado t = new TableroCuadrado(filas,columnas,tab);
         return t.getMatrix();
     }
 
@@ -17,7 +17,7 @@ public class CtrDomini {
     }
 
     public List listaHidatos(){
-        List l = Tablero.getInstances();
+        List l = TableroCuadrado.getInstances();
         return l;
     }
 

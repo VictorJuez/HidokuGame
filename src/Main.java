@@ -53,7 +53,7 @@ public class Main {
         int columnas = matrix[0].length;
         System.out.println("\nfilas: "+filas);
         System.out.println("columnas: "+columnas);
-        System.out.println("Tablero:");
+        System.out.println("TableroCuadrado:");
         for(int i=0; i<filas; ++i){
             for(int j=0; j<columnas; ++j) System.out.print(matrix[i][j]);
             System.out.print("\n");
