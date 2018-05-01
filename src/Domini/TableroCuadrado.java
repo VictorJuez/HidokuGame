@@ -14,9 +14,6 @@ public class TableroCuadrado extends Mapa {
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
         System.out.println("AIXO ES UN TABLERO QUADRAT");
-        hidatoValido();
-        if(this.teSolucio) System.out.println("TE SOLUCIO");
-        else System.out.println("NO TE SOLUCIO!!");
         instances.add(this.ID);
     }
 
@@ -72,6 +69,7 @@ public class TableroCuadrado extends Mapa {
 
     @Override
     protected boolean matriuCorrecte(){
+        numerosExistents();
         int x = 0;
         int y = 0;
         boolean trobat = false;
@@ -99,7 +97,6 @@ public class TableroCuadrado extends Mapa {
             for(int i = 0; (i <= 3) && !trobat; i++){
                 pos = siguienteCasilla(posant,i);
                 if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
-                    System.out.println(interr);
                     interr--;
                     buscar++;
                     trobat = true;
@@ -111,8 +108,6 @@ public class TableroCuadrado extends Mapa {
             if (!trobat) correcte = false;
             else correcte = true;
         }
-
-        this.teSolucio = correcte;
         return correcte;
     }
 

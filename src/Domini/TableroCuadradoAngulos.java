@@ -76,6 +76,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
 
     @Override
     protected boolean matriuCorrecte(){
+        numerosExistents();
         int x = 0;
         int y = 0;
         boolean trobat = false;
@@ -103,7 +104,6 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
             for(int i = -2; (i <= 5) && !trobat; i++){
                 pos = siguienteCasilla(posant,i);
                 if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
-                    System.out.println(interr);
                     interr--;
                     buscar++;
                     trobat = true;
@@ -115,8 +115,6 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
             if (!trobat) correcte = false;
             else correcte = true;
         }
-
-        this.teSolucio = correcte;
         return correcte;
     }
 }

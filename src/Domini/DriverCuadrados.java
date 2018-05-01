@@ -8,11 +8,26 @@ public class DriverCuadrados {
     private static Scanner myScanner;
 
     public static void main(String[] args) {
+        System.out.println("Hidato Game");
+        String introduction = "Introduce qué operación desea ejecutar:\n"+
+                "\t1) validar hidato\n"+
+                "\t2) comprobar resolucion hidato\n";
+
+        System.out.println(introduction);
         myScanner = new Scanner(System.in);
-        insertarHidato();
+        String op = " ";
+        op = myScanner.next();
+        switch (op){
+            case "1":
+                validarHidato();
+                break;
+            case "2":
+                resolverHidato();
+                break;
+        }
     }
 
-    public static void insertarHidato(){
+    public static TableroCuadrado insertarHidato(){
         System.out.println("Introduce un hidato válido:");
         String params = "";
         params = myScanner.next();
@@ -38,7 +53,18 @@ public class DriverCuadrados {
         else m = new TableroCuadrado(filas,columnas,tab);
         //END CANVIS
 
-        printTablero(tab);
+        return m;
+    }
+
+    public static void resolverHidato(){
+        TableroCuadrado t = insertarHidato();
+        t.hidatoValido();
+        printTablero(t.getMatrix());
+    }
+
+    public static void validarHidato(){
+        TableroCuadrado t = insertarHidato();
+        System.out.println(t.matriuCorrecte());
     }
 
     public static void printTablero(String[][] matrix){

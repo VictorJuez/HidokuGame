@@ -32,7 +32,7 @@ public class Mapa {
         return matrix;
     }
 
-    protected Vector<Integer> numerosRestants(){   //aixo es podria guardar tot com si fos un atribut
+    public Vector<String> numerosExistents(){
         Vector<String> existents = new Vector<>();   //numeros que existeixen a la matrix
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -45,12 +45,16 @@ public class Mapa {
             }
         }
         numeros = existents.size();
+        return existents;
+    }
+
+    protected Vector<Integer> numerosRestants(){   //aixo es podria guardar tot com si fos un atribut
+        Vector<String> existents = numerosExistents();
         Vector<Integer> total = new Vector<>();
         for(int k = 0; k < interrogants + existents.size(); k++){
             if (!existents.contains(Integer.toString(k+1))) total.add(k+1);
         }
         return total;
-
     }
 
     protected boolean isInteger(String s) {
@@ -79,6 +83,8 @@ public class Mapa {
         Vector<Integer> v;
         v = numerosRestants();
         backtrackingResolucio(A, v);
+        if(this.teSolucio) System.out.println("TE SOLUCIO");
+        else System.out.println("NO TE SOLUCIO!!");
     }
 
     protected boolean backtrackingResolucio(String[][] A, Vector v){

@@ -12,9 +12,6 @@ public class TableroHexagonal extends Mapa {
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        hidatoValido();
-        if(this.teSolucio) System.out.println("TE SOLUCIO");
-        else System.out.println("NO TE SOLUCIO!!");
         instances.add(this.ID);
     }
 
@@ -60,6 +57,7 @@ public class TableroHexagonal extends Mapa {
 
     @Override
     protected boolean matriuCorrecte(){
+        numerosExistents();
         int x = 0;
         int y = 0;
         boolean trobat = false;
@@ -107,8 +105,6 @@ public class TableroHexagonal extends Mapa {
             if (!trobat) correcte = false;
             else correcte = true;
         }
-
-        this.teSolucio = correcte;
         return correcte;
     }
 }

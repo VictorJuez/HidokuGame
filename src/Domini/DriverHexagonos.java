@@ -6,13 +6,28 @@ import java.util.Scanner;
 
 public class DriverHexagonos {
     private static Scanner myScanner;
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
+        System.out.println("Hidato Game");
+        String introduction = "Introduce qué operación desea ejecutar:\n"+
+                "\t1) validar hidato\n"+
+                "\t2) comprobar resolucion hidato\n";
+
+        System.out.println(introduction);
         myScanner = new Scanner(System.in);
-        insertarHidato();
+        String op = " ";
+        op = myScanner.next();
+        switch (op){
+            case "1":
+                validarHidato();
+                break;
+            case "2":
+                resolverHidato();
+                break;
+        }
     }
 
-    public static void insertarHidato(){
+    public static TableroHexagonal insertarHidato(){
         System.out.println("Introduce un hidato válido:");
         String params = "";
         params = myScanner.next();
@@ -36,7 +51,18 @@ public class DriverHexagonos {
         TableroHexagonal m = new TableroHexagonal(filas,columnas,tab);
         //END CANVIS
 
-        printTablero(tab);
+        return m;
+    }
+
+    public static void resolverHidato(){
+        TableroHexagonal t = insertarHidato();
+        t.hidatoValido();
+        printTablero(t.getMatrix());
+    }
+
+    public static void validarHidato(){
+        TableroHexagonal t = insertarHidato();
+        System.out.println(t.matriuCorrecte());
     }
 
     public static void printTablero(String[][] matrix){
@@ -44,11 +70,12 @@ public class DriverHexagonos {
         int columnas = matrix[0].length;
         System.out.println("\nfilas: "+filas);
         System.out.println("columnas: "+columnas);
-        System.out.println("TableroCuadrado:");
+        System.out.println("TableroHexagonal:");
         for(int i=0; i<filas; ++i){
             for(int j=0; j<columnas; ++j) {
                 System.out.print(matrix[i][j]);
-                if(j!=columnas-1) System.out.print(",");
+                if(matrix[i][j].length() == 1) System.out.print(" ");
+                if(j!=columnas-1) System.out.print(" ");
             }
             System.out.print("\n");
         }
