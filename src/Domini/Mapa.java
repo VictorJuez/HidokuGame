@@ -32,7 +32,7 @@ public class Mapa {
         return matrix;
     }
 
-    public Vector<String> numerosExistents(){
+    protected Vector<String> numerosExistents(){
         Vector<String> existents = new Vector<>();   //numeros que existeixen a la matrix
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -71,20 +71,16 @@ public class Mapa {
     }
 
     protected void processa(String[][] A){
-        for(int i=0; i<A.length; ++i){
-            for(int j=0; j<A[0].length; ++j) System.out.print(A[i][j]+",");
-            System.out.println();
-        }
         this.teSolucio = true;
     }
 
-    protected void hidatoValido(){
+    public void hidatoValido(){
         String[][] A = matrix;
         Vector<Integer> v;
         v = numerosRestants();
         backtrackingResolucio(A, v);
-        if(this.teSolucio) System.out.println("TE SOLUCIO");
-        else System.out.println("NO TE SOLUCIO!!");
+        if(this.teSolucio) System.out.println("\nTE SOLUCIO:");
+        else System.out.println("\nNO TE SOLUCIO");
     }
 
     protected boolean backtrackingResolucio(String[][] A, Vector v){
@@ -495,6 +491,6 @@ public class Mapa {
         //Tablero t = new Tablero();
     }
 
-    protected boolean matriuCorrecte(){return false;};
+    public boolean matriuCorrecte(){return false;};
 
 }

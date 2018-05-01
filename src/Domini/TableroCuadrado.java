@@ -13,7 +13,6 @@ public class TableroCuadrado extends Mapa {
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        System.out.println("AIXO ES UN TABLERO QUADRAT");
         instances.add(this.ID);
     }
 
@@ -68,7 +67,7 @@ public class TableroCuadrado extends Mapa {
     }
 
     @Override
-    protected boolean matriuCorrecte(){
+    public boolean matriuCorrecte(){
         numerosExistents();
         int x = 0;
         int y = 0;

@@ -75,7 +75,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
     }
 
     @Override
-    protected boolean matriuCorrecte(){
+    public boolean matriuCorrecte(){
         numerosExistents();
         int x = 0;
         int y = 0;

@@ -11,7 +11,6 @@ public class TableroTriangular extends Mapa{
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        System.out.println("AIXO ES UN HIDATO TRIANGULAR");
         instances.add(this.ID);
     }
 
@@ -55,7 +54,7 @@ public class TableroTriangular extends Mapa{
     }
 
     @Override
-    protected boolean matriuCorrecte(){
+    public boolean matriuCorrecte(){
         numerosExistents();
         int x = 0;
         int y = 0;

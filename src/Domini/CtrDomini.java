@@ -5,6 +5,7 @@ import javafx.util.Pair;
 import java.util.List;
 
 public class CtrDomini {
+    /**
 
     public CtrDomini() {
     }
@@ -44,5 +45,6 @@ public class CtrDomini {
 
         return tab;
     }
+     **/
 
 }
