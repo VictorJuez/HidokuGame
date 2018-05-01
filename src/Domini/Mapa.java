@@ -1,11 +1,13 @@
 package Domini;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class Mapa {
+public class Mapa {
     protected String ID;
     protected static List<String> instances = new ArrayList();
     protected boolean adyacenciaAngulos;
@@ -94,7 +96,7 @@ public abstract class Mapa {
                         int aux = (int) v.get(0);
                         if (posicioCorrecte(i, j, A, aux, v)) {
                             A[i][j] = String.valueOf(aux);
-                            //processa(A);
+                            processa(A);
                             v.remove(0);
                             b = backtrackingResolucio(A, v);
                             v.add(0, aux);
@@ -104,11 +106,12 @@ public abstract class Mapa {
                 }
             }
         }
-        return true;
+        if(v.size()>0) return false;
+        else return true;
     }
-    abstract protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v);
+    protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v){return false;}
 
-    //MATHIAS
+    //MATHIAS GENERATION ALGORITHM
     private boolean holeChecker(String[][] tablero, int i, int j, int max_fil, int max_col)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
@@ -382,7 +385,7 @@ public abstract class Mapa {
         return casillas_visitadas;
     }
 
-    public void generarHidato() {
+    public Pair<String[], String[][]> generarHidato() {
         int numero_fil, numero_col; //número de filas y columnas del tablero
         int tipo_adyacencia; //1 -> costados, 2 -> costados y angulos
         int topologia; //1-> cuadrados, 2-> triangilos, 3-> hexagonos
@@ -396,8 +399,8 @@ public abstract class Mapa {
         numero_col = ThreadLocalRandom.current().nextInt(5, 10 + 1);
 
         tipo_adyacencia = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-        topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
-
+        //topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
+        topologia = 2;
         num_casillas = numero_fil * numero_col;
 
         //tendrá un valor entre un cuarto del número de casillas y 3 cuartos.
@@ -406,7 +409,7 @@ public abstract class Mapa {
         tablero = new String[numero_fil][numero_col];
         Integer[][] casillas_usadas = new Integer[numero_fil][numero_col];
 
-        System.out.print("Numero de filas: ");
+        /*System.out.print("Numero de filas: ");
         System.out.println(numero_fil);
         System.out.print("Numero de columnas: ");
         System.out.println(numero_col);
@@ -414,6 +417,7 @@ public abstract class Mapa {
         System.out.println(topologia);
         System.out.print("El tipo de adyacencia es: ");
         System.out.println(tipo_adyacencia);
+        */
 
         //----------------------------DEFINICIÓN DEL HIDATO:
         //los while sirven para saber si se ha generado bien o se ha encerrado solo y no ha podido generar el hidato.
@@ -450,13 +454,37 @@ public abstract class Mapa {
             }
         }
 
+        Pair<String[], String[][]> result = new Pair<>(new String[4], new String[tablero.length][tablero[0].length]);
+        switch (topologia)
+        {
+            case (1):
+                if (tipo_adyacencia == 1)
+                {
+                    result = new Pair<>(new String[]{"Q","C",Integer.toString(tablero.length), Integer.toString(tablero[0].length)}, tablero);
+                } else result = new Pair<>(new String[]{"Q","CA",Integer.toString(tablero.length), Integer.toString(tablero[0].length)}, tablero);
+                break;
+            case (2):
+                if (tipo_adyacencia == 1)
+                {
+                    result = new Pair<>(new String[]{"T","C",Integer.toString(tablero.length), Integer.toString(tablero[0].length)}, tablero);
+                } else result = new Pair<>(new String[]{"T","CA",Integer.toString(tablero.length), Integer.toString(tablero[0].length)}, tablero);
+                break;
+            case (3):
+                if (tipo_adyacencia == 1)
+                {
+                    result = new Pair<>(new String[]{"H","C",Integer.toString(tablero.length), Integer.toString(tablero[0].length)}, tablero);
+                } else result = new Pair<>(new String[]{"H","CA",Integer.toString(tablero.length), Integer.toString(tablero[0].length)}, tablero);
+                break;
+        }
+        return result;
+
         //ésto me escupe el hidato.
-        for (int i = 0; i < numero_fil; ++i) {
+        /*for (int i = 0; i < numero_fil; ++i) {
             for (int j = 0; j < numero_col; ++j) {
                 System.out.print(tablero[i][j]);
             }
             System.out.println();
-        }
+        }*/
 
         //Tablero t = new Tablero();
     }

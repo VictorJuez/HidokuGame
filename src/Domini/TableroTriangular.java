@@ -11,6 +11,7 @@ public class TableroTriangular extends Mapa{
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
+        System.out.println("AIXO ES UN HIDATO TRIANGULAR");
         hidatoValido();
         if(this.teSolucio) System.out.println("TE SOLUCIO");
         else System.out.println("NO TE SOLUCIO!!");
@@ -19,6 +20,7 @@ public class TableroTriangular extends Mapa{
 
     @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
+        if(toInsert == 1) return true;
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;

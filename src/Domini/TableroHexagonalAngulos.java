@@ -2,9 +2,8 @@ package Domini;
 
 import java.util.Vector;
 
-public class TableroTriangularAngulos extends TableroTriangular {
-
-    public TableroTriangularAngulos(int filas, int columnas, String[][] tab) {
+public class TableroHexagonalAngulos extends TableroHexagonal {
+    public TableroHexagonalAngulos(int filas, int columnas, String[][] tab) {
         super(filas, columnas, tab);
     }
 
@@ -16,12 +15,12 @@ public class TableroTriangularAngulos extends TableroTriangular {
         boolean adjacentInterrogant = false;
         Integer[] pos = {x,y};
         Integer[] nextPos = new Integer[2];
-        Integer[] direccionesNormales = {-2,-1,0,1,2,3,4,5,6,7,8,9};
-        Integer[] direccionesInversas = {-4,-3,-2,-1,0,1,2,3,4,5,6,7};
+        Integer[] direccionesNormales = {-2,-1,0,1,2,3}; //cambiar a adyacencias angulos;
+        Integer[] direccionesImpares = {0,1,2,3,4,5}; //cambiar a adyacencias con angulos;
         Integer[] direcciones = new Integer[3];
-        boolean normal = (pos[0] % 2 == 0) && (pos[1] % 2 == 0) || (pos[0] % 2 != 0) && (pos[1] % 2 != 0);
+        boolean normal = pos[1]%2 == 0;
         if(normal) direcciones = direccionesNormales;
-        else direcciones = direccionesInversas;
+        else direcciones = direccionesImpares;
 
         for(int i=0; i<direcciones.length; ++i){
             nextPos = siguienteCasilla(pos,direcciones[i]);

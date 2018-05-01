@@ -12,13 +12,15 @@ public class TableroHexagonal extends Mapa {
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        hidatoValido();
+        //hidatoValido();
         if(this.teSolucio) System.out.println("TE SOLUCIO");
         else System.out.println("NO TE SOLUCIO!!");
         instances.add(this.ID);
     }
 
+    @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
+        if(toInsert == 1) return true;
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;
