@@ -83,7 +83,7 @@ public class Mapa {
 
     protected boolean backtrackingResolucio(String[][] A, Vector v){
         //if(k>=filas*columnas) return;
-        System.out.println(v);
+        //System.out.println(v);
         if(v.size() == 0) {
             processa(A);
             return true;
@@ -277,14 +277,14 @@ public class Mapa {
         if (adyacencia == 1) //ADYACENCIA COSTADOS
         {
             for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i) {
-                normal = (ant_casilla[0] % 2 == 0) && (ant_casilla[1] % 2 == 0) || (ant_casilla[0] % 2 != 0) && (ant_casilla[1] % 2 != 0);
-                if (normal) dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-                else dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
+                if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
                 int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
                 while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
-                    if (normal) dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-                    else dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                    if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                    else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
                     sig_casilla = siguienteCasilla(ant_casilla, dir);
                     intentos += 1;
                     if (intentos == 3) atrapado = true;
@@ -368,7 +368,7 @@ public class Mapa {
                 int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
                 while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
                 {
-                    dir = ThreadLocalRandom.current().nextInt(0, 7 + 1);
+                    dir = ThreadLocalRandom.current().nextInt(-2, 5 + 1);
                     sig_casilla = siguienteCasilla(ant_casilla, dir);
                     intentos += 1;
                     if (intentos == 8) atrapado = true;
@@ -399,8 +399,8 @@ public class Mapa {
         numero_col = ThreadLocalRandom.current().nextInt(5, 10 + 1);
 
         tipo_adyacencia = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-        //topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
-        topologia = 2;
+        topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
+
         num_casillas = numero_fil * numero_col;
 
         //tendrá un valor entre un cuarto del número de casillas y 3 cuartos.
@@ -443,7 +443,7 @@ public class Mapa {
                 if (casillas_usadas[i][j] == -2) tablero[i][j] = "#";
                 else if (casillas_usadas[i][j] != -1) {
                     randValue = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-                    if (randValue > 85) tablero[i][j] = String.valueOf(casillas_usadas[i][j]);
+                    if (randValue > 85) tablero[i][j] = String.valueOf(casillas_usadas[i][j]); //85
                     else tablero[i][j] = "?";
                 }
                 else

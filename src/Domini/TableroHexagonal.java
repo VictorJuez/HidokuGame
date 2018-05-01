@@ -12,7 +12,7 @@ public class TableroHexagonal extends Mapa {
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        //hidatoValido();
+        hidatoValido();
         if(this.teSolucio) System.out.println("TE SOLUCIO");
         else System.out.println("NO TE SOLUCIO!!");
         instances.add(this.ID);
@@ -20,16 +20,15 @@ public class TableroHexagonal extends Mapa {
 
     @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
-        if(toInsert == 1) return true;
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;
         Integer[] pos = {x,y};
         Integer[] nextPos = new Integer[2];
-        Integer[] direccionesNormales = {-2,-1,0,1,2,3};
-        Integer[] direccionesImpares = {0,1,2,3,4,5};
+        Integer[] direccionesNormales = {-2,0,1,2,3,5};
+        Integer[] direccionesImpares = {-1,0,1,2,3,4};
         Integer[] direcciones = new Integer[3];
-        boolean normal = pos[1]%2 == 0;
+        boolean normal = pos[0]%2 == 0;
         if(normal) direcciones = direccionesNormales;
         else direcciones = direccionesImpares;
 
@@ -47,6 +46,9 @@ public class TableroHexagonal extends Mapa {
             }
         }
 
+        if(toInsert == 1 && adjacentGran) return true;
+        if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
+
         if(adjacentGran && adjacentPetit) return true;
         if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
         if(adjacentPetit && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
@@ -55,6 +57,8 @@ public class TableroHexagonal extends Mapa {
         //if(adjacentGran && v.size() == 1) return true;
         return false;
     }
+
+    @Override
     protected boolean matriuCorrecte(){
         int x = 0;
         int y = 0;
@@ -74,26 +78,37 @@ public class TableroHexagonal extends Mapa {
         int buscar = 2;
         int interr = interrogants + numeros -1;
 
-        Integer[] pos = new Integer[2];
+        Integer[] pos;
+        Integer[] posant = new Integer[2];
+        posant[0] = y;
+        posant[1] = x;
+        int j;
+        int i;
         while(interr != 0 && correcte){
             trobat = false;
-            pos[0] = y;
-            pos[1] = x;
-            for(int i = 0; i <= 3 && !trobat; i++){
-                pos = siguienteCasilla(pos,i);
-                if ((pos[1] > 0) && (pos[1] < columnas -1) && (pos[0] > 0) && (pos[0] <filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
-                    y = pos[0];
-                    x = pos[1];
-                    interr--;
-                    buscar++;
+            if((posant[0] + posant[1])%2 == 0)i = 1;
+            else i = 0;
+            j = i + 2;
+            while((i <= j) && !trobat){
+                pos = siguienteCasilla(posant,i);
+                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
+                    if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
+                        interr--;
+                        buscar++;
+                        trobat = true;
+                        posant[0] = pos[0];
+                        posant[1] = pos[1];
+                    }
+
                 }
-                else{
-                    this.teSolucio = false;
-                    correcte = false; //control de errores
-                }
+                i++;
+
             }
+            if (!trobat) correcte = false;
+            else correcte = true;
         }
-        this.teSolucio = true;
+
+        this.teSolucio = correcte;
         return correcte;
     }
 }

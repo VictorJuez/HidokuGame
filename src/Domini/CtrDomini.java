@@ -22,8 +22,7 @@ public class CtrDomini {
                 if(angulos.equals("CA")) m = new TableroTriangularAngulos(filas,columnas,tab);
                 else m = new TableroTriangular(filas,columnas,tab);
             case "H":
-                if(angulos.equals("CA")) m = new TableroHexagonalAngulos(filas,columnas,tab);
-                else m = new TableroHexagonal(filas,columnas,tab);
+                m = new TableroHexagonal(filas,columnas,tab);
             default:
                 m = null;
         }

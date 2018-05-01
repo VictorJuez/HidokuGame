@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class DriverCuadrados {
+public class DriverHexagonos {
     private static Scanner myScanner;
-
-    public static void main(String[] args) {
+    
+    public static void main(String[] args){
         myScanner = new Scanner(System.in);
         insertarHidato();
     }
@@ -33,9 +33,7 @@ public class DriverCuadrados {
         }
 
         //NOMES S'HA DE CANVIAR AQUESTA PART PER ELS ALTRES DRIVERS
-        TableroCuadrado m = null;
-        if(angulos.equals("CA")) m = new TableroCuadradoAngulos(filas,columnas,tab);
-        else m = new TableroCuadrado(filas,columnas,tab);
+        TableroHexagonal m = new TableroHexagonal(filas,columnas,tab);
         //END CANVIS
 
         printTablero(tab);
@@ -50,8 +48,7 @@ public class DriverCuadrados {
         for(int i=0; i<filas; ++i){
             for(int j=0; j<columnas; ++j) {
                 System.out.print(matrix[i][j]);
-                if(matrix[i][j].length() == 1) System.out.print(" ");
-                if(j!=columnas-1) System.out.print(" ");
+                if(j!=columnas-1) System.out.print(",");
             }
             System.out.print("\n");
         }
