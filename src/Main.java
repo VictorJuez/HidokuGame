@@ -1,4 +1,5 @@
 import Domini.CtrDomini;
+import javafx.util.Pair;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +16,7 @@ public class Main {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) Insertar un nuevo hidato\n"+
                 "\t2) Lista hidatos\n"+
+                "\t3) Generar hidato\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -29,6 +31,9 @@ public class Main {
                     break;
                 case "2":
                     listaHidatos();
+                    break;
+                case "3":
+                    generarHidato();
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -55,7 +60,10 @@ public class Main {
         System.out.println("columnas: "+columnas);
         System.out.println("TableroCuadrado:");
         for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) System.out.print(matrix[i][j]);
+            for(int j=0; j<columnas; ++j) {
+                System.out.print(matrix[i][j]);
+                if(j!=columnas-1) System.out.print(",");
+            }
             System.out.print("\n");
         }
     }
@@ -64,9 +72,13 @@ public class Main {
         System.out.println("Introduce un hidato válido:");
         String params = "";
         params = myScanner.next();
-        int filas = Integer.parseInt(String.valueOf(params.charAt(5)));
-        int columnas = Integer.parseInt(String.valueOf(params.charAt(7)));
+        String[] index = new String[4];
 
+        List<String> entry = Arrays.asList(params.split("\\s*,\\s*"));
+        index = entry.toArray(index);
+
+        int filas = Integer.parseInt(index[2]);
+        int columnas = Integer.parseInt(index[3]);
         String[][] tab = new String[filas][columnas];
 
         for (int i = 0; i < filas; ++i) {
@@ -75,7 +87,9 @@ public class Main {
             tab[i] = items.toArray(tab[i]);
         }
 
-        String[][] t = ctDomini.insertarHidato(filas, columnas, tab);
+        String[][] t = ctDomini.insertarHidato(index[0], index[1], filas, columnas, tab);
+        System.out.println("topologia: "+index[0]);
+        System.out.println("Angulos: "+index[1]);
         printTablero(t);
     }
 
@@ -85,4 +99,14 @@ public class Main {
             System.out.println("ID: "+l.get(i));
             }
         }
+
+    public static void generarHidato(){
+        Pair<String[], String[][]> tab = ctDomini.generarHidato();
+        String[] index = tab.getKey();
+        for(int i=0; i<index.length; ++i) System.out.print(index[i]);
+        System.out.println();
+
+        String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
+        printTablero(tab.getValue());
+    }
     }

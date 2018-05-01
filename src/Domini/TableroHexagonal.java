@@ -12,13 +12,15 @@ public class TableroHexagonal extends Mapa {
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        hidatoValido();
+        //hidatoValido();
         if(this.teSolucio) System.out.println("TE SOLUCIO");
         else System.out.println("NO TE SOLUCIO!!");
         instances.add(this.ID);
     }
 
+    @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
+        if(toInsert == 1) return true;
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;
@@ -52,5 +54,46 @@ public class TableroHexagonal extends Mapa {
         if(adjacentPetit && v.size() == 1 && toInsert == interrogants+numeros) return true;
         //if(adjacentGran && v.size() == 1) return true;
         return false;
+    }
+    protected boolean matriuCorrecte(){
+        int x = 0;
+        int y = 0;
+        boolean trobat = false;
+        for(int y1 = 0; y1 < filas && !trobat; y1++){
+            for (int x1 = 0; x1 < columnas; x1++){
+                if(matrix[y1][x1].equals("1")){
+                    trobat = true;
+                    y = y1;
+                    x = x1;
+                }
+            }
+        }
+        if(!trobat) return false;
+
+        boolean correcte = true;
+        int buscar = 2;
+        int interr = interrogants + numeros -1;
+
+        Integer[] pos = new Integer[2];
+        while(interr != 0 && correcte){
+            trobat = false;
+            pos[0] = y;
+            pos[1] = x;
+            for(int i = 0; i <= 3 && !trobat; i++){
+                pos = siguienteCasilla(pos,i);
+                if ((pos[1] > 0) && (pos[1] < columnas -1) && (pos[0] > 0) && (pos[0] <filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
+                    y = pos[0];
+                    x = pos[1];
+                    interr--;
+                    buscar++;
+                }
+                else{
+                    this.teSolucio = false;
+                    correcte = false; //control de errores
+                }
+            }
+        }
+        this.teSolucio = true;
+        return correcte;
     }
 }
