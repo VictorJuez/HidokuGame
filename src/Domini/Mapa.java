@@ -96,9 +96,10 @@ public class Mapa {
                         int aux = (int) v.get(0);
                         if (posicioCorrecte(i, j, A, aux, v)) {
                             A[i][j] = String.valueOf(aux);
-                            processa(A);
+                            //processa(A);
                             v.remove(0);
                             b = backtrackingResolucio(A, v);
+                            if(b) return true;
                             v.add(0, aux);
                             A[i][j] = "?";
                         }
@@ -106,8 +107,7 @@ public class Mapa {
                 }
             }
         }
-        if(v.size()>0) return false;
-        else return true;
+        return false;
     }
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v){return false;}
 

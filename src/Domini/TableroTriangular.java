@@ -20,7 +20,6 @@ public class TableroTriangular extends Mapa{
 
     @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
-        if(toInsert == 1) return true;
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;
@@ -46,6 +45,8 @@ public class TableroTriangular extends Mapa{
                 } else if (A[nextPos[0]][nextPos[1]].equals("?")) adjacentInterrogant = true;
             }
         }
+        if(toInsert == 1 && adjacentGran) return true;
+        if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
 
         if(adjacentGran && adjacentPetit) return true;
         if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;

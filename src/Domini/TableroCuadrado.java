@@ -14,7 +14,7 @@ public class TableroCuadrado extends Mapa {
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
         System.out.println("AIXO ES UN TABLERO QUADRAT");
-        //hidatoValido();
+        hidatoValido();
         if(this.teSolucio) System.out.println("TE SOLUCIO");
         else System.out.println("NO TE SOLUCIO!!");
         instances.add(this.ID);
@@ -22,7 +22,6 @@ public class TableroCuadrado extends Mapa {
 
     @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v){
-        if(toInsert == 1) return true;
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;
@@ -57,6 +56,9 @@ public class TableroCuadrado extends Mapa {
                 } else if (A[xx][yy].equals("?")) adjacentInterrogant = true;
             }
         }
+
+        if(toInsert == 1 && adjacentGran) return true;
+        if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
 
         if(adjacentGran && adjacentPetit) return true;
         if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
