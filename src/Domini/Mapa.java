@@ -224,8 +224,8 @@ public class Mapa {
         boolean normal; //para saber la columna del hexágono (las adyacencias funcionan diferente)
         for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
         {
-            normal = ant_casilla[1] % 2 == 0; //true -> columna que empieza por -2.
-            if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 3 + 1);
+            normal = ant_casilla[0]%2 ==1; //true -> fila impar = normal
+            if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
             else
             {
                 dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
@@ -235,7 +235,7 @@ public class Mapa {
             int intentos = 0;
             while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
             {
-                if (normal) dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
+                if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
                 else
                 {
                     dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
