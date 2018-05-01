@@ -11,8 +11,8 @@ public class TableroTriangular extends Mapa{
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        numerosRestants();
-        matriuCorrecte();
+        System.out.println("AIXO ES UN HIDATO TRIANGULAR");
+        hidatoValido();
         if(this.teSolucio) System.out.println("TE SOLUCIO");
         else System.out.println("NO TE SOLUCIO!!");
         instances.add(this.ID);
@@ -45,6 +45,8 @@ public class TableroTriangular extends Mapa{
                 } else if (A[nextPos[0]][nextPos[1]].equals("?")) adjacentInterrogant = true;
             }
         }
+        if(toInsert == 1 && adjacentGran) return true;
+        if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
 
         if(adjacentGran && adjacentPetit) return true;
         if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
