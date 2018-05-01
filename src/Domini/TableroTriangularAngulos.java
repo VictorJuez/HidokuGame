@@ -48,6 +48,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
 
     @Override
     protected boolean matriuCorrecte(){
+        numerosExistents();
         int x = 0;
         int y = 0;
         boolean trobat = false;
