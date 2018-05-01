@@ -54,6 +54,7 @@ public class TableroTriangular extends Mapa{
         //if(adjacentGran && v.size() == 1) return true;
         return false;
     }
+
     @Override
     protected boolean matriuCorrecte(){
         int x = 0;
@@ -73,28 +74,29 @@ public class TableroTriangular extends Mapa{
         boolean correcte = true;
         int buscar = 2;
         int interr = interrogants + numeros -1;
-        System.out.println(interr);
 
-        Integer[] pos = new Integer[2];
+        Integer[] pos;
         Integer[] posant = new Integer[2];
         posant[0] = y;
         posant[1] = x;
-        int i = 0;
+        int j;
+        int i;
         while(interr != 0 && correcte){
             trobat = false;
-            if(posant[1]%2 == 0)i = 1;
+            if((posant[0] + posant[1])%2 == 0)i = 1;
             else i = 0;
-            System.out.println(posant[1]%2);
-            System.out.println("lolxd");
-            while((i <= i+2) && !trobat){
+            j = i + 2;
+            while((i <= j) && !trobat){
                 pos = siguienteCasilla(posant,i);
-                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
-                    System.out.println(interr);
-                    interr--;
-                    buscar++;
-                    trobat = true;
-                    posant[0] = pos[0];
-                    posant[1] = pos[1];
+                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
+                    if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
+                        interr--;
+                        buscar++;
+                        trobat = true;
+                        posant[0] = pos[0];
+                        posant[1] = pos[1];
+                    }
+
                 }
                 i++;
 
