@@ -82,15 +82,17 @@ public class TableroHexagonal extends Mapa {
         Integer[] posant = new Integer[2];
         posant[0] = y;
         posant[1] = x;
-        int j;
-        int i;
+
+        Integer[] par = {-2,0,1, 2, 3, 5};
+        Integer[] impar = {-1, 0, 1, 2, 3, 4};
+        Integer[] dir;
+        
         while(interr != 0 && correcte){
             trobat = false;
-            if((posant[0] + posant[1])%2 == 0)i = 1;
-            else i = 0;
-            j = i + 2;
-            while((i <= j) && !trobat){
-                pos = siguienteCasilla(posant,i);
+            if((posant[0]%2 == 0)) dir = par;
+            else dir = impar;
+            for(int i = 0; i < 5 && !trobat; i++){
+                pos = siguienteCasilla(posant,dir[i]);
                 if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
                     if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
                         interr--;
@@ -101,8 +103,6 @@ public class TableroHexagonal extends Mapa {
                     }
 
                 }
-                i++;
-
             }
             if (!trobat) correcte = false;
             else correcte = true;
