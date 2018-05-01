@@ -9,7 +9,7 @@ public class CtrDomini {
     }
 
     public String[][] insertarHidato(int filas, int columnas, String[][] tab) {
-        TableroHexagonal t = new TableroHexagonal(filas,columnas,tab);
+        TableroTriangular t = new TableroTriangular(filas,columnas,tab);
         return t.getMatrix();
     }
 

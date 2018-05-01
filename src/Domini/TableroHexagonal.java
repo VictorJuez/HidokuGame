@@ -53,4 +53,45 @@ public class TableroHexagonal extends Mapa {
         //if(adjacentGran && v.size() == 1) return true;
         return false;
     }
+    protected boolean matriuCorrecte(){
+        int x = 0;
+        int y = 0;
+        boolean trobat = false;
+        for(int y1 = 0; y1 < filas && !trobat; y1++){
+            for (int x1 = 0; x1 < columnas; x1++){
+                if(matrix[y1][x1].equals("1")){
+                    trobat = true;
+                    y = y1;
+                    x = x1;
+                }
+            }
+        }
+        if(!trobat) return false;
+
+        boolean correcte = true;
+        int buscar = 2;
+        int interr = interrogants + numeros -1;
+
+        Integer[] pos = new Integer[2];
+        while(interr != 0 && correcte){
+            trobat = false;
+            pos[0] = y;
+            pos[1] = x;
+            for(int i = 0; i <= 3 && !trobat; i++){
+                pos = siguienteCasilla(pos,i);
+                if ((pos[1] > 0) && (pos[1] < columnas -1) && (pos[0] > 0) && (pos[0] <filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
+                    y = pos[0];
+                    x = pos[1];
+                    interr--;
+                    buscar++;
+                }
+                else{
+                    this.teSolucio = false;
+                    correcte = false; //control de errores
+                }
+            }
+        }
+        this.teSolucio = true;
+        return correcte;
+    }
 }

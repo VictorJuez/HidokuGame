@@ -69,4 +69,50 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
 
         return false;
     }
+
+    @Override
+    protected boolean matriuCorrecte(){
+        int x = 0;
+        int y = 0;
+        boolean trobat = false;
+        for(int y1 = 0; y1 < filas && !trobat; y1++){
+            for (int x1 = 0; x1 < columnas; x1++){
+                if(matrix[y1][x1].equals("1")){
+                    trobat = true;
+                    y = y1;
+                    x = x1;
+                }
+            }
+        }
+        if(!trobat) return false;
+
+        boolean correcte = true;
+        int buscar = 2;
+        int interr = interrogants + numeros -1;
+
+        Integer[] pos = new Integer[2];
+        Integer[] posant = new Integer[2];
+        posant[0] = y;
+        posant[1] = x;
+        while(interr != 0 && correcte){
+            trobat = false;
+            for(int i = -2; (i <= 5) && !trobat; i++){
+                pos = siguienteCasilla(posant,i);
+                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
+                    System.out.println(interr);
+                    interr--;
+                    buscar++;
+                    trobat = true;
+                    posant[0] = pos[0];
+                    posant[1] = pos[1];
+                }
+
+            }
+            if (!trobat) correcte = false;
+            else correcte = true;
+        }
+
+        this.teSolucio = correcte;
+        return correcte;
+    }
 }

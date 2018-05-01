@@ -460,4 +460,7 @@ public abstract class Mapa {
 
         //Tablero t = new Tablero();
     }
+
+    abstract protected boolean matriuCorrecte();
+
 }
