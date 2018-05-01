@@ -489,6 +489,6 @@ public class Mapa {
         //Tablero t = new Tablero();
     }
 
-    abstract protected boolean matriuCorrecte();
+    protected boolean matriuCorrecte(){return false;};
 
 }
