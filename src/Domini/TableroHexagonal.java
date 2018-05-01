@@ -55,6 +55,8 @@ public class TableroHexagonal extends Mapa {
         //if(adjacentGran && v.size() == 1) return true;
         return false;
     }
+
+    @Override
     protected boolean matriuCorrecte(){
         int x = 0;
         int y = 0;
@@ -74,26 +76,37 @@ public class TableroHexagonal extends Mapa {
         int buscar = 2;
         int interr = interrogants + numeros -1;
 
-        Integer[] pos = new Integer[2];
+        Integer[] pos;
+        Integer[] posant = new Integer[2];
+        posant[0] = y;
+        posant[1] = x;
+
+        Integer[] par = {-2,0,1, 2, 3, 5};
+        Integer[] impar = {-1, 0, 1, 2, 3, 4};
+        Integer[] dir;
+        
         while(interr != 0 && correcte){
             trobat = false;
-            pos[0] = y;
-            pos[1] = x;
-            for(int i = 0; i <= 3 && !trobat; i++){
-                pos = siguienteCasilla(pos,i);
-                if ((pos[1] > 0) && (pos[1] < columnas -1) && (pos[0] > 0) && (pos[0] <filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
-                    y = pos[0];
-                    x = pos[1];
-                    interr--;
-                    buscar++;
-                }
-                else{
-                    this.teSolucio = false;
-                    correcte = false; //control de errores
+            if((posant[0]%2 == 0)) dir = par;
+            else dir = impar;
+            for(int i = 0; i < 5 && !trobat; i++){
+                pos = siguienteCasilla(posant,dir[i]);
+                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
+                    if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
+                        interr--;
+                        buscar++;
+                        trobat = true;
+                        posant[0] = pos[0];
+                        posant[1] = pos[1];
+                    }
+
                 }
             }
+            if (!trobat) correcte = false;
+            else correcte = true;
         }
-        this.teSolucio = true;
+
+        this.teSolucio = correcte;
         return correcte;
     }
 }
