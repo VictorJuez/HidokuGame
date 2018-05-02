@@ -16,7 +16,7 @@ public class Proves {
             int filas = Integer.parseInt(index[2]);
             int columnas = Integer.parseInt(index[3]);
 
-            Mapa m = new Mapa();
+            Mapa m;
 
             switch (index[0]) {
                 case "Q":

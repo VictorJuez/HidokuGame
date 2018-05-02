@@ -2,7 +2,7 @@ package Domini;
 
 import javafx.util.Pair;
 
-public class MapaDriver {
+public class DriverMapa {
     public static void main(String[] args) {
         generarHidato();
 
