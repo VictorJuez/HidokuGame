@@ -11,7 +11,6 @@ public class Main {
     private static CtrDomini ctDomini;
 
     public static void main(String[] args) {
-    /**
         ctDomini = new CtrDomini();
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
@@ -109,6 +108,5 @@ public class Main {
 
         String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
         printTablero(tab.getValue());
-     **/
      }
     }

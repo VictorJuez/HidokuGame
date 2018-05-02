@@ -5,6 +5,11 @@ import java.util.Vector;
 
 public class TableroHexagonal extends Mapa {
 
+    /**
+     * Funcion creadora de TableroHexagonal
+     * @param filas numero de filas del hidato
+     * @param columnas numero de columnas del hidato
+     */
     public TableroHexagonal(int filas, int columnas, String[][] tab){
         this.matrix = tab;
         this.filas = filas;
@@ -15,6 +20,14 @@ public class TableroHexagonal extends Mapa {
         instances.add(this.ID);
     }
 
+    /**
+     * Calcula para una casilla "?" a rellenar del hidato, si se le puede poner el numero restante: toInsert
+     * @param x,y fila y columna de la casilla "?"
+     * @param A El hidato a comprobar
+     * @param toInsert El numero restante a comprobar
+     * @param v El vector de numeros restantes
+     * @return Boolean indicando si se puede poner el numero o no en la casilla.
+     */
     @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
         boolean adjacentPetit = false;
@@ -55,6 +68,10 @@ public class TableroHexagonal extends Mapa {
         return false;
     }
 
+    /**
+     * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
+     * @return Boolean indicando si esta bien resuelto o no.
+     */
     @Override
     public boolean matriuCorrecte(){
         numerosExistents();

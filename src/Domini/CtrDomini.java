@@ -5,14 +5,13 @@ import javafx.util.Pair;
 import java.util.List;
 
 public class CtrDomini {
-    /**
 
     public CtrDomini() {
     }
 
     public String[][] insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
 
-        Mapa m = new Mapa();
+        Mapa m;
 
         switch (topologia){
             case "Q":
@@ -22,8 +21,10 @@ public class CtrDomini {
             case "T":
                 if(angulos.equals("CA")) m = new TableroTriangularAngulos(filas,columnas,tab);
                 else m = new TableroTriangular(filas,columnas,tab);
+                break;
             case "H":
                 m = new TableroHexagonal(filas,columnas,tab);
+                break;
             default:
                 m = null;
         }
@@ -45,6 +46,5 @@ public class CtrDomini {
 
         return tab;
     }
-     **/
 
 }
