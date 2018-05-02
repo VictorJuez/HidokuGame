@@ -45,8 +45,8 @@ public class TableroTriangular extends Mapa{
         if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
 
         if(adjacentGran && adjacentPetit) return true;
-        if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
         if(adjacentPetit && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
+        if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
 
         if(adjacentPetit && v.size() == 1 && toInsert == interrogants+numeros) return true;
         //if(adjacentGran && v.size() == 1) return true;

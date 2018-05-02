@@ -98,7 +98,7 @@ public class Mapa {
                         int aux = (int) v.get(0);
                         if (posicioCorrecte(i, j, A, aux, v)) {
                             A[i][j] = String.valueOf(aux);
-                            //processa(A);
+                            //imprimirMatriu(A);
                             v.remove(0);
                             b = backtrackingResolucio(A, v);
                             if(b) return true;
@@ -183,7 +183,7 @@ public class Mapa {
                 sig_casilla[1] = ant_casilla[1] - 2;
                 break;
             case (8):
-                sig_casilla[0] = ant_casilla[0] - 1; //abajo-dos derecha
+                sig_casilla[0] = ant_casilla[0] + 1; //abajo-dos derecha
                 sig_casilla[1] = ant_casilla[1] + 2;
                 break;
             case (9):
@@ -301,7 +301,7 @@ public class Mapa {
         {
             for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
             {
-                normal = (ant_casilla[0] % 2 == 0) && (ant_casilla[1] % 2 == 0) || (ant_casilla[0] % 2 != 0) && (ant_casilla[1] % 2 != 0);
+                normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
                 if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
                 else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
@@ -491,6 +491,6 @@ public class Mapa {
         //Tablero t = new Tablero();
     }
 
-    public boolean matriuCorrecte(){return false;};
+    public boolean matriuCorrecte(){return false;}
 
 }
