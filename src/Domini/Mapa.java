@@ -10,7 +10,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Mapa {
     protected String ID;
     protected static List<String> instances = new ArrayList();
-    protected boolean adyacenciaAngulos;
     protected int filas;
     protected int columnas;
     protected int interrogants;
@@ -161,7 +160,7 @@ public class Mapa {
      * @param max_col El numero de columnas del hidato
      * @return Boolean indicando si la casilla sera # o no.
      */
-    private boolean holeChecker(String[][] tablero, int i, int j, int max_fil, int max_col)
+    protected boolean holeChecker(String[][] tablero, int i, int j, int max_fil, int max_col)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
         //ahora vamos a ver si la casilla está en el borde.
@@ -181,283 +180,13 @@ public class Mapa {
      * @param casillas_visitadas matriz de enteros con informacion de las casillas visitadas.
      * @return Boolean indicando si la casilla es valida o no.
      */
-    private boolean casillaValida(int i, int j, int num_filas, int num_col, Integer[][] casillas_visitadas) {
+    protected boolean casillaValida(int i, int j, int num_filas, int num_col, Integer[][] casillas_visitadas) {
         if (i < (num_filas - 1) && j < (num_col - 1) && i > 0 && j > 0) {
             if (casillas_visitadas[i][j] == -1) return true;
         }
         return false;
     }
 
-    /**
-     * Calcula y devuelve la posición de la casilla adyacente a ant_casilla con direccion dir
-     * @param ant_casilla array de enteros que contiene la posicion de la casilla actual.
-     * @param dir Entero que indica la direccion respecto la casilla actual la qual queremos obtener la casilla adyacente
-     * @return array de enteros de 2 posiciones que contiene la posicion de la casilla calculadaa.
-     */
-    protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir) {
-        Integer[] sig_casilla = new Integer[2];
-        switch (dir) {
-            //------ÉSTO PARA LOS CUADRADOS
-            case (0):
-                sig_casilla[0] = ant_casilla[0] - 1; //la casilla de arriba
-                sig_casilla[1] = ant_casilla[1];
-                break;
-            case (1):
-                sig_casilla[0] = ant_casilla[0];
-                sig_casilla[1] = ant_casilla[1] + 1; //la de la derecha
-                break;
-            case (2):
-                sig_casilla[0] = ant_casilla[0];
-                sig_casilla[1] = ant_casilla[1] - 1; //la de la izquierda
-                break;
-            case (3):
-                sig_casilla[0] = ant_casilla[0] + 1; //la casilla de abajo
-                sig_casilla[1] = ant_casilla[1];
-                break;
-            case (-1):
-                sig_casilla[0] = ant_casilla[0] - 1; //diagonal arriba-derecha
-                sig_casilla[1] = ant_casilla[1] + 1;
-                break;
-            case (-2):
-                sig_casilla[0] = ant_casilla[0] - 1; //diagonal arriba-izquierda
-                sig_casilla[1] = ant_casilla[1] - 1;
-                break;
-            case (4):
-                sig_casilla[0] = ant_casilla[0] + 1; //diagonal abajo-derecha
-                sig_casilla[1] = ant_casilla[1] + 1;
-                break;
-            case (5):
-                sig_casilla[0] = ant_casilla[0] + 1; //diagonal abajo-izquierda
-                sig_casilla[1] = ant_casilla[1] - 1;
-                break;
-            //------ÉSTO PARA LOS TRIANGULOS
-            case (6):
-                sig_casilla[0] = ant_casilla[0]; //dos a la derecha
-                sig_casilla[1] = ant_casilla[1] + 2;
-                break;
-            case (7):
-                sig_casilla[0] = ant_casilla[0]; //dos a la izquierda
-                sig_casilla[1] = ant_casilla[1] - 2;
-                break;
-            case (8):
-                sig_casilla[0] = ant_casilla[0] + 1; //abajo-dos derecha
-                sig_casilla[1] = ant_casilla[1] + 2;
-                break;
-            case (9):
-                sig_casilla[0] = ant_casilla[0] + 1; //abajo-dos izquierda
-                sig_casilla[1] = ant_casilla[1] - 2;
-                break;
-            case (-3):
-                sig_casilla[0] = ant_casilla[0] - 1; //arriba-dos derecha
-                sig_casilla[1] = ant_casilla[1] + 2;
-                break;
-            case (-4):
-                sig_casilla[0] = ant_casilla[0] - 1; //arriba dos izquierda
-                sig_casilla[1] = ant_casilla[1] - 2;
-                break;
-        }
-        return sig_casilla;
-    }
-
-    /**
-     * Genera un hidato del tipo hexagono aleatoriamente
-     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
-     * @param numero_fil El numero de filas del hidato
-     * @param numero_col El numero de columnas del hidato
-     * @return Matriz de enteros con el hidato generado.
-     */
-    private Integer[][] pathFinderHexagonos(int casillas_validas, int numero_fil, int numero_col)
-    {
-        Integer[][] casillas_visitadas;
-        boolean atrapado = false;
-        casillas_visitadas = new Integer[numero_fil][numero_col];
-        for (int i = 0; i < numero_fil; ++i) for (int j = 0; j < numero_col; ++j) casillas_visitadas[i][j] = -1;
-        int dir;
-        Integer[] ant_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas CASILLA EN LA QUE ESTOY ACTUALMENTE
-        Integer[] sig_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas
-
-        ant_casilla[0] = ThreadLocalRandom.current().nextInt(0, numero_fil);
-        ant_casilla[1] = ThreadLocalRandom.current().nextInt(0, numero_col);
-
-        casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = 1;
-        Integer[] adyacenciashex = new Integer[]{-2, 0, 1, 2, 3, 5};
-        //las adyacencias funcionan igual sea costados o costados y angulos.
-        boolean normal; //para saber la columna del hexágono (las adyacencias funcionan diferente)
-        for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
-        {
-            normal = ant_casilla[0]%2 ==1; //true -> fila impar = normal
-            if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
-            else
-            {
-                dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
-                dir = adyacenciashex[dir];
-            }
-            sig_casilla = siguienteCasilla(ant_casilla, dir);
-            int intentos = 0;
-            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
-            {
-                if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
-                else
-                {
-                    dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
-                    dir = adyacenciashex[dir];
-                }
-                sig_casilla = siguienteCasilla(ant_casilla, dir);
-                intentos += 1;
-                if (intentos == 5) atrapado = true;
-            }
-            if (!atrapado)
-            {
-                ant_casilla = sig_casilla; //para avanzar en el hidato.
-                casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = i;
-            }
-        }
-        if (atrapado) casillas_visitadas[0][0] = -5;
-        return casillas_visitadas;
-    }
-
-    /**
-     * Genera un hidato del tipo triangulo aleatoriamente
-     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
-     * @param adyacencia Entero que indica si el hidato es un triangulo con adyacencia a costados o a costados y angulos
-     * @param numero_fil El numero de filas del hidato
-     * @param numero_col El numero de columnas del hidato
-     * @return Matriz de enteros con el hidato generado.
-     */
-    private Integer[][] pathFinderTriangulos(int casillas_validas, int adyacencia, int numero_fil, int numero_col)
-    {
-        Integer[][] casillas_visitadas;
-        boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
-        casillas_visitadas = new Integer[numero_fil][numero_col];
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VVVVVVV CAMBIAR ÉSTO
-        for (int i = 0; i < numero_fil; ++i) for (int j = 0; j < numero_col; ++j) casillas_visitadas[i][j] = -1;
-        int dir;
-        Integer[] ant_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas CASILLA EN LA QUE ESTOY ACTUALMENTE
-        Integer[] sig_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas
-
-        ant_casilla[0] = ThreadLocalRandom.current().nextInt(0, numero_fil);
-        ant_casilla[1] = ThreadLocalRandom.current().nextInt(0, numero_col);
-
-        casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = 1;
-
-        boolean normal; //para saber cómo está orientado el triángulo (normal o al revés).
-        if (adyacencia == 1) //ADYACENCIA COSTADOS
-        {
-            for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i) {
-                normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
-                if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
-                else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-                sig_casilla = siguienteCasilla(ant_casilla, dir);
-                int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
-                while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
-                    if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
-                    else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-                    sig_casilla = siguienteCasilla(ant_casilla, dir);
-                    intentos += 1;
-                    if (intentos == 3) atrapado = true;
-                }
-                if (!atrapado)
-                {
-                    ant_casilla = sig_casilla; //para avanzar en el hidato.
-                    casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = i;
-                }
-            }
-        } else //ADYACENCIA DIAGONALES
-        {
-            for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
-            {
-                normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
-                if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
-                else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
-                sig_casilla = siguienteCasilla(ant_casilla, dir);
-                int intentos = 0;
-                while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
-                    if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
-                    else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
-                    sig_casilla = siguienteCasilla(ant_casilla, dir);
-                    intentos += 1;
-                    if (intentos == 12) atrapado = true;
-                }
-                if (!atrapado)
-                {
-                    ant_casilla = sig_casilla; //para avanzar en el hidato.
-                    casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = i;
-                }
-            }
-        }
-        //para ver si se ha quedado atrapado..
-        if (atrapado) casillas_visitadas[0][0] = -5;
-        return casillas_visitadas;
-    }
-
-    /**
-     * Genera un hidato del tipo cuadrado aleatoriamente
-     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
-     * @param adyacencia Entero que indica si el hidato es un cuadrado con adyacencia a costados o a costados y angulos
-     * @param numero_fil El numero de filas del hidato
-     * @param numero_col El numero de columnas del hidato
-     * @return Matriz de enteros con el hidato generado.
-     */
-    private Integer[][] pathFinderCuadrados(int casillas_validas, int adyacencia, int numero_fil, int numero_col) {
-        Integer[][] casillas_visitadas;
-        boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
-        casillas_visitadas = new Integer[numero_fil][numero_col];
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VVVVVVV CAMBIAR ÉSTO
-        for (int i = 0; i < numero_fil; ++i) for (int j = 0; j < numero_col; ++j) casillas_visitadas[i][j] = -1;
-        int dir;
-        Integer[] ant_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas
-        Integer[] sig_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas
-
-        ant_casilla[0] = ThreadLocalRandom.current().nextInt(0, numero_fil);
-        ant_casilla[1] = ThreadLocalRandom.current().nextInt(0, numero_col);
-
-        casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = 1;
-
-        if (adyacencia == 1) //ADYACENCIA COSTADOS
-        {
-            for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
-            {
-                dir = ThreadLocalRandom.current().nextInt(0, 3 + 1); //NO DEBE ACCEDER A LAS DIAGONALES
-                sig_casilla = siguienteCasilla(ant_casilla, dir);
-                int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
-                while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
-                {
-                    dir = ThreadLocalRandom.current().nextInt(0, 3 + 1);
-                    sig_casilla = siguienteCasilla(ant_casilla, dir);
-                    intentos += 1;
-                    if (intentos == 4) atrapado = true;
-                }
-                if (!atrapado)
-                {
-                    ant_casilla = sig_casilla; //para avanzar en el hidato.
-                    casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = i;
-                }
-            }
-        } else //ADYACENCIA DIAGONALES
-        {
-            for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
-            {
-                dir = ThreadLocalRandom.current().nextInt(-2, 5 + 1);
-                sig_casilla = siguienteCasilla(ant_casilla, dir);
-                int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
-                while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
-                {
-                    dir = ThreadLocalRandom.current().nextInt(-2, 5 + 1);
-                    sig_casilla = siguienteCasilla(ant_casilla, dir);
-                    intentos += 1;
-                    if (intentos == 8) atrapado = true;
-                }
-                if (!atrapado)
-                {
-                    ant_casilla = sig_casilla; //para avanzar en el hidato.
-                    casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = i;
-                }
-            }
-        }
-        //si se ha quedado atrapado, se lo comunicamos a la función principal
-        if (atrapado) casillas_visitadas[0][0] = -5;
-        return casillas_visitadas;
-    }
 
     /**
      * Genera un hidato de cualquier tipo y adyacencia
@@ -506,7 +235,8 @@ public class Mapa {
         //los while sirven para saber si se ha generado bien o se ha encerrado solo y no ha podido generar el hidato.
         switch (topologia) {
             case (1):
-                casillas_usadas = pathFinderCuadrados(casillas_validas, tipo_adyacencia, numero_fil, numero_col);
+                TableroCuadrado t = new TableroCuadrado(numero_fil, numero_col, tablero);
+                casillas_usadas = t.pathFinderCuadrados(casillas_validas, numero_fil, numero_col);
                 while (casillas_usadas[0][0] == -5) casillas_usadas = pathFinderCuadrados(casillas_validas, tipo_adyacencia, numero_fil, numero_col);
                 break;
             case (2):
