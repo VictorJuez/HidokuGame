@@ -108,5 +108,5 @@ public class Main {
 
         String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
         printTablero(tab.getValue());
-    }
+     }
     }

@@ -11,7 +11,7 @@ public class CtrDomini {
 
     public String[][] insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
 
-        Mapa m = new Mapa();
+        Mapa m;
 
         switch (topologia){
             case "Q":
@@ -21,9 +21,10 @@ public class CtrDomini {
             case "T":
                 if(angulos.equals("CA")) m = new TableroTriangularAngulos(filas,columnas,tab);
                 else m = new TableroTriangular(filas,columnas,tab);
+                break;
             case "H":
-                if(angulos.equals("CA")) m = new TableroHexagonalAngulos(filas,columnas,tab);
-                else m = new TableroHexagonal(filas,columnas,tab);
+                m = new TableroHexagonal(filas,columnas,tab);
+                break;
             default:
                 m = null;
         }

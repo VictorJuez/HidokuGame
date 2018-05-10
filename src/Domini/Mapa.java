@@ -20,19 +20,35 @@ public class Mapa {
 
     public Mapa(){}
 
+    /**
+     *  Devuelve el atributo ID del mapa
+     * @return un String con el ID del mapa
+     */
     public String getID() {
         return ID;
     }
 
+    /**
+     *  Devuelve una Lista con el ID de todas las instancias de Mapa
+     * @return Lista de ID's
+     */
     public static List getInstances() {
         return instances;
     }
 
+    /**
+     *  Devuelve el hidato con una matriz de Strings
+     * @return matriz de Strings
+     */
     public String[][] getMatrix() {
         return matrix;
     }
 
-    protected Vector<Integer> numerosRestants(){   //aixo es podria guardar tot com si fos un atribut
+    /**
+     *  Devuelve quales son los numeros que estan puestos en el hidato (matrix).
+     * @return Vector de Integers con los numeros ya existentes
+     */
+    protected Vector<String> numerosExistents(){
         Vector<String> existents = new Vector<>();   //numeros que existeixen a la matrix
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -45,14 +61,27 @@ public class Mapa {
             }
         }
         numeros = existents.size();
+        return existents;
+    }
+
+    /**
+     *  Calcula y devuelve quales son los numeros que faltan por poner en el hidato (matrix) para resolverlo.
+     * @return Vector de Integers con los numeros restantes
+     */
+    protected Vector<Integer> numerosRestants(){   //aixo es podria guardar tot com si fos un atribut
+        Vector<String> existents = numerosExistents();
         Vector<Integer> total = new Vector<>();
         for(int k = 0; k < interrogants + existents.size(); k++){
             if (!existents.contains(Integer.toString(k+1))) total.add(k+1);
         }
         return total;
-
     }
 
+    /**
+     *  Comprueba si un String es un entero o no.
+     * @param s El String a comprobar
+     * @return Vector de Integers con los numeros restantes
+     */
     protected boolean isInteger(String s) {
         try
         {
@@ -66,26 +95,30 @@ public class Mapa {
         }
     }
 
-    protected void processa(String[][] A){
-        for(int i=0; i<A.length; ++i){
-            for(int j=0; j<A[0].length; ++j) System.out.print(A[i][j]+",");
-            System.out.println();
-        }
-        this.teSolucio = true;
-    }
-
-    protected void hidatoValido(){
+    /**
+     *  Comprueba si existe solucion para el hidato (matrix).
+     *
+     */
+    public void hidatoValido(){
         String[][] A = matrix;
         Vector<Integer> v;
         v = numerosRestants();
         backtrackingResolucio(A, v);
+        if(this.teSolucio) System.out.println("\nTE SOLUCIO:");
+        else System.out.println("\nNO TE SOLUCIO");
     }
 
+    /**
+     * Dado un hidato y su vector de numeros restantes comprueba si existe solucion.
+     * @param A El hidato a comprobar
+     * @param v El vector de numerosRestantes
+     * @return Boolean indicando si existe solucion.
+     */
     protected boolean backtrackingResolucio(String[][] A, Vector v){
         //if(k>=filas*columnas) return;
-        System.out.println(v);
+        //System.out.println(v);
         if(v.size() == 0) {
-            processa(A);
+            this.teSolucio = true;
             return true;
         }
         else{
@@ -96,7 +129,7 @@ public class Mapa {
                         int aux = (int) v.get(0);
                         if (posicioCorrecte(i, j, A, aux, v)) {
                             A[i][j] = String.valueOf(aux);
-                            //processa(A);
+                            //imprimirMatriu(A);
                             v.remove(0);
                             b = backtrackingResolucio(A, v);
                             if(b) return true;
@@ -109,9 +142,25 @@ public class Mapa {
         }
         return false;
     }
+
+    /**
+     * Calcula para una casilla "?" a rellenar del hidato, si se le puede poner el numero restante: toInsert
+     * @param x,y fila y columna de la casilla "?"
+     * @param A El hidato a comprobar
+     * @param toInsert El numero restante a comprobar
+     * @param v El vector de numeros restantes
+     * @return Boolean indicando si se puede poner el numero o no en la casilla.
+     */
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v){return false;}
 
-    //MATHIAS GENERATION ALGORITHM
+    /**
+     * Establece si la posicion del hidato i,j debe ser un # o no.
+     * @param i,j fila y columna de la casilla a comprobar
+     * @param tablero matriz con el hidato
+     * @param max_fil El numero de filas del hidato
+     * @param max_col El numero de columnas del hidato
+     * @return Boolean indicando si la casilla sera # o no.
+     */
     private boolean holeChecker(String[][] tablero, int i, int j, int max_fil, int max_col)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
@@ -124,7 +173,14 @@ public class Mapa {
         return false;
     }
 
-    //función para ver si la siguiente casilla del path que estamos siguiendo es válida.
+    /**
+     * Comprueba si la casilla (i,j) está dentro del perimetro del hidato.
+     * @param i,j fila y columna de la casilla a comprobar
+     * @param num_filas El numero de filas del hidato
+     * @param num_col El numero de columnas del hidato
+     * @param casillas_visitadas matriz de enteros con informacion de las casillas visitadas.
+     * @return Boolean indicando si la casilla es valida o no.
+     */
     private boolean casillaValida(int i, int j, int num_filas, int num_col, Integer[][] casillas_visitadas) {
         if (i < (num_filas - 1) && j < (num_col - 1) && i > 0 && j > 0) {
             if (casillas_visitadas[i][j] == -1) return true;
@@ -132,9 +188,12 @@ public class Mapa {
         return false;
     }
 
-    //ayuda a hacer el cálculo de la siguiente casilla.
-    //el boolean hexagono es para simplificar el cálculo, sacando una dirección fuera del rango de números que voy
-    //a generar cuando haga el random.
+    /**
+     * Calcula y devuelve la posición de la casilla adyacente a ant_casilla con direccion dir
+     * @param ant_casilla array de enteros que contiene la posicion de la casilla actual.
+     * @param dir Entero que indica la direccion respecto la casilla actual la qual queremos obtener la casilla adyacente
+     * @return array de enteros de 2 posiciones que contiene la posicion de la casilla calculadaa.
+     */
     protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir) {
         Integer[] sig_casilla = new Integer[2];
         switch (dir) {
@@ -181,7 +240,7 @@ public class Mapa {
                 sig_casilla[1] = ant_casilla[1] - 2;
                 break;
             case (8):
-                sig_casilla[0] = ant_casilla[0] - 1; //abajo-dos derecha
+                sig_casilla[0] = ant_casilla[0] + 1; //abajo-dos derecha
                 sig_casilla[1] = ant_casilla[1] + 2;
                 break;
             case (9):
@@ -200,23 +259,19 @@ public class Mapa {
         return sig_casilla;
     }
 
-    //------------------IMPORTANTE
-    //----Las columnas están desencajadas dependiendo de si el número de columna es par o impar.
-    //------------------
+    /**
+     * Genera un hidato del tipo hexagono aleatoriamente
+     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
+     * @param numero_fil El numero de filas del hidato
+     * @param numero_col El numero de columnas del hidato
+     * @return Matriz de enteros con el hidato generado.
+     */
     private Integer[][] pathFinderHexagonos(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
         boolean atrapado = false;
         casillas_visitadas = new Integer[numero_fil][numero_col];
-        for (int i = 0; i < numero_fil; ++i) //en el caso de los hexágonos he de preparar la matriz con las marcas.
-        {
-            for (int j = 0; j < numero_col; ++j)
-            {
-                if (i == 0 && j % 2 == 0) casillas_visitadas[i][j] = -2;
-                else if (i == numero_fil -1 && j % 2 != 0) casillas_visitadas[i][j] = -2;
-                else casillas_visitadas[i][j] = -1;
-            }
-        }
+        for (int i = 0; i < numero_fil; ++i) for (int j = 0; j < numero_col; ++j) casillas_visitadas[i][j] = -1;
         int dir;
         Integer[] ant_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas CASILLA EN LA QUE ESTOY ACTUALMENTE
         Integer[] sig_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas
@@ -225,20 +280,28 @@ public class Mapa {
         ant_casilla[1] = ThreadLocalRandom.current().nextInt(0, numero_col);
 
         casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = 1;
-
+        Integer[] adyacenciashex = new Integer[]{-2, 0, 1, 2, 3, 5};
         //las adyacencias funcionan igual sea costados o costados y angulos.
         boolean normal; //para saber la columna del hexágono (las adyacencias funcionan diferente)
         for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
         {
-            normal = ant_casilla[1] % 2 == 0; //true -> columna que empieza por -2.
-            if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 3 + 1);
-            else dir = ThreadLocalRandom.current().nextInt(0, 5 + 1);
+            normal = ant_casilla[0]%2 ==1; //true -> fila impar = normal
+            if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
+            else
+            {
+                dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+                dir = adyacenciashex[dir];
+            }
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0;
             while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
             {
-                if (normal) dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-                else dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
+                else
+                {
+                    dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+                    dir = adyacenciashex[dir];
+                }
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
                 intentos += 1;
                 if (intentos == 5) atrapado = true;
@@ -253,10 +316,14 @@ public class Mapa {
         return casillas_visitadas;
     }
 
-    //------------------IMPORTANTE
-    //----He decidido que los triangulos empiezan normal en el [0][0], en el [1][0] salen al revés (adyacencias cambian)
-    //----a partir de ahí, se intercalan. [par][par] = normal, [impar][impar] = normal, [p][i] = reves, [i][i] = reves
-    //------------------
+    /**
+     * Genera un hidato del tipo triangulo aleatoriamente
+     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
+     * @param adyacencia Entero que indica si el hidato es un triangulo con adyacencia a costados o a costados y angulos
+     * @param numero_fil El numero de filas del hidato
+     * @param numero_col El numero de columnas del hidato
+     * @return Matriz de enteros con el hidato generado.
+     */
     private Integer[][] pathFinderTriangulos(int casillas_validas, int adyacencia, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
@@ -277,14 +344,14 @@ public class Mapa {
         if (adyacencia == 1) //ADYACENCIA COSTADOS
         {
             for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i) {
-                normal = (ant_casilla[0] % 2 == 0) && (ant_casilla[1] % 2 == 0) || (ant_casilla[0] % 2 != 0) && (ant_casilla[1] % 2 != 0);
-                if (normal) dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-                else dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
+                if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
                 int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
                 while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
-                    if (normal) dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
-                    else dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                    if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                    else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
                     sig_casilla = siguienteCasilla(ant_casilla, dir);
                     intentos += 1;
                     if (intentos == 3) atrapado = true;
@@ -299,7 +366,7 @@ public class Mapa {
         {
             for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
             {
-                normal = (ant_casilla[0] % 2 == 0) && (ant_casilla[1] % 2 == 0) || (ant_casilla[0] % 2 != 0) && (ant_casilla[1] % 2 != 0);
+                normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
                 if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
                 else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
@@ -323,7 +390,14 @@ public class Mapa {
         return casillas_visitadas;
     }
 
-    //en ésta función puedo escoger en replicar el código o meter un if en el random de la dirección. eficiencia vs replicar código.
+    /**
+     * Genera un hidato del tipo cuadrado aleatoriamente
+     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
+     * @param adyacencia Entero que indica si el hidato es un cuadrado con adyacencia a costados o a costados y angulos
+     * @param numero_fil El numero de filas del hidato
+     * @param numero_col El numero de columnas del hidato
+     * @return Matriz de enteros con el hidato generado.
+     */
     private Integer[][] pathFinderCuadrados(int casillas_validas, int adyacencia, int numero_fil, int numero_col) {
         Integer[][] casillas_visitadas;
         boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
@@ -368,7 +442,7 @@ public class Mapa {
                 int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
                 while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
                 {
-                    dir = ThreadLocalRandom.current().nextInt(0, 7 + 1);
+                    dir = ThreadLocalRandom.current().nextInt(-2, 5 + 1);
                     sig_casilla = siguienteCasilla(ant_casilla, dir);
                     intentos += 1;
                     if (intentos == 8) atrapado = true;
@@ -385,6 +459,15 @@ public class Mapa {
         return casillas_visitadas;
     }
 
+    /**
+     * Genera un hidato de cualquier tipo y adyacencia
+     * @return un Pair donde:<br>
+     *     <ul>
+     *         <li>su primera posicion contiene un array con el índice del hidato, es decir [Topologia,Adyacencia,numeroFilas,numeroColumnas]
+     *         del hidato generado</li>
+     *         <li>su segunda posicion contiene una matriz de Strings con el hidato generado</li>
+     *     </ul>
+     */
     public Pair<String[], String[][]> generarHidato() {
         int numero_fil, numero_col; //número de filas y columnas del tablero
         int tipo_adyacencia; //1 -> costados, 2 -> costados y angulos
@@ -399,8 +482,8 @@ public class Mapa {
         numero_col = ThreadLocalRandom.current().nextInt(5, 10 + 1);
 
         tipo_adyacencia = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-        //topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
-        topologia = 2;
+        topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
+
         num_casillas = numero_fil * numero_col;
 
         //tendrá un valor entre un cuarto del número de casillas y 3 cuartos.
@@ -443,7 +526,7 @@ public class Mapa {
                 if (casillas_usadas[i][j] == -2) tablero[i][j] = "#";
                 else if (casillas_usadas[i][j] != -1) {
                     randValue = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-                    if (randValue > 85) tablero[i][j] = String.valueOf(casillas_usadas[i][j]);
+                    if (randValue > 85) tablero[i][j] = String.valueOf(casillas_usadas[i][j]); //85
                     else tablero[i][j] = "?";
                 }
                 else
@@ -488,4 +571,11 @@ public class Mapa {
 
         //Tablero t = new Tablero();
     }
+
+    /**
+     * Comprueba si el hidato (matrix) ya resuelto esta bien resuelto o no.
+     * @return Boolean indicando si esta bien resuelto o no.
+     */
+    public boolean matriuCorrecte(){return false;}
+
 }

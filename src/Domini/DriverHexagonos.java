@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class DriverCuadrados {
+public class DriverHexagonos {
     private static Scanner myScanner;
 
     public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class DriverCuadrados {
         }
     }
 
-    public static TableroCuadrado insertarHidato(){
+    public static TableroHexagonal insertarHidato(){
         System.out.println("Introduce un hidato válido:");
         String params = "";
         params = myScanner.next();
@@ -48,22 +48,20 @@ public class DriverCuadrados {
         }
 
         //NOMES S'HA DE CANVIAR AQUESTA PART PER ELS ALTRES DRIVERS
-        TableroCuadrado m = null;
-        if(angulos.equals("CA")) m = new TableroCuadradoAngulos(filas,columnas,tab);
-        else m = new TableroCuadrado(filas,columnas,tab);
+        TableroHexagonal m = new TableroHexagonal(filas,columnas,tab);
         //END CANVIS
 
         return m;
     }
 
     public static void resolverHidato(){
-        TableroCuadrado t = insertarHidato();
+        TableroHexagonal t = insertarHidato();
         t.hidatoValido();
         printTablero(t.getMatrix());
     }
 
     public static void validarHidato(){
-        TableroCuadrado t = insertarHidato();
+        TableroHexagonal t = insertarHidato();
         if(t.matriuCorrecte()) System.out.println("\nLa solució és correcte");
         else System.out.println("\nLa solució és incorrecte");
     }
