@@ -1,0 +1,11 @@
+- DriverCuadrados: Victor
+- DriverHexagonos: Victor
+- DriverTriangulos: Enric
+- MapaDriver: Mathias
+
+- Mapa: Mathias
+- TableroCuadrado: Victor
+- TableroCuadradoAngulos: Victor
+- TableroHexagonal: Victor
+- TableroTriangular: Enric
+- TableroTriangularAngulos: Enric

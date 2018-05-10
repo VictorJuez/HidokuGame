@@ -62,15 +62,14 @@ public class DriverHexagonos {
 
     public static void validarHidato(){
         TableroHexagonal t = insertarHidato();
-        System.out.println(t.matriuCorrecte());
+        if(t.matriuCorrecte()) System.out.println("\nLa solució és correcte");
+        else System.out.println("\nLa solució és incorrecte");
     }
 
     public static void printTablero(String[][] matrix){
         int filas = matrix.length;
         int columnas = matrix[0].length;
-        System.out.println("\nfilas: "+filas);
-        System.out.println("columnas: "+columnas);
-        System.out.println("TableroHexagonal:");
+
         for(int i=0; i<filas; ++i){
             for(int j=0; j<columnas; ++j) {
                 System.out.print(matrix[i][j]);

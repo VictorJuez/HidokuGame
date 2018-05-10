@@ -4,6 +4,12 @@ import java.util.UUID;
 import java.util.Vector;
 
 public class TableroTriangular extends Mapa{
+
+    /**
+     * Funcion creadora de TableroCuadrado
+     * @param filas numero de filas del hidato
+     * @param columnas numero de columnas del hidato
+     */
     public TableroTriangular(int filas, int columnas, String[][] tab){
         this.matrix = tab;
         this.filas = filas;
@@ -11,10 +17,17 @@ public class TableroTriangular extends Mapa{
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        System.out.println("AIXO ES UN HIDATO TRIANGULAR");
         instances.add(this.ID);
     }
 
+    /**
+     * Calcula para una casilla "?" a rellenar del hidato, si se le puede poner el numero restante: toInsert
+     * @param x,y fila y columna de la casilla "?"
+     * @param A El hidato a comprobar
+     * @param toInsert El numero restante a comprobar
+     * @param v El vector de numeros restantes
+     * @return Boolean indicando si se puede poner el numero o no en la casilla.
+     */
     @Override
     protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
         boolean adjacentPetit = false;
@@ -46,16 +59,20 @@ public class TableroTriangular extends Mapa{
         if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
 
         if(adjacentGran && adjacentPetit) return true;
-        if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
         if(adjacentPetit && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
+        if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
 
         if(adjacentPetit && v.size() == 1 && toInsert == interrogants+numeros) return true;
         //if(adjacentGran && v.size() == 1) return true;
         return false;
     }
 
+    /**
+     * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
+     * @return Boolean indicando si esta bien resuelto o no.
+     */
     @Override
-    protected boolean matriuCorrecte(){
+    public boolean matriuCorrecte(){
         numerosExistents();
         int x = 0;
         int y = 0;

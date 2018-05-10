@@ -2,7 +2,7 @@ package Domini;
 
 import javafx.util.Pair;
 
-public class MapaDriver {
+public class DriverMapa {
     public static void main(String[] args) {
         generarHidato();
 
@@ -20,9 +20,7 @@ public class MapaDriver {
     public static void printTablero(String[] index, String[][] matrix){
         int filas = matrix.length;
         int columnas = matrix[0].length;
-        System.out.println("\nfilas: "+filas);
-        System.out.println("columnas: "+columnas);
-        System.out.println("TableroCuadrado:\n");
+        System.out.println("Mapa generado aleatoriamente:\n");
 
         for(int i=0; i<index.length; ++i) {
             System.out.print(index[i]);
