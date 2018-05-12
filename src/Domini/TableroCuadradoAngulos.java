@@ -64,7 +64,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
                     yy=y+1;
                     break;
             }
-            if(xx>=0 && yy>=0 && xx<A.length && yy<A[0].length) {
+            if(xx>=0 && yy>=0 && xx<filas && yy<columnas) {
 
                 if (isInteger(A[xx][yy])) {
                     int tableValue = Integer.parseInt(A[xx][yy]);

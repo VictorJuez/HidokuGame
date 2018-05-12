@@ -45,7 +45,7 @@ public class TableroTriangular extends Mapa{
         for(int i=0; i<direcciones.length; ++i){
             nextPos = siguienteCasilla(pos,direcciones[i]);
             
-            if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<A.length && nextPos[1]<A[0].length) {
+            if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<filas && nextPos[1]<columnas) {
 
                 if (isInteger(A[nextPos[0]][nextPos[1]])) {
                     int tableValue = Integer.parseInt(A[nextPos[0]][nextPos[1]]);
