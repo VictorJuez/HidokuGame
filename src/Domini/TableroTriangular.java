@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public abstract class TableroTriangular extends Mapa{
+public class TableroTriangular extends Mapa{
 
     /**
      * Funcion creadora de TableroCuadrado
@@ -125,7 +125,6 @@ public abstract class TableroTriangular extends Mapa{
         return correcte;
     }
 
-    @Override
     protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir){
         Integer[] sig_casilla = new Integer[2];
         switch (dir) {
@@ -156,7 +155,7 @@ public abstract class TableroTriangular extends Mapa{
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
      */
-    private Integer[][] pathFinderTriangulos(int casillas_validas, int numero_fil, int numero_col)
+    protected Integer[][] pathFinderTriangulos(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
         boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path

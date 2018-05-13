@@ -235,17 +235,21 @@ public class Mapa {
         //los while sirven para saber si se ha generado bien o se ha encerrado solo y no ha podido generar el hidato.
         switch (topologia) {
             case (1):
-                TableroCuadrado t = new TableroCuadrado(numero_fil, numero_col, tablero);
+                TableroCuadrado t= new TableroCuadrado(numero_fil, numero_col, tablero);
+                if(tipo_adyacencia == 2)t = new TableroCuadradoAngulos(numero_fil, numero_col, tablero);
                 casillas_usadas = t.pathFinderCuadrados(casillas_validas, numero_fil, numero_col);
-                while (casillas_usadas[0][0] == -5) casillas_usadas = pathFinderCuadrados(casillas_validas, tipo_adyacencia, numero_fil, numero_col);
+                while (casillas_usadas[0][0] == -5) casillas_usadas = t.pathFinderCuadrados(casillas_validas, numero_fil, numero_col);
                 break;
             case (2):
-                casillas_usadas = pathFinderTriangulos(casillas_validas, tipo_adyacencia, numero_fil, numero_col);
-                while (casillas_usadas[0][0] == -5) casillas_usadas = pathFinderTriangulos(casillas_validas, tipo_adyacencia, numero_fil, numero_col);
+                TableroTriangular t2 = new TableroTriangular(numero_fil, numero_col, tablero);
+                if(tipo_adyacencia == 2)t2 = new TableroTriangularAngulos(numero_fil, numero_col, tablero);
+                casillas_usadas = t2.pathFinderTriangulos(casillas_validas, numero_fil, numero_col);
+                while (casillas_usadas[0][0] == -5) casillas_usadas = t2.pathFinderTriangulos(casillas_validas, numero_fil, numero_col);
                 break;
             case (3):
-                casillas_usadas = pathFinderHexagonos(casillas_validas, numero_fil, numero_col);
-                while (casillas_usadas[0][0] == -5) casillas_usadas = pathFinderHexagonos(casillas_validas, numero_fil, numero_col);
+                TableroHexagonal t3 = new TableroHexagonal(numero_fil, numero_col, tablero);
+                casillas_usadas = t3.pathFinderHexagonos(casillas_validas, numero_fil, numero_col);
+                while (casillas_usadas[0][0] == -5) casillas_usadas = t3.pathFinderHexagonos(casillas_validas, numero_fil, numero_col);
                 break;
         }
 

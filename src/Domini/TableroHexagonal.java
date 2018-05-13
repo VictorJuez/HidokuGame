@@ -126,8 +126,7 @@ public class TableroHexagonal extends Mapa {
         return correcte;
     }
 
-    @Override
-    protected Integer[] nextCasilla(Integer[] ant_casilla, int dir){
+    protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir){
         //{-2, 0, 1, 2, 3, 5}
         Integer[] sig_casilla = new Integer[2];
         switch (dir) {
@@ -166,7 +165,7 @@ public class TableroHexagonal extends Mapa {
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
      */
-    private Integer[][] pathFinderHexagonos(int casillas_validas, int numero_fil, int numero_col)
+    protected Integer[][] pathFinderHexagonos(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
         boolean atrapado = false;
