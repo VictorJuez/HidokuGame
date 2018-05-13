@@ -130,6 +130,10 @@ public class TableroHexagonal extends Mapa {
         //{-2, 0, 1, 2, 3, 5}
         Integer[] sig_casilla = new Integer[2];
         switch (dir) {
+            case (-1):
+                sig_casilla[0] = ant_casilla[0] - 1; //diagonal arriba-derecha
+                sig_casilla[1] = ant_casilla[1] + 1;
+                break;
             case (0):
                 sig_casilla[0] = ant_casilla[0] - 1; //la casilla de arriba
                 sig_casilla[1] = ant_casilla[1];
@@ -149,6 +153,10 @@ public class TableroHexagonal extends Mapa {
             case (3):
                 sig_casilla[0] = ant_casilla[0] + 1; //la casilla de abajo
                 sig_casilla[1] = ant_casilla[1];
+                break;
+            case (4):
+                sig_casilla[0] = ant_casilla[0] + 1; //diagonal abajo-derecha
+                sig_casilla[1] = ant_casilla[1] + 1;
                 break;
             case (5):
                 sig_casilla[0] = ant_casilla[0] + 1; //diagonal abajo-izquierda
