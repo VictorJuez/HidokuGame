@@ -237,19 +237,19 @@ public class Mapa {
             case (1):
                 TableroCuadrado t= new TableroCuadrado(numero_fil, numero_col, tablero);
                 if(tipo_adyacencia == 2)t = new TableroCuadradoAngulos(numero_fil, numero_col, tablero);
-                casillas_usadas = t.pathFinderCuadrados(casillas_validas, numero_fil, numero_col);
-                while (casillas_usadas[0][0] == -5) casillas_usadas = t.pathFinderCuadrados(casillas_validas, numero_fil, numero_col);
+                casillas_usadas = t.pathFinder(casillas_validas, numero_fil, numero_col);
+                while (casillas_usadas[0][0] == -5) casillas_usadas = t.pathFinder(casillas_validas, numero_fil, numero_col);
                 break;
             case (2):
                 TableroTriangular t2 = new TableroTriangular(numero_fil, numero_col, tablero);
                 if(tipo_adyacencia == 2)t2 = new TableroTriangularAngulos(numero_fil, numero_col, tablero);
-                casillas_usadas = t2.pathFinderTriangulos(casillas_validas, numero_fil, numero_col);
-                while (casillas_usadas[0][0] == -5) casillas_usadas = t2.pathFinderTriangulos(casillas_validas, numero_fil, numero_col);
+                casillas_usadas = t2.pathFinder(casillas_validas, numero_fil, numero_col);
+                while (casillas_usadas[0][0] == -5) casillas_usadas = t2.pathFinder(casillas_validas, numero_fil, numero_col);
                 break;
             case (3):
                 TableroHexagonal t3 = new TableroHexagonal(numero_fil, numero_col, tablero);
-                casillas_usadas = t3.pathFinderHexagonos(casillas_validas, numero_fil, numero_col);
-                while (casillas_usadas[0][0] == -5) casillas_usadas = t3.pathFinderHexagonos(casillas_validas, numero_fil, numero_col);
+                casillas_usadas = t3.pathFinder(casillas_validas, numero_fil, numero_col);
+                while (casillas_usadas[0][0] == -5) casillas_usadas = t3.pathFinder(casillas_validas, numero_fil, numero_col);
                 break;
         }
 

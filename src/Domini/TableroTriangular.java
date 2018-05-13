@@ -155,7 +155,7 @@ public class TableroTriangular extends Mapa{
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
      */
-    protected Integer[][] pathFinderTriangulos(int casillas_validas, int numero_fil, int numero_col)
+    protected Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
         boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path

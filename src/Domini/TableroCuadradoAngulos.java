@@ -178,7 +178,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
         return sig_casilla;
     }
 
-    protected Integer[][] pathFinderCuadrados(int casillas_validas, int numero_fil, int numero_col) {
+    protected Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col) {
         Integer[][] casillas_visitadas;
         boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
         casillas_visitadas = new Integer[numero_fil][numero_col];
