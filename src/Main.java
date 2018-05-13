@@ -1,4 +1,5 @@
 import Domini.CtrDomini;
+import Domini.Mapa;
 import javafx.util.Pair;
 
 import java.util.Arrays;
@@ -94,9 +95,11 @@ public class Main {
     }
 
     public static void listaHidatos(){
-        List l = ctDomini.listaHidatos();
+        List l = ctDomini.getMapasList();
         for(int i=0; i<l.size(); ++i) {
-            System.out.println("ID: "+l.get(i));
+            Mapa m = (Mapa) l.get(i);
+            System.out.println("ID: "+ m.getID());
+            //printTablero(m.getMatrix());
             }
         }
 
@@ -106,7 +109,7 @@ public class Main {
         for(int i=0; i<index.length; ++i) System.out.print(index[i]);
         System.out.println();
 
-        String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
+        //String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
         printTablero(tab.getValue());
      }
     }

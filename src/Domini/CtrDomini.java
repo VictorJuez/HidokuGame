@@ -2,9 +2,11 @@ package Domini;
 
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CtrDomini {
+    private static List<Mapa> mapasList = new ArrayList<>();
 
     public CtrDomini() {
     }
@@ -28,7 +30,7 @@ public class CtrDomini {
             default:
                 m = null;
         }
-
+        mapasList.add(m);
         return m.getMatrix();
     }
 
@@ -37,13 +39,15 @@ public class CtrDomini {
         return l;
     }
 
+    public static List getMapasList() {
+        System.out.println(mapasList.get(0).filas);
+        return mapasList;
+    }
+
     public Pair<String[], String[][]> generarHidato(){
         Mapa m = new Mapa();
         Pair<String[], String[][]> tab = m.generarHidato();
-        String[] index = tab.getKey();
-        String[][] matrix = tab.getValue();
-
-
+        mapasList.add(m);
         return tab;
     }
 

@@ -294,16 +294,6 @@ public class Mapa {
                 break;
         }
         return result;
-
-        //ésto me escupe el hidato.
-        /*for (int i = 0; i < numero_fil; ++i) {
-            for (int j = 0; j < numero_col; ++j) {
-                System.out.print(tablero[i][j]);
-            }
-            System.out.println();
-        }*/
-
-        //Tablero t = new Tablero();
     }
 
     /**
