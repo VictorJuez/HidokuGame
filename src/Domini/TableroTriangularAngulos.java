@@ -12,6 +12,12 @@ public class TableroTriangularAngulos extends TableroTriangular {
      */
     public TableroTriangularAngulos(int filas, int columnas, String[][] tab) {
         super(filas, columnas, tab);
+        angles = "CA";
+    }
+
+    public TableroTriangularAngulos(int filas, int columnas, MapaController mc){
+        super(filas, columnas, mc);
+        angles = "CA";
     }
 
     /**
@@ -23,7 +29,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
      * @return Boolean indicando si se puede poner el numero o no en la casilla.
      */
     @Override
-    protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
+    public boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;
@@ -41,7 +47,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
 
             if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<A.length && nextPos[1]<A[0].length) {
 
-                if (isInteger(A[nextPos[0]][nextPos[1]])) {
+                if (mc.isInteger(A[nextPos[0]][nextPos[1]])) {
                     int tableValue = Integer.parseInt(A[nextPos[0]][nextPos[1]]);
 
                     if (tableValue == toInsert - 1) adjacentPetit = true;
@@ -67,7 +73,6 @@ public class TableroTriangularAngulos extends TableroTriangular {
      */
     @Override
     public boolean matriuCorrecte(){
-        numerosExistents();
         int x = 0;
         int y = 0;
         boolean trobat = false;
@@ -192,7 +197,8 @@ public class TableroTriangularAngulos extends TableroTriangular {
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
      */
-    protected Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
+    @Override
+    public Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
         boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
@@ -216,7 +222,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
             else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0;
-            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
+            while (!mc.casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
                 if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
                 else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);

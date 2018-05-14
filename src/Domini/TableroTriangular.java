@@ -4,7 +4,19 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroTriangular extends Mapa{
+public class TableroTriangular implements MapaI {
+    protected String ID;
+    protected int filas;
+    protected int columnas;
+    protected int interrogants;
+    protected int numeros;
+    protected char tipus;
+    protected String angles;
+    protected boolean teSolucio;
+    protected Vector<String> numerosExistents;
+    protected Vector<Integer> numerosRestants;
+    protected String[][] matrix;
+    protected MapaController mc;
 
     /**
      * Funcion creadora de TableroCuadrado
@@ -18,7 +30,90 @@ public class TableroTriangular extends Mapa{
         this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.teSolucio = false;
-        instances.add(this.ID);
+        mc = new MapaController(this);
+        numerosExistents = mc.numerosExistents();
+        numerosRestants = mc.numerosRestants();
+        numeros = numerosExistents.size();
+        tipus = 'T';
+        angles = "C";
+    }
+
+    public TableroTriangular(int filas, int columnas, MapaController mc){
+        this.filas = filas;
+        this.columnas = columnas;
+        this.ID = UUID.randomUUID().toString();
+        this.mc = mc;
+        tipus = 'T';
+        angles = "C";
+    }
+
+    @Override
+    public char getTipo() {
+        return tipus;
+    }
+
+    @Override
+    public String getAngulos() {
+        return angles;
+    }
+
+    @Override
+    public String getID() {
+        return ID;
+    }
+
+    @Override
+    public String[][] getMatrix() {
+        return matrix;
+    }
+
+    @Override
+    public Vector<String> getNumerosExistents() {
+        return this.numerosExistents;
+    }
+
+    @Override
+    public Vector<Integer> getNumerosRestants() {
+        return this.numerosRestants;
+    }
+
+    @Override
+    public int getFilas() {
+        return this.filas;
+    }
+
+    @Override
+    public int getColumnas() {
+        return this.columnas;
+    }
+
+    @Override
+    public int getInterrogants() {
+        return interrogants;
+    }
+
+    @Override
+    public boolean teSolucio() {
+        return this.teSolucio;
+    }
+
+    @Override
+    public void setSolucio(boolean solucio) {
+        this.teSolucio = solucio;
+    }
+
+    @Override
+    public void setMatrix(String[][] matrix) {
+        this.matrix = matrix;
+        numerosExistents = mc.numerosExistents();
+        numerosRestants = mc.numerosRestants();
+        numeros = numerosExistents.size();
+        //hidatoValido();
+    }
+
+    @Override
+    public String[][] hidatoValido() {
+       return mc.hidatoValido();
     }
 
     /**
@@ -30,7 +125,7 @@ public class TableroTriangular extends Mapa{
      * @return Boolean indicando si se puede poner el numero o no en la casilla.
      */
     @Override
-    protected boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
+    public boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
         boolean adjacentPetit = false;
         boolean adjacentGran = false;
         boolean adjacentInterrogant = false;
@@ -48,7 +143,7 @@ public class TableroTriangular extends Mapa{
             
             if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<A.length && nextPos[1]<A[0].length) {
 
-                if (isInteger(A[nextPos[0]][nextPos[1]])) {
+                if (mc.isInteger(A[nextPos[0]][nextPos[1]])) {
                     int tableValue = Integer.parseInt(A[nextPos[0]][nextPos[1]]);
 
                     if (tableValue == toInsert - 1) adjacentPetit = true;
@@ -72,9 +167,7 @@ public class TableroTriangular extends Mapa{
      * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
      * @return Boolean indicando si esta bien resuelto o no.
      */
-    @Override
-    public boolean matriuCorrecte(){
-        numerosExistents();
+    protected boolean matriuCorrecte(){
         int x = 0;
         int y = 0;
         boolean trobat = false;
@@ -155,7 +248,7 @@ public class TableroTriangular extends Mapa{
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
      */
-    protected Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
+    public Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
         boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
@@ -179,7 +272,7 @@ public class TableroTriangular extends Mapa{
             else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
-            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
+            while (!mc.casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
                 if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
                 else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
