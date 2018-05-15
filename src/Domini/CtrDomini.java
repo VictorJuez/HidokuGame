@@ -1,50 +1,32 @@
 package Domini;
 
-import javafx.util.Pair;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CtrDomini {
+    private static HashMap<String, Mapa> mapasMap = new HashMap<>();
 
     public CtrDomini() {
     }
 
-    public String[][] insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
-
-        Mapa m;
-
-        switch (topologia){
-            case "Q":
-                if(angulos.equals("CA")) m = new TableroCuadradoAngulos(filas,columnas,tab);
-                else m = new TableroCuadrado(filas,columnas,tab);
-                break;
-            case "T":
-                if(angulos.equals("CA")) m = new TableroTriangularAngulos(filas,columnas,tab);
-                else m = new TableroTriangular(filas,columnas,tab);
-                break;
-            case "H":
-                m = new TableroHexagonal(filas,columnas,tab);
-                break;
-            default:
-                m = null;
-        }
-
-        return m.getMatrix();
+    public Mapa insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
+        MapaFactory mapaFactory = new MapaFactory();
+        Mapa m = mapaFactory.getMapa(topologia, angulos, filas, columnas, tab);
+        mapasMap.put(m.getID(), m);
+        return m;
     }
 
-    public List listaHidatos(){
-        List l = TableroCuadrado.getInstances();
-        return l;
+    public static HashMap<String, Mapa> getMapasMap() {
+        return mapasMap;
     }
 
-    public Pair<String[], String[][]> generarHidato(){
-        Mapa m = new Mapa();
-        Pair<String[], String[][]> tab = m.generarHidato();
-        String[] index = tab.getKey();
-        String[][] matrix = tab.getValue();
-
-
-        return tab;
+    public Mapa generarHidato(){
+        Mapa result;
+        MapaController mc = new MapaController();
+        result = mc.generarHidato();
+        mapasMap.put(result.getID(), result);
+        return result;
     }
 
 }

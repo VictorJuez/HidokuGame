@@ -1,7 +1,8 @@
 import Domini.CtrDomini;
-import javafx.util.Pair;
+import Domini.Mapa;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,6 +18,8 @@ public class Main {
                 "\t1) Insertar un nuevo hidato\n"+
                 "\t2) Lista hidatos\n"+
                 "\t3) Generar hidato\n"+
+                "\t4) Comprovar si existe solucion hidato\n"+
+                "\t5) Comprovar solucion hidato\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -34,6 +37,16 @@ public class Main {
                     break;
                 case "3":
                     generarHidato();
+                    break;
+                case "4":
+                    System.out.println("Inserta el ID del hidato a validar");
+                    op = myScanner.next();
+                    validarHidato(op);
+                    break;
+                case "5":
+                    System.out.println("Inserta el ID del hidato a comprobar");
+                    op = myScanner.next();
+                    comprobarHidato(op);
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -56,9 +69,6 @@ public class Main {
     public static void printTablero(String[][] matrix){
         int filas = matrix.length;
         int columnas = matrix[0].length;
-        System.out.println("\nfilas: "+filas);
-        System.out.println("columnas: "+columnas);
-        System.out.println("TableroCuadrado:");
         for(int i=0; i<filas; ++i){
             for(int j=0; j<columnas; ++j) {
                 System.out.print(matrix[i][j]);
@@ -66,6 +76,7 @@ public class Main {
             }
             System.out.print("\n");
         }
+        System.out.println();
     }
 
     public static void insertarHidato(){
@@ -87,26 +98,49 @@ public class Main {
             tab[i] = items.toArray(tab[i]);
         }
 
-        String[][] t = ctDomini.insertarHidato(index[0], index[1], filas, columnas, tab);
-        System.out.println("topologia: "+index[0]);
-        System.out.println("Angulos: "+index[1]);
-        printTablero(t);
+        Mapa m = ctDomini.insertarHidato(index[0], index[1], filas, columnas, tab);
+        System.out.println("ID: "+m.getID());
+        System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
+        printTablero(m.getMatrix());
     }
 
     public static void listaHidatos(){
-        List l = ctDomini.listaHidatos();
-        for(int i=0; i<l.size(); ++i) {
-            System.out.println("ID: "+l.get(i));
-            }
-        }
+        HashMap<String, Mapa> l = ctDomini.getMapasMap();
+        l.forEach((k,v) -> {
+            System.out.println("ID: "+ k);
+            System.out.println(v.getTipo() + "," + v.getAngulos() + "," + v.getFilas() + "," + v.getColumnas());
+            printTablero(v.getMatrix());
+        });
+    }
 
     public static void generarHidato(){
-        Pair<String[], String[][]> tab = ctDomini.generarHidato();
-        String[] index = tab.getKey();
-        for(int i=0; i<index.length; ++i) System.out.print(index[i]);
-        System.out.println();
+        Mapa m = ctDomini.generarHidato();
+        System.out.println("ID: "+m.getID());
+        System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 
-        String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
-        printTablero(tab.getValue());
+        //String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
+        printTablero(m.getMatrix());
+     }
+
+     public static void validarHidato(String ID){
+        HashMap l = ctDomini.getMapasMap();
+        Mapa m = (Mapa) l.get(ID);
+        if(m.hidatoValido()){
+            System.out.println("Té solucio:");
+            System.out.println("ID: "+m.getID());
+            System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
+            printTablero(m.getSolutionMatrix());
+        }
+        else System.out.println("No té solucio");
+        //m.hidatoValido();
+     }
+
+     public static void comprobarHidato(String ID){
+         HashMap l = ctDomini.getMapasMap();
+         Mapa m = (Mapa) l.get(ID);
+         if(m.matriuCorrecte()){
+             System.out.println("Solucio correcte!");
+         }
+         else System.out.println("Solucio incorrecte");
      }
     }
