@@ -62,12 +62,15 @@ public abstract class Mapa {
     public String[][] getMatrix() {
         return matrix;
     }
+    public String[][] getSolutionMatrix() {
+        return solutionMatrix;
+    }
 
     public void setMatrix(String[][] matrix) {
         this.matrix = matrix;
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
-        interrogants = getInterrogants();
+        interrogants = getInterrogants(matrix);
         numeros = numerosExistents.size();
     }
     public Vector<Integer> getNumerosExistents(){
@@ -81,7 +84,7 @@ public abstract class Mapa {
         }
         return existents;
     }
-    public int getInterrogants(){
+    public int getInterrogants(String[][] matrix){
         int interrogants = 0;
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -92,7 +95,7 @@ public abstract class Mapa {
         }
         return interrogants;
     }
-    public String[][] hidatoValido(){
+    public boolean hidatoValido(){
         solutionMatrix = new String[filas][columnas];
         String[][] B = matrix;
         for(int i=0; i<filas; ++i){
@@ -101,12 +104,7 @@ public abstract class Mapa {
         Vector<Integer> v;
         v = getNumerosRestants();
         backtrackingResolucio(solutionMatrix, v);
-        if(solucio) {
-            System.out.println("\nTE SOLUCIO:");
-            return solutionMatrix;
-        }
-        else System.out.println("\nNO TE SOLUCIO");
-        return null;
+        return this.solucio;
     }
 
     public abstract Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col);
@@ -141,7 +139,7 @@ public abstract class Mapa {
     }
     protected boolean backtrackingResolucio(String[][] A, Vector v){
         if(v.size() == 0) {
-            solucio = true;
+            if (getInterrogants(A) == 0) this.solucio=true;
             return true;
         }
         else{

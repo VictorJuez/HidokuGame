@@ -10,11 +10,11 @@ public class CtrDomini {
     public CtrDomini() {
     }
 
-    public String[][] insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
+    public Mapa insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
         MapaFactory mapaFactory = new MapaFactory();
         Mapa m = mapaFactory.getMapa(topologia, angulos, filas, columnas, tab);
         mapasMap.put(m.getID(), m);
-        return m.getMatrix();
+        return m;
     }
 
     public static HashMap<String, Mapa> getMapasMap() {

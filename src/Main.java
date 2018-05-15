@@ -18,7 +18,8 @@ public class Main {
                 "\t1) Insertar un nuevo hidato\n"+
                 "\t2) Lista hidatos\n"+
                 "\t3) Generar hidato\n"+
-                "\t4) Validar hidato\n"+
+                "\t4) Comprovar si existe solucion hidato\n"+
+                "\t5) Comprovar solucion hidato\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -41,6 +42,11 @@ public class Main {
                     System.out.println("Inserta el ID del hidato a validar");
                     op = myScanner.next();
                     validarHidato(op);
+                    break;
+                case "5":
+                    System.out.println("Inserta el ID del hidato a comprobar");
+                    op = myScanner.next();
+                    comprobarHidato(op);
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -92,10 +98,10 @@ public class Main {
             tab[i] = items.toArray(tab[i]);
         }
 
-        String[][] t = ctDomini.insertarHidato(index[0], index[1], filas, columnas, tab);
-        System.out.println("topologia: "+index[0]);
-        System.out.println("Angulos: "+index[1]);
-        printTablero(t);
+        Mapa m = ctDomini.insertarHidato(index[0], index[1], filas, columnas, tab);
+        System.out.println("ID: "+m.getID());
+        System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
+        printTablero(m.getMatrix());
     }
 
     public static void listaHidatos(){
@@ -119,12 +125,24 @@ public class Main {
      public static void validarHidato(String ID){
         HashMap l = ctDomini.getMapasMap();
         Mapa m = (Mapa) l.get(ID);
-        /*if(m.hidatoValido()){
+        if(m.hidatoValido()){
             System.out.println("Té solucio:");
+            System.out.println("ID: "+m.getID());
+            System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
             printTablero(m.getSolutionMatrix());
         }
-        else System.out.println("No té solucio");*/
-        printTablero(m.hidatoValido());
+        else System.out.println("No té solucio");
+        //m.hidatoValido();
+     }
 
+     public static void comprobarHidato(String ID){
+         HashMap l = ctDomini.getMapasMap();
+         Mapa m = (Mapa) l.get(ID);
+         if(m.matriuCorrecte()){
+             System.out.println("Solucio correcte!");
+             printTablero(m.getSolutionMatrix());
+         }
+         else System.out.println("Solucio incorrecte");
+         //m.hidatoValido();
      }
     }
