@@ -12,12 +12,12 @@ public class TableroTriangularAngulos extends TableroTriangular {
      */
     public TableroTriangularAngulos(int filas, int columnas, String[][] tab) {
         super(filas, columnas, tab);
-        angles = "CA";
+        angulos = "CA";
     }
 
-    public TableroTriangularAngulos(int filas, int columnas, MapaController mc){
-        super(filas, columnas, mc);
-        angles = "CA";
+    public TableroTriangularAngulos(int filas, int columnas){
+        super(filas, columnas);
+        angulos = "CA";
     }
 
     /**
@@ -47,7 +47,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
 
             if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<A.length && nextPos[1]<A[0].length) {
 
-                if (mc.isInteger(A[nextPos[0]][nextPos[1]])) {
+                if (isInteger(A[nextPos[0]][nextPos[1]])) {
                     int tableValue = Integer.parseInt(A[nextPos[0]][nextPos[1]]);
 
                     if (tableValue == toInsert - 1) adjacentPetit = true;
@@ -121,7 +121,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
             else correcte = true;
         }
 
-        this.teSolucio = correcte;
+        this.solucio = correcte;
         return correcte;
     }
 
@@ -222,7 +222,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
             else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0;
-            while (!mc.casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
+            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
                 if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
                 else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);

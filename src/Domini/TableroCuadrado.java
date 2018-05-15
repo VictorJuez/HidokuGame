@@ -4,110 +4,18 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroCuadrado implements Mapa {
-    protected String ID;
-    protected int filas;
-    protected int columnas;
-    protected int interrogants;
-    protected int numeros;
-    protected char tipus;
-    protected String angles;
-    protected boolean teSolucio;
-    protected Vector<String> numerosExistents;
-    protected Vector<Integer> numerosRestants;
-    protected String[][] matrix;
-    protected MapaController mc;
-
+public class TableroCuadrado extends Mapa {
     /**
      * Funcion creadora de TableroCuadrado
      * @param filas numero de filas del hidato
      * @param columnas numero de columnas del hidato
      */
     public TableroCuadrado(int filas, int columnas, String[][] tab){
-        this.matrix = tab;
-        this.filas = filas;
-        this.columnas = columnas;
-        this.interrogants = 0;
-        this.ID = UUID.randomUUID().toString();
-        this.teSolucio = false;
-        mc = new MapaController(this);
-        numerosExistents = mc.numerosExistents();
-        numerosRestants = mc.numerosRestants();
-        numeros = numerosExistents.size();
-        //hidatoValido();
-        tipus = 'Q';
-        angles = "C";
+        super(filas, columnas, tab);
     }
 
-    public TableroCuadrado(int filas, int columnas, MapaController mc){
-        this.filas = filas;
-        this.columnas = columnas;
-        this.ID = UUID.randomUUID().toString();
-        this.mc = mc;
-        tipus = 'Q';
-        angles = "C";
-    }
-
-    @Override
-    public String getID() {
-        return ID;
-    }
-
-    @Override
-    public String[][] getMatrix() {
-        return matrix;
-    }
-
-    @Override
-    public Vector<String> getNumerosExistents() {
-        return this.numerosExistents;
-    }
-
-    @Override
-    public Vector<Integer> getNumerosRestants() { return this.numerosRestants; }
-
-    @Override
-    public char getTipo() {
-        return tipus;
-    }
-
-    @Override
-    public String getAngulos() {
-        return angles;
-    }
-
-    @Override
-    public int getFilas() {
-        return this.filas;
-    }
-
-    @Override
-    public int getColumnas() {
-        return this.columnas;
-    }
-
-    @Override
-    public int getInterrogants() {
-        return interrogants;
-    }
-
-    @Override
-    public boolean teSolucio() {
-        return this.teSolucio;
-    }
-
-    @Override
-    public void setSolucio(boolean solucio) {
-        this.teSolucio = solucio;
-    }
-
-    @Override
-    public void setMatrix(String[][] matrix) {
-        this.matrix = matrix;
-        numerosExistents = mc.numerosExistents();
-        numerosRestants = mc.numerosRestants();
-        numeros = numerosExistents.size();
-        //hidatoValido();
+    public TableroCuadrado(int filas, int columnas){
+        super(filas, columnas);
     }
 
     /**
@@ -146,7 +54,7 @@ public class TableroCuadrado implements Mapa {
             }
             if(xx>=0 && yy>=0 && xx<A.length && yy<A[0].length) {
 
-                if (mc.isInteger(A[xx][yy])) {
+                if (isInteger(A[xx][yy])) {
                     int tableValue = Integer.parseInt(A[xx][yy]);
 
                     if (tableValue == toInsert - 1) adjacentPetit = true;
@@ -168,16 +76,12 @@ public class TableroCuadrado implements Mapa {
     return false;
     }
 
-    @Override
-    public String[][] hidatoValido() {
-        return mc.hidatoValido();
-    }
-
     /**
      * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
      * @return Boolean indicando si esta bien resuelto o no.
      */
-    protected boolean matriuCorrecte(){
+    @Override
+    public boolean matriuCorrecte(){
         int x = 0;
         int y = 0;
         boolean trobat = false;
@@ -271,7 +175,7 @@ public class TableroCuadrado implements Mapa {
             dir = ThreadLocalRandom.current().nextInt(0, 3 + 1); //NO DEBE ACCEDER A LAS DIAGONALES
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
-            while (!mc.casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
+            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
             {
                 dir = ThreadLocalRandom.current().nextInt(0, 3 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);

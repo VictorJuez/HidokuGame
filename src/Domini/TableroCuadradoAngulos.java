@@ -12,12 +12,12 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
      */
     public TableroCuadradoAngulos(int filas, int columnas, String[][] tab) {
         super(filas, columnas, tab);
-        angles = "CA";
+        angulos = "CA";
     }
 
-    public TableroCuadradoAngulos(int filas, int columnas, MapaController mc){
-        super(filas, columnas, mc);
-        angles = "CA";
+    public TableroCuadradoAngulos(int filas, int columnas){
+        super(filas, columnas);
+        angulos = "CA";
     }
 
     /**
@@ -73,7 +73,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
             }
             if(xx>=0 && yy>=0 && xx<A.length && yy<A[0].length) {
 
-                if (mc.isInteger(A[xx][yy])) {
+                if (isInteger(A[xx][yy])) {
                     int tableValue = Integer.parseInt(A[xx][yy]);
 
                     if (tableValue == toInsert - 1) adjacentPetit = true;
@@ -203,7 +203,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
             dir = ThreadLocalRandom.current().nextInt(-2, 5 + 1);
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
-            while (!mc.casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
+            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
             {
                 dir = ThreadLocalRandom.current().nextInt(-2, 5 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);

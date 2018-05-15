@@ -17,18 +17,18 @@ public class MapaFactory {
         return null;
     }
 
-    public Mapa getMapa(String tipo, String angulos, int filas, int columnas, MapaController mc){
+    public Mapa getMapa(String tipo, String angulos, int filas, int columnas){
         if(tipo.equals("Q")){
-            if(angulos.equals("CA")) return new TableroCuadradoAngulos(filas, columnas, mc);
-            return new TableroCuadrado(filas, columnas, mc);
+            if(angulos.equals("CA")) return new TableroCuadradoAngulos(filas, columnas);
+            return new TableroCuadrado(filas, columnas);
         }
 
         else if(tipo.equals("T")){
-            if(angulos.equals("CA")) return new TableroTriangularAngulos(filas, columnas, mc);
-            return new TableroTriangular(filas, columnas, mc);
+            if(angulos.equals("CA")) return new TableroTriangularAngulos(filas, columnas);
+            return new TableroTriangular(filas, columnas);
         }
 
-        else if(tipo.equals("H")) return new TableroHexagonal(filas, columnas, mc);
+        else if(tipo.equals("H")) return new TableroHexagonal(filas, columnas);
 
         return null;
     }

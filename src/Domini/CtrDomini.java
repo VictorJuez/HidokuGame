@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CtrDomini {
-    private static List<Mapa> mapasList = new ArrayList<>();
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
 
     public CtrDomini() {

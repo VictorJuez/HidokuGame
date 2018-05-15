@@ -4,19 +4,7 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroHexagonal implements Mapa {
-    protected String ID;
-    protected int filas;
-    protected int columnas;
-    protected int interrogants;
-    protected int numeros;
-    protected char tipus;
-    protected String angles;
-    protected boolean teSolucio;
-    protected Vector<String> numerosExistents;
-    protected Vector<Integer> numerosRestants;
-    protected String[][] matrix;
-    protected MapaController mc;
+public class TableroHexagonal extends Mapa {
 
     /**
      * Funcion creadora de TableroHexagonal
@@ -24,96 +12,11 @@ public class TableroHexagonal implements Mapa {
      * @param columnas numero de columnas del hidato
      */
     public TableroHexagonal(int filas, int columnas, String[][] tab){
-        this.matrix = tab;
-        this.filas = filas;
-        this.columnas = columnas;
-        this.interrogants = 0;
-        this.ID = UUID.randomUUID().toString();
-        this.teSolucio = false;
-        mc = new MapaController(this);
-        numerosExistents = mc.numerosExistents();
-        numerosRestants = mc.numerosRestants();
-        numeros = numerosExistents.size();
-        tipus = 'H';
-        angles = "C";
+        super(filas, columnas, tab);
     }
 
-    public TableroHexagonal(int filas, int columnas, MapaController mc){
-        this.filas = filas;
-        this.columnas = columnas;
-        this.ID = UUID.randomUUID().toString();
-        this.mc = mc;
-        tipus = 'H';
-        angles = "C";
-    }
-
-    @Override
-    public char getTipo() {
-        return tipus;
-    }
-
-    @Override
-    public String getAngulos() {
-        return angles;
-    }
-
-    @Override
-    public String getID() {
-        return ID;
-    }
-
-    @Override
-    public String[][] getMatrix() {
-        return matrix;
-    }
-
-    @Override
-    public Vector<String> getNumerosExistents() {
-        return this.numerosExistents;
-    }
-
-    @Override
-    public Vector<Integer> getNumerosRestants() {
-        return this.numerosRestants;
-    }
-
-    @Override
-    public int getFilas() {
-        return this.filas;
-    }
-
-    @Override
-    public int getColumnas() {
-        return this.columnas;
-    }
-
-    @Override
-    public int getInterrogants() {
-        return interrogants;
-    }
-
-    @Override
-    public boolean teSolucio() {
-        return this.teSolucio;
-    }
-
-    @Override
-    public void setSolucio(boolean solucio) {
-        this.teSolucio = solucio;
-    }
-
-    @Override
-    public void setMatrix(String[][] matrix) {
-        this.matrix = matrix;
-        numerosExistents = mc.numerosExistents();
-        numerosRestants = mc.numerosRestants();
-        numeros = numerosExistents.size();
-        //hidatoValido();
-    }
-
-    @Override
-    public String[][] hidatoValido() {
-        return mc.hidatoValido();
+    public TableroHexagonal(int filas, int columnas){
+        super(filas, columnas);
     }
 
     /**
@@ -124,7 +27,6 @@ public class TableroHexagonal implements Mapa {
      * @param v El vector de numeros restantes
      * @return Boolean indicando si se puede poner el numero o no en la casilla.
      */
-
     @Override
     public boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
         boolean adjacentPetit = false;
@@ -144,7 +46,7 @@ public class TableroHexagonal implements Mapa {
 
             if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<A.length && nextPos[1]<A[0].length) {
 
-                if (mc.isInteger(A[nextPos[0]][nextPos[1]])) {
+                if (isInteger(A[nextPos[0]][nextPos[1]])) {
                     int tableValue = Integer.parseInt(A[nextPos[0]][nextPos[1]]);
 
                     if (tableValue == toInsert - 1) adjacentPetit = true;
@@ -169,6 +71,7 @@ public class TableroHexagonal implements Mapa {
      * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
      * @return Boolean indicando si esta bien resuelto o no.
      */
+    @Override
     public boolean matriuCorrecte(){
         int x = 0;
         int y = 0;
@@ -267,6 +170,7 @@ public class TableroHexagonal implements Mapa {
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
      */
+    @Override
     public Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
@@ -295,7 +199,7 @@ public class TableroHexagonal implements Mapa {
             }
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0;
-            while (!mc.casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
+            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
             {
                 if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
                 else

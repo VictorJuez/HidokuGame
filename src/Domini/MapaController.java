@@ -1,129 +1,9 @@
 package Domini;
 
-import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MapaController {
-    Mapa m;
-
-    public MapaController(Mapa m) {
-        this.m = m;
-    }
-
     public MapaController(){};
-
-    /**
-     *  Comprueba si existe solucion para el hidato (m.getMatrix()).
-     *
-     */
-    public String[][] hidatoValido(){
-        String[][] A = new String[m.getFilas()][m.getColumnas()];
-        String[][] B = m.getMatrix();
-        for(int i=0; i<m.getFilas(); ++i){
-            for(int j=0; j<m.getColumnas(); ++j) A[i][j] = B[i][j];
-        }
-        Vector<Integer> v;
-        v = numerosRestants();
-        backtrackingResolucio(A, v);
-        if(m.teSolucio()) {
-            System.out.println("\nTE SOLUCIO:");
-            return A;
-        }
-        else System.out.println("\nNO TE SOLUCIO");
-        return null;
-    }
-
-    protected boolean isInteger(String s) {
-        try
-        {
-            Integer.parseInt(s);
-            // s is a valid integer
-            return true;
-        }
-        catch (Exception ex)
-        {
-            return false;
-        }
-    }
-
-    protected boolean backtrackingResolucio(String[][] A, Vector v){
-        //if(k>=m.getFilas()*m.getColumnas()) return;
-        //System.out.println(v);
-        if(v.size() == 0) {
-            m.setSolucio(true);
-            return true;
-        }
-        else{
-            boolean b = false;
-            for(int i=0; i<A.length && !b; ++i) {
-                for(int j=0; j<A[0].length; ++j) {
-                    if (A[i][j].equals("?")) {
-                        int aux = (int) v.get(0);
-                        if (m.posicioCorrecte(i, j, A, aux, v)) {
-                            A[i][j] = String.valueOf(aux);
-                            //imprimirMatriu(A);
-                            v.remove(0);
-                            b = backtrackingResolucio(A, v);
-                            if(b) return true;
-                            v.add(0, aux);
-                            A[i][j] = "?";
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-
-    protected boolean casillaValida(int i, int j, int num_filas, int num_col, Integer[][] casillas_visitadas) {
-        if (i < (num_filas - 1) && j < (num_col - 1) && i > 0 && j > 0) {
-            if (casillas_visitadas[i][j] == -1) return true;
-        }
-        return false;
-    }
-
-    /**
-     *  Devuelve quales son los numeros que estan puestos en el hidato (m.getMatrix()).
-     * @return Vector de Integers con los numeros ya existentes
-     */
-    protected Vector<String> numerosExistents(){
-        Vector<String> existents = new Vector<>();   //numeros que existeixen a la m.getMatrix()
-        for (int i = 0; i < m.getFilas(); i++) {
-            for (int j = 0; j < m.getColumnas(); j++) {
-                if (!m.getMatrix()[i][j].equals("#") && !m.getMatrix()[i][j].equals("*") && !m.getMatrix()[i][j].equals("-2")){
-                    existents.add(m.getMatrix()[i][j]);
-                }
-            }
-        }
-        return existents;
-    }
-
-    public int interrogants(){
-        int interrogants = 0;
-        for (int i = 0; i < m.getFilas(); i++) {
-            for (int j = 0; j < m.getColumnas(); j++) {
-                if (m.getMatrix()[i][j].equals("?")) {
-                    interrogants += 1;
-                }
-            }
-        }
-        return interrogants;
-    }
-
-    /**
-     *  Calcula y devuelve quales son los numeros que faltan por poner en el hidato (m.getMatrix()) para resolverlo.
-     * @return Vector de Integers con los numeros restantes
-     */
-    protected Vector<Integer> numerosRestants(){   //aixo es podria guardar tot com si fos un atribut
-        Vector<String> existents = numerosExistents();
-        Vector<Integer> total = new Vector<>();
-        for(int k = 0; k < m.getInterrogants() + existents.size(); k++){
-            if (!existents.contains(Integer.toString(k+1))) total.add(k+1);
-        }
-        return total;
-    }
-
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
      * @param i,j fila y columna de la casilla a comprobar
@@ -204,8 +84,7 @@ public class MapaController {
         MapaFactory mapaFactory = new MapaFactory();
         String[] tipos = {"Q","T","H"};
         String[] angulos = {"C", "CA"};
-        Mapa result = mapaFactory.getMapa(tipos[topologia-1],angulos[tipo_adyacencia-1], numero_fil, numero_col, this);
-        this.m = result;
+        Mapa result = mapaFactory.getMapa(tipos[topologia-1],angulos[tipo_adyacencia-1], numero_fil, numero_col);
 
         casillas_usadas = result.pathFinder(casillas_validas, numero_fil, numero_col);
         while (casillas_usadas[0][0] == -5) casillas_usadas = result.pathFinder(casillas_validas, numero_fil, numero_col);
