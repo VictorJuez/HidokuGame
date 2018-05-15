@@ -9,7 +9,7 @@ public abstract class Mapa {
     protected int columnas;
     protected int interrogants;
     protected int numeros;
-    protected char tipo;
+    protected String tipo;
     protected String angulos;
     protected Vector<Integer> numerosExistents;
     protected Vector<Integer> numerosRestants;
@@ -28,8 +28,6 @@ public abstract class Mapa {
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
         numeros = numerosExistents.size();
-        tipo = 'Q';
-        angulos = "C";
     }
 
     public Mapa (int filas, int columnas){
@@ -37,8 +35,6 @@ public abstract class Mapa {
         this.columnas = columnas;
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
-        tipo = 'Q';
-        angulos = "C";
     }
 
     public String getID() {
@@ -50,7 +46,7 @@ public abstract class Mapa {
     public int getColumnas() {
         return columnas;
     }
-    public char getTipo() {
+    public String getTipo() {
         return tipo;
     }
     public String getAngulos() {

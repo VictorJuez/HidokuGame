@@ -12,10 +12,14 @@ public class TableroTriangular extends Mapa {
      */
     public TableroTriangular(int filas, int columnas, String[][] tab){
         super(filas, columnas, tab);
+        tipo = "T";
+        angulos = "C";
     }
 
     public TableroTriangular(int filas, int columnas){
         super(filas, columnas);
+        tipo = "T";
+        angulos = "C";
     }
 
     /**

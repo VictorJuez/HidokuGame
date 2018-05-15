@@ -13,10 +13,14 @@ public class TableroHexagonal extends Mapa {
      */
     public TableroHexagonal(int filas, int columnas, String[][] tab){
         super(filas, columnas, tab);
+        tipo = "H";
+        angulos = "C";
     }
 
     public TableroHexagonal(int filas, int columnas){
         super(filas, columnas);
+        tipo = "H";
+        angulos = "C";
     }
 
     /**

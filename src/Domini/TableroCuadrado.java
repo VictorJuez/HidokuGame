@@ -12,10 +12,14 @@ public class TableroCuadrado extends Mapa {
      */
     public TableroCuadrado(int filas, int columnas, String[][] tab){
         super(filas, columnas, tab);
+        tipo = "Q";
+        angulos = "C";
     }
 
     public TableroCuadrado(int filas, int columnas){
         super(filas, columnas);
+        tipo = "Q";
+        angulos = "C";
     }
 
     /**
