@@ -11,10 +11,11 @@ public abstract class Mapa {
     protected int numeros;
     protected char tipo;
     protected String angulos;
-    protected boolean solucio;
     protected Vector<Integer> numerosExistents;
     protected Vector<Integer> numerosRestants;
     protected String[][] matrix;
+    protected String[][] solutionMatrix;
+    protected boolean solucio;
 
     public Mapa (int filas, int columnas, String[][] tab){
         this.matrix = tab;
@@ -35,6 +36,7 @@ public abstract class Mapa {
         this.filas = filas;
         this.columnas = columnas;
         this.ID = UUID.randomUUID().toString();
+        this.solucio = false;
         tipo = 'Q';
         angulos = "C";
     }
@@ -91,17 +93,17 @@ public abstract class Mapa {
         return interrogants;
     }
     public String[][] hidatoValido(){
-        String[][] A = new String[filas][columnas];
+        solutionMatrix = new String[filas][columnas];
         String[][] B = matrix;
         for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) A[i][j] = B[i][j];
+            for(int j=0; j<columnas; ++j) solutionMatrix[i][j] = B[i][j];
         }
         Vector<Integer> v;
         v = getNumerosRestants();
-        backtrackingResolucio(A, v);
+        backtrackingResolucio(solutionMatrix, v);
         if(solucio) {
             System.out.println("\nTE SOLUCIO:");
-            return A;
+            return solutionMatrix;
         }
         else System.out.println("\nNO TE SOLUCIO");
         return null;

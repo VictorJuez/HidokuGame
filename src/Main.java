@@ -119,6 +119,12 @@ public class Main {
      public static void validarHidato(String ID){
         HashMap l = ctDomini.getMapasMap();
         Mapa m = (Mapa) l.get(ID);
+        /*if(m.hidatoValido()){
+            System.out.println("Té solucio:");
+            printTablero(m.getSolutionMatrix());
+        }
+        else System.out.println("No té solucio");*/
         printTablero(m.hidatoValido());
+
      }
     }
