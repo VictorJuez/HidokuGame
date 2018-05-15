@@ -1,7 +1,4 @@
 import Domini.*;
-import javafx.util.Pair;
-
-import java.util.HashMap;
 
 public class Proves {
     public static void main(String[] args) {
@@ -9,8 +6,8 @@ public class Proves {
         while (true) {
             ++contador;
             System.out.println("iteraciones: "+contador);
-            MapaController mapaController = new MapaController();
-            Mapa m = mapaController.generarHidato();
+            ControladorMapa controladorMapa = new ControladorMapa();
+            Mapa m = controladorMapa.generarHidato();
             //System.out.println("ID: "+m.getID());
             //System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 

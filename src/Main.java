@@ -1,5 +1,5 @@
-import Domini.CtrDomini;
 import Domini.Mapa;
+import Domini.ControladorMapa;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,10 +9,9 @@ import java.util.Scanner;
 public class Main {
 
     private static Scanner myScanner;
-    private static CtrDomini ctDomini;
+    private static ControladorMapa ctMapa = new ControladorMapa();
 
     public static void main(String[] args) {
-        ctDomini = new CtrDomini();
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) Insertar un nuevo hidato\n"+
@@ -98,14 +97,14 @@ public class Main {
             tab[i] = items.toArray(tab[i]);
         }
 
-        Mapa m = ctDomini.insertarHidato(index[0], index[1], filas, columnas, tab);
+        Mapa m = ctMapa.insertarHidato(index[0], index[1], filas, columnas, tab);
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
         printTablero(m.getMatrix());
     }
 
     public static void listaHidatos(){
-        HashMap<String, Mapa> l = ctDomini.getMapasMap();
+        HashMap<String, Mapa> l = ctMapa.getAllMapas();
         l.forEach((k,v) -> {
             System.out.println("ID: "+ k);
             System.out.println(v.getTipo() + "," + v.getAngulos() + "," + v.getFilas() + "," + v.getColumnas());
@@ -114,7 +113,7 @@ public class Main {
     }
 
     public static void generarHidato(){
-        Mapa m = ctDomini.generarHidato();
+        Mapa m = ctMapa.generarHidato();
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 
@@ -123,8 +122,7 @@ public class Main {
      }
 
      public static void validarHidato(String ID){
-        HashMap l = ctDomini.getMapasMap();
-        Mapa m = (Mapa) l.get(ID);
+         Mapa m = ctMapa.getMapa(ID);
         if(m.hidatoValido()){
             System.out.println("Té solucio:");
             System.out.println("ID: "+m.getID());
@@ -136,8 +134,7 @@ public class Main {
      }
 
      public static void comprobarHidato(String ID){
-         HashMap l = ctDomini.getMapasMap();
-         Mapa m = (Mapa) l.get(ID);
+         Mapa m = ctMapa.getMapa(ID);
          if(m.matriuCorrecte()){
              System.out.println("Solucio correcte!");
          }

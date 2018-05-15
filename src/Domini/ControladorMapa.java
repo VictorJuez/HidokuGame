@@ -1,9 +1,11 @@
 package Domini;
 
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class MapaController {
-    public MapaController(){};
+public class ControladorMapa {
+    private static HashMap<String, Mapa> mapasMap = new HashMap<>();
+    public ControladorMapa(){};
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
      * @param i,j fila y columna de la casilla a comprobar
@@ -92,7 +94,22 @@ public class MapaController {
 
         result.setMatrix(tablero);
 
+        mapasMap.put(result.getID(), result);
        return result;
     }
 
+    public Mapa insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
+        MapaFactory mapaFactory = new MapaFactory();
+        Mapa m = mapaFactory.getMapa(topologia, angulos, filas, columnas, tab);
+        mapasMap.put(m.getID(), m);
+        return m;
+    }
+
+    public static HashMap<String, Mapa> getAllMapas() {
+        return mapasMap;
+    }
+
+    public Mapa getMapa(String ID){
+        return mapasMap.get(ID);
+    }
 }
