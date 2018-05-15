@@ -108,7 +108,7 @@ public class TableroHexagonal extends Mapa {
             trobat = false;
             if((posant[0]%2 == 0)) dir = par;
             else dir = impar;
-            for(int i = 0; i < 5 && !trobat; i++){
+            for(int i = 0; i < 6 && !trobat; i++){
                 pos = siguienteCasilla(posant,dir[i]);
                 if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
                     if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
@@ -198,7 +198,7 @@ public class TableroHexagonal extends Mapa {
             if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
             else
             {
-                dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+                dir = ThreadLocalRandom.current().nextInt(0, 5 + 1);
                 dir = adyacenciashex[dir];
             }
             sig_casilla = siguienteCasilla(ant_casilla, dir);
@@ -208,7 +208,7 @@ public class TableroHexagonal extends Mapa {
                 if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
                 else
                 {
-                    dir = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+                    dir = ThreadLocalRandom.current().nextInt(0, 5 + 1);
                     dir = adyacenciashex[dir];
                 }
                 sig_casilla = siguienteCasilla(ant_casilla, dir);

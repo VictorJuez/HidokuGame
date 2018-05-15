@@ -140,7 +140,6 @@ public class Main {
          Mapa m = (Mapa) l.get(ID);
          if(m.matriuCorrecte()){
              System.out.println("Solucio correcte!");
-             printTablero(m.getSolutionMatrix());
          }
          else System.out.println("Solucio incorrecte");
          //m.hidatoValido();
