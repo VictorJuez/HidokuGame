@@ -106,7 +106,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
         boolean trobat = false;
         for(int y1 = 0; y1 < filas && !trobat; y1++){
             for (int x1 = 0; x1 < columnas; x1++){
-                if(matrix[y1][x1].equals("1")){
+                if(solutionMatrix[y1][x1].equals("1")){
                     trobat = true;
                     y = y1;
                     x = x1;
@@ -127,7 +127,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
             trobat = false;
             for(int i = -2; (i <= 5) && !trobat; i++){
                 pos = siguienteCasilla(posant,i);
-                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
+                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) && solutionMatrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
                     interr--;
                     buscar++;
                     trobat = true;

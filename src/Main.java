@@ -142,6 +142,5 @@ public class Main {
              System.out.println("Solucio correcte!");
          }
          else System.out.println("Solucio incorrecte");
-         //m.hidatoValido();
      }
     }
