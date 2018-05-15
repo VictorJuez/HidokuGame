@@ -1,7 +1,7 @@
 package Domini;
 
 public class MapaFactory {
-    public MapaI getMapa(String tipo, String angulos, int filas, int columnas, String[][] tab){
+    public Mapa getMapa(String tipo, String angulos, int filas, int columnas, String[][] tab){
         if(tipo.equals("Q")){
             if(angulos.equals("CA")) return new TableroCuadradoAngulos(filas, columnas, tab);
             return new TableroCuadrado(filas, columnas, tab);
@@ -17,7 +17,7 @@ public class MapaFactory {
         return null;
     }
 
-    public MapaI getMapa(String tipo, String angulos, int filas, int columnas, MapaController mc){
+    public Mapa getMapa(String tipo, String angulos, int filas, int columnas, MapaController mc){
         if(tipo.equals("Q")){
             if(angulos.equals("CA")) return new TableroCuadradoAngulos(filas, columnas, mc);
             return new TableroCuadrado(filas, columnas, mc);

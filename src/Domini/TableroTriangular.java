@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroTriangular implements MapaI {
+public class TableroTriangular implements Mapa {
     protected String ID;
     protected int filas;
     protected int columnas;

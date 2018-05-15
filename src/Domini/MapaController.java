@@ -1,14 +1,12 @@
 package Domini;
 
-import javafx.util.Pair;
-
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MapaController {
-    MapaI m;
+    Mapa m;
 
-    public MapaController(MapaI m) {
+    public MapaController(Mapa m) {
         this.m = m;
     }
 
@@ -177,7 +175,7 @@ public class MapaController {
      *         <li>su segunda posicion contiene una matriz de Strings con el hidato generado</li>
      *     </ul>
      */
-    public MapaI generarHidato() {
+    public Mapa generarHidato() {
         int numero_fil, numero_col; //número de filas y columnas del tablero
         int tipo_adyacencia; //1 -> costados, 2 -> costados y angulos
         int topologia; //1-> cuadrados, 2-> triangilos, 3-> hexagonos
@@ -206,7 +204,7 @@ public class MapaController {
         MapaFactory mapaFactory = new MapaFactory();
         String[] tipos = {"Q","T","H"};
         String[] angulos = {"C", "CA"};
-        MapaI result = mapaFactory.getMapa(tipos[topologia-1],angulos[tipo_adyacencia-1], numero_fil, numero_col, this);
+        Mapa result = mapaFactory.getMapa(tipos[topologia-1],angulos[tipo_adyacencia-1], numero_fil, numero_col, this);
         this.m = result;
 
         casillas_usadas = result.pathFinder(casillas_validas, numero_fil, numero_col);

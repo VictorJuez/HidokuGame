@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroHexagonal implements MapaI {
+public class TableroHexagonal implements Mapa {
     protected String ID;
     protected int filas;
     protected int columnas;

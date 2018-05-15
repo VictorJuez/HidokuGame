@@ -4,7 +4,7 @@ import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroCuadrado implements MapaI {
+public class TableroCuadrado implements Mapa {
     protected String ID;
     protected int filas;
     protected int columnas;

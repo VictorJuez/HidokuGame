@@ -1,6 +1,5 @@
 import Domini.CtrDomini;
-import Domini.MapaI;
-import javafx.util.Pair;
+import Domini.Mapa;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -100,7 +99,7 @@ public class Main {
     }
 
     public static void listaHidatos(){
-        HashMap<String, MapaI> l = ctDomini.getMapasMap();
+        HashMap<String, Mapa> l = ctDomini.getMapasMap();
         l.forEach((k,v) -> {
             System.out.println("ID: "+ k);
             System.out.println(v.getTipo() + "," + v.getAngulos() + "," + v.getFilas() + "," + v.getColumnas());
@@ -109,7 +108,7 @@ public class Main {
     }
 
     public static void generarHidato(){
-        MapaI m = ctDomini.generarHidato();
+        Mapa m = ctDomini.generarHidato();
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 
@@ -119,7 +118,7 @@ public class Main {
 
      public static void validarHidato(String ID){
         HashMap l = ctDomini.getMapasMap();
-        MapaI m = (MapaI) l.get(ID);
+        Mapa m = (Mapa) l.get(ID);
         printTablero(m.hidatoValido());
      }
     }

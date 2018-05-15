@@ -2,7 +2,7 @@ package Domini;
 
 import java.util.Vector;
 
-public interface MapaI {
+public interface Mapa {
     String getID();
     String[][] getMatrix();
     Vector<String> getNumerosExistents();
