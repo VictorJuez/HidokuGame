@@ -69,8 +69,8 @@ public class MapaController {
         numero_col = ThreadLocalRandom.current().nextInt(5, 10 + 1);
 
         tipo_adyacencia = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-        topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
-
+        //topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
+        topologia = 3;
         num_casillas = numero_fil * numero_col;
 
         //tendrá un valor entre un cuarto del número de casillas y 3 cuartos.

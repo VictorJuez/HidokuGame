@@ -21,12 +21,12 @@ public abstract class Mapa {
         this.matrix = tab;
         this.filas = filas;
         this.columnas = columnas;
-        this.interrogants = 0;
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
 
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
+        interrogants = getInterrogants(matrix);
         numeros = numerosExistents.size();
     }
 
