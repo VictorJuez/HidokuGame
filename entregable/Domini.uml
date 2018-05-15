@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Domini</OriginalElement>
+  <nodes>
+    <node x="0.0" y="1043.0">Domini.TableroCuadradoAngulos</node>
+    <node x="1101.1666666666665" y="1302.0">Domini.MapaFactory</node>
+    <node x="1396.837662337662" y="794.0">Domini.TableroTriangular</node>
+    <node x="1242.9999999999998" y="1043.0">Domini.TableroTriangularAngulos</node>
+    <node x="1322.9917027417023" y="1442.0">Domini.ControladorMapa</node>
+    <node x="774.8376623376621" y="794.0">Domini.TableroHexagonal</node>
+    <node x="153.8376623376621" y="794.0">Domini.TableroCuadrado</node>
+    <node x="1076.8710317460313" y="0.0">Domini.Mapa</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Domini.TableroHexagonal" target="Domini.Mapa">
+      <point x="-150.25" y="-99.5" />
+      <point x="925.0876623376621" y="764.0" />
+      <point x="1268.098304473304" y="764.0" />
+      <point x="-109.27272727272725" y="357.0" />
+    </edge>
+    <edge source="Domini.ControladorMapa" target="Domini.MapaFactory">
+      <point x="-191.25" y="-127.0" />
+      <point x="1386.7417027417023" y="1422.0" />
+      <point x="1216.9166666666665" y="1422.0" />
+      <point x="-115.75" y="45.0" />
+    </edge>
+    <edge source="Domini.MapaFactory" target="Domini.TableroCuadradoAngulos">
+      <point x="-192.91666666666674" y="-45.0" />
+      <point x="1139.7499999999998" y="1282.0" />
+      <point x="300.5" y="1282.0" />
+      <point x="0.0" y="99.5" />
+    </edge>
+    <edge source="Domini.MapaFactory" target="Domini.TableroTriangular">
+      <point x="115.75" y="-45.0" />
+      <point x="1448.4166666666665" y="1272.0" />
+      <point x="1895.3667027417025" y="1272.0" />
+      <point x="1895.3667027417025" y="1018.0" />
+      <point x="1897.6709956709956" y="1018.0" />
+      <point x="200.3333333333334" y="99.5" />
+    </edge>
+    <edge source="Domini.TableroCuadradoAngulos" target="Domini.Mapa">
+      <point x="-200.33333333333326" y="-99.5" />
+      <point x="100.16666666666674" y="1018.0" />
+      <point x="143.3376623376621" y="1018.0" />
+      <point x="143.3376623376621" y="734.0" />
+      <point x="1104.189213564213" y="734.0" />
+      <point x="-273.18181818181824" y="357.0" />
+    </edge>
+    <edge source="Domini.MapaFactory" target="Domini.TableroTriangularAngulos">
+      <point x="38.58333333333326" y="-45.0" />
+      <point x="1371.2499999999998" y="1262.0" />
+      <point x="1543.4999999999998" y="1262.0" />
+      <point x="0.0" y="99.5" />
+    </edge>
+    <edge source="Domini.TableroTriangularAngulos" target="Domini.Mapa">
+      <point x="-200.33333333333337" y="-99.5" />
+      <point x="1343.1666666666665" y="1018.0" />
+      <point x="1386.337662337662" y="1018.0" />
+      <point x="1386.337662337662" y="774.0" />
+      <point x="1377.3710317460313" y="774.0" />
+      <point x="0.0" y="357.0" />
+    </edge>
+    <edge source="Domini.TableroTriangularAngulos" target="Domini.TableroTriangular">
+      <point x="200.33333333333337" y="-99.5" />
+      <point x="1743.8333333333333" y="1018.0" />
+      <point x="1697.337662337662" y="1018.0" />
+      <point x="0.0" y="99.5" />
+    </edge>
+    <edge source="Domini.MapaFactory" target="Domini.TableroCuadrado">
+      <point x="-115.75" y="-45.0" />
+      <point x="1216.9166666666665" y="1272.0" />
+      <point x="676.4004329004326" y="1272.0" />
+      <point x="676.4004329004326" y="1018.0" />
+      <point x="654.6709956709954" y="1018.0" />
+      <point x="200.33333333333326" y="99.5" />
+    </edge>
+    <edge source="Domini.TableroTriangular" target="Domini.Mapa">
+      <point x="150.25" y="-99.5" />
+      <point x="1847.587662337662" y="764.0" />
+      <point x="1486.6437590187586" y="764.0" />
+      <point x="109.27272727272725" y="357.0" />
+    </edge>
+    <edge source="Domini.MapaFactory" target="Domini.TableroHexagonal">
+      <point x="-38.58333333333326" y="-45.0" />
+      <point x="1294.0833333333333" y="1262.0" />
+      <point x="1075.337662337662" y="1262.0" />
+      <point x="0.0" y="99.5" />
+    </edge>
+    <edge source="Domini.ControladorMapa" target="Domini.Mapa">
+      <point x="191.25" y="-127.0" />
+      <point x="1769.2417027417023" y="1422.0" />
+      <point x="2040.412698412698" y="1422.0" />
+      <point x="2040.412698412698" y="734.0" />
+      <point x="1650.5528499278496" y="734.0" />
+      <point x="273.18181818181824" y="357.0" />
+    </edge>
+    <edge source="Domini.MapaFactory" target="Domini.Mapa">
+      <point x="192.91666666666674" y="-45.0" />
+      <point x="1525.5833333333333" y="1282.0" />
+      <point x="2008.337662337662" y="1282.0" />
+      <point x="2008.337662337662" y="754.0" />
+      <point x="1541.2801226551223" y="754.0" />
+      <point x="163.909090909091" y="357.0" />
+    </edge>
+    <edge source="Domini.TableroCuadrado" target="Domini.Mapa">
+      <point x="150.25" y="-99.5" />
+      <point x="604.5876623376621" y="754.0" />
+      <point x="1213.4619408369404" y="754.0" />
+      <point x="-163.909090909091" y="357.0" />
+    </edge>
+    <edge source="Domini.TableroCuadradoAngulos" target="Domini.TableroCuadrado">
+      <point x="200.33333333333326" y="-99.5" />
+      <point x="500.83333333333326" y="1018.0" />
+      <point x="454.3376623376621" y="1018.0" />
+      <point x="0.0" y="99.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="936.0" y="1149.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
