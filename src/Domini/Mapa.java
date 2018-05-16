@@ -17,7 +17,7 @@ public abstract class Mapa {
     protected String[][] solutionMatrix;
     protected boolean solucio;
 
-    public Mapa(String[][] matrix){
+    public Mapa(String[][] matrix) {
         this.matrix = matrix;
         this.filas = matrix.length;
         this.columnas = matrix[0].length;
@@ -69,6 +69,13 @@ public abstract class Mapa {
     }
     public String[][] getSolutionMatrix() {
         return solutionMatrix;
+    }
+    public boolean insertarNumero(int numero, int x, int y){
+        if(x>=0 && x<filas && y>0 && y<columnas && matrix[x][y].equals("?")){
+            solutionMatrix[x][y] = String.valueOf(numero);
+            return true;
+        }
+        return false;
     }
 
     public void setMatrix(String[][] matrix) {
