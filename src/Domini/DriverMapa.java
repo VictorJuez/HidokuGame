@@ -1,7 +1,5 @@
 package Domini;
 
-import Domini.Mapa;
-import Domini.ControladorMapa;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -52,11 +50,11 @@ public class DriverMapa {
                     op = myScanner.next();
                     comprobarHidato(op);
                     break;
-                case "6":
+                /*case "6":
                     System.out.println("Inserta el ID del hidato a carregar");
                     op = myScanner.next();
                     loadMapa(op);
-                    break;
+                    break;*/
                 case "x":
                     System.out.println("exiting game...");
                     active = false;
@@ -107,13 +105,13 @@ public class DriverMapa {
             tab[i] = items.toArray(tab[i]);
         }
 
-        Mapa m = ctMapa.insertarHidato(index[0], index[1], filas, columnas, tab);
+        Mapa m = ctMapa.insertarHidato(index[0], index[1], tab);
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
         printTablero(m.getMatrix());
     }
 
-    public static void listaHidatos(){
+    public static void listaHidatos() throws IOException, ParseException {
         HashMap<String, Mapa> l = ctMapa.getAllMapas();
         l.forEach((k,v) -> {
             System.out.println("ID: "+ k);
@@ -132,7 +130,7 @@ public class DriverMapa {
         ctMapa.saveMapa(m);
      }
 
-     public static void validarHidato(String ID){
+     public static void validarHidato(String ID) throws IOException, ParseException {
          Mapa m = ctMapa.getMapa(ID);
         if(m.hidatoValido()){
             System.out.println("Té solucio:");
@@ -144,7 +142,7 @@ public class DriverMapa {
         //m.hidatoValido();
      }
 
-     public static void comprobarHidato(String ID){
+     public static void comprobarHidato(String ID) throws IOException, ParseException {
          Mapa m = ctMapa.getMapa(ID);
          if(m.matriuCorrecte()){
              System.out.println("Solucio correcte!");
@@ -152,7 +150,10 @@ public class DriverMapa {
          else System.out.println("Solucio incorrecte");
      }
 
-     public static void loadMapa(String ID) throws IOException, ParseException {
-        ctMapa.loadMapa(ID);
-     }
+     /*public static void loadMapa(String ID) throws IOException, ParseException {
+        Mapa m = ctMapa.loadMapa(ID);
+        System.out.println("ID: "+m.getID());
+        System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
+        printTablero(m.getMatrix());
+     }*/
     }

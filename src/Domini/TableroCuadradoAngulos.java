@@ -10,13 +10,18 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
      * @param filas numero de filas del hidato
      * @param columnas numero de columnas del hidato
      */
-    public TableroCuadradoAngulos(int filas, int columnas, String[][] tab) {
-        super(filas, columnas, tab);
+    public TableroCuadradoAngulos(String[][] tab) {
+        super(tab);
         angulos = "CA";
     }
 
-    public TableroCuadradoAngulos(int filas, int columnas){
-        super(filas, columnas);
+    public TableroCuadradoAngulos(){
+        super();
+        angulos = "CA";
+    }
+
+    public TableroCuadradoAngulos(String ID, String[][] tab){
+        super(ID, tab);
         angulos = "CA";
     }
 

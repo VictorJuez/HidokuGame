@@ -1,6 +1,5 @@
 package Domini;
 
-import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,14 +10,20 @@ public class TableroHexagonal extends Mapa {
      * @param filas numero de filas del hidato
      * @param columnas numero de columnas del hidato
      */
-    public TableroHexagonal(int filas, int columnas, String[][] tab){
-        super(filas, columnas, tab);
+    public TableroHexagonal(String[][] tab){
+        super(tab);
         tipo = "H";
         angulos = "C";
     }
 
-    public TableroHexagonal(int filas, int columnas){
-        super(filas, columnas);
+    public TableroHexagonal(){
+        super();
+        tipo = "H";
+        angulos = "C";
+    }
+
+    public TableroHexagonal(String ID, String[][] tab){
+        super(ID, tab);
         tipo = "H";
         angulos = "C";
     }

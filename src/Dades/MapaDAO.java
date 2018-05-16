@@ -1,9 +1,9 @@
 package Dades;
 
 import Domini.Mapa;
-import jdk.nashorn.internal.runtime.JSONFunctions;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,10 +16,8 @@ public class MapaDAO {
 
         JSONObject obj = new JSONObject();
         obj.put("ID", m.getID());
-        obj.put("filas", String.valueOf(m.getFilas()));
-        obj.put("columnas", String.valueOf(m.getColumnas()));
         obj.put("topologia", m.getTipo());
-        obj.put("adyacencias", m.getAngulos());
+        obj.put("adyacencia", m.getAngulos());
 
         JSONArray matrix = new JSONArray();
 
@@ -37,20 +35,37 @@ public class MapaDAO {
         // try-with-resources statement based on post comment below :)
         try (FileWriter file = new FileWriter("data/mapas/"+m.getID()+".json")) {
             file.write(obj.toJSONString());
-            System.out.println("Successfully Copied JSON Object to File...");
-            System.out.println("\nJSON Object: " + obj);
+            //System.out.println("Successfully Copied JSON Object to File...");
+            //System.out.println("\nJSON Object: " + obj);
         }
 
     }
 
-    public static void loadMapa(String ID) throws IOException, ParseException {
+    public static JSONObject loadMapa(String ID) throws IOException, ParseException {
         JSONParser parser = new JSONParser();
 
         Object obj = parser.parse(new FileReader(
                 "data/mapas/"+ID+".json"));
 
-        JSONObject jsonObject = (JSONObject) obj;
-        System.out.println("JSON lodaded: "+((JSONObject) obj).toJSONString());
+        JSONObject jsonMap = (JSONObject) obj;
 
+        return jsonMap;
+
+    }
+
+    public static ArrayList<String> loadAllMapas(){
+        ArrayList<String> mapasDisk = new ArrayList<>();
+        File folder = new File("data/mapas");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                //System.out.println("File " + listOfFiles[i].getName());
+                String mapName = listOfFiles[i].getName();
+                mapName = mapName.substring(0, mapName.length()-5);
+                mapasDisk.add(mapName);
+            }
+        }
+        return mapasDisk;
     }
 }

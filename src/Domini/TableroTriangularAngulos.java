@@ -10,13 +10,18 @@ public class TableroTriangularAngulos extends TableroTriangular {
      * @param filas numero de filas del hidato
      * @param columnas numero de columnas del hidato
      */
-    public TableroTriangularAngulos(int filas, int columnas, String[][] tab) {
-        super(filas, columnas, tab);
+    public TableroTriangularAngulos(String[][] tab) {
+        super(tab);
         angulos = "CA";
     }
 
-    public TableroTriangularAngulos(int filas, int columnas){
-        super(filas, columnas);
+    public TableroTriangularAngulos(){
+        super();
+        angulos = "CA";
+    }
+
+    public TableroTriangularAngulos(String ID, String[][] tab){
+        super(ID, tab);
         angulos = "CA";
     }
 

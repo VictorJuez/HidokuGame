@@ -17,24 +17,33 @@ public abstract class Mapa {
     protected String[][] solutionMatrix;
     protected boolean solucio;
 
-    public Mapa (int filas, int columnas, String[][] tab){
-        this.matrix = tab;
-        this.filas = filas;
-        this.columnas = columnas;
+    public Mapa(String[][] matrix){
+        this.matrix = matrix;
+        this.filas = matrix.length;
+        this.columnas = matrix[0].length;
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
 
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
-        interrogants = getInterrogants(matrix);
+        interrogants = getInterrogants(this.matrix);
         numeros = numerosExistents.size();
     }
-
-    public Mapa (int filas, int columnas){
-        this.filas = filas;
-        this.columnas = columnas;
+    public Mapa(){
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
+    }
+    public Mapa(String ID, String[][] matrix){
+        this.matrix = matrix;
+        this.filas = matrix.length;
+        this.columnas = matrix[0].length;
+        this.ID = ID;
+        this.solucio = false;
+
+        numerosExistents = getNumerosExistents();
+        numerosRestants = getNumerosRestants();
+        interrogants = getInterrogants(this.matrix);
+        numeros = numerosExistents.size();
     }
 
     public String getID() {
@@ -64,6 +73,8 @@ public abstract class Mapa {
 
     public void setMatrix(String[][] matrix) {
         this.matrix = matrix;
+        this.filas = matrix.length;
+        this.columnas = matrix[0].length;
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
         interrogants = getInterrogants(matrix);
