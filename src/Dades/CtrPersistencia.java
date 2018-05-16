@@ -1,4 +1,4 @@
-package Persistencia;
+package Dades;
 
 public class CtrPersistencia {
 

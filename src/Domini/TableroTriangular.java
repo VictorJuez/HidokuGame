@@ -1,6 +1,5 @@
 package Domini;
 
-import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -10,14 +9,20 @@ public class TableroTriangular extends Mapa {
      * @param filas numero de filas del hidato
      * @param columnas numero de columnas del hidato
      */
-    public TableroTriangular(int filas, int columnas, String[][] tab){
-        super(filas, columnas, tab);
+    public TableroTriangular(String[][] tab){
+        super(tab);
         tipo = "T";
         angulos = "C";
     }
 
-    public TableroTriangular(int filas, int columnas){
-        super(filas, columnas);
+    public TableroTriangular(){
+        super();
+        tipo = "T";
+        angulos = "C";
+    }
+
+    public TableroTriangular(String ID, String[][] tab){
+        super(ID, tab);
         tipo = "T";
         angulos = "C";
     }

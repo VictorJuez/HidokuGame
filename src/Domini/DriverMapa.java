@@ -1,17 +1,19 @@
-import Domini.Mapa;
-import Domini.ControladorMapa;
+package Domini;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class DriverMapa {
 
     private static Scanner myScanner;
     private static ControladorMapa ctMapa = new ControladorMapa();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ParseException {
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) Insertar un nuevo hidato\n"+
@@ -19,6 +21,7 @@ public class Main {
                 "\t3) Generar hidato\n"+
                 "\t4) Comprovar si existe solucion hidato\n"+
                 "\t5) Comprovar solucion hidato\n"+
+                "\t6) Load mapa from disk\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -47,6 +50,11 @@ public class Main {
                     op = myScanner.next();
                     comprobarHidato(op);
                     break;
+                /*case "6":
+                    System.out.println("Inserta el ID del hidato a carregar");
+                    op = myScanner.next();
+                    loadMapa(op);
+                    break;*/
                 case "x":
                     System.out.println("exiting game...");
                     active = false;
@@ -97,13 +105,13 @@ public class Main {
             tab[i] = items.toArray(tab[i]);
         }
 
-        Mapa m = ctMapa.insertarHidato(index[0], index[1], filas, columnas, tab);
+        Mapa m = ctMapa.insertarHidato(index[0], index[1], tab);
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
         printTablero(m.getMatrix());
     }
 
-    public static void listaHidatos(){
+    public static void listaHidatos() throws IOException, ParseException {
         HashMap<String, Mapa> l = ctMapa.getAllMapas();
         l.forEach((k,v) -> {
             System.out.println("ID: "+ k);
@@ -112,16 +120,17 @@ public class Main {
         });
     }
 
-    public static void generarHidato(){
+    public static void generarHidato() throws IOException {
         Mapa m = ctMapa.generarHidato();
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 
         //String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
         printTablero(m.getMatrix());
+        ctMapa.saveMapa(m);
      }
 
-     public static void validarHidato(String ID){
+     public static void validarHidato(String ID) throws IOException, ParseException {
          Mapa m = ctMapa.getMapa(ID);
         if(m.hidatoValido()){
             System.out.println("Té solucio:");
@@ -133,11 +142,18 @@ public class Main {
         //m.hidatoValido();
      }
 
-     public static void comprobarHidato(String ID){
+     public static void comprobarHidato(String ID) throws IOException, ParseException {
          Mapa m = ctMapa.getMapa(ID);
          if(m.matriuCorrecte()){
              System.out.println("Solucio correcte!");
          }
          else System.out.println("Solucio incorrecte");
      }
+
+     /*public static void loadMapa(String ID) throws IOException, ParseException {
+        Mapa m = ctMapa.loadMapa(ID);
+        System.out.println("ID: "+m.getID());
+        System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
+        printTablero(m.getMatrix());
+     }*/
     }

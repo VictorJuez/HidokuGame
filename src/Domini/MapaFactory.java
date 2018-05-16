@@ -1,34 +1,50 @@
 package Domini;
 
 public class MapaFactory {
-    public Mapa getMapa(String tipo, String angulos, int filas, int columnas, String[][] tab){
+    public Mapa getMapa(String tipo, String angulos, String[][] tab){
         if(tipo.equals("Q")){
-            if(angulos.equals("CA")) return new TableroCuadradoAngulos(filas, columnas, tab);
-            return new TableroCuadrado(filas, columnas, tab);
+            if(angulos.equals("CA")) return new TableroCuadradoAngulos(tab);
+            return new TableroCuadrado(tab);
         }
 
         else if(tipo.equals("T")){
-            if(angulos.equals("CA")) return new TableroTriangularAngulos(filas, columnas, tab);
-            return new TableroTriangular(filas, columnas, tab);
+            if(angulos.equals("CA")) return new TableroTriangularAngulos(tab);
+            return new TableroTriangular(tab);
         }
 
-        else if(tipo.equals("H")) return new TableroHexagonal(filas, columnas, tab);
+        else if(tipo.equals("H")) return new TableroHexagonal(tab);
 
         return null;
     }
 
-    public Mapa getMapa(String tipo, String angulos, int filas, int columnas){
+    public Mapa getMapa(String tipo, String angulos){
         if(tipo.equals("Q")){
-            if(angulos.equals("CA")) return new TableroCuadradoAngulos(filas, columnas);
-            return new TableroCuadrado(filas, columnas);
+            if(angulos.equals("CA")) return new TableroCuadradoAngulos();
+            return new TableroCuadrado();
         }
 
         else if(tipo.equals("T")){
-            if(angulos.equals("CA")) return new TableroTriangularAngulos(filas, columnas);
-            return new TableroTriangular(filas, columnas);
+            if(angulos.equals("CA")) return new TableroTriangularAngulos();
+            return new TableroTriangular();
         }
 
-        else if(tipo.equals("H")) return new TableroHexagonal(filas, columnas);
+        else if(tipo.equals("H")) return new TableroHexagonal();
+
+        return null;
+    }
+
+    public Mapa getMapa(String ID, String tipo, String angulos, String[][] tab){
+        if(tipo.equals("Q")){
+            if(angulos.equals("CA")) return new TableroCuadradoAngulos(ID, tab);
+            return new TableroCuadrado(ID, tab);
+        }
+
+        else if(tipo.equals("T")){
+            if(angulos.equals("CA")) return new TableroTriangularAngulos(ID, tab);
+            return new TableroTriangular(ID, tab);
+        }
+
+        else if(tipo.equals("H")) return new TableroHexagonal(ID, tab);
 
         return null;
     }

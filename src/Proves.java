@@ -29,7 +29,7 @@ public class Proves {
 
     public static void comprobarSolucion(Mapa m){
         MapaFactory mapaFactory = new MapaFactory();
-        Mapa m2 = mapaFactory.getMapa(m.getTipo(), m.getAngulos(), m.getFilas(), m.getColumnas(), m.getSolutionMatrix());
+        Mapa m2 = mapaFactory.getMapa(m.getTipo(), m.getAngulos(), m.getSolutionMatrix());
         /*if(m2.matriuCorrecte()){
             System.out.println("Solucio correcte!");
         }*/

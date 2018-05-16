@@ -1,20 +1,31 @@
 package Domini;
 
+import Dades.MapaDAO;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ControladorMapa {
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
+    private ArrayList<String> mapasDisk = new ArrayList<>();
+    private MapaDAO md;
     public ControladorMapa(){};
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
      * @param i,j fila y columna de la casilla a comprobar
-     * @param tablero matriz con el hidato
      * @param max_fil El numero de filas del hidato
      * @param max_col El numero de columnas del hidato
      * @return Boolean indicando si la casilla sera # o no.
      */
-    protected boolean holeChecker(String[][] tablero, int i, int j, int max_fil, int max_col)
+    protected boolean holeChecker(int i, int j, int max_fil, int max_col)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
         //ahora vamos a ver si la casilla está en el borde.
@@ -40,7 +51,7 @@ public class ControladorMapa {
                 }
                 else
                 {
-                    if (holeChecker(tablero, i, j, numero_fil, numero_col)) tablero[i][j] = "#";
+                    if (holeChecker(i, j, numero_fil, numero_col)) tablero[i][j] = "#";
                     else tablero[i][j] = "*";
                 }
             }
@@ -85,7 +96,7 @@ public class ControladorMapa {
         MapaFactory mapaFactory = new MapaFactory();
         String[] tipos = {"Q","T","H"};
         String[] angulos = {"C", "CA"};
-        Mapa result = mapaFactory.getMapa(tipos[topologia-1],angulos[tipo_adyacencia-1], numero_fil, numero_col);
+        Mapa result = mapaFactory.getMapa(tipos[topologia-1],angulos[tipo_adyacencia-1]);
 
         casillas_usadas = result.pathFinder(casillas_validas, numero_fil, numero_col);
         while (casillas_usadas[0][0] == -5) casillas_usadas = result.pathFinder(casillas_validas, numero_fil, numero_col);
@@ -98,18 +109,66 @@ public class ControladorMapa {
        return result;
     }
 
-    public Mapa insertarHidato(String topologia, String angulos, int filas, int columnas, String[][] tab) {
+    public Mapa insertarHidato(String topologia, String angulos, String[][] tab) {
         MapaFactory mapaFactory = new MapaFactory();
-        Mapa m = mapaFactory.getMapa(topologia, angulos, filas, columnas, tab);
+        Mapa m = mapaFactory.getMapa(topologia, angulos, tab);
         mapasMap.put(m.getID(), m);
         return m;
     }
 
-    public static HashMap<String, Mapa> getAllMapas() {
+    public HashMap<String, Mapa> getAllMapas() throws IOException, ParseException {
+        loadAllMapsDisk();
+        for(int i=0; i<mapasDisk.size(); ++i){
+            String id = mapasDisk.get(i);
+            if(mapasMap.get(id) == null) mapasMap.put(id, loadMapaDisk(id));
+        }
         return mapasMap;
     }
 
-    public Mapa getMapa(String ID){
+    public Mapa getMapa(String ID) throws IOException, ParseException {
+        if(mapasMap.get(ID) == null){
+            return loadMapaDisk(ID);
+        }
+
         return mapasMap.get(ID);
+    }
+
+    public void saveMapa(Mapa m) throws IOException {
+        md.saveMapa(m);
+    }
+
+    private Mapa loadMapaDisk(String ID) throws IOException, ParseException {
+        JSONObject jo = md.loadMapa(ID);
+        JSONArray matrixJson = (JSONArray) jo.get("matrix");
+        int columnes = ((JSONArray)matrixJson.get(0)).size();
+
+        //System.out.println("JSON lodaded: "+((JSONArray) matrixJson).toJSONString());
+        String[][] matrix = new String[matrixJson.size()][columnes];
+        for(int i=0; i<matrixJson.size(); ++i) matrix[i] = (String[]) ((JSONArray)matrixJson.get(i)).toArray(matrix[i]);
+
+        String topologia = (String) jo.get("topologia");
+        String adyacencia = (String) jo.get("adyacencia");
+        MapaFactory mapaFactory = new MapaFactory();
+
+        Mapa m = mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
+        return m;
+
+    }
+
+    private void loadAllMapsDisk(){
+        mapasDisk = md.loadAllMapas();
+    }
+
+    public static void printTablero(String[][] matrix){
+        int filas = matrix.length;
+        int columnas = matrix[0].length;
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
+                System.out.print(matrix[i][j]);
+                if(j!=columnas-1) System.out.print(",");
+            }
+            System.out.print("\n");
+        }
+        System.out.println();
     }
 }

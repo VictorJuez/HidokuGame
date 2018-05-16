@@ -1,6 +1,5 @@
 package Domini;
 
-import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -10,14 +9,20 @@ public class TableroCuadrado extends Mapa {
      * @param filas numero de filas del hidato
      * @param columnas numero de columnas del hidato
      */
-    public TableroCuadrado(int filas, int columnas, String[][] tab){
-        super(filas, columnas, tab);
+    public TableroCuadrado(String[][] tab){
+        super(tab);
         tipo = "Q";
         angulos = "C";
     }
 
-    public TableroCuadrado(int filas, int columnas){
-        super(filas, columnas);
+    public TableroCuadrado(){
+        super();
+        tipo = "Q";
+        angulos = "C";
+    }
+
+    public TableroCuadrado(String ID, String[][] tab){
+        super(ID, tab);
         tipo = "Q";
         angulos = "C";
     }
