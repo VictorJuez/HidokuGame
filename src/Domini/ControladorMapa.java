@@ -1,10 +1,15 @@
 package Domini;
 
+import Dades.MapaDAO;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ControladorMapa {
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
+    private MapaDAO md;
     public ControladorMapa(){};
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
@@ -111,5 +116,13 @@ public class ControladorMapa {
 
     public Mapa getMapa(String ID){
         return mapasMap.get(ID);
+    }
+
+    public void saveMapa(Mapa m) throws IOException {
+        md.saveMapa(m);
+    }
+
+    public void loadMapa(String ID) throws IOException, ParseException {
+        md.loadMapa(ID);
     }
 }
