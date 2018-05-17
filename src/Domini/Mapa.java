@@ -70,12 +70,11 @@ public abstract class Mapa {
     public String[][] getSolutionMatrix() {
         return solutionMatrix;
     }
-    public boolean insertarNumero(int numero, int x, int y){
-        if(x>=0 && x<filas && y>0 && y<columnas && matrix[x][y].equals("?")){
-            solutionMatrix[x][y] = String.valueOf(numero);
-            return true;
-        }
-        return false;
+    public void insertarNumero(int numero, int x, int y){
+        solutionMatrix[x][y] = String.valueOf(numero);
+    }
+    public void borrarNumero(int x, int y){
+        solutionMatrix[x][y] = "?";
     }
 
     public void setMatrix(String[][] matrix) {
