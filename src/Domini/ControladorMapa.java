@@ -1,16 +1,9 @@
 package Domini;
 
 import Dades.MapaDAO;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ControladorMapa {
@@ -116,7 +109,7 @@ public class ControladorMapa {
         return m;
     }
 
-    public HashMap<String, Mapa> getAllMapas() throws IOException, ParseException {
+    public HashMap<String, Mapa> getAllMapas() throws IOException {
         loadAllMapsDisk();
         for(int i=0; i<mapasDisk.size(); ++i){
             String id = mapasDisk.get(i);
@@ -125,7 +118,7 @@ public class ControladorMapa {
         return mapasMap;
     }
 
-    public Mapa getMapa(String ID) throws IOException, ParseException {
+    public Mapa getMapa(String ID) throws IOException {
         if(mapasMap.get(ID) == null){
             return loadMapaDisk(ID);
         }
@@ -137,21 +130,8 @@ public class ControladorMapa {
         md.saveMapa(m);
     }
 
-    private Mapa loadMapaDisk(String ID) throws IOException, ParseException {
-        JSONObject jo = md.loadMapa(ID);
-        JSONArray matrixJson = (JSONArray) jo.get("matrix");
-        int columnes = ((JSONArray)matrixJson.get(0)).size();
-
-        //System.out.println("JSON lodaded: "+((JSONArray) matrixJson).toJSONString());
-        String[][] matrix = new String[matrixJson.size()][columnes];
-        for(int i=0; i<matrixJson.size(); ++i) matrix[i] = (String[]) ((JSONArray)matrixJson.get(i)).toArray(matrix[i]);
-
-        String topologia = (String) jo.get("topologia");
-        String adyacencia = (String) jo.get("adyacencia");
-        MapaFactory mapaFactory = new MapaFactory();
-
-        Mapa m = mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
-        return m;
+    private Mapa loadMapaDisk(String ID) throws IOException {
+        return md.loadMapa(ID);
 
     }
 

@@ -1,7 +1,5 @@
 package Domini;
 
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +11,7 @@ public class DriverMapa {
     private static Scanner myScanner;
     private static ControladorMapa ctMapa = new ControladorMapa();
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException {
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) Insertar un nuevo hidato\n"+
@@ -86,7 +84,7 @@ public class DriverMapa {
         System.out.println();
     }
 
-    public static void insertarHidato(){
+    public static void insertarHidato() throws IOException {
         System.out.println("Introduce un hidato válido:");
         String params = "";
         params = myScanner.next();
@@ -106,12 +104,13 @@ public class DriverMapa {
         }
 
         Mapa m = ctMapa.insertarHidato(index[0], index[1], tab);
+        ctMapa.saveMapa(m);
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
         printTablero(m.getMatrix());
     }
 
-    public static void listaHidatos() throws IOException, ParseException {
+    public static void listaHidatos() throws IOException {
         HashMap<String, Mapa> l = ctMapa.getAllMapas();
         l.forEach((k,v) -> {
             System.out.println("ID: "+ k);
@@ -130,7 +129,7 @@ public class DriverMapa {
         ctMapa.saveMapa(m);
      }
 
-     public static void validarHidato(String ID) throws IOException, ParseException {
+     public static void validarHidato(String ID) throws IOException {
          Mapa m = ctMapa.getMapa(ID);
         if(m.hidatoValido()){
             System.out.println("Té solucio:");
@@ -142,7 +141,7 @@ public class DriverMapa {
         //m.hidatoValido();
      }
 
-     public static void comprobarHidato(String ID) throws IOException, ParseException {
+     public static void comprobarHidato(String ID) throws IOException {
          Mapa m = ctMapa.getMapa(ID);
          if(m.matriuCorrecte()){
              System.out.println("Solucio correcte!");

@@ -4,53 +4,66 @@ import Domini.Mapa;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import Domini.MapaFactory;
 
 public class MapaDAO {
 
     public static void saveMapa(Mapa m) throws IOException {
 
-        JSONObject obj = new JSONObject();
-        obj.put("ID", m.getID());
-        obj.put("topologia", m.getTipo());
-        obj.put("adyacencia", m.getAngulos());
-
-        JSONArray matrix = new JSONArray();
-
-        String[][] tablero = m.getMatrix();
-        for(int i=0; i<m.getFilas(); ++i) {
-            JSONArray line = new JSONArray();
-            for(int j=0; j<m.getColumnas(); ++j){
-                line.add(tablero[i][j]);
+        Properties properties = new Properties();
+        properties.setProperty("ID", m.getID());
+        properties.setProperty("topologia", m.getTipo());
+        properties.setProperty("adyacencia", m.getAngulos());
+        properties.setProperty("filas", String.valueOf(m.getFilas()));
+        properties.setProperty("columnas", String.valueOf(m.getColumnas()));
+        String matrixString = null;
+        String[][] matrix = m.getMatrix();
+        for(int i=0; i<m.getFilas(); ++i){
+            for(int j=0; j<m.getColumnas(); ++j) {
+                if(i==0 && j==0) matrixString = matrix[i][j]+",";
+                else matrixString+=matrix[i][j]+",";
             }
-            matrix.add(line);
         }
+        matrixString = matrixString.substring(0,matrixString.length()-1);
+        System.out.println(matrixString);
+        properties.setProperty("matrix", matrixString);
 
-        obj.put("matrix", matrix);
-
-        // try-with-resources statement based on post comment below :)
-        try (FileWriter file = new FileWriter("data/mapas/"+m.getID()+".json")) {
-            file.write(obj.toJSONString());
-            //System.out.println("Successfully Copied JSON Object to File...");
-            //System.out.println("\nJSON Object: " + obj);
-        }
-
+        File file2 = new File("data/mapas/"+m.getID()+".properties");
+        FileOutputStream fileOut = new FileOutputStream(file2);
+        properties.store(fileOut, "Mapa: |" +m.getID()+"| properties");
+        fileOut.close();
     }
 
-    public static JSONObject loadMapa(String ID) throws IOException, ParseException {
-        JSONParser parser = new JSONParser();
+    public static Mapa loadMapa(String ID) throws IOException{
+        InputStream input = new FileInputStream("data/mapas/"+ID+".properties");
 
-        Object obj = parser.parse(new FileReader(
-                "data/mapas/"+ID+".json"));
+        // load a properties file
+        Properties prop = new Properties();
+        prop.load(input);
 
-        JSONObject jsonMap = (JSONObject) obj;
+        // get the property value and print it out
+        String topologia = prop.getProperty("topologia");
+        String adyacencia = prop.getProperty("adyacencia");
+        String matrixString = prop.getProperty("matrix");
+        int filas = Integer.parseInt(prop.getProperty("filas"));
+        int columnas = Integer.parseInt(prop.getProperty("columnas"));
+        String[][] matrix = new String[filas][columnas];
 
-        return jsonMap;
+        List<String> items = Arrays.asList(matrixString.split("\\s*,\\s*"));
+        int k=0;
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
+                matrix[i][j] = items.get(k++);
+            }
+        }
 
+        //printTablero(matrix);
+        MapaFactory mapaFactory = new MapaFactory();
+        return mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
     }
 
     public static ArrayList<String> loadAllMapas(){
@@ -62,10 +75,23 @@ public class MapaDAO {
             if (listOfFiles[i].isFile()) {
                 //System.out.println("File " + listOfFiles[i].getName());
                 String mapName = listOfFiles[i].getName();
-                mapName = mapName.substring(0, mapName.length()-5);
+                mapName = mapName.substring(0, mapName.length()-11);
                 mapasDisk.add(mapName);
             }
         }
         return mapasDisk;
+    }
+
+    public static void printTablero(String[][] matrix){
+        int filas = matrix.length;
+        int columnas = matrix[0].length;
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
+                System.out.print(matrix[i][j]);
+                if(j!=columnas-1) System.out.print(",");
+            }
+            System.out.print("\n");
+        }
+        System.out.println();
     }
 }
