@@ -29,7 +29,6 @@ public class MapaDAO {
             }
         }
         matrixString = matrixString.substring(0,matrixString.length()-1);
-        System.out.println(matrixString);
         properties.setProperty("matrix", matrixString);
 
         File file2 = new File("data/mapas/"+m.getID()+".properties");
@@ -45,7 +44,7 @@ public class MapaDAO {
         Properties prop = new Properties();
         prop.load(input);
 
-        // get the property value and print it out
+        // get the property value
         String topologia = prop.getProperty("topologia");
         String adyacencia = prop.getProperty("adyacencia");
         String matrixString = prop.getProperty("matrix");
@@ -60,8 +59,6 @@ public class MapaDAO {
                 matrix[i][j] = items.get(k++);
             }
         }
-
-        //printTablero(matrix);
         MapaFactory mapaFactory = new MapaFactory();
         return mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
     }
@@ -73,25 +70,11 @@ public class MapaDAO {
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
-                //System.out.println("File " + listOfFiles[i].getName());
                 String mapName = listOfFiles[i].getName();
                 mapName = mapName.substring(0, mapName.length()-11);
                 mapasDisk.add(mapName);
             }
         }
         return mapasDisk;
-    }
-
-    public static void printTablero(String[][] matrix){
-        int filas = matrix.length;
-        int columnas = matrix[0].length;
-        for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) {
-                System.out.print(matrix[i][j]);
-                if(j!=columnas-1) System.out.print(",");
-            }
-            System.out.print("\n");
-        }
-        System.out.println();
     }
 }
