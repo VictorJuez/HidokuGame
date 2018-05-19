@@ -17,6 +17,16 @@ public abstract class Mapa {
     protected String[][] solutionMatrix;
     protected boolean solucio;
 
+    protected class adyacencias{
+        String valor;
+        int x;
+        int y;
+        Vector <String> ad;
+    };
+    protected Vector <adyacencias> tablaAD;
+
+    protected abstract void calculoAdyacencias();
+
     public Mapa(String[][] matrix) {
         this.matrix = matrix;
         this.solutionMatrix = copyMatrix(matrix);
@@ -127,7 +137,7 @@ public abstract class Mapa {
     }
 
     public abstract Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col);
-    public abstract boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v);
+    //public abstract boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v);
     public abstract boolean matriuCorrecte();
 
     protected boolean isInteger(String s) {
@@ -156,30 +166,7 @@ public abstract class Mapa {
         }
         return total;
     }
-    protected boolean backtrackingResolucio(String[][] A, Vector v){
-        if(v.size() == 0) {
-            if (getInterrogants(A) == 0) this.solucio=true;
-            return true;
-        }
-        else{
-            boolean b = false;
-            for(int i=0; i<A.length && !b; ++i) {
-                for(int j=0; j<A[0].length; ++j) {
-                    if (A[i][j].equals("?")) {
-                        int aux = (int) v.get(0);
-                        if (posicioCorrecte(i, j, A, aux, v)) {
-                            A[i][j] = String.valueOf(aux);
-                            //imprimirMatriu(A);
-                            v.remove(0);
-                            b = backtrackingResolucio(A, v);
-                            if(b) return true;
-                            v.add(0, aux);
-                            A[i][j] = "?";
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+    protected boolean backtrackingResolucio(String[][] A, Vector v) {
+        return true;
     }
 }
