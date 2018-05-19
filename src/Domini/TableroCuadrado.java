@@ -1,5 +1,7 @@
 package Domini;
 
+import javafx.util.Pair;
+
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -39,16 +41,17 @@ public class TableroCuadrado extends Mapa {
                         a.valor = solutionMatrix[posAD[0]][posAD[1]];
                         a.x = j;
                         a.y = i;
-                        a.ad = new Vector<Integer[]>;
+                        a.visitat = false;
                         for (int k = 0; k <= 3; k++){
                             posAD = siguienteCasilla(pos, k);
                             if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)) {
                                 if (!solutionMatrix[posAD[0]][posAD[1]].equals("*") && !solutionMatrix[posAD[0]][posAD[1]].equals("#")) {
-                                    
+                                    Pair<Integer, Integer> P = new Pair(posAD[0], posAD[1]);
+                                    a.ad.add(P);        //aquí afegeixes l'adjacencias a la posicio actual
                                 }
                             }
                         }
-
+                        tablaAD.add(a); //aquí afageixes tota la informacio de la casella que estas tractant
                     }
                 }
             }

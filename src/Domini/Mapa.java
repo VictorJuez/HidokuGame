@@ -1,5 +1,7 @@
 package Domini;
 
+import javafx.util.Pair;
+
 import java.util.UUID;
 import java.util.Vector;
 
@@ -20,9 +22,10 @@ public abstract class Mapa {
 
     protected class adyacencias{
         String valor;
+        boolean visitat;
         int x;
         int y;
-        Vector <Integer[]> ad;
+        Vector<Pair<Integer, Integer> > ad;
     };
     protected Vector <adyacencias> tablaAD;
 
