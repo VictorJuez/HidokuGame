@@ -32,4 +32,14 @@ public class Resultat {
     public Mapa getMapa() {
         return mapa;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if (this==obj) return true;
+        if (this == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+
+        Resultat r = (Resultat) obj;
+        return this.mapa.getID().equals(r.getMapa().getID()) && this.usuari.getID().equals(r.getUsuari().getID());
+    }
 }

@@ -16,9 +16,21 @@ public class ControladorResultat {
 
     public Resultat insertarResultat(Usuari user, Mapa mapa, int resultat){
         Resultat r = new Resultat(user, mapa, resultat);
+        if(resultatList.contains(r)) {
+            r = findResultat(r);
+            r.afegirPuntuacio(resultat);
+        }
         GlobalRanking.put(user, r.getResultat());
         resultatList.add(r);
         return r;
+    }
+
+    private Resultat findResultat(Resultat r) {
+        for(int i=0; i<resultatList.size(); ++i){
+            Resultat result = resultatList.get(i);
+            if(result.equals(r)) return result;
+        }
+        return null;
     }
 
     private void initializeGlobalRanking() {
@@ -34,7 +46,7 @@ public class ControladorResultat {
 
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
-            if(result.getMapa() == mapa) mapRanking.put(result.getUsuari(), result.getResultat());
+            if(result.getMapa().equals(mapa)) mapRanking.put(result.getUsuari(), result.getResultat());
         }
 
         return mapRanking;
@@ -49,7 +61,7 @@ public class ControladorResultat {
 
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
-            if(result.getMapa() == mapa && result.getUsuari() == usuari) total+= result.getResultat();
+            if(result.getMapa().equals(mapa) && result.getUsuari().equals(usuari)) total+= result.getResultat();
         }
 
         return total;
@@ -60,7 +72,7 @@ public class ControladorResultat {
 
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
-            if(result.getUsuari() == usuari) mapResults.put(result.getMapa(), result.getResultat());
+            if(result.getUsuari().equals(usuari)) mapResults.put(result.getMapa(), result.getResultat());
         }
 
         return mapResults;

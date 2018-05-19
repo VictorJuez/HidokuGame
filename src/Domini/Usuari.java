@@ -43,5 +43,15 @@ public class Usuari {
         return this.ID;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (this==obj) return true;
+        if (this == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+
+        Usuari u = (Usuari) obj;
+        return this.ID.equals(u.getID());
+    }
+
 
 }
