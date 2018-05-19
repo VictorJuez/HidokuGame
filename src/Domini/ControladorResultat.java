@@ -1,7 +1,5 @@
 package Domini;
 
-import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,7 +17,7 @@ public class ControladorResultat {
     public Resultat insertarResultat(Usuari user, Mapa mapa, int resultat){
         Resultat r = new Resultat(user, mapa, resultat);
         GlobalRanking.put(user, r.getResultat());
-
+        resultatList.add(r);
         return r;
     }
 
