@@ -44,7 +44,7 @@ public class TableroCuadrado extends Mapa {
                             posAD = siguienteCasilla(pos, k);
                             if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)) {
                                 if (!solutionMatrix[posAD[0]][posAD[1]].equals("*") && !solutionMatrix[posAD[0]][posAD[1]].equals("#")) {
-
+                                    
                                 }
                             }
                         }
