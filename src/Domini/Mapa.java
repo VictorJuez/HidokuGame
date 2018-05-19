@@ -170,7 +170,39 @@ public abstract class Mapa {
         }
         return total;
     }
+
+    protected Vector< Pair<Integer, Integer> > adjacencia(int actual, Vector v, int distancia, int petit, int gran){
+        if (petit == -1){
+            
+        }
+    }
+
     protected boolean backtrackingResolucio(String[][] A, Vector v) {
-        return true;
+        calculoAdyacencias();
+        String[][] matrixaux;
+        matrixaux = copyMatrix(matrix);
+        return inner_backtrackingResolucio(matrixaux, v, 1);
+    }
+
+    protected boolean inner_backtrackingResolucio(String[][] m, Vector v, Integer actual){      //suposem que v esta ordenat
+        if (1 == numeros + interrogants) return true;
+        else{
+            Vector <Pair<Integer, Integer> > pos = new Vector<>();
+            int distancia;
+            if ( (Integer)v.firstElement() > actual ){
+                distancia = (Integer)v.firstElement() - actual;
+                pos = adjacencia(actual, v, distancia, -1, (int)v.firstElement());
+                v.remove(actual);
+            }
+            else{
+                dist
+                pos = adjacencia(actual, distancia);
+            }
+
+            for (int i = 0; i < pos.size(); i++){
+
+            }
+        }
+
     }
 }
