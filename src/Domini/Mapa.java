@@ -3,6 +3,7 @@ package Domini;
 import java.util.UUID;
 import java.util.Vector;
 
+
 public abstract class Mapa {
     protected String ID;
     protected int filas;
@@ -21,7 +22,7 @@ public abstract class Mapa {
         String valor;
         int x;
         int y;
-        Vector <String> ad;
+        Vector <Integer[]> ad;
     };
     protected Vector <adyacencias> tablaAD;
 
