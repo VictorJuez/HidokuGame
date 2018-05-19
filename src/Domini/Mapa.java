@@ -25,11 +25,11 @@ public abstract class Mapa {
         boolean visitat;
         int x;
         int y;
-        Vector<Pair<Integer, Integer> > ad;
+        Vector<Pair<Integer, Integer> > ad = new Vector<>();
     };
-    protected Vector <adyacencias> tablaAD;
+    protected Vector <adyacencias> tablaAD = new Vector<>();
 
-    protected abstract void calculoAdyacencias();
+    protected abstract Vector<adyacencias> calculoAdyacencias();
 
     public Mapa(String[][] matrix) {
         this.matrix = matrix;

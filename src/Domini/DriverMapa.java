@@ -1,10 +1,7 @@
 package Domini;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class DriverMapa {
 
@@ -20,6 +17,7 @@ public class DriverMapa {
                 "\t4) Comprovar si existe solucion hidato\n"+
                 "\t5) Comprovar solucion hidato\n"+
                 "\t6) Load mapa from disk\n"+
+                "\t7) calcul adyacencias\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -53,6 +51,11 @@ public class DriverMapa {
                     op = myScanner.next();
                     loadMapa(op);
                     break;*/
+                case "7":
+                    System.out.println("Insertar el ID del Hidato para ver las adyacencias");
+                    op = myScanner.next();
+                    adyacencias(op);
+                    break;
                 case "x":
                     System.out.println("exiting game...");
                     active = false;
@@ -68,6 +71,19 @@ public class DriverMapa {
             }
         }
 
+
+    }
+
+    private static void adyacencias(String op) throws IOException {
+        Mapa m = ctMapa.getMapa(op);
+        Vector<Mapa.adyacencias> k = m.calculoAdyacencias();
+        for (int i = 0; i < k.size(); i++){
+            System.out.println("("+k.get(i).y+") ("+k.get(i).x+")");
+            for (int j = 0; j < k.get(i).ad.size(); j++){
+                System.out.println("["+k.get(i).ad.get(j).getKey()+"] ["+k.get(i).ad.get(j).getValue()+"]" );
+            }
+            System.out.println();
+        }
 
     }
 

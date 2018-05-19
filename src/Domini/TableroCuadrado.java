@@ -27,9 +27,9 @@ public class TableroCuadrado extends Mapa {
 
 
     @Override
-    protected void calculoAdyacencias() {
+    protected Vector<adyacencias> calculoAdyacencias() {
         Integer[] pos = new Integer[2];
-        Integer[] posAD = new Integer[2];
+        Integer[] posAD;
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -37,17 +37,16 @@ public class TableroCuadrado extends Mapa {
                 pos[1] = j;
                 adyacencias a = new adyacencias();
                 if ((pos[1] >= 0) && (pos[1] <= columnas - 1) && (pos[0] >= 0) && (pos[0] <= filas - 1)) {
-                    if (!solutionMatrix[pos[0]][pos[1]].equals("*") && !solutionMatrix[pos[0]][pos[1]].equals("#")) {
-                        a.valor = solutionMatrix[posAD[0]][posAD[1]];
+                    if (!matrix[pos[0]][pos[1]].equals("*") && !matrix[pos[0]][pos[1]].equals("#")) {
+                        a.valor = matrix[pos[0]][pos[1]];
                         a.x = j;
                         a.y = i;
                         a.visitat = false;
                         for (int k = 0; k <= 3; k++){
                             posAD = siguienteCasilla(pos, k);
                             if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)) {
-                                if (!solutionMatrix[posAD[0]][posAD[1]].equals("*") && !solutionMatrix[posAD[0]][posAD[1]].equals("#")) {
-                                    Pair<Integer, Integer> P = new Pair(posAD[0], posAD[1]);
-                                    a.ad.add(P);        //aquí afegeixes l'adjacencias a la posicio actual
+                                if (!matrix[posAD[0]][posAD[1]].equals("*") && !matrix[posAD[0]][posAD[1]].equals("#")) {
+                                    a.ad.add(new Pair<>(posAD[0], posAD[1]));        //aquí afegeixes l'adjacencias a la posicio actual
                                 }
                             }
                         }
@@ -56,6 +55,7 @@ public class TableroCuadrado extends Mapa {
                 }
             }
         }
+        return tablaAD;
     }
 
     /**

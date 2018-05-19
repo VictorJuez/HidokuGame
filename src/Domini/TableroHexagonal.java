@@ -1,15 +1,12 @@
 package Domini;
 
+import javafx.util.Pair;
+
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TableroHexagonal extends Mapa {
 
-    /**
-     * Funcion creadora de TableroHexagonal
-     * @param filas numero de filas del hidato
-     * @param columnas numero de columnas del hidato
-     */
     public TableroHexagonal(String[][] tab){
         super(tab);
         tipo = "H";
@@ -28,52 +25,42 @@ public class TableroHexagonal extends Mapa {
         angulos = "C";
     }
 
-    /**
-     * Calcula para una casilla "?" a rellenar del hidato, si se le puede poner el numero restante: toInsert
-     * @param x,y fila y columna de la casilla "?"
-     * @param A El hidato a comprobar
-     * @param toInsert El numero restante a comprobar
-     * @param v El vector de numeros restantes
-     * @return Boolean indicando si se puede poner el numero o no en la casilla.
-     */
     @Override
-    public boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
-        boolean adjacentPetit = false;
-        boolean adjacentGran = false;
-        boolean adjacentInterrogant = false;
-        Integer[] pos = {x,y};
-        Integer[] nextPos = new Integer[2];
-        Integer[] direccionesNormales = {-2,0,1,2,3,5};
-        Integer[] direccionesImpares = {-1,0,1,2,3,4};
-        Integer[] direcciones = new Integer[3];
-        boolean normal = pos[0]%2 == 0;
-        if(normal) direcciones = direccionesNormales;
-        else direcciones = direccionesImpares;
+    protected Vector<adyacencias> calculoAdyacencias() {
+        Integer[] pos = new Integer[2];
+        Integer[] posAD;
+        Integer[] par = {-2,0,1, 2, 3, 5};
+        Integer[] impar = {-1, 0, 1, 2, 3, 4};
+        Integer[] dir;
 
-        for(int i=0; i<direcciones.length; ++i){
-            nextPos = siguienteCasilla(pos,direcciones[i]);
 
-            if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<A.length && nextPos[1]<A[0].length) {
-
-                if (isInteger(A[nextPos[0]][nextPos[1]])) {
-                    int tableValue = Integer.parseInt(A[nextPos[0]][nextPos[1]]);
-
-                    if (tableValue == toInsert - 1) adjacentPetit = true;
-                    if (tableValue == toInsert + 1) adjacentGran = true;
-                } else if (A[nextPos[0]][nextPos[1]].equals("?")) adjacentInterrogant = true;
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                pos[0] = i;
+                pos[1] = j;
+                adyacencias a = new adyacencias();
+                if ((pos[1] >= 0) && (pos[1] <= columnas - 1) && (pos[0] >= 0) && (pos[0] <= filas - 1)) {
+                    if (!matrix[pos[0]][pos[1]].equals("*") && !matrix[pos[0]][pos[1]].equals("#")) {
+                        a.valor = matrix[pos[0]][pos[1]];
+                        a.x = j;
+                        a.y = i;
+                        a.visitat = false;
+                        if((pos[0]%2) == 0)dir = par;
+                        else dir = impar;
+                        for (int k = 0; k < 6; k++){
+                            posAD = siguienteCasilla(pos, dir[k]);
+                            if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)) {
+                                if (!matrix[posAD[0]][posAD[1]].equals("*") && !matrix[posAD[0]][posAD[1]].equals("#")) {
+                                    a.ad.add(new Pair<>(posAD[0], posAD[1]));        //aquí afegeixes l'adjacencias a la posicio actual
+                                }
+                            }
+                        }
+                        tablaAD.add(a); //aquí afageixes tota la informacio de la casella que estas tractant
+                    }
+                }
             }
         }
-
-        if(toInsert == 1 && adjacentGran) return true;
-        if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
-
-        if(adjacentGran && adjacentPetit) return true;
-        if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
-        if(adjacentPetit && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
-
-        if(adjacentPetit && v.size() == 1 && toInsert == interrogants+numeros) return true;
-        //if(adjacentGran && v.size() == 1) return true;
-        return false;
+        return tablaAD;
     }
 
     /**
