@@ -19,6 +19,7 @@ public abstract class Mapa {
 
     public Mapa(String[][] matrix) {
         this.matrix = matrix;
+        this.solutionMatrix = copyMatrix(matrix);
         this.filas = matrix.length;
         this.columnas = matrix[0].length;
         this.ID = UUID.randomUUID().toString();
@@ -35,6 +36,7 @@ public abstract class Mapa {
     }
     public Mapa(String ID, String[][] matrix){
         this.matrix = matrix;
+        this.solutionMatrix = copyMatrix(matrix);
         this.filas = matrix.length;
         this.columnas = matrix[0].length;
         this.ID = ID;
@@ -79,6 +81,7 @@ public abstract class Mapa {
 
     public void setMatrix(String[][] matrix) {
         this.matrix = matrix;
+        this.solutionMatrix = copyMatrix(matrix);
         this.filas = matrix.length;
         this.columnas = matrix[0].length;
         numerosExistents = getNumerosExistents();
@@ -109,15 +112,18 @@ public abstract class Mapa {
         return interrogants;
     }
     public boolean hidatoValido(){
-        solutionMatrix = new String[filas][columnas];
-        String[][] B = matrix;
-        for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) solutionMatrix[i][j] = B[i][j];
-        }
         Vector<Integer> v;
         v = getNumerosRestants();
         backtrackingResolucio(solutionMatrix, v);
         return this.solucio;
+    }
+
+    private String[][] copyMatrix(String[][] matrix){
+        solutionMatrix = new String[filas][columnas];
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) solutionMatrix[i][j] = matrix[i][j];
+        }
+        return solutionMatrix;
     }
 
     public abstract Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col);
