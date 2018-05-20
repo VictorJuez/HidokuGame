@@ -19,6 +19,9 @@ public abstract class Mapa {
     protected String[][] matrix;
     protected String[][] solutionMatrix;
     protected boolean solucio;
+    private Integer actual;
+    private Vector v;
+    private Integer posicio;
 
     protected class adyacencias{
         String valor;
@@ -169,6 +172,15 @@ public abstract class Mapa {
             if (!numerosExistents.contains(k+1)) total.add(k+1);
         }
         return total;
+
+
+
+
+
+
+
+
+
     }
     protected Integer busca(String valor){       //et retorna la posicio don es troba el valor a la taula d'adjacencies
         for (int i = 0; i < tablaAD.size(); i++){
@@ -176,41 +188,59 @@ public abstract class Mapa {
                 return i;
             }
         }
+        return -1;
     }
 
-    protected Vector< Pair<Integer, Integer> > adjacencia(int actual, Vector v, int distancia, int petit, int gran){
-        if (petit == -1){
-
-            Integer pg = busca(Integer.toString(gran));
-        }
-        else if(gran == -1)
-    }
 
     protected boolean backtrackingResolucio(String[][] A, Vector v) {
         calculoAdyacencias();
         String[][] matrixaux;
         matrixaux = copyMatrix(matrix);
-        return inner_backtrackingResolucio(matrixaux, v, 1);
+        return inner_backtrackingResolucio(matrixaux, v, 1, busca(Integer.toString(1)) );
     }
 
-    protected boolean inner_backtrackingResolucio(String[][] m, Vector v, Integer actual){      //suposem que v esta ordenat
-        if (1 == numeros + interrogants) return true;
-        else{
-            Vector <Pair<Integer, Integer> > pos = new Vector<>();
-            int distancia;
-            if ( (int)v.firstElement() > actual ){
-                distancia = (Integer)v.firstElement() - actual;
-                pos = adjacencia(actual, v, distancia, -1, (Integer) v.firstElement());
-            }
-            else if( (Integer)v.lastElement() < actual){
-                distancia = actual - (Integer)v.lastElement();
-                pos = adjacencia(actual, v, distancia, (Integer)v.lastElement(), -1);
-            }
+    protected Vector < Vector<Integer> > calculCamins(Integer actual, Integer posicio, Integer distancia, Vector<Integer> v){
 
-            for (int i = 0; i < pos.size(); i++){
 
+    }
+
+    protected Integer calculDistancia(Integer actual, Vector<Integer> v){   //en principi actual nomes et poden donar valors de v, el numero 1 o lultim numero (not sure daixo ultim)
+        if(!v.isEmpty()) {
+            if (v.contains(actual)) {
+                if (actual == v.lastElement()) return numeros + interrogants - v.lastElement();
+                else {
+                    for (int i = 0; i < v.size() -1; i++) {
+                        if (v.get(i) == actual) return v.get(i+1) - v.get(i);
+                    }
+                }
+            } else {
+                return v.firstElement() - 1;      //es el valor 1, en principi nomes entra si es un 1;
             }
         }
+        return numeros + interrogants; //cas en que tot son interrogants i v esta buit
+    }
+
+
+    protected boolean inner_backtrackingResolucio(String[][] m, Vector v, Integer actual, Integer posicio){      //suposem que v esta ordenat
+        Vector < Vector <Integer> > pos = new Vector<>();       //aqui guardare tots els camins posibles
+        if (1 == numeros + interrogants) return true;
+        else{
+
+            Integer distancia = calculDistancia(actual, v);
+            pos = calculCamins(actual, posicio, distancia, v);
+
+            for (int i = 0; i < pos.size(); i++){
+                for (int k = 0; k < pos.get(i).size(); k++){
+                    tablaAD.get(pos.get(i).get(k)).visitat = true;
+                }
+                //crida al backtracking
+                for (int k = 0; k < pos.get(i).size(); k++){
+                    tablaAD.get(pos.get(i).get(k)).visitat = false;
+                }
+            }
+
+        }
+        return false;
 
     }
 }
