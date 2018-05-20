@@ -78,9 +78,9 @@ public class DriverMapa {
         Mapa m = ctMapa.getMapa(op);
         Vector<Mapa.adyacencias> k = m.calculoAdyacencias();
         for (int i = 0; i < k.size(); i++){
-            System.out.println("("+k.get(i).y+") ("+k.get(i).x+")");
+            System.out.println("("+k.get(i).getY()+") ("+k.get(i).getX()+") z = "+ k.get(i).getZ() + " posicio =" + i);
             for (int j = 0; j < k.get(i).ad.size(); j++){
-                System.out.println("["+k.get(i).ad.get(j).getKey()+"] ["+k.get(i).ad.get(j).getValue()+"]" );
+                System.out.println("["+k.get(i).ad.get(j)+"]");
             }
             System.out.println();
         }

@@ -29,25 +29,27 @@ public abstract class Mapa {
         private Integer x;
         private Integer y;
         private Integer z;
-        private Vector<Integer> ad = new Vector<>();
+        Vector<Integer> ad;
 
-        public adyacencias(int y, int x, Vector<Integer> v){
+        public adyacencias(int y, int x, String valor){
             this.y = y;
             this.x = x;
             this.z = x + y*columnas;
             this.ad = v;
+            this.valor = valor;
+            this.visitat = false;
+            this.ad = new Vector<>();
         }
 
         public Integer getZ() {
             return z;
         }
 
-        public void setValor(String valor) {
-            this.valor = valor;
+        public Integer getX() {
+            return x;
         }
-
-        public Vector<Integer> getAd() {
-            return ad;
+        public Integer getY() {
+            return y;
         }
     };
     protected Vector <adyacencias> tablaAD = new Vector<>();
@@ -216,44 +218,37 @@ public abstract class Mapa {
         calculoAdyacencias();
         String[][] matrixaux;
         matrixaux = copyMatrix(matrix);
-        return inner_backtrackingResolucio(matrixaux, v, 1, busca(Integer.toString(1)) );
+        return inner_backtrackingResolucio(matrixaux, v, 0 );
     }
 
-    protected Vector < Vector<Integer> > calculCamins(Integer actual, Integer posicio, Integer distancia, Vector<Integer> v){
+    protected Vector < Vector<Integer> > calculCamins(Integer posicio, Integer distancia, Vector<Integer> v){
 
-
+        return new Vector<>();
     }
 
-    protected Integer calculDistancia(Integer actual, Vector<Integer> v){   //en principi actual nomes et poden donar valors de v, el numero 1 o lultim numero (not sure daixo ultim)
+    protected Integer calculDistancia(Integer posicio, Vector<Integer> v){   //en principi actual nomes et poden donar valors de v, el numero 1 o lultim numero (not sure daixo ultim)
         if(!v.isEmpty()) {
-            if (v.contains(actual)) {
-                if (actual == v.lastElement()) return numeros + interrogants - v.lastElement();
-                else {
-                    for (int i = 0; i < v.size() -1; i++) {
-                        if (v.get(i) == actual) return v.get(i+1) - v.get(i);
-                    }
-                }
-            } else {
-                return v.firstElement() - 1;      //es el valor 1, en principi nomes entra si es un 1;
-            }
+            if (posicio == 0) return v.get(posicio) -1;
+            else if (posicio == v.size() -1) return numeros + interrogants - v.get(posicio);
+            else return v.get(posicio+1) - v.get(posicio);
         }
         return numeros + interrogants; //cas en que tot son interrogants i v esta buit
     }
 
 
-    protected boolean inner_backtrackingResolucio(String[][] m, Vector v, Integer actual, Integer posicio){      //suposem que v esta ordenat
+    protected boolean inner_backtrackingResolucio(String[][] m, Vector v, Integer posicio){      //suposem que v esta ordenat
         Vector < Vector <Integer> > pos = new Vector<>();       //aqui guardare tots els camins posibles
         if (1 == numeros + interrogants) return true;
         else{
 
-            Integer distancia = calculDistancia(actual, v);
-            pos = calculCamins(actual, posicio, distancia, v);
+            Integer distancia = calculDistancia(posicio, v);
+            pos = calculCamins( posicio, distancia, v);
 
             for (int i = 0; i < pos.size(); i++){
                 for (int k = 0; k < pos.get(i).size(); k++){
                     tablaAD.get(pos.get(i).get(k)).visitat = true;
                 }
-                //crida al backtracking
+                inner_backtrackingResolucio(m,v,posicio+1);
                 for (int k = 0; k < pos.get(i).size(); k++){
                     tablaAD.get(pos.get(i).get(k)).visitat = false;
                 }
@@ -262,5 +257,16 @@ public abstract class Mapa {
         }
         return false;
 
+    }
+
+    void inicialitzaTabla(){
+        for (int i = 0; i < filas; i++){
+            for (int j = 0; j < columnas; j++){
+                if(!matrix[i][j].equals("#") && !matrix[i][j].equals("*")){
+                    adyacencias a = new adyacencias(i,j, matrix[i][j]);
+                    tablaAD.add(a);
+                }
+            }
+        }
     }
 }

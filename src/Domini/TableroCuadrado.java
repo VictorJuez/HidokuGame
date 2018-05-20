@@ -25,43 +25,23 @@ public class TableroCuadrado extends Mapa {
         angulos = "C";
     }
 
-    void inicialitzaTabla(){
-        for (int i = 0; i < filas; i++){
-            for (int j = 0; j < columnas; j++){
-                if(!matrix[i][j].equals("#") && !matrix[i][j].equals("*")){
-                    adyacencias a = new adyacencias();
-
-                }
-            }
-        }
-    }
-
     @Override
     protected Vector<adyacencias> calculoAdyacencias() {
         Integer[] pos = new Integer[2];
         Integer[] posAD;
         inicialitzaTabla();
-
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                pos[0] = i;
-                pos[1] = j;
-                adyacencias a = new adyacencias();
-                if ((pos[1] >= 0) && (pos[1] <= columnas - 1) && (pos[0] >= 0) && (pos[0] <= filas - 1)) {
-                    if (!matrix[pos[0]][pos[1]].equals("*") && !matrix[pos[0]][pos[1]].equals("#")) {
-                        a.valor = matrix[pos[0]][pos[1]];
-                        a.x = j;
-                        a.y = i;
-                        a.visitat = false;
-                        for (int k = 0; k <= 3; k++){
-                            posAD = siguienteCasilla(pos, k);
-                            if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)) {
-                                if (!matrix[posAD[0]][posAD[1]].equals("*") && !matrix[posAD[0]][posAD[1]].equals("#")) {
-                                    a.ad.add(new Pair<>(posAD[0], posAD[1]));        //aquí afegeixes l'adjacencias a la posicio actual
-                                }
-                            }
+        for(int i = 0; i < tablaAD.size(); ++i){
+            pos[0] = tablaAD.get(i).getY();
+            pos[1] = tablaAD.get(i).getX();
+            //int z = tablaAD.get(i).getZ();
+            for(int j = 0; j <= 3; ++j){
+                posAD = siguienteCasilla(pos,j);
+                if ((pos[1] >= 0) && (pos[1] <= columnas - 1) && (pos[0] >= 0) && (pos[0] <= filas - 1)){ //si posAD esta en els limits
+                    int z = posAD[0]*columnas + posAD[1];
+                    for(int k = 0; k < tablaAD.size(); k++){
+                        if (tablaAD.get(k).getZ() == z){
+                            tablaAD.get(i).ad.add(k);
                         }
-                        tablaAD.add(a); //aquí afageixes tota la informacio de la casella que estas tractant
                     }
                 }
             }
