@@ -25,11 +25,22 @@ public class TableroCuadrado extends Mapa {
         angulos = "C";
     }
 
+    void inicialitzaTabla(){
+        for (int i = 0; i < filas; i++){
+            for (int j = 0; j < columnas; j++){
+                if(!matrix[i][j].equals("#") && !matrix[i][j].equals("*")){
+                    adyacencias a = new adyacencias();
+
+                }
+            }
+        }
+    }
 
     @Override
     protected Vector<adyacencias> calculoAdyacencias() {
         Integer[] pos = new Integer[2];
         Integer[] posAD;
+        inicialitzaTabla();
 
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {

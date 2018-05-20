@@ -24,11 +24,31 @@ public abstract class Mapa {
     private Integer posicio;
 
     protected class adyacencias{
-        String valor;
+        private String valor;
         boolean visitat;
-        Integer x;
-        Integer y;
-        Vector<Pair<Integer, Integer> > ad = new Vector<>();
+        private Integer x;
+        private Integer y;
+        private Integer z;
+        private Vector<Integer> ad = new Vector<>();
+
+        public adyacencias(int y, int x, Vector<Integer> v){
+            this.y = y;
+            this.x = x;
+            this.z = x + y*columnas;
+            this.ad = v;
+        }
+
+        public Integer getZ() {
+            return z;
+        }
+
+        public void setValor(String valor) {
+            this.valor = valor;
+        }
+
+        public Vector<Integer> getAd() {
+            return ad;
+        }
     };
     protected Vector <adyacencias> tablaAD = new Vector<>();
 
