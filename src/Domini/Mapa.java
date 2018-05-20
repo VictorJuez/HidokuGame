@@ -22,6 +22,7 @@ public abstract class Mapa {
     private Integer actual;
     private Vector v;
     private Integer posicio;
+    protected Vector<Vector<Integer> > camins;
 
     protected class adyacencias{
         private String valor;
@@ -63,6 +64,7 @@ public abstract class Mapa {
         this.columnas = matrix[0].length;
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
+        this.camins = new Vector<>();
 
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
@@ -221,10 +223,6 @@ public abstract class Mapa {
         return inner_backtrackingResolucio(matrixaux, v, 0 );
     }
 
-    protected Vector < Vector<Integer> > calculCamins(Integer posicio, Integer distancia, Vector<Integer> v){
-
-        return new Vector<>();
-    }
 
     protected Integer calculDistancia(Integer posicio, Vector<Integer> v){   //en principi actual nomes et poden donar valors de v, el numero 1 o lultim numero (not sure daixo ultim)
         if(!v.isEmpty()) {
@@ -236,13 +234,28 @@ public abstract class Mapa {
     }
 
 
+
+    protected void calculCamins(Integer posicio, Integer distancia, Vector v){
+        String valor = (String)v.get(posicio);
+        int indexAD = busca(valor);
+        if (indexAD == -1){
+            System.out.println("no existeix numero de v a la tabla adyacencias, error tope random");
+            return;
+        }
+        Integer daux = 0;
+        for(int i = 0; i < tablaAD.get(indexAD).ad.size(); i++){
+
+        }
+    }
+
+
     protected boolean inner_backtrackingResolucio(String[][] m, Vector v, Integer posicio){      //suposem que v esta ordenat
-        Vector < Vector <Integer> > pos = new Vector<>();       //aqui guardare tots els camins posibles
+        Vector < Vector <Integer> > pos;       //aqui guardare tots els camins posibles
         if (1 == numeros + interrogants) return true;
         else{
 
             Integer distancia = calculDistancia(posicio, v);
-            pos = calculCamins( posicio, distancia, v);
+            calculCamins(posicio, distancia, v);
 
             for (int i = 0; i < pos.size(); i++){
                 for (int k = 0; k < pos.get(i).size(); k++){
