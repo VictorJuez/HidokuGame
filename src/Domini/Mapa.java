@@ -23,8 +23,8 @@ public abstract class Mapa {
     protected class adyacencias{
         String valor;
         boolean visitat;
-        int x;
-        int y;
+        Integer x;
+        Integer y;
         Vector<Pair<Integer, Integer> > ad = new Vector<>();
     };
     protected Vector <adyacencias> tablaAD = new Vector<>();
@@ -170,11 +170,20 @@ public abstract class Mapa {
         }
         return total;
     }
+    protected Integer busca(String valor){       //et retorna la posicio don es troba el valor a la taula d'adjacencies
+        for (int i = 0; i < tablaAD.size(); i++){
+            if(tablaAD.get(i).valor.equals(valor)){
+                return i;
+            }
+        }
+    }
 
     protected Vector< Pair<Integer, Integer> > adjacencia(int actual, Vector v, int distancia, int petit, int gran){
         if (petit == -1){
-            
+
+            Integer pg = busca(Integer.toString(gran));
         }
+        else if(gran == -1)
     }
 
     protected boolean backtrackingResolucio(String[][] A, Vector v) {
@@ -189,14 +198,13 @@ public abstract class Mapa {
         else{
             Vector <Pair<Integer, Integer> > pos = new Vector<>();
             int distancia;
-            if ( (Integer)v.firstElement() > actual ){
+            if ( (int)v.firstElement() > actual ){
                 distancia = (Integer)v.firstElement() - actual;
-                pos = adjacencia(actual, v, distancia, -1, (int)v.firstElement());
-                v.remove(actual);
+                pos = adjacencia(actual, v, distancia, -1, (Integer) v.firstElement());
             }
-            else{
-                dist
-                pos = adjacencia(actual, distancia);
+            else if( (Integer)v.lastElement() < actual){
+                distancia = actual - (Integer)v.lastElement();
+                pos = adjacencia(actual, v, distancia, (Integer)v.lastElement(), -1);
             }
 
             for (int i = 0; i < pos.size(); i++){
