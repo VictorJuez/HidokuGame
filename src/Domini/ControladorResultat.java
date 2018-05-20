@@ -19,9 +19,16 @@ public class ControladorResultat {
         if(resultatList.contains(r)) {
             r = findResultat(r);
             r.afegirPuntuacio(resultat);
+            GlobalRanking.put(user, r.getResultat());
         }
-        GlobalRanking.put(user, r.getResultat());
-        resultatList.add(r);
+
+        else {
+            Integer actualResult = GlobalRanking.get(user);
+            if (actualResult == null) actualResult = 0;
+            GlobalRanking.put(user, r.getResultat() + actualResult);
+            resultatList.add(r);
+        }
+
         return r;
     }
 
@@ -88,4 +95,6 @@ public class ControladorResultat {
 
         return mapResults;
     }
+
+
 }
