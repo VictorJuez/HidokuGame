@@ -96,5 +96,4 @@ public class ControladorResultat {
         return mapResults;
     }
 
-
 }

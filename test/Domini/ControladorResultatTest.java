@@ -16,7 +16,7 @@ public class ControladorResultatTest {
     ControladorResultat ctResultat;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         ControladorUsuari ctUsuari = new ControladorUsuari();
         ControladorMapa ctMapa = new ControladorMapa();
         ctResultat = new ControladorResultat();
