@@ -48,10 +48,14 @@ public abstract class Mapa {
         public Integer getY() {
             return y;
         }
+
+        public String getValor() {
+            return valor;
+        }
     };
 
     protected Vector <adyacencias> tablaAD = new Vector<>();
-    protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>();
+    protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
 
     protected abstract Vector<adyacencias> calculoAdyacencias();
 
@@ -223,76 +227,113 @@ public abstract class Mapa {
     protected Integer calculDistancia(Integer posicio, Vector<Integer> v){   //en principi actual nomes et poden donar valors de v, el numero 1 o lultim numero (not sure daixo ultim)
         if(!v.isEmpty()) {
             if (posicio == 0) return v.get(posicio) -1;
-            else if (posicio == v.size() -1) return numeros + interrogants - v.get(posicio);
-            else return v.get(posicio+1) - v.get(posicio);
+            else if (posicio == v.size()) return numeros + interrogants - v.get(posicio - 1) +1;
+            else return v.get(posicio) - v.get(posicio - 1);
         }
         return numeros + interrogants; //cas en que tot son interrogants i v esta buit
     }
 
 
 
-    protected void calculCamins(Integer posicio, Integer distancia, Vector v, Vector cami, Integer indexAD, Integer franja){//posicio es la posicio del vector dexistens
-        Integer daux = 0;
-        if (distancia == 0){
-            if((posicio == 0 || posicio == v.size() - 1) && tablaAD.get(indexAD).valor.equals("?")) {   //
-                franjes.get(franja).add(cami);
-                System.out.println("un cami" + cami);
-            }
-            else if(tablaAD.get(indexAD).valor.equals(v.get(posicio+1).toString())){        //si no es el primer ni lultim, lultima posicio ha de ser igual al seguent
-                franjes.get(franja).add(cami);
-                System.out.println("un cami" + cami);
-            }
-        }
-        else {
-            for (int i = 0; i < tablaAD.get(indexAD).ad.size(); i++) {        //recorres tots els adjacents al index
-                Integer aux = tablaAD.get(indexAD).ad.get(i);
-                if(tablaAD.get(aux).valor.equals("?")) {
-                    cami.add(indexAD);
-                    tablaAD.get(indexAD).visitat = true;
-                    if (!tablaAD.get(aux).visitat) {   //agafes on es troba posicionat el primer adjacent a tablaAD i mires si lhas visitat
-                        calculCamins(posicio, distancia - 1, v, cami, aux, franja);
-                    }
-                    tablaAD.get(indexAD).visitat = false;
-                    cami.remove(indexAD);
+    protected void calculCamins(Integer posicio, Integer distancia, Vector v, Vector cami, Integer indexAD, Integer franja, boolean ultim) {//posicio es la posicio del vector dexistens
+        if (distancia == 0) {
+            //System.out.println("si he entrat");
+            int posaux = posicio -1;
+            if(posicio == v.size()) {
+                System.out.println(cami);
+                System.out.println(indexAD);
+                //System.out.println("si he entrat1");
+                if ((posicio == 0 && (tablaAD.get(indexAD).getValor().equals(v.get(posaux).toString()) || tablaAD.get(indexAD).getValor().equals("?"))) ) {   //
+                    //System.out.println("si he entrat2");
+                    cami.add(indexAD);//aquí es necesari afegir lultim element
+                    franjes.get(franja).add(cami);
+                    System.out.println("un cami" + cami);
                 }
             }
+            else if ((posicio == 0 && (tablaAD.get(indexAD).getValor().equals(v.get(posicio).toString()) || tablaAD.get(indexAD).getValor().equals("?"))) ) {
+                //System.out.println("si he entrat3");//
+                cami.add(indexAD);//aquí es necesari afegir lultim element
+                franjes.get(franja).add(cami);
+                System.out.println("un cami" + cami);
+            }
+            else if (posicio < v.size() - 1) {
+                //System.out.println("si he entrat4");//si no es el primer ni lultim, lultima posicio ha de ser igual al seguent
+                if (tablaAD.get(indexAD).valor.equals(v.get(posicio - 1).toString())) {
+                    //System.out.println("si he entrat5");
+                    franjes.get(franja).add(cami);
+                    System.out.println("un cami" + cami);
+                }
+            }
+
+        } else {
+            for (int i = 0; i < tablaAD.get(indexAD).ad.size(); i++) {        //recorres tots els adjacents al index
+                Integer aux = tablaAD.get(indexAD).ad.get(i);
+                if (!ultim && tablaAD.get(aux).valor.equals("?")) {
+                    cami.add(indexAD);
+                    if (!tablaAD.get(aux).visitat) {   //agafes on es troba posicionat el primer adjacent a tablaAD i mires si lhas visitat
+                        tablaAD.get(aux).visitat = true;
+                        calculCamins(posicio, distancia - 1, v, cami, aux, franja, ultim);
+                        tablaAD.get(aux).visitat = false;
+                    }
+                    cami.remove(indexAD);
+                }
+                else if(ultim){
+                    cami.add(indexAD);
+                    if (!tablaAD.get(aux).visitat) {   //agafes on es troba posicionat el primer adjacent a tablaAD i mires si lhas visitat
+                        tablaAD.get(aux).visitat = true;
+                        calculCamins(posicio, distancia - 1, v, cami, aux, franja, ultim);
+                        tablaAD.get(aux).visitat = false;
+                    }
+                    cami.remove(indexAD);
+                }
+
+            }
         }
+
     }
 
 
     protected boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total, Integer franja){
        // System.out.println("total: "+ total + " valor de v[posicio]: "+ v.get(posicio));
-        if (posicio == v.size() && total == interrogants + numeros) return true;
+        if (posicio == v.size() + 1 && total == interrogants + numeros) return true;
         else{
+            boolean ultim = false;
             Vector<Integer> cami = new Vector<>();
-            String valor;
-            valor = v.get(posicio).toString();
+            Integer x = -1;
+            String valor = x.toString();
+            int indexAD = -1;
 
-            int indexAD = busca(valor);
-            System.out.println("indexAD: "+ indexAD);
-            if (indexAD == -1){
-                System.out.println("no existeix numero de v a la tabla adyacencias, error tope random");
+            if (posicio < v.size()) {
+                valor = v.get(posicio).toString();
+
+                indexAD = busca(valor);
+                System.out.println("indexAD: " + indexAD);
+                if (indexAD == -1) {
+                    System.out.println("no existeix numero de v a la tabla adyacencias, error tope random");
+                }
             }
-
+            if (posicio == v.size()){
+                valor = v.get(posicio-1).toString();
+                indexAD = busca(valor);
+                ultim = true;
+            }
             Integer distancia = calculDistancia(posicio, v);
             System.out.println("distancia: "+ distancia);
             franjes.add(franja, new Vector<>());
-            calculCamins(posicio, distancia, v, cami, indexAD, franja);
+
+            if (indexAD != -1)tablaAD.get(indexAD).visitat = true;
+            calculCamins(posicio, distancia, v, cami, indexAD, franja, ultim);
+            if (indexAD != -1)tablaAD.get(indexAD).visitat = false;
+
             System.out.println("aquests son el numero de camins: "+ franjes.get(franja).size());
-            if(distancia == 0){
-                tablaAD.get(indexAD).visitat = true;
-                inner_backtrackingResolucio(v,posicio+1, total + distancia + 1, franja + 1);
-                tablaAD.get(indexAD).visitat = false;
-            }
-            else {
-                for (int i = 0; i < franjes.get(franja).size(); i++) {
-                    for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
-                        tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
-                    }
-                    inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
-                    for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
-                        tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = false;
-                    }
+
+            for (int i = 0; i < franjes.get(franja).size(); i++) {
+                for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
+                    tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
+                }
+                inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
+                for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
+                    tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = false;
                 }
             }
 
