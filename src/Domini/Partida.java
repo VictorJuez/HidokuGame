@@ -14,7 +14,8 @@ public class Partida
     private Mapa mapaEnunciado;
     private String ID;
     private Date data;
-    private double tiempoTranscurrido; //expresado en SEGUNDOS
+    private double tiempoTranscurrido; //expresado en SEGUNDOS, tiempo entre pausas.
+    private double tiempoTotal; //tiempo total acumulado de la partida.
     private long horaInicio;
     private long horaPausa;
 
@@ -28,6 +29,7 @@ public class Partida
         this.data = new Date();
         this.horaInicio = data.getTime();
         this.tiempoTranscurrido = 0;
+        this.tiempoTotal = 0;
 
         //copia del mapa a usar
         this.mapaEnunciado = mapaEnunciado;
@@ -93,6 +95,11 @@ public class Partida
                     exit = true;
                     break;
                 }
+                case ("6"):
+                {
+                    System.out.println("Guardando partida");
+                    break;
+                }
             }
         }
     }
@@ -100,17 +107,17 @@ public class Partida
     public void pausarPartida() //sobretodo hago ésto por la gestión del cronómetro.
     {
         //cojo la hora actual y la resto para calcular el tiempo que ha transcurrido
+        data = new Date();
         this.horaPausa = data.getTime();
-        //VVVVVV COMENTAR ÉSTO
-        System.out.println(horaInicio);
-        System.out.println(horaPausa);
-        System.out.println(this.horaPausa - this.horaInicio);
-        this.tiempoTranscurrido = (this.horaPausa - this.horaInicio); //y éste es el tiempo que ha transcurrido
+        this.tiempoTranscurrido = Math.floor((this.horaPausa - this.horaInicio) / 1000); //y éste es el tiempo que ha transcurrido
+        this.tiempoTotal += this.tiempoTranscurrido;
+        System.out.println(this.tiempoTotal);
     }
 
     public void reanudarPartida()
     {
-        this.horaInicio = data.getTime();System.out.println(horaInicio);
+        data = new Date();
+        this.horaInicio = data.getTime();
     }
 
     //indica si en la casilla que apuntamos con i y j es para números o es una casilla no válida
