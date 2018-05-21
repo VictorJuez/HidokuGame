@@ -19,10 +19,6 @@ public abstract class Mapa {
     protected String[][] matrix;
     protected String[][] solutionMatrix;
     protected boolean solucio;
-    private Integer actual;
-    private Vector v;
-    private Integer posicio;
-    protected Vector<Vector<Integer> > camins;
 
     protected class adyacencias{
         private String valor;
@@ -36,7 +32,6 @@ public abstract class Mapa {
             this.y = y;
             this.x = x;
             this.z = x + y*columnas;
-            this.ad = v;
             this.valor = valor;
             this.visitat = false;
             this.ad = new Vector<>();
@@ -64,7 +59,7 @@ public abstract class Mapa {
         this.columnas = matrix[0].length;
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
-        this.camins = new Vector<>();
+
 
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
@@ -155,7 +150,7 @@ public abstract class Mapa {
     public boolean hidatoValido(){
         Vector<Integer> v;
         v = getNumerosRestants();
-        backtrackingResolucio(solutionMatrix, v);
+        this.solucio = backtrackingResolucio(solutionMatrix, v);
         return this.solucio;
     }
 
@@ -218,9 +213,7 @@ public abstract class Mapa {
 
     protected boolean backtrackingResolucio(String[][] A, Vector v) {
         calculoAdyacencias();
-        String[][] matrixaux;
-        matrixaux = copyMatrix(matrix);
-        return inner_backtrackingResolucio(matrixaux, v, 0 );
+        return inner_backtrackingResolucio(v, 0, 0);
     }
 
 
@@ -235,35 +228,49 @@ public abstract class Mapa {
 
 
 
-    protected void calculCamins(Integer posicio, Integer distancia, Vector v){
-        String valor = (String)v.get(posicio);
-        int indexAD = busca(valor);
-        if (indexAD == -1){
-            System.out.println("no existeix numero de v a la tabla adyacencias, error tope random");
-            return;
-        }
+    protected Vector<Vector<Integer> > calculCamins(Integer posicio, Integer distancia, Vector v, Vector camins, Vector cami, Integer indexAD){//posicio es la posicio del vector dexistens
         Integer daux = 0;
-        for(int i = 0; i < tablaAD.get(indexAD).ad.size(); i++){
-
+        if (distancia == -1){
+            camins.add(cami);
         }
+        else {
+            for (int i = 0;distancia > 0 && i < tablaAD.get(indexAD).ad.size(); i++) {        //recorres tots els adjacents al index
+                Integer aux = tablaAD.get(indexAD).ad.get(i);
+                cami.add(indexAD);
+                tablaAD.get(indexAD).visitat = true;
+                if (!tablaAD.get(aux).visitat) {   //agafes on es troba posicionat el primer adjacent a tablaAD i mires si lhas visitat
+                    camins = calculCamins(posicio, distancia - 1, v, camins, cami, aux);
+                }
+                tablaAD.get(indexAD).visitat = false;
+                cami.remove(indexAD);
+            }
+        }
+        return camins;
     }
 
 
-    protected boolean inner_backtrackingResolucio(String[][] m, Vector v, Integer posicio){      //suposem que v esta ordenat
-        Vector < Vector <Integer> > pos;       //aqui guardare tots els camins posibles
-        if (1 == numeros + interrogants) return true;
+    protected boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total){
+        if (total == numeros + interrogants) return true;
         else{
+            Vector<Vector<Integer> > camins = new Vector<>();
+            Vector<Integer> cami = new Vector<>();
+            String valor = (String)v.get(posicio);
+
+            int indexAD = busca(valor);
+            if (indexAD == -1){
+                System.out.println("no existeix numero de v a la tabla adyacencias, error tope random");
+            }
 
             Integer distancia = calculDistancia(posicio, v);
-            calculCamins(posicio, distancia, v);
+            camins = calculCamins(posicio, distancia, v, camins, cami, indexAD);
 
-            for (int i = 0; i < pos.size(); i++){
-                for (int k = 0; k < pos.get(i).size(); k++){
-                    tablaAD.get(pos.get(i).get(k)).visitat = true;
+            for (int i = 0; i < camins.size(); i++){
+                for (int k = 0; k < camins.get(i).size(); k++){
+                    tablaAD.get(camins.get(i).get(k)).visitat = true;
                 }
-                inner_backtrackingResolucio(m,v,posicio+1);
-                for (int k = 0; k < pos.get(i).size(); k++){
-                    tablaAD.get(pos.get(i).get(k)).visitat = false;
+                inner_backtrackingResolucio(v,posicio+1, total + distancia + 1);
+                for (int k = 0; k < camins.get(i).size(); k++){
+                    tablaAD.get(camins.get(i).get(k)).visitat = false;
                 }
             }
 
