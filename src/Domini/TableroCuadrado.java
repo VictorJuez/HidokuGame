@@ -36,7 +36,7 @@ public class TableroCuadrado extends Mapa {
             //int z = tablaAD.get(i).getZ();
             for(int j = 0; j <= 3; ++j){
                 posAD = siguienteCasilla(pos,j);
-                if ((pos[1] >= 0) && (pos[1] <= columnas - 1) && (pos[0] >= 0) && (pos[0] <= filas - 1)){ //si posAD esta en els limits
+                if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)){ //si posAD esta en els limits
                     int z = posAD[0]*columnas + posAD[1];
                     for(int k = 0; k < tablaAD.size(); k++){
                         if (tablaAD.get(k).getZ() == z){

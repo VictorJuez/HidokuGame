@@ -1,6 +1,7 @@
 package Domini;
 
 import javafx.util.Pair;
+import jdk.internal.cmm.SystemResourcePressureImpl;
 
 import java.util.UUID;
 import java.util.Vector;
@@ -48,7 +49,9 @@ public abstract class Mapa {
             return y;
         }
     };
+
     protected Vector <adyacencias> tablaAD = new Vector<>();
+    protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>();
 
     protected abstract Vector<adyacencias> calculoAdyacencias();
 
@@ -149,7 +152,7 @@ public abstract class Mapa {
     }
     public boolean hidatoValido(){
         Vector<Integer> v;
-        v = getNumerosRestants();
+        v = getNumerosExistents();
         this.solucio = backtrackingResolucio(solutionMatrix, v);
         return this.solucio;
     }
@@ -211,9 +214,9 @@ public abstract class Mapa {
     }
 
 
-    protected boolean backtrackingResolucio(String[][] A, Vector v) {
+    protected boolean backtrackingResolucio(String[][] A, Vector v) {   //si v esta buid no funciona!!!!!!!!
         calculoAdyacencias();
-        return inner_backtrackingResolucio(v, 0, 0);
+        return inner_backtrackingResolucio(v, 0, 0, 0);
     }
 
 
@@ -228,49 +231,68 @@ public abstract class Mapa {
 
 
 
-    protected Vector<Vector<Integer> > calculCamins(Integer posicio, Integer distancia, Vector v, Vector camins, Vector cami, Integer indexAD){//posicio es la posicio del vector dexistens
+    protected void calculCamins(Integer posicio, Integer distancia, Vector v, Vector cami, Integer indexAD, Integer franja){//posicio es la posicio del vector dexistens
         Integer daux = 0;
-        if (distancia == -1){
-            camins.add(cami);
-        }
-        else {
-            for (int i = 0;distancia > 0 && i < tablaAD.get(indexAD).ad.size(); i++) {        //recorres tots els adjacents al index
-                Integer aux = tablaAD.get(indexAD).ad.get(i);
-                cami.add(indexAD);
-                tablaAD.get(indexAD).visitat = true;
-                if (!tablaAD.get(aux).visitat) {   //agafes on es troba posicionat el primer adjacent a tablaAD i mires si lhas visitat
-                    camins = calculCamins(posicio, distancia - 1, v, camins, cami, aux);
-                }
-                tablaAD.get(indexAD).visitat = false;
-                cami.remove(indexAD);
+        if (distancia == 0){
+            if((posicio == 0 || posicio == v.size() - 1) && tablaAD.get(indexAD).valor.equals("?")) {   //
+                franjes.get(franja).add(cami);
+                System.out.println("un cami" + cami);
+            }
+            else if(tablaAD.get(indexAD).valor.equals(v.get(posicio+1).toString())){        //si no es el primer ni lultim, lultima posicio ha de ser igual al seguent
+                franjes.get(franja).add(cami);
+                System.out.println("un cami" + cami);
             }
         }
-        return camins;
+        else {
+            for (int i = 0; i < tablaAD.get(indexAD).ad.size(); i++) {        //recorres tots els adjacents al index
+                Integer aux = tablaAD.get(indexAD).ad.get(i);
+                if(tablaAD.get(aux).valor.equals("?")) {
+                    cami.add(indexAD);
+                    tablaAD.get(indexAD).visitat = true;
+                    if (!tablaAD.get(aux).visitat) {   //agafes on es troba posicionat el primer adjacent a tablaAD i mires si lhas visitat
+                        calculCamins(posicio, distancia - 1, v, cami, aux, franja);
+                    }
+                    tablaAD.get(indexAD).visitat = false;
+                    cami.remove(indexAD);
+                }
+            }
+        }
     }
 
 
-    protected boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total){
-        if (total == numeros + interrogants) return true;
+    protected boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total, Integer franja){
+       // System.out.println("total: "+ total + " valor de v[posicio]: "+ v.get(posicio));
+        if (posicio == v.size() && total == interrogants + numeros) return true;
         else{
-            Vector<Vector<Integer> > camins = new Vector<>();
             Vector<Integer> cami = new Vector<>();
-            String valor = (String)v.get(posicio);
+            String valor;
+            valor = v.get(posicio).toString();
 
             int indexAD = busca(valor);
+            System.out.println("indexAD: "+ indexAD);
             if (indexAD == -1){
                 System.out.println("no existeix numero de v a la tabla adyacencias, error tope random");
             }
 
             Integer distancia = calculDistancia(posicio, v);
-            camins = calculCamins(posicio, distancia, v, camins, cami, indexAD);
-
-            for (int i = 0; i < camins.size(); i++){
-                for (int k = 0; k < camins.get(i).size(); k++){
-                    tablaAD.get(camins.get(i).get(k)).visitat = true;
-                }
-                inner_backtrackingResolucio(v,posicio+1, total + distancia + 1);
-                for (int k = 0; k < camins.get(i).size(); k++){
-                    tablaAD.get(camins.get(i).get(k)).visitat = false;
+            System.out.println("distancia: "+ distancia);
+            franjes.add(franja, new Vector<>());
+            calculCamins(posicio, distancia, v, cami, indexAD, franja);
+            System.out.println("aquests son el numero de camins: "+ franjes.get(franja).size());
+            if(distancia == 0){
+                tablaAD.get(indexAD).visitat = true;
+                inner_backtrackingResolucio(v,posicio+1, total + distancia + 1, franja + 1);
+                tablaAD.get(indexAD).visitat = false;
+            }
+            else {
+                for (int i = 0; i < franjes.get(franja).size(); i++) {
+                    for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
+                        tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
+                    }
+                    inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
+                    for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
+                        tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = false;
+                    }
                 }
             }
 
