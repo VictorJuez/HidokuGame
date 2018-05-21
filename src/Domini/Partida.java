@@ -9,6 +9,7 @@ public class Partida
 {
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
+    private int cantidadNumeros;
     private Mapa mapaPartida;
     private Mapa mapaEnunciado;
     private String ID;
@@ -21,6 +22,7 @@ public class Partida
     {
         //asignación del ID de la partida (para gestionar load/save, rankings..)
         this.ID = UUID.randomUUID().toString();
+        cantidadNumeros = mapaEnunciado.numerosRestants.size();
 
         //gestión del tiempo transcurrido en la partida
         this.data = new Date();
@@ -47,7 +49,7 @@ public class Partida
         printTablero(mapaPartida.matrix);
         while (!exit)
         {
-            System.out.println("1 -> añadir, 2 -> borrar, 3 -> pausar, 4 -> reanudar, 5 -> salir.");
+            System.out.println("1 -> añadir, 2 -> borrar, 3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar");
 
             op = myScanner.next();
 
@@ -55,9 +57,11 @@ public class Partida
             {
                 case ("1"):
                 {
-                    System.out.println("fila, columna, numero");
+                    System.out.println("Introduce la fila:");
                     int i = myScanner.nextInt();
+                    System.out.println("Introduce la columna:");
                     int j = myScanner.nextInt();
+                    System.out.println("Introduce el número:");
                     Integer numero = myScanner.nextInt();
                     insertarNumero(i, j, numero);
                     printTablero(mapaPartida.matrix);
@@ -100,8 +104,8 @@ public class Partida
         //VVVVVV COMENTAR ÉSTO
         System.out.println(horaInicio);
         System.out.println(horaPausa);
-        System.out.println(Math.floor(this.horaPausa - this.horaInicio));
-        this.tiempoTranscurrido = Math.floor(this.horaPausa - this.horaInicio); //y éste es el tiempo que ha transcurrido
+        System.out.println(this.horaPausa - this.horaInicio);
+        this.tiempoTranscurrido = (this.horaPausa - this.horaInicio); //y éste es el tiempo que ha transcurrido
     }
 
     public void reanudarPartida()
@@ -120,12 +124,16 @@ public class Partida
     //inserta un número en el tablero si no ha sido insertado antes y si la casilla es valida.
     private void insertarNumero (int i, int j, int numero)
     {
+        System.out.print("La fila es: ");
+        System.out.println(i);
+        System.out.print("La columna es: ");
+        System.out.println(j);
         if (casillaNumero(i, j))
         {
             if (!this.numerosInsertados.contains(numero))
             {
                 this.numerosInsertados.add(numero);
-                this.mapaPartida.insertarNumero(i, j, numero);
+                this.mapaPartida.insertarNumero(numero, i, j);
             }
             else System.out.println("El número que está intentando poner ya existe en el tablero.");
         }
