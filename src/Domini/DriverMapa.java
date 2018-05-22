@@ -76,7 +76,7 @@ public class DriverMapa {
 
     private static void adyacencias(String op) throws IOException {
         Mapa m = ctMapa.getMapa(op);
-        Vector<Mapa.adyacencias> k = m.calculoAdyacencias();
+        Vector<Mapa.adyacencias> k = m.getTablaAD();
         for (int i = 0; i < k.size(); i++){
             System.out.println("("+k.get(i).getY()+") ("+k.get(i).getX()+") z = "+ k.get(i).getZ() + " posicio =" + i);
             for (int j = 0; j < k.get(i).ad.size(); j++){
@@ -151,7 +151,7 @@ public class DriverMapa {
             System.out.println("Té solucio:");
             System.out.println("ID: "+m.getID());
             System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
-            printTablero(m.getSolutionMatrix());
+            printTablero(m.getMatrix());
         }
         else System.out.println("No té solucio");
         //m.hidatoValido();
