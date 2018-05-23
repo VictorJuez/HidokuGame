@@ -9,8 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ControladorMapa {
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
     private ArrayList<String> mapasDisk = new ArrayList<>();
-    private MapaDAO md;
-    public ControladorMapa(){};
+    private MapaDAO md = new MapaDAO();
+    public ControladorMapa(){}
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
      * @param i,j fila y columna de la casilla a comprobar
@@ -128,6 +128,11 @@ public class ControladorMapa {
 
     public void saveMapa(Mapa m) throws IOException {
         md.saveMapa(m);
+    }
+
+    public void borrarMapa(Mapa mapa) {
+        mapasMap.remove(mapa.getID());
+        md.borrarMapa(mapa);
     }
 
     private Mapa loadMapaDisk(String ID) throws IOException {

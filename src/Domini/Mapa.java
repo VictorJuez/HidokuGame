@@ -79,6 +79,16 @@ public abstract class Mapa {
         matrix[x][y] = "?";
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (this==obj) return true;
+        if (this == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+
+        Mapa m = (Mapa) obj;
+        return this.ID.equals(m.getID());
+    }
+
     public void setMatrix(String[][] matrix) {
         this.matrix = matrix;
         this.solutionMatrix = copyMatrix(matrix);

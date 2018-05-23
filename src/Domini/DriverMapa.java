@@ -20,6 +20,7 @@ public class DriverMapa {
                 "\t4) Comprovar si existe solucion hidato\n"+
                 "\t5) Comprovar solucion hidato\n"+
                 "\t6) Load mapa from disk\n"+
+                "\t7) Delete mapa\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -53,6 +54,12 @@ public class DriverMapa {
                     op = myScanner.next();
                     loadMapa(op);
                     break;*/
+                case "7":
+                    System.out.println("Inserta el ID del hidato a borrar");
+                    op = myScanner.next();
+                    Mapa mapa = ctMapa.getMapa(op);
+                    ctMapa.borrarMapa(mapa);
+                    break;
                 case "x":
                     System.out.println("exiting game...");
                     active = false;

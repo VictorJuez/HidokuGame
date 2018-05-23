@@ -80,4 +80,10 @@ public class MapaDAO {
         }
         return mapasDisk;
     }
+
+    public void borrarMapa(Mapa mapa) {
+        File file = new File("data/mapas/"+mapa.getID()+".properties");
+
+        file.delete();
+    }
 }

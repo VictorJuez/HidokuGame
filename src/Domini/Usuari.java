@@ -16,7 +16,9 @@ public class Usuari {
     protected Vector<String> partidas = new Vector<String>();   //partidas del usuario
     protected Vector<String> mapas = new Vector<String>();      //mapas que ha creado el usuario
 
-    public Usuari(){}   //creadora
+    public Usuari(String ID){
+        this.ID = ID;
+    }   //creadora
 
     public boolean crearUsuari(String ID, String password){     //retorna true si s'ha creat l'usari amb exit, en cas contrari retorna false
         if (instances.containsKey(ID)) return false;
@@ -39,6 +41,16 @@ public class Usuari {
 
     public String getID(){
         return this.ID;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (this==obj) return true;
+        if (this == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+
+        Usuari u = (Usuari) obj;
+        return this.ID.equals(u.getID());
     }
 
 
