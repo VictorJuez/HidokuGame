@@ -73,10 +73,10 @@ public abstract class Mapa {
         return solutionMatrix;
     }
     public void insertarNumero(int numero, int x, int y){
-        solutionMatrix[x][y] = String.valueOf(numero);
+        matrix[x][y] = String.valueOf(numero);
     }
     public void borrarNumero(int x, int y){
-        solutionMatrix[x][y] = "?";
+        matrix[x][y] = "?";
     }
 
     @Override

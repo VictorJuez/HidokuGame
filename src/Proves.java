@@ -4,13 +4,6 @@ import java.util.Date;
 
 public class Proves {
     public static void main(String[] args) {
-        while (true)
-        {
-            Date data = new Date();
-            long temps = data.getTime();
-            System.out.println(temps);
-        }
-        /*
         int contador = 0;
         while (true) {
             ++contador;
@@ -23,7 +16,6 @@ public class Proves {
             validarHidato(m);
             comprobarSolucion(m);
         }
-        */
     }
 
     public static void validarHidato(Mapa m){
