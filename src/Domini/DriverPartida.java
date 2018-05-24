@@ -24,7 +24,7 @@ public class DriverPartida
             String[][] matrix = new String[2][2];
             matrix[0][0] = "1";
             matrix[0][1] = "2";
-            matrix[1][0] = "4";
+            matrix[1][0] = "3";
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(ID, tipo, angulos, matrix);

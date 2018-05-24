@@ -33,14 +33,27 @@ public class ControladorMapa {
     protected String[][] completePath(Integer[][] casillas_usadas, int numero_fil, int numero_col){
         String[][] tablero = new String[numero_fil][numero_col];
         int randValue;
+        int biggestNumber = 0;
+        int biggestNumPosi = 0;
+        int biggestNumPosj = 0;
         //para tratar el array
         for (int i = 0; i < numero_fil; ++i) {
             for (int j = 0; j < numero_col; ++j) {
                 if (casillas_usadas[i][j] == -2) tablero[i][j] = "#";
                 else if (casillas_usadas[i][j] != -1) {
-                    randValue = ThreadLocalRandom.current().nextInt(0, 100 + 1);
-                    if (randValue > 85) tablero[i][j] = String.valueOf(casillas_usadas[i][j]); //85
-                    else tablero[i][j] = "?";
+                    if (casillas_usadas[i][j] == 1) tablero[i][j] = "1";
+                    else
+                    {
+                        if (casillas_usadas[i][j] > biggestNumber)
+                        {
+                            biggestNumber = casillas_usadas[i][j];
+                            biggestNumPosi = i;
+                            biggestNumPosj = j;
+                        }
+                        randValue = ThreadLocalRandom.current().nextInt(0, 100 + 1);
+                        if (randValue > 85) tablero[i][j] = String.valueOf(casillas_usadas[i][j]); //85
+                        else tablero[i][j] = "?";
+                    }
                 }
                 else
                 {
@@ -49,6 +62,7 @@ public class ControladorMapa {
                 }
             }
         }
+        tablero[biggestNumPosi][biggestNumPosj] = String.valueOf(biggestNumber);
         return tablero;
     }
 
@@ -81,7 +95,6 @@ public class ControladorMapa {
         //tendrá un valor entre un cuarto del número de casillas y 3 cuartos.
         casillas_validas = ThreadLocalRandom.current().nextInt(num_casillas / 5, (num_casillas / 5) * 2);
 
-        tablero = new String[numero_fil][numero_col];
         Integer[][] casillas_usadas = new Integer[numero_fil][numero_col];
 
         //----------------------------DEFINICIÓN DEL HIDATO:

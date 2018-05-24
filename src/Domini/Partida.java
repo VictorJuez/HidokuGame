@@ -223,7 +223,7 @@ public class Partida
         System.out.print("La columna es: ");
         System.out.println(j);
         //para que no se pueda meter un número más grande que las casillas totales del hidato
-        if (numero > mapaPartida.getNumeros())
+        if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants(mapaPartida.getMatrix()))
         {
             System.out.print("El numero más grande es: ");
             System.out.println(mapaPartida.getNumeros());
