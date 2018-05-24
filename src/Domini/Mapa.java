@@ -117,6 +117,9 @@ public abstract class Mapa {
     public String[][] getMatrix() {
         return matrix;
     }
+    public int getNumeros() {
+        return numeros;
+    }
     public String[][] getSolutionMatrix() {
         return solutionMatrix;
     }
