@@ -88,7 +88,7 @@ public class Partida
         System.out.println(this.mapaPartida.getTipo());
         System.out.print("Adyacencias: ");
         System.out.println(this.mapaPartida.getAngulos());
-        printTablero(mapaPartida.matrix);
+        printTablero(mapaPartida.getMatrix());
         while (!salirPartida)
         {
             System.out.println("1 -> añadir, 2 -> borrar, 7 -> reemplazar,3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar");
@@ -106,7 +106,7 @@ public class Partida
                     System.out.println("Introduce el número:");
                     Integer numero = myScanner.nextInt();
                     insertarNumero(i-1, j-1, numero);
-                    printTablero(mapaPartida.matrix);
+                    printTablero(mapaPartida.getMatrix());
                     break;
                 }
                 case ("2"):
@@ -116,7 +116,7 @@ public class Partida
                     System.out.println("Introduce la columna:");
                     int j = myScanner.nextInt();
                     borrarNumero(i-1, j-1);
-                    printTablero(mapaPartida.matrix);
+                    printTablero(mapaPartida.getMatrix());
                     break;
                 }
                 case ("3"):
@@ -149,7 +149,7 @@ public class Partida
                     System.out.println("Introduce el número:");
                     Integer numero = myScanner.nextInt();
                     reemplazarNumero(i-1, j-1, numero);
-                    printTablero(mapaPartida.matrix);
+                    printTablero(mapaPartida.getMatrix());
                     break;
             }
         }
@@ -159,7 +159,7 @@ public class Partida
     public boolean tableroLleno()
     {
         this.cantidadNumeros = (this.numerosInsertados.size() - this.numerosInicio.size());
-        return (this.mapaPartida.interrogants == this.cantidadNumeros);
+        return (this.mapaPartida.getInterrogants() == this.cantidadNumeros);
     }
 
     //todos los números están puestos
@@ -213,7 +213,7 @@ public class Partida
     //indica si en la casilla que apuntamos con i y j es para números o es una casilla no válida
     private boolean casillaNumero (int i, int j)
     {
-        String casilla = this.mapaPartida.matrix[i][j];
+        String casilla = this.mapaPartida.getMatrix()[i][j];
         if (casilla != "#" && casilla != "*") return true;
         return false;
     }
@@ -226,7 +226,7 @@ public class Partida
         System.out.print("La columna es: ");
         System.out.println(j);
         //para que no se pueda meter un número más grande que las casillas totales del hidato
-        if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants(mapaPartida.getMatrix()))
+        if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants())
         {
             System.out.print("El numero más grande es: ");
             System.out.println(mapaPartida.getNumeros());
@@ -249,7 +249,7 @@ public class Partida
 
     private void borrarNumero (int i, int j)
     {
-        String casilla = this.mapaPartida.matrix[i][j];
+        String casilla = this.mapaPartida.getMatrix()[i][j];
         if (casillaNumero(i, j) && casilla != "?") //si casilla apta para número y no hay ninguno puesto ya
         {
             if (!this.numerosInicio.contains(Integer.parseInt(casilla))) //si no era de los iniciales

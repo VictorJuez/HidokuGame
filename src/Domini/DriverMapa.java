@@ -82,8 +82,8 @@ public class DriverMapa {
         Vector<Mapa.adyacencias> k = m.getTablaAD();
         for (int i = 0; i < k.size(); i++){
             System.out.println("("+k.get(i).getY()+") ("+k.get(i).getX()+") z = "+ k.get(i).getZ() + " posicio =" + i);
-            for (int j = 0; j < k.get(i).ad.size(); j++){
-                System.out.println("["+k.get(i).ad.get(j)+"]");
+            for (int j = 0; j < k.get(i).getAd().size(); j++){
+                System.out.println("["+k.get(i).getAd().get(j)+"]");
             }
             System.out.println();
         }

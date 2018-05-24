@@ -38,7 +38,7 @@ public class TableroCuadrado extends Mapa {
                     int z = posAD[0]*columnas + posAD[1];
                     for(int k = 0; k < tablaAD.size(); k++){
                         if (tablaAD.get(k).getZ() == z){
-                            tablaAD.get(i).ad.add(k);
+                            tablaAD.get(i).getAd().add(k);
                         }
                     }
                 }

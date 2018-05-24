@@ -19,13 +19,13 @@ public abstract class Mapa {
     protected String[][] solutionMatrix;
     protected boolean solucio;
 
-    protected class adyacencias{
+    public class adyacencias{
         private String valor;
         boolean visitat;
         private Integer x;
         private Integer y;
         private Integer z;
-        Vector<Integer> ad;
+        private Vector<Integer> ad;
 
         public adyacencias(int y, int x, String valor){
             this.y = y;
@@ -45,6 +45,14 @@ public abstract class Mapa {
         }
         public Integer getY() {
             return y;
+        }
+
+        public Vector<Integer> getAd() {
+            return ad;
+        }
+
+        public void add(Integer i) {
+            ad.add(i);
         }
 
         public String getValor() {
@@ -68,7 +76,7 @@ public abstract class Mapa {
         inicialitzaTabla();
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
-        interrogants = getInterrogants(this.matrix);
+        interrogants = getInterrogants();
         numeros = numerosExistents.size();
     }
     public Mapa(){
@@ -85,7 +93,7 @@ public abstract class Mapa {
 
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
-        interrogants = getInterrogants(this.matrix);
+        interrogants = getInterrogants();
         numeros = numerosExistents.size();
     }
 
@@ -144,7 +152,7 @@ public abstract class Mapa {
         this.columnas = matrix[0].length;
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
-        interrogants = getInterrogants(matrix);
+        interrogants = getInterrogants();
         numeros = numerosExistents.size();
         calculoAdyacencias();
     }
@@ -160,7 +168,7 @@ public abstract class Mapa {
         Collections.sort(existents);
         return existents;
     }
-    public int getInterrogants(String[][] matrix){
+    public int getInterrogants(){
         int interrogants = 0;
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
