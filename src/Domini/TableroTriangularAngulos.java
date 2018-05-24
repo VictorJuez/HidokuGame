@@ -83,7 +83,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
         boolean trobat = false;
         for(int y1 = 0; y1 < filas && !trobat; y1++){
             for (int x1 = 0; x1 < columnas; x1++){
-                if(solutionMatrix[y1][x1].equals("1")){
+                if(matrix[y1][x1].equals("1")){
                     trobat = true;
                     y = y1;
                     x = x1;
@@ -110,7 +110,7 @@ public class TableroTriangularAngulos extends TableroTriangular {
             while((i <= j) && !trobat){
                 pos = siguienteCasilla(posant,i);
                 if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
-                    if (solutionMatrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
+                    if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
                         interr--;
                         buscar++;
                         trobat = true;

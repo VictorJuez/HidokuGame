@@ -166,6 +166,9 @@ public abstract class Mapa {
         }
         return total;
     }
+    protected int getNumeros(){
+        return this.numeros;
+    }
     protected boolean backtrackingResolucio(String[][] A, Vector v){
         if(v.size() == 0) {
             if (getInterrogants(A) == 0) this.solucio=true;
