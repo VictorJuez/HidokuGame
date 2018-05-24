@@ -74,8 +74,8 @@ public class ControladorMapa {
         numero_fil = ThreadLocalRandom.current().nextInt(5, 10 + 1);
         numero_col = ThreadLocalRandom.current().nextInt(5, 10 + 1);
 
-        tipo_adyacencia = ThreadLocalRandom.current().nextInt(1, 2 + 1);
-        topologia = ThreadLocalRandom.current().nextInt(1, 3+1);
+        tipo_adyacencia = ThreadLocalRandom.current().nextInt(2, 2 + 1);    //1 - 2+1
+        topologia = ThreadLocalRandom.current().nextInt(2, 2+1);               //1 - 3+1
         num_casillas = numero_fil * numero_col;
 
         //tendrá un valor entre un cuarto del número de casillas y 3 cuartos.

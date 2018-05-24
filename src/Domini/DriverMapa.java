@@ -1,10 +1,7 @@
 package Domini;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class DriverMapa {
 
@@ -78,6 +75,19 @@ public class DriverMapa {
 
     }
 
+    private static void adyacencias(String op) throws IOException {
+        Mapa m = ctMapa.getMapa(op);
+        Vector<Mapa.adyacencias> k = m.getTablaAD();
+        for (int i = 0; i < k.size(); i++){
+            System.out.println("("+k.get(i).getY()+") ("+k.get(i).getX()+") z = "+ k.get(i).getZ() + " posicio =" + i);
+            for (int j = 0; j < k.get(i).ad.size(); j++){
+                System.out.println("["+k.get(i).ad.get(j)+"]");
+            }
+            System.out.println();
+        }
+
+    }
+
     public static void printTablero(String[][] matrix){
         int filas = matrix.length;
         int columnas = matrix[0].length;
@@ -142,7 +152,7 @@ public class DriverMapa {
             System.out.println("Té solucio:");
             System.out.println("ID: "+m.getID());
             System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
-            printTablero(m.getSolutionMatrix());
+            printTablero(m.getMatrix());
         }
         else System.out.println("No té solucio");
         //m.hidatoValido();
