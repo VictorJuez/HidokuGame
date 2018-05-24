@@ -1,14 +1,12 @@
 package Domini;
 
+import javafx.util.Pair;
+
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TableroCuadrado extends Mapa {
-    /**
-     * Funcion creadora de TableroCuadrado
-     * @param filas numero de filas del hidato
-     * @param columnas numero de columnas del hidato
-     */
+
     public TableroCuadrado(String[][] tab){
         super(tab);
         tipo = "Q";
@@ -27,62 +25,28 @@ public class TableroCuadrado extends Mapa {
         angulos = "C";
     }
 
-    /**
-     * Calcula para una casilla "?" a rellenar del hidato, si se le puede poner el numero restante: toInsert
-     * @param x,y fila y columna de la casilla "?"
-     * @param A El hidato a comprobar
-     * @param toInsert El numero restante a comprobar
-     * @param v El vector de numeros restantes
-     * @return Boolean indicando si se puede poner el numero o no en la casilla.
-     */
     @Override
-    public boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v){
-        boolean adjacentPetit = false;
-        boolean adjacentGran = false;
-        boolean adjacentInterrogant = false;
-        for(int i=0; i<4; ++i){
-            int xx = x;
-            int yy = y;
-            switch (i){
-                case 0:
-                    xx=x;
-                    yy=y-1;
-                    break;
-                case 1:
-                    xx=x-1;
-                    yy=y;
-                    break;
-                case 2:
-                    xx=x;
-                    yy=y+1;
-                    break;
-                case 3:
-                    xx=x+1;
-                    yy=y;
-                    break;
-            }
-            if(xx>=0 && yy>=0 && xx<A.length && yy<A[0].length) {
-
-                if (isInteger(A[xx][yy])) {
-                    int tableValue = Integer.parseInt(A[xx][yy]);
-
-                    if (tableValue == toInsert - 1) adjacentPetit = true;
-                    if (tableValue == toInsert + 1) adjacentGran = true;
-                } else if (A[xx][yy].equals("?")) adjacentInterrogant = true;
+    protected Vector<adyacencias> calculoAdyacencias() {
+        Integer[] pos = new Integer[2];
+        Integer[] posAD;
+        inicialitzaTabla();
+        for(int i = 0; i < tablaAD.size(); ++i){
+            pos[0] = tablaAD.get(i).getY();
+            pos[1] = tablaAD.get(i).getX();
+            //int z = tablaAD.get(i).getZ();
+            for(int j = 0; j <= 3; ++j){
+                posAD = siguienteCasilla(pos,j);
+                if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)){ //si posAD esta en els limits
+                    int z = posAD[0]*columnas + posAD[1];
+                    for(int k = 0; k < tablaAD.size(); k++){
+                        if (tablaAD.get(k).getZ() == z){
+                            tablaAD.get(i).ad.add(k);
+                        }
+                    }
+                }
             }
         }
-
-        if(toInsert == 1 && adjacentGran) return true;
-        if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
-
-        if(adjacentGran && adjacentPetit) return true;
-        if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
-        if(adjacentPetit && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
-
-        if(adjacentPetit && v.size() == 1 && toInsert == interrogants+numeros) return true;
-        //if(adjacentGran && v.size() == 1) return true;
-
-    return false;
+        return tablaAD;
     }
 
     /**

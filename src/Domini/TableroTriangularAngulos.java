@@ -1,15 +1,12 @@
 package Domini;
 
+import javafx.util.Pair;
+
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TableroTriangularAngulos extends TableroTriangular {
 
-    /**
-     * Funcion creadora de TableroTriangular
-     * @param filas numero de filas del hidato
-     * @param columnas numero de columnas del hidato
-     */
     public TableroTriangularAngulos(String[][] tab) {
         super(tab);
         angulos = "CA";
@@ -25,51 +22,34 @@ public class TableroTriangularAngulos extends TableroTriangular {
         angulos = "CA";
     }
 
-    /**
-     * Calcula para una casilla "?" a rellenar del hidato, si se le puede poner el numero restante: toInsert
-     * @param x,y fila y columna de la casilla "?"
-     * @param A El hidato a comprobar
-     * @param toInsert El numero restante a comprobar
-     * @param v El vector de numeros restantes
-     * @return Boolean indicando si se puede poner el numero o no en la casilla.
-     */
+
+
     @Override
-    public boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v) {
-        boolean adjacentPetit = false;
-        boolean adjacentGran = false;
-        boolean adjacentInterrogant = false;
-        Integer[] pos = {x,y};
-        Integer[] nextPos = new Integer[2];
-        Integer[] direccionesNormales = {-2,-1,0,1,2,3,4,5,6,7,8,9};
-        Integer[] direccionesInversas = {-4,-3,-2,-1,0,1,2,3,4,5,6,7};
-        Integer[] direcciones = new Integer[12];
-        boolean normal = (pos[0]+pos[1])%2 == 0;
-        if(normal) direcciones = direccionesNormales;
-        else direcciones = direccionesInversas;
-
-        for(int i=0; i<direcciones.length; ++i){
-            nextPos = siguienteCasilla(pos,direcciones[i]);
-
-            if(nextPos[0]>=0 && nextPos[1]>=0 && nextPos[0]<A.length && nextPos[1]<A[0].length) {
-
-                if (isInteger(A[nextPos[0]][nextPos[1]])) {
-                    int tableValue = Integer.parseInt(A[nextPos[0]][nextPos[1]]);
-
-                    if (tableValue == toInsert - 1) adjacentPetit = true;
-                    if (tableValue == toInsert + 1) adjacentGran = true;
-                } else if (A[nextPos[0]][nextPos[1]].equals("?")) adjacentInterrogant = true;
+    protected Vector<adyacencias> calculoAdyacencias() {
+        Integer[] pos = new Integer[2];
+        Integer[] posAD;
+        inicialitzaTabla();
+        for(int i = 0; i < tablaAD.size(); ++i){
+            pos[0] = tablaAD.get(i).getY();
+            pos[1] = tablaAD.get(i).getX();
+            //int z = tablaAD.get(i).getZ();
+            int j;
+            if((pos[0] + pos[1])%2 == 0)j = -2;
+            else j= -4;
+            int w = j + 11;
+            for(; j <= w; ++j){
+                posAD = siguienteCasilla(pos,j);
+                if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)){ //si posAD esta en els limits
+                    int z = posAD[0]*columnas + posAD[1];
+                    for(int k = 0; k < tablaAD.size(); k++){
+                        if (tablaAD.get(k).getZ() == z){
+                            tablaAD.get(i).ad.add(k);
+                        }
+                    }
+                }
             }
         }
-        if(toInsert == 1 && adjacentGran) return true;
-        if(toInsert == 1 && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
-
-        if(adjacentGran && adjacentPetit) return true;
-        if(adjacentGran && adjacentInterrogant) if(v.contains(toInsert-1))return true;
-        if(adjacentPetit && adjacentInterrogant) if(v.contains(toInsert+1)) return true;
-
-        if(adjacentPetit && v.size() == 1 && toInsert == interrogants+numeros) return true;
-        //if(adjacentGran && v.size() == 1) return true;
-        return false;
+        return tablaAD;
     }
 
     /**
