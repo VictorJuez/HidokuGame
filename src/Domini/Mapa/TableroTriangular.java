@@ -1,29 +1,28 @@
-package Domini;
-
-import javafx.util.Pair;
+package Domini.Mapa;
 
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroCuadrado extends Mapa {
+public class TableroTriangular extends Mapa {
 
-    public TableroCuadrado(String[][] tab){
+    public TableroTriangular(String[][] tab){
         super(tab);
-        tipo = "Q";
+        tipo = "T";
         angulos = "C";
     }
 
-    public TableroCuadrado(){
+    public TableroTriangular(){
         super();
-        tipo = "Q";
+        tipo = "T";
         angulos = "C";
     }
 
-    public TableroCuadrado(String ID, String[][] tab){
+    public TableroTriangular(String ID, String[][] tab){
         super(ID, tab);
-        tipo = "Q";
+        tipo = "T";
         angulos = "C";
     }
+
 
     @Override
     protected Vector<adyacencias> calculoAdyacencias() {
@@ -34,7 +33,11 @@ public class TableroCuadrado extends Mapa {
             pos[0] = tablaAD.get(i).getY();
             pos[1] = tablaAD.get(i).getX();
             //int z = tablaAD.get(i).getZ();
-            for(int j = 0; j <= 3; ++j){
+            int j;
+            if((pos[0] + pos[1])%2 == 0)j = 1;
+            else j= 0;
+            int w = j + 2;
+            for(; j <= w; ++j){
                 posAD = siguienteCasilla(pos,j);
                 if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)){ //si posAD esta en els limits
                     int z = posAD[0]*columnas + posAD[1];
@@ -48,6 +51,7 @@ public class TableroCuadrado extends Mapa {
         }
         return tablaAD;
     }
+
 
     /**
      * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
@@ -73,21 +77,30 @@ public class TableroCuadrado extends Mapa {
         int buscar = 2;
         int interr = interrogants + numeros -1;
 
-        Integer[] pos = new Integer[2];
+        Integer[] pos;
         Integer[] posant = new Integer[2];
         posant[0] = y;
         posant[1] = x;
+        int j;
+        int i;
         while(interr != 0 && correcte){
             trobat = false;
-            for(int i = 0; (i <= 3) && !trobat; i++){
+            if((posant[0] + posant[1])%2 == 0)i = 1;
+            else i = 0;
+            j = i + 2;
+            while((i <= j) && !trobat){
                 pos = siguienteCasilla(posant,i);
-                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) && matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))){
-                    interr--;
-                    buscar++;
-                    trobat = true;
-                    posant[0] = pos[0];
-                    posant[1] = pos[1];
+                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
+                    if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
+                        interr--;
+                        buscar++;
+                        trobat = true;
+                        posant[0] = pos[0];
+                        posant[1] = pos[1];
+                    }
+
                 }
+                i++;
 
             }
             if (!trobat) correcte = false;
@@ -99,7 +112,6 @@ public class TableroCuadrado extends Mapa {
     protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir){
         Integer[] sig_casilla = new Integer[2];
         switch (dir) {
-            //------ÉSTO PARA LOS CUADRADOS
             case (0):
                 sig_casilla[0] = ant_casilla[0] - 1; //la casilla de arriba
                 sig_casilla[1] = ant_casilla[1];
@@ -121,21 +133,22 @@ public class TableroCuadrado extends Mapa {
     }
 
     /**
-     * Genera un hidato del tipo cuadrado aleatoriamente
-     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
+     * Genera un hidato del tipo triangulo aleatoriamente
+     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual
      * @param numero_fil El numero de filas del hidato
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
      */
     @Override
-    public Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col) {
+    public Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
+    {
         Integer[][] casillas_visitadas;
         boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
         casillas_visitadas = new Integer[numero_fil][numero_col];
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VVVVVVV CAMBIAR ÉSTO
         for (int i = 0; i < numero_fil; ++i) for (int j = 0; j < numero_col; ++j) casillas_visitadas[i][j] = -1;
         int dir;
-        Integer[] ant_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas
+        Integer[] ant_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas CASILLA EN LA QUE ESTOY ACTUALMENTE
         Integer[] sig_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas
 
         ant_casilla[0] = ThreadLocalRandom.current().nextInt(0, numero_fil);
@@ -143,17 +156,20 @@ public class TableroCuadrado extends Mapa {
 
         casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = 1;
 
-        for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
-        {
-            dir = ThreadLocalRandom.current().nextInt(0, 3 + 1); //NO DEBE ACCEDER A LAS DIAGONALES
+        boolean normal; //para saber cómo está orientado el triángulo (normal o al revés).
+
+        for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i) {
+            normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
+            if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+            else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0; //cuando intentos == numero adyacencias sabremos que se ha quedado atrapado
-            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
-            {
-                dir = ThreadLocalRandom.current().nextInt(0, 3 + 1);
+            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
+                if (normal) dir = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+                else dir = ThreadLocalRandom.current().nextInt(0, 2 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
                 intentos += 1;
-                if (intentos == 4) atrapado = true;
+                if (intentos == 3) atrapado = true;
             }
             if (!atrapado)
             {
@@ -161,8 +177,7 @@ public class TableroCuadrado extends Mapa {
                 casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = i;
             }
         }
-
-        //si se ha quedado atrapado, se lo comunicamos a la función principal
+        //para ver si se ha quedado atrapado..
         if (atrapado) casillas_visitadas[0][0] = -5;
         return casillas_visitadas;
     }

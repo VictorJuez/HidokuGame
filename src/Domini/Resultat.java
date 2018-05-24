@@ -1,5 +1,7 @@
 package Domini;
 
+import Domini.Mapa.Mapa;
+
 public class Resultat {
     //Singleton pattern
     private final Mapa mapa;

@@ -1,6 +1,6 @@
 import Domini.*;
-
-import java.util.Date;
+import Domini.Mapa.Mapa;
+import Domini.Mapa.MapaFactory;
 
 public class Proves {
     public static void main(String[] args) {

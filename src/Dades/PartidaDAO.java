@@ -1,14 +1,8 @@
 package Dades;
 
-import Domini.Mapa;
-
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
-import Domini.MapaFactory;
 import Domini.Partida;
 
 public class PartidaDAO {

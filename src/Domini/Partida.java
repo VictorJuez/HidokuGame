@@ -1,5 +1,8 @@
 package Domini;
 
+import Domini.Mapa.Mapa;
+import Domini.Mapa.MapaFactory;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;

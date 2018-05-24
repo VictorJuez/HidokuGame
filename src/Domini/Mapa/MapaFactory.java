@@ -1,4 +1,4 @@
-package Domini;
+package Domini.Mapa;
 
 public class MapaFactory {
     public Mapa getMapa(String tipo, String angulos, String[][] tab){

@@ -1,46 +1,42 @@
-package Domini;
-
-import javafx.util.Pair;
+package Domini.Mapa;
 
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TableroHexagonal extends Mapa {
+public class TableroTriangularAngulos extends TableroTriangular {
 
-    public TableroHexagonal(String[][] tab){
+    public TableroTriangularAngulos(String[][] tab) {
         super(tab);
-        tipo = "H";
-        angulos = "C";
+        angulos = "CA";
     }
 
-    public TableroHexagonal(){
+    public TableroTriangularAngulos(){
         super();
-        tipo = "H";
-        angulos = "C";
+        angulos = "CA";
     }
 
-    public TableroHexagonal(String ID, String[][] tab){
+    public TableroTriangularAngulos(String ID, String[][] tab){
         super(ID, tab);
-        tipo = "H";
-        angulos = "C";
+        angulos = "CA";
     }
+
+
 
     @Override
     protected Vector<adyacencias> calculoAdyacencias() {
         Integer[] pos = new Integer[2];
         Integer[] posAD;
-        Integer[] par = {-2,0,1, 2, 3, 5};
-        Integer[] impar = {-1, 0, 1, 2, 3, 4};
-        Integer[] dir;
         inicialitzaTabla();
         for(int i = 0; i < tablaAD.size(); ++i){
             pos[0] = tablaAD.get(i).getY();
             pos[1] = tablaAD.get(i).getX();
             //int z = tablaAD.get(i).getZ();
-            if((pos[0]%2 == 0))dir = par;
-            else dir = impar;
-            for(int j = 0; j <6; ++j){
-                posAD = siguienteCasilla(pos,dir[j]);
+            int j;
+            if((pos[0] + pos[1])%2 == 0)j = -2;
+            else j= -4;
+            int w = j + 11;
+            for(; j <= w; ++j){
+                posAD = siguienteCasilla(pos,j);
                 if ((posAD[1] >= 0) && (posAD[1] <= columnas - 1) && (posAD[0] >= 0) && (posAD[0] <= filas - 1)){ //si posAD esta en els limits
                     int z = posAD[0]*columnas + posAD[1];
                     for(int k = 0; k < tablaAD.size(); k++){
@@ -53,7 +49,6 @@ public class TableroHexagonal extends Mapa {
         }
         return tablaAD;
     }
-
 
     /**
      * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
@@ -83,17 +78,15 @@ public class TableroHexagonal extends Mapa {
         Integer[] posant = new Integer[2];
         posant[0] = y;
         posant[1] = x;
-
-        Integer[] par = {-2,0,1, 2, 3, 5};
-        Integer[] impar = {-1, 0, 1, 2, 3, 4};
-        Integer[] dir;
-        
+        int j;
+        int i;
         while(interr != 0 && correcte){
             trobat = false;
-            if((posant[0]%2 == 0)) dir = par;
-            else dir = impar;
-            for(int i = 0; i < 6 && !trobat; i++){
-                pos = siguienteCasilla(posant,dir[i]);
+            if((posant[0] + posant[1])%2 == 0)i = -2;
+            else i = -4;
+            j = i + 11;
+            while((i <= j) && !trobat){
+                pos = siguienteCasilla(posant,i);
                 if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
                     if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
                         interr--;
@@ -104,28 +97,24 @@ public class TableroHexagonal extends Mapa {
                     }
 
                 }
+                i++;
+
             }
             if (!trobat) correcte = false;
             else correcte = true;
         }
+
+        this.solucio = correcte;
         return correcte;
     }
 
+    @Override
     protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir){
-        //{-2, 0, 1, 2, 3, 5}
         Integer[] sig_casilla = new Integer[2];
         switch (dir) {
-            case (-1):
-                sig_casilla[0] = ant_casilla[0] - 1; //diagonal arriba-derecha
-                sig_casilla[1] = ant_casilla[1] + 1;
-                break;
             case (0):
                 sig_casilla[0] = ant_casilla[0] - 1; //la casilla de arriba
                 sig_casilla[1] = ant_casilla[1];
-                break;
-            case (-2):
-                sig_casilla[0] = ant_casilla[0] - 1; //diagonal arriba-izquierda
-                sig_casilla[1] = ant_casilla[1] - 1;
                 break;
             case (1):
                 sig_casilla[0] = ant_casilla[0];
@@ -139,6 +128,14 @@ public class TableroHexagonal extends Mapa {
                 sig_casilla[0] = ant_casilla[0] + 1; //la casilla de abajo
                 sig_casilla[1] = ant_casilla[1];
                 break;
+            case (-1):
+                sig_casilla[0] = ant_casilla[0] - 1; //diagonal arriba-derecha
+                sig_casilla[1] = ant_casilla[1] + 1;
+                break;
+            case (-2):
+                sig_casilla[0] = ant_casilla[0] - 1; //diagonal arriba-izquierda
+                sig_casilla[1] = ant_casilla[1] - 1;
+                break;
             case (4):
                 sig_casilla[0] = ant_casilla[0] + 1; //diagonal abajo-derecha
                 sig_casilla[1] = ant_casilla[1] + 1;
@@ -147,13 +144,38 @@ public class TableroHexagonal extends Mapa {
                 sig_casilla[0] = ant_casilla[0] + 1; //diagonal abajo-izquierda
                 sig_casilla[1] = ant_casilla[1] - 1;
                 break;
+            //------ÉSTO PARA LOS TRIANGULOS
+            case (6):
+                sig_casilla[0] = ant_casilla[0]; //dos a la derecha
+                sig_casilla[1] = ant_casilla[1] + 2;
+                break;
+            case (7):
+                sig_casilla[0] = ant_casilla[0]; //dos a la izquierda
+                sig_casilla[1] = ant_casilla[1] - 2;
+                break;
+            case (8):
+                sig_casilla[0] = ant_casilla[0] + 1; //abajo-dos derecha
+                sig_casilla[1] = ant_casilla[1] + 2;
+                break;
+            case (9):
+                sig_casilla[0] = ant_casilla[0] + 1; //abajo-dos izquierda
+                sig_casilla[1] = ant_casilla[1] - 2;
+                break;
+            case (-3):
+                sig_casilla[0] = ant_casilla[0] - 1; //arriba-dos derecha
+                sig_casilla[1] = ant_casilla[1] + 2;
+                break;
+            case (-4):
+                sig_casilla[0] = ant_casilla[0] - 1; //arriba dos izquierda
+                sig_casilla[1] = ant_casilla[1] - 2;
+                break;
         }
         return sig_casilla;
     }
 
     /**
-     * Genera un hidato del tipo hexagono aleatoriamente
-     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual.
+     * Genera un hidato del tipo triangulo aleatoriamente
+     * @param casillas_validas array de enteros que contiene la posicion de la casilla actual
      * @param numero_fil El numero de filas del hidato
      * @param numero_col El numero de columnas del hidato
      * @return Matriz de enteros con el hidato generado.
@@ -162,8 +184,9 @@ public class TableroHexagonal extends Mapa {
     public Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col)
     {
         Integer[][] casillas_visitadas;
-        boolean atrapado = false;
+        boolean atrapado = false; //para saber si se ha quedado atrapado intentando crear el path
         casillas_visitadas = new Integer[numero_fil][numero_col];
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VVVVVVV CAMBIAR ÉSTO
         for (int i = 0; i < numero_fil; ++i) for (int j = 0; j < numero_col; ++j) casillas_visitadas[i][j] = -1;
         int dir;
         Integer[] ant_casilla = new Integer[2]; //[0] -> filas, [1] -> columnas CASILLA EN LA QUE ESTOY ACTUALMENTE
@@ -173,31 +196,21 @@ public class TableroHexagonal extends Mapa {
         ant_casilla[1] = ThreadLocalRandom.current().nextInt(0, numero_col);
 
         casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = 1;
-        Integer[] adyacenciashex = new Integer[]{-2, 0, 1, 2, 3, 5};
-        //las adyacencias funcionan igual sea costados o costados y angulos.
-        boolean normal; //para saber la columna del hexágono (las adyacencias funcionan diferente)
+
+        boolean normal; //para saber cómo está orientado el triángulo (normal o al revés).
         for (int i = 2; i < casillas_validas + 1 && !atrapado; ++i)
         {
-            normal = ant_casilla[0]%2 ==1; //true -> fila impar = normal
-            if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
-            else
-            {
-                dir = ThreadLocalRandom.current().nextInt(0, 5 + 1);
-                dir = adyacenciashex[dir];
-            }
+            normal = (ant_casilla[0] + ant_casilla[1]) % 2 == 0;
+            if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
+            else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
             sig_casilla = siguienteCasilla(ant_casilla, dir);
             int intentos = 0;
-            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado)
-            {
-                if (normal) dir = ThreadLocalRandom.current().nextInt(-1, 4 + 1);
-                else
-                {
-                    dir = ThreadLocalRandom.current().nextInt(0, 5 + 1);
-                    dir = adyacenciashex[dir];
-                }
+            while (!casillaValida(sig_casilla[0], sig_casilla[1], numero_fil, numero_col, casillas_visitadas) && !atrapado) {
+                if (normal) dir = ThreadLocalRandom.current().nextInt(-2, 9 + 1);
+                else dir = ThreadLocalRandom.current().nextInt(-4, 7 + 1);
                 sig_casilla = siguienteCasilla(ant_casilla, dir);
                 intentos += 1;
-                if (intentos == 5) atrapado = true;
+                if (intentos == 12) atrapado = true;
             }
             if (!atrapado)
             {
@@ -205,6 +218,7 @@ public class TableroHexagonal extends Mapa {
                 casillas_visitadas[ant_casilla[0]][ant_casilla[1]] = i;
             }
         }
+        //para ver si se ha quedado atrapado..
         if (atrapado) casillas_visitadas[0][0] = -5;
         return casillas_visitadas;
     }

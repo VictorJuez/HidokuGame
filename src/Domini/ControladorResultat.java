@@ -1,5 +1,7 @@
 package Domini;
 
+import Domini.Mapa.Mapa;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

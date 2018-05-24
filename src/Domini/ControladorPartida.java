@@ -1,6 +1,7 @@
 package Domini;
 
 import Dades.PartidaDAO;
+import Domini.Mapa.Mapa;
 
 import java.io.IOException;
 import java.util.ArrayList;
