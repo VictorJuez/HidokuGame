@@ -14,7 +14,7 @@ public class Proves {
             //System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 
             validarHidato(m);
-            comprobarSolucion(m);
+           // comprobarSolucion(m);
         }
     }
 
@@ -29,20 +29,20 @@ public class Proves {
         if(!m.hidatoValido()) System.out.println("No té solucio");
     }
 
-    public static void comprobarSolucion(Mapa m){
+   /* public static void comprobarSolucion(Mapa m){
         MapaFactory mapaFactory = new MapaFactory();
         Mapa m2 = mapaFactory.getMapa(m.getTipo(), m.getAngulos(), m.getMatrix());
         /*if(m2.matriuCorrecte()){
             System.out.println("Solucio correcte!");
         }*/
-        if(!m2.matriuCorrecte()) {
+     /*   if(!m2.matriuCorrecte()) {
             System.out.println("Solucio incorrecte!");
             System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
             printTablero(m.getMatrix());
         }
 
 
-    }
+    } */
 
     public static void printTablero(String[][] matrix){
         int filas = matrix.length;

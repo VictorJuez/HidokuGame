@@ -43,11 +43,11 @@ public class DriverMapa {
                     op = myScanner.next();
                     validarHidato(op);
                     break;
-                case "5":
+               /* case "5":
                     System.out.println("Inserta el ID del hidato a comprobar");
                     op = myScanner.next();
                     comprobarHidato(op);
-                    break;
+                    break;*/
                 /*case "6":
                     System.out.println("Inserta el ID del hidato a carregar");
                     op = myScanner.next();
@@ -160,13 +160,13 @@ public class DriverMapa {
         //m.hidatoValido();
      }
 
-     public static void comprobarHidato(String ID) throws IOException {
+    /* public static void comprobarHidato(String ID) throws IOException {
          Mapa m = ctMapa.getMapa(ID);
          if(m.matriuCorrecte()){
              System.out.println("Solucio correcte!");
          }
          else System.out.println("Solucio incorrecte");
-     }
+     }*/
 
      /*public static void loadMapa(String ID) throws IOException, ParseException {
         Mapa m = ctMapa.loadMapa(ID);
