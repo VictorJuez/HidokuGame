@@ -15,6 +15,7 @@ public class DriverRanking {
     private static ControladorUsuari ctUsuari = new ControladorUsuari();
 
     public static void main(String[] args) throws IOException {
+        ctResultat.loadAllResultsDisk();
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1)Insertar resultado partida \n"+

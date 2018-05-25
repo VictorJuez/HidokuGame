@@ -8,6 +8,8 @@ import Domini.Resultat;
 import Domini.Usuari;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class ResultatDAO {
@@ -39,5 +41,25 @@ public class ResultatDAO {
         Mapa mapa = controladorMapa.getMapa(mapaID);
         Resultat r = controladorResultat.insertarResultat(usuari, mapa, Integer.parseInt(resultat));
         return r;
+    }
+
+    public HashMap<String, Integer> loadAllResults() throws IOException {
+        HashMap<String, Integer> resultsDisk = new HashMap<String, Integer>();
+        File folder = new File("data/resultats");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                if(!listOfFiles[i].getName().equals(".gitignore")) {
+                    String resultName = listOfFiles[i].getName();
+                    resultName = resultName.substring(0, resultName.length() - 11);
+                    String parts[] = resultName.split("_");
+                    Resultat r = loadResultat(parts[0], parts[1]);
+                    int puntuacio = r.getResultat();
+                    resultsDisk.put(resultName, puntuacio);
+                }
+            }
+        }
+        return resultsDisk;
     }
 }

@@ -1,15 +1,23 @@
 package Domini;
 
+import Dades.ResultatDAO;
 import Domini.Mapa.Mapa;
+import javafx.util.Pair;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ControladorResultat {
     private final ArrayList<Usuari> users;
     private final ControladorUsuari ctUsuari = new ControladorUsuari();
     private ArrayList<Resultat> resultatList = new ArrayList<>();
+    private ResultatDAO resultatDAO = new ResultatDAO();
     private HashMap<Usuari, Integer> GlobalRanking = new HashMap<>();
+    private ControladorMapa controladorMapa = new ControladorMapa();
+    private ControladorUsuari controladorUsuari = new ControladorUsuari();
 
     public ControladorResultat() {
         users = ctUsuari.getAllUsers();
@@ -44,6 +52,28 @@ public class ControladorResultat {
 
     private void initializeGlobalRanking() {
         for(int i=0; i<users.size(); ++i) GlobalRanking.put(users.get(i),0);
+    }
+
+    public ArrayList<Resultat> getAllResultats() throws IOException {
+        return resultatList;
+    }
+
+    private Resultat loadResultDisk(String userID, String mapaID) throws IOException {
+        return resultatDAO.loadResultat(userID, mapaID);
+    }
+
+    public void loadAllResultsDisk() throws IOException {
+        HashMap<String, Integer> resultatsDisk = resultatDAO.loadAllResults();
+
+        Iterator it = resultatsDisk.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry resultatPair = (Map.Entry)it.next();
+            String resultatString = (String) resultatPair.getKey();
+            String parts[] = resultatString.split("_");
+            Usuari usuari = controladorUsuari.getUsuari(parts[0]);
+            Mapa mapa = controladorMapa.getMapa(parts[1]);
+            insertarResultat(usuari, mapa, (Integer) resultatPair.getValue());
+        }
     }
 
     public HashMap<Usuari, Integer> getGlobalRanking() {
