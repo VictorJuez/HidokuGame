@@ -3,12 +3,10 @@ package Dades;
 import Domini.ControladorMapa;
 import Domini.ControladorResultat;
 import Domini.Mapa.Mapa;
-import Domini.Mapa.MapaFactory;
 import Domini.Resultat;
 import Domini.Usuari;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
