@@ -1,16 +1,17 @@
 package Dades;
 
-import Domini.ControladorMapa;
-import Domini.ControladorResultat;
+import Domini.*;
 import Domini.Mapa.Mapa;
-import Domini.Resultat;
-import Domini.Usuari;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Properties;
 
 public class ResultatDAO {
+    private ControladorResultat controladorResultat = new ControladorResultat();
+    private ControladorMapa controladorMapa = new ControladorMapa();
+    private ControladorUsuari controladorUsuari = new ControladorUsuari();
+
     public void saveResultat(Resultat r) throws IOException {
         Properties properties = new Properties();
         properties.setProperty("usuari", r.getUsuari().getID());
@@ -32,10 +33,7 @@ public class ResultatDAO {
 
         // get the property value
         String resultat = prop.getProperty("resultat");
-
-        ControladorResultat controladorResultat = new ControladorResultat();
-        ControladorMapa controladorMapa = new ControladorMapa();
-        Usuari usuari = new Usuari(userID);
+        Usuari usuari = controladorUsuari.getUsuari(userID);
         Mapa mapa = controladorMapa.getMapa(mapaID);
         Resultat r = controladorResultat.insertarResultat(usuari, mapa, Integer.parseInt(resultat));
         return r;

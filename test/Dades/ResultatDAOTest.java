@@ -1,10 +1,7 @@
 package Dades;
 
-import Domini.ControladorMapa;
-import Domini.ControladorResultat;
+import Domini.*;
 import Domini.Mapa.Mapa;
-import Domini.Resultat;
-import Domini.Usuari;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,12 +13,13 @@ import java.util.ArrayList;
 public class ResultatDAOTest {
     ControladorResultat controladorResultat = new ControladorResultat();
     ControladorMapa controladorMapa = new ControladorMapa();
+    ControladorUsuari controladorUsuari = new ControladorUsuari();
     MapaDAO mapaDAO = new MapaDAO();
     ArrayList<String> resultats = new ArrayList<>();
 
     @Test
     public void loadAndSaveResultat() throws IOException {
-        Usuari usuari = new Usuari("enric");
+        Usuari usuari = controladorUsuari.insertarUsuari("enric", "hola");
         Mapa mapa = controladorMapa.generarHidato();
         Resultat resultat = controladorResultat.insertarResultat(usuari, mapa, 10);
 
