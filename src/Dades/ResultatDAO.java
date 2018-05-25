@@ -8,10 +8,6 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class ResultatDAO {
-    //private ControladorResultat controladorResultat = new ControladorResultat();
-    private ControladorMapa controladorMapa = new ControladorMapa();
-    private ControladorUsuari controladorUsuari = new ControladorUsuari();
-
     public void saveResultat(Resultat r) throws IOException {
         Properties properties = new Properties();
         properties.setProperty("usuari", r.getUsuari().getID());
