@@ -11,11 +11,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class ControladorResultat {
-    private final ArrayList<Usuari> users;
+    private final HashMap<String, Usuari> users;
     private final ControladorUsuari ctUsuari = new ControladorUsuari();
     private ArrayList<Resultat> resultatList = new ArrayList<>();
     private ResultatDAO resultatDAO = new ResultatDAO();
-    private HashMap<Usuari, Integer> GlobalRanking = new HashMap<>();
+    private HashMap<String, Integer> GlobalRanking = new HashMap<>();
     private ControladorMapa controladorMapa = new ControladorMapa();
     private ControladorUsuari controladorUsuari = new ControladorUsuari();
 
@@ -29,16 +29,20 @@ public class ControladorResultat {
         if(resultatList.contains(r)) {
             r = findResultat(r);
             r.afegirPuntuacio(resultat);
-            GlobalRanking.put(user, r.getResultat());
+            GlobalRanking.put(user.getID(), r.getResultat());
         }
 
         else {
-            Integer actualResult = GlobalRanking.get(user);
+            Integer actualResult = GlobalRanking.get(user.getID());
             if (actualResult == null) actualResult = 0;
-            GlobalRanking.put(user, r.getResultat() + actualResult);
+            GlobalRanking.put(user.getID(), r.getResultat() + actualResult);
             resultatList.add(r);
         }
-
+        try {
+            resultatDAO.saveResultat(r);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return r;
     }
 
@@ -51,7 +55,7 @@ public class ControladorResultat {
     }
 
     private void initializeGlobalRanking() {
-        for(int i=0; i<users.size(); ++i) GlobalRanking.put(users.get(i),0);
+        for(int i=0; i<users.size(); ++i) GlobalRanking.put(users.get(i).getID(),0);
     }
 
     public ArrayList<Resultat> getAllResultats() throws IOException {
@@ -76,8 +80,8 @@ public class ControladorResultat {
         }
     }
 
-    public HashMap<Usuari, Integer> getGlobalRanking() {
-        return GlobalRanking;
+    public HashMap<String, Integer> getGlobalRanking() {
+        return (HashMap<String, Integer>) GlobalRanking.clone();
     }
 
     public HashMap<Usuari, Integer> getMapRanking(Mapa mapa){
@@ -92,7 +96,7 @@ public class ControladorResultat {
     }
 
     public int getUserGlobalResult(Usuari usuari){
-        return GlobalRanking.get(usuari);
+        return GlobalRanking.get(usuari.getID());
     }
 
     public int getUserMapResult(Usuari usuari, Mapa mapa){

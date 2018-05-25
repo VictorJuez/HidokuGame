@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DriverRanking {
     private static Scanner myScanner;
-    private static ControladorResultat ctResultat = new ControladorResultat();
+    private static final ControladorResultat ctResultat = new ControladorResultat();
     private static ControladorMapa ctMapa = new ControladorMapa();
     private static ControladorUsuari ctUsuari = new ControladorUsuari();
 
@@ -115,16 +115,15 @@ public class DriverRanking {
     }
 
     private static void getGlobalRanking() {
-        HashMap<Usuari, Integer> hm = ctResultat.getGlobalRanking();
+        HashMap<String, Integer> hm = ctResultat.getGlobalRanking();
         printMap(hm);
     }
 
-    private static void printMap(HashMap<Usuari, Integer> m){
+    private static void printMap(HashMap<String, Integer> m){
         Iterator it = m.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            Usuari u = (Usuari) pair.getKey();
-            System.out.println(u.getID() + " = " + pair.getValue());
+            System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
     }

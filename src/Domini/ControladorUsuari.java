@@ -1,17 +1,20 @@
 package Domini;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ControladorUsuari {
-    ArrayList<Usuari> allUsers = new ArrayList<>();
+    HashMap<String, Usuari> allUsers = new HashMap<>();
 
-    public ArrayList<Usuari> getAllUsers(){
+    public HashMap<String, Usuari> getAllUsers(){
         return allUsers;
     }
 
     public Usuari getUsuari(String ID) {
-        Usuari usuari = new Usuari(ID);
-        allUsers.add(usuari);
-        return usuari;
+        if(allUsers.containsKey(ID)) return allUsers.get(ID);
+        else {
+            Usuari usuari = new Usuari(ID);
+            allUsers.put(usuari.getID(), usuari);
+            return usuari;
+        }
     }
 }
