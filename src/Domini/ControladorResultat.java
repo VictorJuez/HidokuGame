@@ -21,6 +21,8 @@ public class ControladorResultat {
 
     public ControladorResultat() {
         users = ctUsuari.getAllUsers();
+        GlobalRanking = new HashMap<>();
+        resultatDAO = new ResultatDAO();
         initializeGlobalRanking();
     }
 
@@ -33,8 +35,8 @@ public class ControladorResultat {
         }
 
         else {
-            Integer actualResult = GlobalRanking.get(user.getID());
-            if (actualResult == null) actualResult = 0;
+            Integer actualResult = 0;
+            if(GlobalRanking.containsKey(user.getID())) actualResult = GlobalRanking.get(user.getID());
             GlobalRanking.put(user.getID(), r.getResultat() + actualResult);
             resultatList.add(r);
         }
@@ -63,7 +65,11 @@ public class ControladorResultat {
     }
 
     private Resultat loadResultDisk(String userID, String mapaID) throws IOException {
-        return resultatDAO.loadResultat(userID, mapaID);
+        HashMap<String, String> resultMap = resultatDAO.loadResultat(userID, mapaID);
+        Mapa mapa = controladorMapa.getMapa(resultMap.get("mapa"));
+        Usuari usuari = controladorUsuari.getUsuari(resultMap.get("usuari"));
+        int puntuacio = Integer.parseInt(resultMap.get("puntuacio"));
+        return insertarResultat(usuari, mapa, puntuacio);
     }
 
     public void loadAllResultsDisk() throws IOException {

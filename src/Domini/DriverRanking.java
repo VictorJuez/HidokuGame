@@ -37,9 +37,9 @@ public class DriverRanking {
                     System.out.println("Insertar ID del mapa");
                     String idmapa = myScanner.next();
                     Mapa mapa = ctMapa.getMapa(idmapa);
-                    System.out.println("Insertar ID del jugador");
-                    String iduser = myScanner.next();
-                    Usuari usuari = ctUsuari.getUsuari(iduser);
+                    //System.out.println("Insertar ID del jugador");
+                    //String iduser = myScanner.next();
+                    Usuari usuari = ctUsuari.insertarUsuari("enric", "hola");
                     System.out.println("Insertar puntuacion");
                     int puntuacion = myScanner.nextInt();
                     ctResultat.insertarResultat(usuari, mapa, puntuacion);
@@ -49,7 +49,7 @@ public class DriverRanking {
                     idmapa = myScanner.next();
                     mapa = ctMapa.getMapa(idmapa);
                     System.out.println("Insertar ID del jugador");
-                    iduser = myScanner.next();
+                    String iduser = myScanner.next();
                     usuari = ctUsuari.getUsuari(iduser);
                     System.out.println("puntuacio en el mapa: "+ mapa.getID());
                     System.out.println(ctResultat.getUserMapResult(usuari, mapa)+ "punts");

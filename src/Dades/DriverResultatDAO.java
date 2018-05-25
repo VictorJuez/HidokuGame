@@ -30,14 +30,17 @@ public class DriverResultatDAO {
                 case "1":
                     String userID = myScanner.next();
                     String mapaID = myScanner.next();
-                    Resultat r = resultatDAO.loadResultat(userID, mapaID);
-                    printResultat(r);
+                    HashMap<String, String > resultatMap= resultatDAO.loadResultat(userID, mapaID);
+                    Mapa map = controladorMapa.getMapa(resultatMap.get("mapa"));
+                    Usuari usuari = controladorUsuari.getUsuari(resultatMap.get("usuari"));
+                    int puntuacio = Integer.parseInt(resultatMap.get("puntuacio"));
+                    printResultat(new Resultat(usuari, map, puntuacio));
                     break;
                 case "2":
                     userID = myScanner.next();
                     mapaID = myScanner.next();
-                    int puntuacio = myScanner.nextInt();
-                    Usuari usuari = controladorUsuari.getUsuari(userID);
+                    puntuacio = myScanner.nextInt();
+                    usuari = controladorUsuari.getUsuari(userID);
                     Mapa mapa = controladorMapa.getMapa(mapaID);
                     resultatDAO.saveResultat(controladorResultat.insertarResultat(usuari, mapa, puntuacio));
                     break;
