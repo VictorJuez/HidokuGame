@@ -123,6 +123,7 @@ public class ControladorMapa {
         MapaFactory mapaFactory = new MapaFactory();
         Mapa m = mapaFactory.getMapa(topologia, angulos, tab);
         mapasMap.put(m.getID(), m);
+        saveMapa(m);
         return m;
     }
 
@@ -147,7 +148,7 @@ public class ControladorMapa {
         return mapasMap.get(ID);
     }
 
-    public void saveMapa(Mapa m) {
+    private void saveMapa(Mapa m) {
         try {
             md.saveMapa(m);
         } catch (IOException e) {
