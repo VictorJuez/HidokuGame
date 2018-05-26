@@ -2,6 +2,7 @@ package Domini;
 
 import Dades.UsuariDAO;
 
+import javax.naming.ldap.Control;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -10,15 +11,12 @@ import java.util.HashMap;
 public class ControladorUsuari {
     private HashMap<String, Usuari> allUsers = new HashMap<>();
     private UsuariDAO usuariDAO = new UsuariDAO();
+    private ControladorMapa controladorMapa = new ControladorMapa();
 
     public Usuari insertarUsuari(String ID, String password){
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
-        try {
-            usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveUsuariToDisk(usuari);
 
         return usuari;
     }
@@ -45,7 +43,7 @@ public class ControladorUsuari {
 
     private Usuari loadUsuariDisk(String ID){
         Usuari usuari = null;
-        String password = null;
+        StringBuilder password = new StringBuilder();
         ArrayList<String> partidasID = new ArrayList<>();
         ArrayList<String> mapasID = new ArrayList<>();
 
@@ -56,7 +54,7 @@ public class ControladorUsuari {
         }
 
         try {
-            usuari = new Usuari(ID, password, partidasID, mapasID);
+            usuari = new Usuari(ID, password.toString(), partidasID, mapasID);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,6 +62,20 @@ public class ControladorUsuari {
         allUsers.put(usuari.getID(), usuari);
 
         return usuari;
+    }
+
+    public void addMapatoUser(String usuariId, String mapaID){
+        Usuari usuari = getUsuari(usuariId);
+        usuari.addMapa(controladorMapa.getMapa(mapaID));
+        saveUsuariToDisk(usuari);
+    }
+
+    private void saveUsuariToDisk(Usuari usuari) {
+        try {
+            usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ArrayList<String> loadAllUsersDisk(){

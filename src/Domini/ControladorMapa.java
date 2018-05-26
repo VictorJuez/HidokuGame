@@ -115,7 +115,8 @@ public class ControladorMapa {
         result.setMatrix(tablero);
 
         mapasMap.put(result.getID(), result);
-       return result;
+        saveMapa(result);
+        return result;
     }
 
     public Mapa insertarHidato(String topologia, String angulos, String[][] tab) {
@@ -134,16 +135,24 @@ public class ControladorMapa {
         return mapasMap;
     }
 
-    public Mapa getMapa(String ID) throws IOException {
+    public Mapa getMapa(String ID) {
         if(mapasMap.get(ID) == null){
-            return loadMapaDisk(ID);
+            try {
+                return loadMapaDisk(ID);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return mapasMap.get(ID);
     }
 
-    public void saveMapa(Mapa m) throws IOException {
-        md.saveMapa(m);
+    public void saveMapa(Mapa m) {
+        try {
+            md.saveMapa(m);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void borrarMapa(Mapa mapa) {

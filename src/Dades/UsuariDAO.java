@@ -2,9 +2,7 @@ package Dades;
 
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.*;
 
 public class UsuariDAO {
     public void saveUsuari(String id, String password, ArrayList<String> partidasID, ArrayList<String> mapasID) throws IOException {
@@ -28,7 +26,7 @@ public class UsuariDAO {
         return result;
     }
 
-    public void loadUsuari(String id, String password, ArrayList<String> partidasID, ArrayList<String> mapasID) throws IOException {
+    public void loadUsuari(String id, StringBuilder password, ArrayList<String> partidasID, ArrayList<String> mapasID) throws IOException {
         InputStream input = new FileInputStream("data/usuaris/"+id+".properties");
 
         // load a properties file
@@ -36,11 +34,13 @@ public class UsuariDAO {
         prop.load(input);
 
         // get the property value
-        password = prop.getProperty("password");
+        password.append(prop.getProperty("password"));
         String partidas = prop.getProperty("partidasID");
         String mapas = prop.getProperty("mapasID");
-        partidasID = stringToArrayList(partidas);
-        mapasID = stringToArrayList(mapas);
+        String[] mapasParts = mapas.split(",");
+        String[] partidasParts = partidas.split(",");
+        partidasID.addAll(Arrays.asList(partidasParts));
+        mapasID.addAll(Arrays.asList(mapasParts));
     }
 
     private ArrayList<String> stringToArrayList(String str) {
