@@ -14,6 +14,12 @@ public class ControladorUsuari {
     public Usuari insertarUsuari(String ID, String password){
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
+        try {
+            usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return usuari;
     }
 

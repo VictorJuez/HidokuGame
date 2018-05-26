@@ -61,6 +61,10 @@ public class Usuari {
         this.password = md5(password);
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public boolean changePassword(String actualPassword, String newPassword){
         if(checkPassword(actualPassword)){
             this.password = md5(newPassword);
@@ -89,8 +93,20 @@ public class Usuari {
         return mapas;
     }
 
+    public ArrayList<String> getMapasID(){
+        ArrayList<String> mapasID = new ArrayList<>();
+        for ( String key : mapas.keySet() ) mapasID.add(key);
+        return mapasID;
+    }
+
     public HashMap<String, Partida> getPartidas() {
         return partidas;
+    }
+
+    public ArrayList<String> getPartidasID(){
+        ArrayList<String> partidasID = new ArrayList<>();
+        for ( String key : partidas.keySet() ) partidasID.add(key);
+        return partidasID;
     }
 
     @Override
