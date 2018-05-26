@@ -84,6 +84,12 @@ public class Partida
     //SETTERS DE LA CLASE
     public void setID(String ID) { this.ID = ID; }
     public void setReloj(double reloj) { this.tiempoTranscurrido = reloj; }
+    public void setCantidadInterrogantes(int cantidadInterogantes) { this.cantidadInterogantes = cantidadInterogantes; }
+    public void setNumerosInsertados (Vector<Integer> numerosInsertados)
+    {
+        this.numerosInsertados = numerosInsertados;
+    }
+    public void setNumerosInicio (Vector<Integer> numerosInicio) { this.numerosInicio = numerosInicio;}
 
     public void jugar () throws IOException {
         //gestión del cálculo del tiempo

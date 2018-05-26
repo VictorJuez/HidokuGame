@@ -12,7 +12,7 @@ public class DriverPartida
         //creo un mapa random para pasarle a la partida:
 
         Scanner myScanner = new Scanner(System.in);
-        System.out.println("1 para mapa random, 2 para mapa simple de prueba, 3 para mapa sin solucion (testeo)");
+        System.out.println("1 para mapa random, 2 para mapa simple de prueba, 3 para mapa sin solucion (testeo), 4 para cargar partida");
         String op = myScanner.next();
 
         ControladorPartida cP = new ControladorPartida();
@@ -32,7 +32,7 @@ public class DriverPartida
             Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
             p = cP.crearPartida(m);
         }
-        else
+        else if (op.equals("3"))
         {
             String ID = "1";
             String tipo = "Q";
@@ -45,6 +45,12 @@ public class DriverPartida
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
             p = cP.crearPartida(m);
+        }
+        else
+        {
+            System.out.println("Inserte la ID de la partida a cargar");
+            String ID = myScanner.next();
+            p = cP.cargarPartida(ID);
         }
         p.jugar();
     }
