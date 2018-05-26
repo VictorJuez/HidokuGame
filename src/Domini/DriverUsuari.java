@@ -1,5 +1,6 @@
 package Domini;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class DriverUsuari {
@@ -12,7 +13,7 @@ public class DriverUsuari {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) Insertar un nuevo usuario\n"+
                 "\t2) Obtener un usuario\n"+
-                "\t3) Add Map to User\n"+
+                "\t3) Add random Map to User\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -30,6 +31,12 @@ public class DriverUsuari {
                     break;
                 case "3":
                     addMaptoUser();
+                    break;
+                case "x":
+                    System.out.println("exiting game...");
+                    deleteFiles();
+                    active = false;
+                    break;
             }
 
             if (active) {
@@ -72,6 +79,18 @@ public class DriverUsuari {
         System.out.println("Escribe el id del usuario");
         String id = myScanner.next();
         printUsuari(controladorUsuari.getUsuari(id));
+    }
+
+    public static void deleteFiles() {
+        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        for(String pathName : pathNames) {
+            for (File file : new File("data/" +pathName+"/").listFiles()) {
+                if (!file.getName().equals(".gitignore")) {
+                    //do nothing
+                    file.delete();
+                }
+            }
+        }
     }
 
 }

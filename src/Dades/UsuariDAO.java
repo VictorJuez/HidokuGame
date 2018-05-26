@@ -37,10 +37,14 @@ public class UsuariDAO {
         password.append(prop.getProperty("password"));
         String partidas = prop.getProperty("partidasID");
         String mapas = prop.getProperty("mapasID");
-        String[] mapasParts = mapas.split(",");
-        String[] partidasParts = partidas.split(",");
-        partidasID.addAll(Arrays.asList(partidasParts));
-        mapasID.addAll(Arrays.asList(mapasParts));
+        if(!mapas.isEmpty()){
+            String[] mapasParts = mapas.split(",");
+            mapasID.addAll(Arrays.asList(mapasParts));
+        }
+        if(!partidas.isEmpty()){
+            String[] partidasParts = partidas.split(",");
+            partidasID.addAll(Arrays.asList(partidasParts));
+        }
     }
 
     private ArrayList<String> stringToArrayList(String str) {
