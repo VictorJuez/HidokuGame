@@ -13,7 +13,7 @@ public class Partida
 {
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
-    private int cantidadNumeros;
+    private int cantidadInterogantes; //los números que quedan por
     protected Mapa mapaPartida;
     private Mapa mapaEnunciado;
     private String ID;
@@ -32,10 +32,9 @@ public class Partida
         this.ID = UUID.randomUUID().toString();
         this.salirPartida = false;
         this.paused = false;
+        this.cantidadInterogantes = mapaEnunciado.getInterrogants();
 
         //gestión del tiempo transcurrido en la partida
-        this.data = new Date();
-        this.horaInicio = data.getTime();
         this.tiempoTranscurrido = 0;
         this.tiempoTotal = 0;
 
@@ -60,7 +59,7 @@ public class Partida
         int size = this.numerosInicio.size();
         String numerosInicio = "";
 
-        numerosInicio += String.valueOf(this.numerosInicio.get(1));
+        numerosInicio += String.valueOf(this.numerosInicio.get(0));
         for (int i = 1; i < size; ++i)
         {
             numerosInicio += ",";
@@ -72,16 +71,25 @@ public class Partida
         int size = this.numerosInsertados.size();
         String numerosInsertados = "";
 
-        numerosInsertados += String.valueOf(this.numerosInsertados.get(1));
-        for (int i = 0; i < size; ++i)
+        numerosInsertados += String.valueOf(this.numerosInsertados.get(0));
+        for (int i = 1; i < size; ++i)
         {
             numerosInsertados += ",";
             numerosInsertados += String.valueOf(this.numerosInsertados.get(i));
         }
         return numerosInsertados;
     }
+    public String getCantidadInterrogantes() { return String.valueOf(this.cantidadInterogantes); }
+
+    //SETTERS DE LA CLASE
+    public void setID(String ID) { this.ID = ID; }
+    public void setReloj(double reloj) { this.tiempoTranscurrido = reloj; }
 
     public void jugar () throws IOException {
+        //gestión del cálculo del tiempo
+        this.data = new Date();
+        this.horaInicio = data.getTime();
+
         Scanner myScanner = new Scanner(System.in);
         String op;
         System.out.print("Topologia: ");
@@ -158,8 +166,7 @@ public class Partida
     //están todos los números puestos?
     public boolean tableroLleno()
     {
-        this.cantidadNumeros = (this.numerosInsertados.size() - this.numerosInicio.size());
-        return (this.mapaPartida.getInterrogants() == this.cantidadNumeros);
+        return (this.cantidadInterogantes == 0);
     }
 
     //todos los números están puestos
@@ -218,51 +225,61 @@ public class Partida
         return false;
     }
 
+    //para que no de un out of bounds
+    private boolean casillaValida(int i, int j)
+    {
+        return (i < this.mapaPartida.getFilas() && j < this.mapaPartida.getColumnas());
+    }
+
     //inserta un número en el tablero si no ha sido insertado antes y si la casilla es valida.
     private void insertarNumero (int i, int j, int numero)
     {
-        System.out.print("La fila es: ");
-        System.out.println(i);
-        System.out.print("La columna es: ");
-        System.out.println(j);
-        //para que no se pueda meter un número más grande que las casillas totales del hidato
-        if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants())
-        {
-            System.out.print("El numero más grande es: ");
-            System.out.println(mapaPartida.getNumeros());
-        }
-        else
-        {
-            if (casillaNumero(i, j)) {
-                if (this.numerosInicio.contains(numero))
-                    System.out.println("No puedes borrar éste número (ya estaba al inicio de la partida).");
-                if (!this.numerosInsertados.contains(numero)) {
-                    this.numerosInsertados.add(numero);
-                    this.mapaPartida.insertarNumero(numero, i, j);
+        if (casillaValida(i, j)) {
+            System.out.print("La fila es: ");
+            System.out.println(i);
+            System.out.print("La columna es: ");
+            System.out.println(j);
+            //para que no se pueda meter un número más grande que las casillas totales del hidato
+            if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants()) {
+                System.out.print("El numero más grande es: ");
+                System.out.println(mapaPartida.getNumeros());
+            }
+            else if (this.numerosInicio.contains(numero))
+                System.out.println("No puedes modificar éste número (ya estaba al inicio de la partida).");
+            else {
+                if (casillaNumero(i, j) && this.mapaPartida.getMatrix()[i][j] == "?") {
+                    if (!this.numerosInsertados.contains(numero)) {
+                        this.numerosInsertados.add(numero);
+                        this.mapaPartida.insertarNumero(numero, i, j);
+                        this.cantidadInterogantes -= 1;
 
-                    //por si ése número que hemos puesto era el último que quedaba por poner
-                    if (tableroLleno()) acabarPartida();
-                } else System.out.println("El número que está intentando poner ya existe en el tablero.");
-            } else System.out.println("La casilla no es válida para introducir un número.");
+                        //por si ése número que hemos puesto era el último que quedaba por poner
+                        if (tableroLleno()) acabarPartida();
+                    } else System.out.println("El número que está intentando poner ya existe en el tablero.");
+                } else System.out.println("La casilla no es válida para introducir un número");
+            }
         }
+        else System.out.println("La casilla está fuera de la matriz");
     }
 
     private void borrarNumero (int i, int j)
     {
-        String casilla = this.mapaPartida.getMatrix()[i][j];
-        if (casillaNumero(i, j) && casilla != "?") //si casilla apta para número y no hay ninguno puesto ya
-        {
-            if (!this.numerosInicio.contains(Integer.parseInt(casilla))) //si no era de los iniciales
+        if (casillaValida(i, j)) {
+            String casilla = this.mapaPartida.getMatrix()[i][j];
+            if (casillaNumero(i, j) && casilla != "?") //si casilla apta para número y no hay ninguno puesto ya
             {
-                //si no estaba al inicio sabemos sí o sí que lo hemos insertado después
-                //entonces sabemos sí o sí que está en números insertados.
-                int pos = this.numerosInsertados.indexOf(Integer.parseInt(casilla));
-                this.numerosInsertados.remove(pos); //lo quitamos de los números insertados.
-                this.mapaPartida.borrarNumero(i, j); //borramos el número si no era de los iniciales
-            }
-            else System.out.println("No puedes borrar éste número (ya estaba al inicio de la partida).");
+                if (!this.numerosInicio.contains(Integer.parseInt(casilla))) //si no era de los iniciales
+                {
+                    //si no estaba al inicio sabemos sí o sí que lo hemos insertado después
+                    //entonces sabemos sí o sí que está en números insertados.
+                    int pos = this.numerosInsertados.indexOf(Integer.parseInt(casilla));
+                    this.numerosInsertados.remove(pos); //lo quitamos de los números insertados.
+                    this.mapaPartida.borrarNumero(i, j); //borramos el número si no era de los iniciales
+                    this.cantidadInterogantes += 1;
+                } else System.out.println("No puedes borrar éste número (ya estaba al inicio de la partida).");
+            } else System.out.println("En la casilla no hay un número.");
         }
-        else System.out.println("En la casilla no hay un número.");
+        else System.out.println("La casilla está fuera de la matriz");
     }
 
     private void reemplazarNumero (int i, int j, int numero)
@@ -286,4 +303,3 @@ public class Partida
         System.out.println();
     }
 }
-

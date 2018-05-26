@@ -37,4 +37,11 @@ public class ControladorPartida
     {
         pDAO.savePartida(p);
     }
+
+    public Partida cargarPartida(String ID) throws IOException
+    {
+        Partida p = pDAO.loadPartida(ID); //la partida nos la dejan 100% preparada.
+        return p;
+    }
+
 }
