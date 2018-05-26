@@ -1,6 +1,7 @@
 package Domini;
 
 import Domini.Mapa.Mapa;
+import Domini.Mapa.UtilsMapaDecorator;
 
 import java.io.IOException;
 import java.util.*;
@@ -17,7 +18,7 @@ public class DriverMapa {
                 "\t2) Lista hidatos\n"+
                 "\t3) Generar hidato\n"+
                 "\t4) Comprovar si existe solucion hidato\n"+
-                "\t5) Comprovar solucion hidato\n"+
+                "\t5) Ver adyacencias\n"+
                 "\t6) Load mapa from disk\n"+
                 "\t7) Delete mapa\n"+
                 "\tx) Para salir del juego\n";
@@ -43,11 +44,11 @@ public class DriverMapa {
                     op = myScanner.next();
                     validarHidato(op);
                     break;
-               /* case "5":
-                    System.out.println("Inserta el ID del hidato a comprobar");
+                case "5":
+                    System.out.println("Ver adyacencias");
                     op = myScanner.next();
-                    comprobarHidato(op);
-                    break;*/
+                    adyacencia(op);
+                    break;
                 /*case "6":
                     System.out.println("Inserta el ID del hidato a carregar");
                     op = myScanner.next();
@@ -150,7 +151,8 @@ public class DriverMapa {
 
      public static void validarHidato(String ID) throws IOException {
          Mapa m = ctMapa.getMapa(ID);
-        if(m.hidatoValido()){
+         UtilsMapaDecorator um = new UtilsMapaDecorator(m);
+         if(um.hidatoValido()){
             System.out.println("Té solucio:");
             System.out.println("ID: "+m.getID());
             System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
@@ -160,13 +162,13 @@ public class DriverMapa {
         //m.hidatoValido();
      }
 
-    /* public static void comprobarHidato(String ID) throws IOException {
+     public static void adyacencia(String ID) throws IOException {
          Mapa m = ctMapa.getMapa(ID);
-         if(m.matriuCorrecte()){
-             System.out.println("Solucio correcte!");
+         for(int i = 0; i < m.getTablaAD().size(); i++){
+             System.out.println("posicio a la taula: "+ i + " identificador: " + m.getTablaAD().get(i).getZ());
+             System.out.println("vector adjacents: "+ m.getTablaAD().get(i).getAd());
          }
-         else System.out.println("Solucio incorrecte");
-     }*/
+     }
 
      /*public static void loadMapa(String ID) throws IOException, ParseException {
         Mapa m = ctMapa.loadMapa(ID);

@@ -38,13 +38,11 @@ public abstract class Mapa {
         public Integer getZ() {
             return z;
         }
-
         public Integer getX() {
             return x;
         }
-        public Integer getY() {
-            return y;
-        }
+        public Integer getY() { return y; }
+
 
         public Vector<Integer> getAd() {
             return ad;
@@ -60,8 +58,6 @@ public abstract class Mapa {
     };
 
     protected Vector <adyacencias> tablaAD = new Vector<>();
-    protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
-
     protected abstract Vector<adyacencias> calculoAdyacencias();
 
     public Mapa(String[][] matrix) {
@@ -70,7 +66,6 @@ public abstract class Mapa {
         this.columnas = matrix[0].length;
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
-
         inicialitzaTabla();
         tablaAD = calculoAdyacencias();
         numerosExistents = getNumerosExistents();
@@ -88,7 +83,6 @@ public abstract class Mapa {
         this.columnas = matrix[0].length;
         this.ID = ID;
         this.solucio = false;
-
         inicialitzaTabla();
         tablaAD = calculoAdyacencias();
         numerosExistents = getNumerosExistents();
@@ -176,12 +170,6 @@ public abstract class Mapa {
         }
         return interrogants;
     }
-    public boolean hidatoValido(){
-        Vector<Integer> v;
-        v = getNumerosExistents();
-        this.solucio = backtrackingResolucio(matrix, v);
-        return this.solucio;
-    }
 
     public abstract Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col);
     //public abstract boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v);
@@ -211,98 +199,6 @@ public abstract class Mapa {
             if (!numerosExistents.contains(k+1)) total.add(k+1);
         }
         return total;
-
-
-
-
-
-
-
-
-
-    }
-    protected Integer busca(String valor){       //et retorna la posicio don es troba el valor a la taula d'adjacencies
-        for (int i = 0; i < tablaAD.size(); i++){
-            if(tablaAD.get(i).valor.equals(valor)){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-
-    protected boolean backtrackingResolucio(String[][] A, Vector v) {   //si v esta buid no funciona!!!!!!!!
-        return inner_backtrackingResolucio(v, 0, 0, 0);
-    }
-
-
-    protected Integer calculDistancia(Integer posicio, Vector<Integer> v){
-        if (posicio == 0) return 0;
-        else return v.get(posicio) - v.get(posicio - 1) - 1;
-    }
-
-
-
-    protected void calculCamins(Integer posicio, Integer distancia, Vector v, Vector cami, Integer indexAD, Integer franja) {//posicio es la posicio del vector dexistens
-        if(distancia == 0){
-            if(posicio == 0){
-                franjes.get(franja).add(cami);
-            }
-            else{
-                for(int i = 0; i < tablaAD.get(indexAD).ad.size(); i++){
-                    Integer aux = tablaAD.get(indexAD).ad.get(i);
-                    if (tablaAD.get(aux).getValor().equals(v.get(posicio-1).toString())){
-                        franjes.get(franja).add(cami);
-                    }
-                }
-            }
-        }
-        else{
-            for(int i = 0; i < tablaAD.get(indexAD).ad.size(); i++){
-                Integer aux = tablaAD.get(indexAD).ad.get(i);
-                if (!tablaAD.get(aux).visitat && tablaAD.get(aux).getValor().equals("?")){
-                    cami.add(aux);
-                    tablaAD.get(aux).visitat = true;
-                    calculCamins(posicio,distancia -1, v, cami, aux, franja);
-                    tablaAD.get(aux).visitat = false;
-                    cami.remove(aux);
-                }
-            }
-        }
-
-    }
-
-
-    protected boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total, Integer franja){
-        boolean b = false;
-        if (total == interrogants + numeros) return true;
-        else{
-            Vector<Integer> cami = new Vector<>();
-            String valor;
-            int indexAD;
-
-            valor = v.get(posicio).toString();
-            indexAD = busca(valor);
-            Integer distancia = calculDistancia(posicio, v);
-
-            franjes.add(franja, new Vector<>());
-            tablaAD.get(indexAD).visitat = true;
-            cami.add(indexAD);//aqui afageixes caselles amb numeros
-            calculCamins(posicio, distancia, v, cami, indexAD, franja);
-            tablaAD.get(indexAD).visitat = false;
-
-            for (int i = 0; i < franjes.get(franja).size() && !b; i++) {
-                for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
-                    tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
-                }
-                b = inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
-                for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
-                    tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = false;
-                }
-            }
-
-        }
-        return b;
     }
 
     void inicialitzaTabla(){

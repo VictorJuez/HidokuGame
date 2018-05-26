@@ -30,7 +30,6 @@ public class TableroHexagonal extends Mapa {
         Integer[] par = {-2,0,1, 2, 3, 5};
         Integer[] impar = {-1, 0, 1, 2, 3, 4};
         Integer[] dir;
-        inicialitzaTabla();
         for(int i = 0; i < tablaAD.size(); ++i){
             pos[0] = tablaAD.get(i).getY();
             pos[1] = tablaAD.get(i).getX();

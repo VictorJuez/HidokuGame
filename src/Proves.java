@@ -1,6 +1,7 @@
 import Domini.*;
 import Domini.Mapa.Mapa;
 import Domini.Mapa.MapaFactory;
+import Domini.Mapa.UtilsMapaDecorator;
 
 public class Proves {
     public static void main(String[] args) {
@@ -25,8 +26,8 @@ public class Proves {
             System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
             printTablero(m.getSolutionMatrix());
         }*/
-
-        if(!m.hidatoValido()) System.out.println("No té solucio");
+        UtilsMapaDecorator um = new UtilsMapaDecorator(m);
+        if(!um.hidatoValido()) System.out.println("No té solucio");
     }
 
    /* public static void comprobarSolucion(Mapa m){

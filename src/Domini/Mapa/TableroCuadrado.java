@@ -27,7 +27,6 @@ public class TableroCuadrado extends Mapa {
     protected Vector<adyacencias> calculoAdyacencias() {
         Integer[] pos = new Integer[2];
         Integer[] posAD;
-        inicialitzaTabla();
         for(int i = 0; i < tablaAD.size(); ++i){
             pos[0] = tablaAD.get(i).getY();
             pos[1] = tablaAD.get(i).getX();
