@@ -152,8 +152,9 @@ public class ControladorMapa {
     }
 
     private Mapa loadMapaDisk(String ID) throws IOException {
-        return md.loadMapa(ID);
-
+        Mapa mapa = md.loadMapa(ID);
+        mapasMap.put(ID, mapa);
+        return mapa;
     }
 
     private void loadAllMapsDisk(){
