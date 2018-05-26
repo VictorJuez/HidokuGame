@@ -28,7 +28,6 @@ public class TableroTriangular extends Mapa {
     protected Vector<adyacencias> calculoAdyacencias() {
         Integer[] pos = new Integer[2];
         Integer[] posAD;
-        inicialitzaTabla();
         for(int i = 0; i < tablaAD.size(); ++i){
             pos[0] = tablaAD.get(i).getY();
             pos[1] = tablaAD.get(i).getX();
@@ -52,62 +51,6 @@ public class TableroTriangular extends Mapa {
         return tablaAD;
     }
 
-
-    /**
-     * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
-     * @return Boolean indicando si esta bien resuelto o no.
-     */
-    @Override
-    public boolean matriuCorrecte(){
-        int x = 0;
-        int y = 0;
-        boolean trobat = false;
-        for(int y1 = 0; y1 < filas && !trobat; y1++){
-            for (int x1 = 0; x1 < columnas; x1++){
-                if(matrix[y1][x1].equals("1")){
-                    trobat = true;
-                    y = y1;
-                    x = x1;
-                }
-            }
-        }
-        if(!trobat) return false;
-
-        boolean correcte = true;
-        int buscar = 2;
-        int interr = interrogants + numeros -1;
-
-        Integer[] pos;
-        Integer[] posant = new Integer[2];
-        posant[0] = y;
-        posant[1] = x;
-        int j;
-        int i;
-        while(interr != 0 && correcte){
-            trobat = false;
-            if((posant[0] + posant[1])%2 == 0)i = 1;
-            else i = 0;
-            j = i + 2;
-            while((i <= j) && !trobat){
-                pos = siguienteCasilla(posant,i);
-                if ((pos[1] >= 0) && (pos[1] <= columnas -1) && (pos[0] >= 0) && (pos[0] <= filas -1) ){
-                    if (matrix[pos[0]][pos[1]].equals(Integer.toString(buscar))) {
-                        interr--;
-                        buscar++;
-                        trobat = true;
-                        posant[0] = pos[0];
-                        posant[1] = pos[1];
-                    }
-
-                }
-                i++;
-
-            }
-            if (!trobat) correcte = false;
-            else correcte = true;
-        }
-        return correcte;
-    }
 
     protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir){
         Integer[] sig_casilla = new Integer[2];

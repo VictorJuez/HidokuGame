@@ -1,26 +1,27 @@
 package Domini;
 
 import Domini.Mapa.Mapa;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ControladorResultatTest {
     ArrayList<Mapa> mapaList = new ArrayList<>();
     ArrayList<Usuari> usuariList = new ArrayList<>();
-    ControladorResultat ctResultat;
+    ControladorResultat ctResultat = new ControladorResultat();
+    ControladorUsuari ctUsuari = new ControladorUsuari();
+    ControladorMapa ctMapa = new ControladorMapa();
 
     @Before
     public void setUp() {
-        ControladorUsuari ctUsuari = new ControladorUsuari();
-        ControladorMapa ctMapa = new ControladorMapa();
-        ctResultat = new ControladorResultat();
         for(int i=0; i<3; ++i) {
             mapaList.add(ctMapa.generarHidato());
-            usuariList.add(ctUsuari.getUsuari(String.valueOf(i)));
+            usuariList.add(ctUsuari.insertarUsuari(String.valueOf(i), String.valueOf(i)));
         }
     }
 
@@ -44,10 +45,10 @@ public class ControladorResultatTest {
         ctResultat.insertarResultat(usuariList.get(2), mapaList.get(2), 50);
         ctResultat.insertarResultat(usuariList.get(2), mapaList.get(2), 10);
 
-        HashMap<Usuari, Integer> hm = ctResultat.getGlobalRanking();
-        int resultUser1 = hm.get(usuariList.get(0));
-        int resultUser2 = hm.get(usuariList.get(1));
-        int resultUser3 = hm.get(usuariList.get(2));
+        HashMap<String, Integer> hm = ctResultat.getGlobalRanking();
+        int resultUser1 = hm.get(usuariList.get(0).getID());
+        int resultUser2 = hm.get(usuariList.get(1).getID());
+        int resultUser3 = hm.get(usuariList.get(2).getID());
         Assert.assertEquals("Same user, two different maps",15, resultUser1);
         Assert.assertEquals("One user, one map", 2, resultUser2);
         Assert.assertEquals("Same user, two same maps", 60, resultUser3);
@@ -122,5 +123,15 @@ public class ControladorResultatTest {
         Assert.assertEquals("Same user, two different maps",15, resultUser1);
         Assert.assertEquals("One user, one map", 2, resultUser2);
         Assert.assertEquals("Same user, two same maps", 60, resultUser3);
+    }
+
+    @After
+    public void deleteFiles() {
+        for (File file : new File("data/resultats/").listFiles()) {
+            if (!file.getName().equals(".gitignore")) {
+                //do nothing
+                file.delete();
+            }
+        }
     }
 }

@@ -1,46 +1,112 @@
 package Domini;
 
+import Domini.Mapa.Mapa;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Collections;
-import java.util.Vector;
-import java.util.concurrent.ThreadLocalRandom;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 public class Usuari {
-    protected String ID;
-    protected static Map <String, String> instances = Collections.emptyMap();  //estructura de datos donde guardaremos todos los usuarios a medida que se van creando y borrando
-    protected static String actual = null;    //usuario con la sesion abierta, no se si es pot fer aixo
-    protected String password;  //password del usuario
-    protected Vector<String> partidas = new Vector<String>();   //partidas del usuario
-    protected Vector<String> mapas = new Vector<String>();      //mapas que ha creado el usuario
+    private String ID;
+    private String password;  //password del usuario
+    private HashMap<String, Partida> partidas = new HashMap<>();   //partidas del usuario
+    private HashMap<String, Mapa> mapas = new HashMap<>();      //mapas que ha creado el usuario
+    private ControladorPartida controladorPartida = new ControladorPartida();
+    private ControladorMapa controladorMapa = new ControladorMapa();
 
-    public Usuari(String ID){
+    public Usuari(String ID, String password){
         this.ID = ID;
-    }   //creadora
+        this.password = md5(password);
 
-    public boolean crearUsuari(String ID, String password){     //retorna true si s'ha creat l'usari amb exit, en cas contrari retorna false
-        if (instances.containsKey(ID)) return false;
-        else{
-            instances.put(ID,password);
-            this.ID = ID;
-            this.password = password;
-        }
-        return true;
     }
 
-    public void borrarUsuari(){
-        if (actual == this.ID) actual = null;   //si borrem l'usuari actual, aleshores el posem a null
-        instances.remove(ID);
-        this.partidas = new Vector<String>();
-        this.mapas = new Vector<String>();      //reinicialitzem les estructures
-        this.ID = null;
-        this.password = null;
+    public Usuari (String ID, String password, ArrayList<String> partidas, ArrayList<String> mapas) throws IOException {
+        this.ID = ID;
+        this.password = password;
+        /*for(String partidaID : partidas){
+        }*/
+        for(String mapaID : mapas){
+            Mapa mapa = controladorMapa.getMapa(mapaID);
+            this.mapas.put(mapa.getID(), mapa);
+        }
+    }
+
+    private String md5(String password)
+    {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        md.update(password.getBytes());
+
+        byte byteData[] = md.digest();
+
+        //convert the byte to hex format method 1
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < byteData.length; i++) {
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return sb.toString();
     }
 
     public String getID(){
         return this.ID;
+    }
+
+    public void setPassword(String password) {
+        this.password = md5(password);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public boolean changePassword(String actualPassword, String newPassword){
+        if(checkPassword(actualPassword)){
+            this.password = md5(newPassword);
+            return true;
+        }
+        return false;
+    }
+
+    public void addPartida(Partida partida){
+        partidas.put(partida.getID(), partida);
+    }
+
+    public void popPartida(Partida partida){
+        partidas.remove(partida.getID());
+    }
+
+    public void addMapa(Mapa mapa){
+        mapas.put(mapa.getID(), mapa);
+    }
+
+    public void popMapa (Mapa mapa){
+        mapas.remove(mapa.getID());
+    }
+
+    public HashMap<String, Mapa> getMapas() {
+        return mapas;
+    }
+
+    public ArrayList<String> getMapasID(){
+        ArrayList<String> mapasID = new ArrayList<>();
+        for ( String key : mapas.keySet() ) mapasID.add(key);
+        return mapasID;
+    }
+
+    public HashMap<String, Partida> getPartidas() {
+        return partidas;
+    }
+
+    public ArrayList<String> getPartidasID(){
+        ArrayList<String> partidasID = new ArrayList<>();
+        for ( String key : partidas.keySet() ) partidasID.add(key);
+        return partidasID;
     }
 
     @Override
@@ -54,4 +120,7 @@ public class Usuari {
     }
 
 
+    public boolean checkPassword(String password) {
+        return this.password.equals(md5(password));
+    }
 }

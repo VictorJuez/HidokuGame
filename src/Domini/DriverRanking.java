@@ -15,6 +15,7 @@ public class DriverRanking {
     private static ControladorUsuari ctUsuari = new ControladorUsuari();
 
     public static void main(String[] args) throws IOException {
+        ctResultat.loadAllResultsDisk();
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1)Insertar resultado partida \n"+
@@ -36,9 +37,9 @@ public class DriverRanking {
                     System.out.println("Insertar ID del mapa");
                     String idmapa = myScanner.next();
                     Mapa mapa = ctMapa.getMapa(idmapa);
-                    System.out.println("Insertar ID del jugador");
-                    String iduser = myScanner.next();
-                    Usuari usuari = ctUsuari.getUsuari(iduser);
+                    //System.out.println("Insertar ID del jugador");
+                    //String iduser = myScanner.next();
+                    Usuari usuari = ctUsuari.insertarUsuari("enric", "hola");
                     System.out.println("Insertar puntuacion");
                     int puntuacion = myScanner.nextInt();
                     ctResultat.insertarResultat(usuari, mapa, puntuacion);
@@ -48,7 +49,7 @@ public class DriverRanking {
                     idmapa = myScanner.next();
                     mapa = ctMapa.getMapa(idmapa);
                     System.out.println("Insertar ID del jugador");
-                    iduser = myScanner.next();
+                    String iduser = myScanner.next();
                     usuari = ctUsuari.getUsuari(iduser);
                     System.out.println("puntuacio en el mapa: "+ mapa.getID());
                     System.out.println(ctResultat.getUserMapResult(usuari, mapa)+ "punts");
@@ -114,16 +115,15 @@ public class DriverRanking {
     }
 
     private static void getGlobalRanking() {
-        HashMap<Usuari, Integer> hm = ctResultat.getGlobalRanking();
+        HashMap<String, Integer> hm = ctResultat.getGlobalRanking();
         printMap(hm);
     }
 
-    private static void printMap(HashMap<Usuari, Integer> m){
+    private static void printMap(HashMap<String, Integer> m){
         Iterator it = m.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            Usuari u = (Usuari) pair.getKey();
-            System.out.println(u.getID() + " = " + pair.getValue());
+            System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
     }
