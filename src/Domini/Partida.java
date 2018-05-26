@@ -2,6 +2,7 @@ package Domini;
 
 import Domini.Mapa.Mapa;
 import Domini.Mapa.MapaFactory;
+import Domini.Mapa.UtilsMapaDecorator;
 
 import java.io.IOException;
 import java.util.Date;
@@ -42,7 +43,7 @@ public class Partida
         //copia del mapa a usar
         this.mapaEnunciado = mapaEnunciado;
         MapaFactory mapaFactory = new MapaFactory();
-        this.mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
+        Mapa mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
         this.numerosInsertados = mapaPartida.getNumerosExistents();
         this.numerosInicio = mapaPartida.getNumerosExistents();
     }
@@ -166,7 +167,10 @@ public class Partida
     public void acabarPartida()
     {
         //aquí entra si el Hidato está bien.
-        if (this.mapaPartida.matriuCorrecte())
+        UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(this.mapaPartida);
+
+
+        if (utilsMapa.hidatoValido())
         {
             System.out.println("El hidato es correcto");
             salirPartida = true;
