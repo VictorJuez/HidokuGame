@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DriverRanking {
     private static Scanner myScanner;
-    private static final ControladorResultat ctResultat = new ControladorResultat();
+    private static ControladorResultat ctResultat = new ControladorResultat();
     private static ControladorMapa ctMapa = new ControladorMapa();
     private static ControladorUsuari ctUsuari = new ControladorUsuari();
 

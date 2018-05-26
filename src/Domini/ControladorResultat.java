@@ -72,8 +72,13 @@ public class ControladorResultat {
         return insertarResultat(usuari, mapa, puntuacio);
     }
 
-    public void loadAllResultsDisk() throws IOException {
-        HashMap<String, Integer> resultatsDisk = resultatDAO.loadAllResults();
+    public void loadAllResultsDisk() {
+        HashMap<String, Integer> resultatsDisk = null;
+        try {
+            resultatsDisk = resultatDAO.loadAllResults();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Iterator it = resultatsDisk.entrySet().iterator();
         while(it.hasNext()){
