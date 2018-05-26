@@ -123,7 +123,6 @@ public class DriverMapa {
         }
 
         Mapa m = ctMapa.insertarHidato(index[0], index[1], tab);
-        ctMapa.saveMapa(m);
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
         printTablero(m.getMatrix());
@@ -145,7 +144,6 @@ public class DriverMapa {
 
         //String[][] t = ctDomini.insertarHidato(index[0], index[1], Integer.parseInt(index[2]), Integer.parseInt(index[3]), tab.getValue());
         printTablero(m.getMatrix());
-        ctMapa.saveMapa(m);
      }
 
      public static void validarHidato(String ID) throws IOException {

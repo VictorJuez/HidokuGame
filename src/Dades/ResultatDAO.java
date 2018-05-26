@@ -1,10 +1,7 @@
 package Dades;
 
-import Domini.ControladorMapa;
-import Domini.ControladorResultat;
+import Domini.*;
 import Domini.Mapa.Mapa;
-import Domini.Resultat;
-import Domini.Usuari;
 
 import java.io.*;
 import java.util.HashMap;
@@ -23,7 +20,7 @@ public class ResultatDAO {
         fileOut.close();
     }
 
-    public Resultat loadResultat(String userID, String mapaID) throws IOException {
+    public HashMap<String, String> loadResultat(String userID, String mapaID) throws IOException {
         InputStream input = new FileInputStream("data/resultats/"+userID+"_"+mapaID+".properties");
 
         // load a properties file
@@ -31,14 +28,13 @@ public class ResultatDAO {
         prop.load(input);
 
         // get the property value
+        HashMap<String, String> result = new HashMap<>();
         String resultat = prop.getProperty("resultat");
+        result.put("mapa", mapaID);
+        result.put("usuari", userID);
+        result.put("puntuacio", resultat);
 
-        ControladorResultat controladorResultat = new ControladorResultat();
-        ControladorMapa controladorMapa = new ControladorMapa();
-        Usuari usuari = new Usuari(userID);
-        Mapa mapa = controladorMapa.getMapa(mapaID);
-        Resultat r = controladorResultat.insertarResultat(usuari, mapa, Integer.parseInt(resultat));
-        return r;
+        return result;
     }
 
     public HashMap<String, Integer> loadAllResults() throws IOException {
@@ -52,9 +48,9 @@ public class ResultatDAO {
                     String resultName = listOfFiles[i].getName();
                     resultName = resultName.substring(0, resultName.length() - 11);
                     String parts[] = resultName.split("_");
-                    Resultat r = loadResultat(parts[0], parts[1]);
-                    int puntuacio = r.getResultat();
-                    resultsDisk.put(resultName, puntuacio);
+                    HashMap<String, String> r = loadResultat(parts[0], parts[1]);
+                    String puntuacio = r.get("puntuacio");
+                    resultsDisk.put(resultName, Integer.valueOf(puntuacio));
                 }
             }
         }
