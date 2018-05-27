@@ -43,7 +43,7 @@ public class Partida
         //copia del mapa a usar
         this.mapaEnunciado = mapaEnunciado;
         MapaFactory mapaFactory = new MapaFactory();
-        Mapa mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
+        this.mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
         this.numerosInsertados = mapaPartida.getNumerosExistents();
         this.numerosInicio = mapaPartida.getNumerosExistents();
     }
