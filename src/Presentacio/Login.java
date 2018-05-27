@@ -31,7 +31,7 @@ public class Login {
                 Usuari usuari = controladorUsuari.getUsuari(username);
                 if(usuari == null) JOptionPane.showMessageDialog(null, "El username no correspon a cap usuari!");
                 else {
-                    if(!usuari.checkPassword(password)) JOptionPane.showMessageDialog(null, "Contrasenya incorrecte!");
+                    if(!controladorUsuari.login(usuari, password)) JOptionPane.showMessageDialog(null, "Contrasenya incorrecte!");
                     else {
                         JOptionPane.showMessageDialog(null, "Login correctament!");
                         LoginFrame.dispose();
