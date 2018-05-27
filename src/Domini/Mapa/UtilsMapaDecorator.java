@@ -5,6 +5,7 @@ import java.util.Vector;
 public class UtilsMapaDecorator extends MapaDecorator {
 
     protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
+    int last = -1;
     public UtilsMapaDecorator(Mapa decoratedMap) {
         super(decoratedMap);
     }
@@ -13,15 +14,27 @@ public class UtilsMapaDecorator extends MapaDecorator {
         decoratedMap.solucio = backtrackingResolucio(decoratedMap.getNumerosExistents());
         return decoratedMap.solucio;
     }
-    //Solo tiene sentido si el hidato original es correcto
-    public Pista pista(){
-        boolean c = backtrackingResolucio(this.decoratedMap.getNumerosExistents());
-        Pista p = new Pista(c, this.decoratedMap); //en cas que tot estigui be has de retornar el seguent numero
-
-        return p;
+    //retorna la posicio en la tablaAD d'on es troba el seguent element
+    public int pista(){
+        backtrackingResolucio(this.decoratedMap.getNumerosExistents());
+        if (last == -1) return -1; //no tiene solucion, reacerlo entero
+        Integer valor = Integer.valueOf(decoratedMap.tablaAD.get(last).getValor());
+        valor++;
+        String val = valor.toString();
+        boolean trobat = false;
+        for(int i = 0; i < decoratedMap.tablaAD.get(last).getAd().size(); i++){
+            String anterior = decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).getValor();
+            decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).setValorAdyacencia(val);
+            decoratedMap.putValorV(valor);
+            trobat = backtrackingResolucio(decoratedMap.getNumerosExistents());
+            decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).setValorAdyacencia(anterior);
+            decoratedMap.borrarV(valor);
+            if(trobat) return decoratedMap.tablaAD.get(last).getAd().get(i);
+        }
+        return -1;
     }
 
-    private Integer busca(String valor){       //et retorna la posicio don es troba el valor a la taula d'adjacencies
+    protected Integer busca(String valor){       //et retorna la posicio don es troba el valor a la taula d'adjacencies
         for (int i = 0; i < decoratedMap.tablaAD.size(); i++){
             if(decoratedMap.tablaAD.get(i).getValor().equals(valor)){
                 return i;
@@ -87,16 +100,30 @@ public class UtilsMapaDecorator extends MapaDecorator {
             decoratedMap.tablaAD.get(indexAD).visitat = false;
 
             for (int i = 0; i < franjes.get(franja).size() && !b; i++) {
-                for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
+                int k = 0;
+                for (; k < franjes.get(franja).get(i).size(); k++) {
                     decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
                 }
                 b = inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
-                for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
-                    decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = false;
+                if (b && last == -1) last = buscarLast (v, franjes.get(franja).get(i));
+                for (int l = 0; l < franjes.get(franja).get(i).size(); l++) {
+                    decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(l)).visitat = false;
                 }
             }
         }
 
         return b;
+    }
+
+    private int buscarLast(Vector<Integer> v, Vector<Integer> f){//aquí tens la franja
+        if(decoratedMap.tablaAD.get(f.get(f.size()-2)).getValor().equalsIgnoreCase("?")){
+            return f.get(f.size()-1);
+        }
+        for(int i = f.size()-1; i >=0; i--){    //el penultim cas es absurd, pases directament al últim.
+            if (decoratedMap.tablaAD.get(f.get(i)).getValor().equalsIgnoreCase("?")){
+                return f.get(i);//retorna la posicio de tablaAD del ultim numero posat.
+            }
+        }
+        return f.get(f.size()-1);
     }
 }
