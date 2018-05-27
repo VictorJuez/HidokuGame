@@ -62,4 +62,17 @@ public class UsuariDAOTest {
             file.delete();
         }
     }
+
+    @After
+    public void deleteAllFiles() {
+        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        for(String pathName : pathNames) {
+            for (File file : new File("data/" +pathName+"/").listFiles()) {
+                if (!file.getName().equals(".gitignore")) {
+                    //do nothing
+                    file.delete();
+                }
+            }
+        }
+    }
 }
