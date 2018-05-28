@@ -40,13 +40,6 @@ public class Login {
                 }
             }
         });
-        enrereButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LoginFrame.dispose();
-                Main.MainFrame.show();
-            }
-        });
     }
     
     public void createFrame(){

@@ -32,13 +32,6 @@ public class SignUp {
                 }
             }
         });
-        enrereButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SignUpFrame.dispose();
-                Main.MainFrame.show();
-            }
-        });
     }
 
     public void createFrame(){
@@ -47,5 +40,9 @@ public class SignUp {
         SignUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         SignUpFrame.pack();
         SignUpFrame.setVisible(true);
+    }
+
+    public JPanel getSignUpPanel() {
+        return SignUpPanel;
     }
 }
