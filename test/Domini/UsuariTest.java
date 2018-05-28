@@ -1,9 +1,12 @@
 package Domini;
 
 import Domini.Mapa.Mapa;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
 
 import static org.junit.Assert.*;
 
@@ -98,5 +101,18 @@ public class UsuariTest {
     @Test
     public void checkPassword() {
         Assert.assertTrue(usuari.checkPassword("hola"));
+    }
+
+    @After
+    public void deleteAllFiles() {
+        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        for(String pathName : pathNames) {
+            for (File file : new File("data/" +pathName+"/").listFiles()) {
+                if (!file.getName().equals(".gitignore")) {
+                    //do nothing
+                    file.delete();
+                }
+            }
+        }
     }
 }

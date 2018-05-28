@@ -12,6 +12,7 @@ public class ControladorUsuari {
     private HashMap<String, Usuari> allUsers = new HashMap<>();
     private UsuariDAO usuariDAO = new UsuariDAO();
     private ControladorMapa controladorMapa = new ControladorMapa();
+    private static Usuari usuariActiu;
 
     public Usuari insertarUsuari(String ID, String password){
         Usuari usuari = new Usuari(ID, password);
@@ -76,6 +77,19 @@ public class ControladorUsuari {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean login(Usuari usuari, String password){
+        if(usuari.checkPassword(password)) {
+            usuariActiu = usuari;
+            return true;
+        }
+        return false;
+    }
+
+    public static String getUsuariActiu() {
+        if(usuariActiu!= null) return usuariActiu.getID();
+        else return "nobody";
     }
 
     private ArrayList<String> loadAllUsersDisk(){
