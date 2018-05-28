@@ -80,8 +80,8 @@ public class PartidaDAO {
         Vector<Integer> numerosInsertados = new Vector<Integer>();
 
         //para pasar de los strings a los números de vectores como se usa en partida
-        for (int i = 0; i < numerosInicioS.length; ++i) numerosInicio.add(Integer.parseInt(numerosInicioS[i]));
-        for (int i = 0; i < numerosInsertadosS.length; ++i) numerosInsertados.add(Integer.parseInt(numerosInicioS[i]));
+        for (int i = 0; i < numerosInicioS.length; ++i) { numerosInicio.add(Integer.parseInt(numerosInicioS[i])); }
+        for (int i = 0; i < numerosInsertadosS.length; ++i) { numerosInsertados.add(Integer.parseInt(numerosInsertadosS[i])); }
 
         int cantidadInterrogantes = Integer.parseInt(prop.getProperty("cantidadInterrogantes"));
 

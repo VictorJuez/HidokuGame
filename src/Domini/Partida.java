@@ -107,9 +107,13 @@ public class Partida
         System.out.println(this.mapaPartida.getTipo());
         System.out.print("Adyacencias: ");
         System.out.println(this.mapaPartida.getAngulos());
+        pausarPartida();
+        reanudarPartida();
         cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
         while (!salirPartida)
         {
+            pausarPartida();
+            reanudarPartida();
             System.out.println("1 -> añadir, 2 -> borrar, 7 -> reemplazar,3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar");
 
             op = myScanner.next();
@@ -209,7 +213,6 @@ public class Partida
             this.horaPausa = data.getTime();
             this.tiempoTranscurrido = Math.floor((this.horaPausa - this.horaInicio) / 1000); //y éste es el tiempo que ha transcurrido
             this.tiempoTotal += this.tiempoTranscurrido;
-            System.out.println(this.tiempoTotal);
         }
     }
 
