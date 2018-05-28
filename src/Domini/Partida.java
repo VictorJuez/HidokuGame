@@ -12,12 +12,14 @@ import java.util.Vector;
 
 public class Partida
 {
+    private String ID;
+    private Usuari usuari;
+    public ControladorPartida cP = new ControladorPartida();
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
     private int cantidadInterogantes; //los números que quedan por
     protected Mapa mapaPartida;
     private Mapa mapaEnunciado;
-    private String ID;
     private Date data;
     private boolean paused;
     private double tiempoTranscurrido; //expresado en SEGUNDOS, tiempo entre pausas.
@@ -31,6 +33,7 @@ public class Partida
     {
         //asignación del ID de la partida (para gestionar load/save, rankings..)
         this.ID = UUID.randomUUID().toString();
+        //this.usuari = usuari;
         this.salirPartida = false;
         this.paused = false;
         this.cantidadInterogantes = mapaEnunciado.getInterrogants();
@@ -92,6 +95,7 @@ public class Partida
     }
     public void setNumerosInicio (Vector<Integer> numerosInicio) { this.numerosInicio = numerosInicio;}
 
+    //LO DEJO DE MOMENTO POR TESTIONG DE LA CLASE (HAY QUE CAMBIARLO A CAPA PRESENTACION)
     public void jugar () throws IOException {
         //gestión del cálculo del tiempo
         this.data = new Date();
@@ -103,7 +107,7 @@ public class Partida
         System.out.println(this.mapaPartida.getTipo());
         System.out.print("Adyacencias: ");
         System.out.println(this.mapaPartida.getAngulos());
-        printTablero(mapaPartida.getMatrix());
+        cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
         while (!salirPartida)
         {
             System.out.println("1 -> añadir, 2 -> borrar, 7 -> reemplazar,3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar");
@@ -121,7 +125,7 @@ public class Partida
                     System.out.println("Introduce el número:");
                     Integer numero = myScanner.nextInt();
                     insertarNumero(i-1, j-1, numero);
-                    printTablero(mapaPartida.getMatrix());
+                    cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
                     break;
                 }
                 case ("2"):
@@ -131,7 +135,7 @@ public class Partida
                     System.out.println("Introduce la columna:");
                     int j = myScanner.nextInt();
                     borrarNumero(i-1, j-1);
-                    printTablero(mapaPartida.getMatrix());
+                    cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
                     break;
                 }
                 case ("3"):
@@ -164,7 +168,7 @@ public class Partida
                     System.out.println("Introduce el número:");
                     Integer numero = myScanner.nextInt();
                     reemplazarNumero(i-1, j-1, numero);
-                    printTablero(mapaPartida.getMatrix());
+                    cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
                     break;
             }
         }
@@ -223,15 +227,14 @@ public class Partida
         pausarPartida();
         reanudarPartida();
 
-        ControladorPartida cP = new ControladorPartida();
-        cP.guardarPartida(this);
+        cP.savePartida(this);
     }
 
     //indica si en la casilla que apuntamos con i y j es para números o es una casilla no válida
     private boolean casillaNumero (int i, int j)
     {
         String casilla = this.mapaPartida.getMatrix()[i][j];
-        if (casilla != "#" && casilla != "*") return true;
+        if (!casilla.equals("#") && !casilla.equals("*")) return true;
         return false;
     }
 
@@ -257,7 +260,7 @@ public class Partida
             else if (this.numerosInicio.contains(numero))
                 System.out.println("No puedes modificar éste número (ya estaba al inicio de la partida).");
             else {
-                if (casillaNumero(i, j) && this.mapaPartida.getMatrix()[i][j] == "?") {
+                if (casillaNumero(i, j) && this.mapaPartida.getMatrix()[i][j].equals("?")) {
                     if (!this.numerosInsertados.contains(numero)) {
                         this.numerosInsertados.add(numero);
                         this.mapaPartida.insertarNumero(numero, i, j);
@@ -300,16 +303,4 @@ public class Partida
         insertarNumero(i, j, numero);
     }
 
-    public static void printTablero(String[][] matrix){
-        int filas = matrix.length;
-        int columnas = matrix[0].length;
-        for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) {
-                System.out.print(matrix[i][j]);
-                if(j!=columnas-1) System.out.print(",");
-            }
-            System.out.print("\n");
-        }
-        System.out.println();
-    }
 }

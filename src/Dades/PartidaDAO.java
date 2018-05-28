@@ -1,14 +1,12 @@
 package Dades;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 
 import Domini.Mapa.Mapa;
 import Domini.Mapa.MapaFactory;
 import Domini.Partida;
+import Domini.Usuari;
 
 public class PartidaDAO {
 
@@ -46,7 +44,6 @@ public class PartidaDAO {
         properties.store(fileOut, "Partida: |" +p.getID()+"| properties");
         fileOut.close();
     }
-
 
     public static Partida loadPartida (String ID) throws IOException{
         InputStream input = new FileInputStream("data/partidas/"+ID+".properties");
@@ -109,5 +106,30 @@ public class PartidaDAO {
         p.setNumerosInicio(numerosInicio);
         p.setNumerosInsertados(numerosInsertados);
         p.setCantidadInterrogantes(cantidadInterrogantes);
+    }
+
+    public static ArrayList<String> loadAllPartidas()
+    {
+        ArrayList<String> partidasDisk = new ArrayList<>();
+        File folder = new File("data/partidas");
+        File[] listOfFiles = folder.listFiles();
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                if(!listOfFiles[i].getName().equals(".gitignore")) {
+                    String partidaName = listOfFiles[i].getName();
+                    System.out.println(partidaName);
+                    partidaName = partidaName.substring(0, partidaName.length() - 11);
+                    partidasDisk.add(partidaName);
+                }
+            }
+        }
+        return partidasDisk;
+    }
+
+    public void deletePartida(Partida p) {
+        File file = new File("data/partidas/"+p.getID()+".properties");
+
+        file.delete();
     }
 }

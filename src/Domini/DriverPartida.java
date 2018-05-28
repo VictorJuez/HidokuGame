@@ -50,7 +50,7 @@ public class DriverPartida
         {
             System.out.println("Inserte la ID de la partida a cargar");
             String ID = myScanner.next();
-            p = cP.cargarPartida(ID);
+            p = cP.getPartida(ID);
         }
         p.jugar();
     }
