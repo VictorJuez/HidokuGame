@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.UUID;
 import java.util.Vector;
 
+import static java.util.Collections.sort;
+
 
 public abstract class Mapa {
     protected String ID;
@@ -55,9 +57,25 @@ public abstract class Mapa {
         public String getValor() {
             return valor;
         }
+        public void setValorAdyacencia(String value){
+            this.valor = value;
+        }
     };
 
+    protected void putValorV(int value){
+        numerosExistents.add(value);
+        sort(numerosExistents);
+        numerosRestants.remove(value);
+    }
+    protected void borrarV (int value){
+        numerosRestants.add(value);
+        numerosExistents.remove(value);
+    }
+
     protected Vector <adyacencias> tablaAD = new Vector<>();
+    public void setValorTabla(int pos, String valor){
+        tablaAD.get(pos).setValorAdyacencia(valor);
+    }
     protected abstract Vector<adyacencias> calculoAdyacencias();
 
     public Mapa(String[][] matrix) {
@@ -156,7 +174,7 @@ public abstract class Mapa {
                 }
             }
         }
-        Collections.sort(existents);
+        sort(existents);
         return existents;
     }
 
