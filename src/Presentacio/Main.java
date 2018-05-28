@@ -1,5 +1,7 @@
 package Presentacio;
 
+import sun.rmi.runtime.Log;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -7,29 +9,36 @@ import java.awt.event.*;
 public class Main {
     private SignUp signUp;
     private Login Login;
+    private MapaView mapaView;
 
     JFrame frame = new JFrame("Main demo");
-    JPanel panelCont = new JPanel();
+    static JPanel panelCont = new JPanel();
     JPanel MainPanel;
     JPanel singUpPanel;
+    JPanel loginPanel;
+    JPanel mapaViewPanel;
     JButton signUpButton;
     JButton loginButton;
-    CardLayout cl = new CardLayout();
+    static CardLayout cl = new CardLayout();
 
 
     public Main() {
         //Trying cardLayout
         panelCont.setLayout(cl);
         signUp = new SignUp();
+        Login = new Login();
+        mapaView = new MapaView();
+
         singUpPanel = signUp.getSignUpPanel();
+        loginPanel = Login.getLoginPanel();
+        mapaViewPanel = mapaView.getMapaPanel();
         panelCont.add(MainPanel,"main");
         panelCont.add(singUpPanel, "singUp");
+        panelCont.add(loginPanel, "login");
+        panelCont.add(mapaViewPanel, "mapaView");
         cl.show(panelCont, "main");
 
         //Trying cardLayout
-
-        signUp = new SignUp();
-        Login = new Login();
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -39,10 +48,25 @@ public class Main {
         signUpButton.addComponentListener(new ComponentAdapter() {
         });
 
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cl.show(panelCont, "login");
+            }
+        });
+
         frame.add(panelCont);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public static void showMain(){
+        cl.show(panelCont, "main");
+    }
+
+    public static void showMapaView(){
+        cl.show(panelCont, "mapaView");
     }
 
     public static void main(String[] args) {

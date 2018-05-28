@@ -34,19 +34,22 @@ public class Login {
                     if(!controladorUsuari.login(usuari, password)) JOptionPane.showMessageDialog(null, "Contrasenya incorrecte!");
                     else {
                         JOptionPane.showMessageDialog(null, "Login correctament!");
-                        LoginFrame.dispose();
-                        mapaView.createFrame();
+                        Main.showMapaView();
                     }
                 }
             }
         });
+
+
+        enrereButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showMain();
+            }
+        });
     }
-    
-    public void createFrame(){
-        LoginFrame = new JFrame("Login");
-        LoginFrame.setContentPane(new Login().LoginPanel);
-        LoginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        LoginFrame.pack();
-        LoginFrame.setVisible(true);
+
+    public JPanel getLoginPanel() {
+        return LoginPanel;
     }
 }
