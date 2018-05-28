@@ -159,6 +159,8 @@ public abstract class Mapa {
         Collections.sort(existents);
         return existents;
     }
+
+
     public int getInterrogants(){
         int interrogants = 0;
         for (int i = 0; i < filas; i++) {
@@ -192,7 +194,7 @@ public abstract class Mapa {
         }
         return false;
     }
-    protected Vector<Integer> getNumerosRestants(){   //aixo es podria guardar tot com si fos un atribut
+    public Vector<Integer> getNumerosRestants(){   //aixo es podria guardar tot com si fos un atribut
         if(numerosExistents == null) numerosExistents = getNumerosExistents();
         Vector<Integer> total = new Vector<>();
         for(int k = 0; k < interrogants + numerosExistents.size(); k++){

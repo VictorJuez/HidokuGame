@@ -43,7 +43,7 @@ public class Partida
         //copia del mapa a usar
         this.mapaEnunciado = mapaEnunciado;
         MapaFactory mapaFactory = new MapaFactory();
-        Mapa mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
+        mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
         this.numerosInsertados = mapaPartida.getNumerosExistents();
         this.numerosInicio = mapaPartida.getNumerosExistents();
     }
@@ -223,7 +223,7 @@ public class Partida
     }
 
     //inserta un número en el tablero si no ha sido insertado antes y si la casilla es valida.
-    private void insertarNumero (int i, int j, int numero)
+    public void insertarNumero (int i, int j, int numero)
     {
         System.out.print("La fila es: ");
         System.out.println(i);
@@ -251,7 +251,7 @@ public class Partida
         }
     }
 
-    private void borrarNumero (int i, int j)
+    public void borrarNumero (int i, int j)
     {
         String casilla = this.mapaPartida.getMatrix()[i][j];
         if (casillaNumero(i, j) && casilla != "?") //si casilla apta para número y no hay ninguno puesto ya
@@ -269,7 +269,7 @@ public class Partida
         else System.out.println("En la casilla no hay un número.");
     }
 
-    private void reemplazarNumero (int i, int j, int numero)
+    public void reemplazarNumero (int i, int j, int numero)
     {
         //borra el que había y inserta el siguiente.
         //las funciones ya comprueban que se pueda realizar el reemplazo del número así que sólo las llamo.
