@@ -1,6 +1,9 @@
 package Domini;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class DriverUsuari {
@@ -14,6 +17,7 @@ public class DriverUsuari {
                 "\t1) Insertar un nuevo usuario\n"+
                 "\t2) Obtener un usuario\n"+
                 "\t3) Add random Map to User\n"+
+                "\t4) Get all users\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -32,6 +36,9 @@ public class DriverUsuari {
                 case "3":
                     addMaptoUser();
                     break;
+                case "4":
+                    getAllUsers();
+                    break;
                 case "x":
                     System.out.println("exiting game...");
                     deleteFiles();
@@ -45,6 +52,11 @@ public class DriverUsuari {
                 op = myScanner.next();
             }
         }
+    }
+
+    private static void getAllUsers() {
+        ArrayList<String> allUsers = new ArrayList<>(controladorUsuari.getAllUsers().keySet());
+        for(String user : allUsers) System.out.println(user);
     }
 
     private static void addMaptoUser() {

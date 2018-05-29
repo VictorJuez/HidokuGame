@@ -71,9 +71,8 @@ public class MapaView {
         MapaPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                controladorUsuari = new ControladorUsuari();
                 controladorMapa = new ControladorMapa();
-                activeUsertxt.setText(controladorUsuari.getUsuariActiu());
+                activeUsertxt.setText(ControladorUsuari.getUsuariActiu());
             }
         });
     }

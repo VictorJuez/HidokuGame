@@ -28,6 +28,7 @@ public class SignUp {
                 else {
                     controladorUsuari.insertarUsuari(username, pss);
                     JOptionPane.showMessageDialog(null, "Usuari creat!");
+                    Main.showMapaView();
                 }
             }
         });

@@ -18,6 +18,7 @@ public class ControladorUsuari {
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
         saveUsuariToDisk(usuari);
+        usuariActiu = usuari;
 
         return usuari;
     }
@@ -34,7 +35,7 @@ public class ControladorUsuari {
     }
 
     public HashMap<String, Usuari> getAllUsers(){
-        ArrayList<String> usersDisk = new ArrayList<>();
+        ArrayList<String> usersDisk = loadAllUsersDisk();
         for(String userDisk : usersDisk){
             if(!allUsers.containsKey(userDisk))loadUsuariDisk(userDisk);
         }
