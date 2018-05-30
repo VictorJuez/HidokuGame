@@ -158,11 +158,23 @@ public class ControladorMapa {
 
     public void borrarMapa(Mapa mapa) {
         mapasMap.remove(mapa.getID());
-        md.borrarMapa(mapa);
+        md.borrarMapa(mapa.getID());
     }
 
     private Mapa loadMapaDisk(String ID) throws IOException {
-        Mapa mapa = md.loadMapa(ID);
+        StringBuilder topologia = new StringBuilder();
+        StringBuilder adyacencia = new StringBuilder();
+        ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
+        md.loadMapa(ID, topologia, adyacencia, matrix);
+
+        String[][] matrixResult = new String[matrix.size()][matrix.get(0).size()];
+        for(int i=0; i<matrixResult.length; ++i){
+
+        }
+
+        MapaFactory mapaFactory = new MapaFactory();
+        mapaFactory.getMapa(ID, topologia.toString(), adyacencia.toString(), matrix);
+
         mapasMap.put(ID, mapa);
         return mapa;
     }

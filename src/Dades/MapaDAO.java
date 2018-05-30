@@ -12,7 +12,7 @@ import Domini.Mapa.MapaFactory;
 
 public class MapaDAO {
 
-    public static void saveMapa(Mapa m) throws IOException {
+    public void saveMapa(Mapa m) throws IOException {
 
         Properties properties = new Properties();
         properties.setProperty("ID", m.getID());
@@ -37,7 +37,7 @@ public class MapaDAO {
         fileOut.close();
     }
 
-    public static Mapa loadMapa(String ID) throws IOException{
+    public void loadMapa(String ID, StringBuilder topologia, StringBuilder adyacencia, ArrayList<ArrayList<String>> matrix) throws IOException{
         InputStream input = new FileInputStream("data/mapas/"+ID+".properties");
 
         // load a properties file
@@ -45,25 +45,21 @@ public class MapaDAO {
         prop.load(input);
 
         // get the property value
-        String topologia = prop.getProperty("topologia");
-        String adyacencia = prop.getProperty("adyacencia");
+        topologia.append(prop.getProperty("topologia"));
+        adyacencia.append(prop.getProperty("adyacencia"));
         String matrixString = prop.getProperty("matrix");
         int filas = Integer.parseInt(prop.getProperty("filas"));
         int columnas = Integer.parseInt(prop.getProperty("columnas"));
-        String[][] matrix = new String[filas][columnas];
+        String[][] aux = new String[filas][columnas];
 
         List<String> items = Arrays.asList(matrixString.split("\\s*,\\s*"));
-        int k=0;
         for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) {
-                matrix[i][j] = items.get(k++);
-            }
+            ArrayList<String> al = new ArrayList<>(items.subList(0,columnas));
+            matrix.add(al);
         }
-        MapaFactory mapaFactory = new MapaFactory();
-        return mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
     }
 
-    public static ArrayList<String> loadAllMapas(){
+    public ArrayList<String> loadAllMapas(){
         ArrayList<String> mapasDisk = new ArrayList<>();
         File folder = new File("data/mapas");
         File[] listOfFiles = folder.listFiles();
@@ -81,8 +77,8 @@ public class MapaDAO {
         return mapasDisk;
     }
 
-    public void borrarMapa(Mapa mapa) {
-        File file = new File("data/mapas/"+mapa.getID()+".properties");
+    public void borrarMapa(String mapaID) {
+        File file = new File("data/mapas/"+mapaID+".properties");
 
         file.delete();
     }
