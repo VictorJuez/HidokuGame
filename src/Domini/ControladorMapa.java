@@ -148,7 +148,7 @@ public class ControladorMapa {
         return mapasMap.get(ID);
     }
 
-    private void saveMapa(Mapa m) {
+    public void saveMapa(Mapa m) {
         try {
             md.saveMapa(m);
         } catch (IOException e) {
@@ -169,11 +169,11 @@ public class ControladorMapa {
 
         String[][] matrixResult = new String[matrix.size()][matrix.get(0).size()];
         for(int i=0; i<matrixResult.length; ++i){
-
+            matrixResult[i] = matrix.get(i).toArray(matrixResult[i]);
         }
 
         MapaFactory mapaFactory = new MapaFactory();
-        mapaFactory.getMapa(ID, topologia.toString(), adyacencia.toString(), matrix);
+        Mapa mapa = mapaFactory.getMapa(ID, topologia.toString(), adyacencia.toString(), matrixResult);
 
         mapasMap.put(ID, mapa);
         return mapa;

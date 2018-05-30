@@ -1,6 +1,7 @@
 package Dades;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DriverMapaDAO {
@@ -20,8 +21,7 @@ public class DriverMapaDAO {
         while(active) {
             switch (op){
                 case "1":
-                    op = myScanner.next();
-                    mdao.loadMapa(op);
+                    loadMapa();
                     break;
                 case "2":
                     mdao.loadAllMapas();
@@ -40,5 +40,38 @@ public class DriverMapaDAO {
                 op = myScanner.next();
             }
         }
+    }
+
+    private static void loadMapa() {
+        String mapaID = myScanner.next();
+        StringBuilder topologia = new StringBuilder();
+        StringBuilder adyacencia = new StringBuilder();
+        ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
+        try {
+            mdao.loadMapa(mapaID, topologia, adyacencia, matrix);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String[][] matrixResult = new String[matrix.size()][matrix.get(0).size()];
+        for(int i=0; i<matrixResult.length; ++i){
+            matrixResult[i] = matrix.get(i).toArray(matrixResult[i]);
+        }
+        System.out.println("mapaID: "+ mapaID);
+        System.out.println(topologia+","+adyacencia);
+        printTablero(matrixResult);
+    }
+
+    public static void printTablero(String[][] matrix){
+        int filas = matrix.length;
+        int columnas = matrix[0].length;
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
+                System.out.print(matrix[i][j]);
+                if(j!=columnas-1) System.out.print(",");
+            }
+            System.out.print("\n");
+        }
+        System.out.println();
     }
 }

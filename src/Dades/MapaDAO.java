@@ -54,7 +54,7 @@ public class MapaDAO {
 
         List<String> items = Arrays.asList(matrixString.split("\\s*,\\s*"));
         for(int i=0; i<filas; ++i){
-            ArrayList<String> al = new ArrayList<>(items.subList(0,columnas));
+            ArrayList<String> al = new ArrayList<>(items.subList(columnas*i,columnas*i+columnas));
             matrix.add(al);
         }
     }
