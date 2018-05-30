@@ -1,0 +1,108 @@
+package Domini;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+public class DriverUsuari {
+    private static Scanner myScanner;
+    private static ControladorUsuari controladorUsuari = new ControladorUsuari();
+    private static ControladorMapa controladorMapa = new ControladorMapa();
+
+    public static void main(String[] args){
+        System.out.println("Hidato Game");
+        String introduction = "Introduce qué operación desea ejecutar:\n"+
+                "\t1) Insertar un nuevo usuario\n"+
+                "\t2) Obtener un usuario\n"+
+                "\t3) Add random Map to User\n"+
+                "\t4) Get all users\n"+
+                "\tx) Para salir del juego\n";
+
+        System.out.println(introduction);
+        String op = "";
+        myScanner = new Scanner(System.in);
+        op = myScanner.next();
+        boolean active = true;
+        while(active) {
+            switch (op){
+                case "1":
+                    insertarUsuario();
+                    break;
+                case "2":
+                    getUsuari();
+                    break;
+                case "3":
+                    addMaptoUser();
+                    break;
+                case "4":
+                    getAllUsers();
+                    break;
+                case "x":
+                    System.out.println("exiting game...");
+                    deleteFiles();
+                    active = false;
+                    break;
+            }
+
+            if (active) {
+                System.out.println("---------------------------------------\n\n"
+                        +introduction);
+                op = myScanner.next();
+            }
+        }
+    }
+
+    private static void getAllUsers() {
+        ArrayList<String> allUsers = new ArrayList<>(controladorUsuari.getAllUsers().keySet());
+        for(String user : allUsers) System.out.println(user);
+    }
+
+    private static void addMaptoUser() {
+        System.out.println("Escribe el id del usuario");
+        String id = myScanner.next();
+        Usuari usuari = controladorUsuari.getUsuari(id);
+        controladorUsuari.addMapatoUser(usuari.getID(), controladorMapa.generarHidato().getID());
+        printUsuari(usuari);
+    }
+
+    private static void insertarUsuario() {
+        System.out.println("Escribe el id del usuario");
+        String id = myScanner.next();
+        System.out.println("Escribe la contraseña del usuario");
+        String password = myScanner.next();
+
+        Usuari usuari = controladorUsuari.insertarUsuari(id, password);
+
+        printUsuari(usuari);
+    }
+
+    private static void printUsuari(Usuari usuari) {
+        System.out.println("usuari id: "+usuari.getID());
+        System.out.println("usuari password: "+usuari.getPassword());
+        for(String partidaID : usuari.getPartidasID()) System.out.print(partidaID+",");
+        System.out.println();
+        for(String mapaID : usuari.getMapasID()) System.out.print(mapaID+",");
+        System.out.println();
+    }
+
+    private static void getUsuari(){
+        System.out.println("Escribe el id del usuario");
+        String id = myScanner.next();
+        printUsuari(controladorUsuari.getUsuari(id));
+    }
+
+    public static void deleteFiles() {
+        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        for(String pathName : pathNames) {
+            for (File file : new File("data/" +pathName+"/").listFiles()) {
+                if (!file.getName().equals(".gitignore")) {
+                    //do nothing
+                    file.delete();
+                }
+            }
+        }
+    }
+
+}
