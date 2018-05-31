@@ -53,7 +53,7 @@ public class ControladorUsuari {
         try {
             usuariDAO.loadUsuari(ID, password, partidasID, mapasID);
         } catch (IOException e) {
-            e.printStackTrace();
+            return null;
         }
 
         try {

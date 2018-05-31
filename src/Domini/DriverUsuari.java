@@ -57,7 +57,6 @@ public class DriverUsuari {
     private static void getAllUsers() {
         HashMap<String, Usuari> au = controladorUsuari.getAllUsers();
         au.forEach((k,v) -> {
-            System.out.println("k");
             printUsuari(v);
         });
     }
