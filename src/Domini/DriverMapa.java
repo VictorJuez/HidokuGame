@@ -133,6 +133,7 @@ public class DriverMapa {
         HashMap<String, Mapa> l = ctMapa.getAllMapas();
         l.forEach((k,v) -> {
             System.out.println("ID: "+ k);
+            System.out.println("name: "+ v.getName());
             System.out.println(v.getTipo() + "," + v.getAngulos() + "," + v.getFilas() + "," + v.getColumnas());
             printTablero(v.getMatrix());
         });

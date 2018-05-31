@@ -20,7 +20,6 @@ public class DriverPartida
         if (op.equals("1")) p = cP.crearPartidaRandom();
         else if (op.equals("2"))
         {
-            String ID = "1";
             String tipo = "Q";
             String angulos = "C";
             String[][] matrix = new String[2][2];
@@ -29,12 +28,11 @@ public class DriverPartida
             matrix[1][0] = "4";
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
-            Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
+            Mapa m = mF.getMapa(tipo, angulos, matrix);
             p = cP.crearPartida(m);
         }
         else if (op.equals("3"))
         {
-            String ID = "1";
             String tipo = "Q";
             String angulos = "C";
             String[][] matrix = new String[2][2];
@@ -43,7 +41,7 @@ public class DriverPartida
             matrix[1][0] = "3";
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
-            Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
+            Mapa m = mF.getMapa(tipo, angulos, matrix);
             p = cP.crearPartida(m);
         }
         else

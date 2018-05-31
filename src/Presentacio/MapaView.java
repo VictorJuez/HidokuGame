@@ -7,12 +7,7 @@ import Domini.Partida;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.awt.event.*;
 import java.util.Vector;
 
 public class MapaView {
@@ -21,7 +16,7 @@ public class MapaView {
     private JButton sortirButton;
     private JPanel MapaPanel;
     private JLabel activeUsertxt;
-    private static JFrame MapaFrame;
+    private JButton menuPrincipal;
 
     private ControladorUsuari controladorUsuari;
     private ControladorMapa controladorMapa;
@@ -31,11 +26,6 @@ public class MapaView {
     private Vector<Integer> restants;
 
     public MapaView() {
-        controladorUsuari = new ControladorUsuari();
-        controladorMapa = new ControladorMapa();
-        activeUsertxt.setText(controladorUsuari.getUsuariActiu());
-
-
         sortirButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,13 +61,23 @@ public class MapaView {
                 tablaHidato.setModel(tm);
             }
         });
+        menuPrincipal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showMain();
+            }
+        });
+
+        MapaPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                controladorMapa = new ControladorMapa();
+                activeUsertxt.setText(ControladorUsuari.getUsuariActiu());
+            }
+        });
     }
 
-    public void createFrame(){
-        MapaFrame = new JFrame("Login");
-        MapaFrame.setContentPane(new MapaView().MapaPanel);
-        MapaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        MapaFrame.pack();
-        MapaFrame.setVisible(true);
+    public JPanel getMapaPanel() {
+        return MapaPanel;
     }
 }

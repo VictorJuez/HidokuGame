@@ -15,8 +15,8 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
         angulos = "CA";
     }
 
-    public TableroCuadradoAngulos(String ID, String[][] tab){
-        super(ID, tab);
+    public TableroCuadradoAngulos(String ID, String name, String[][] tab){
+        super(ID, name, tab);
         angulos = "CA";
     }
 
