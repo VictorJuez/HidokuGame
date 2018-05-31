@@ -49,11 +49,13 @@ public class DriverMapa {
                     op = myScanner.next();
                     adyacencia(op);
                     break;
-                /*case "6":
-                    System.out.println("Inserta el ID del hidato a carregar");
+                case "6":
+                    System.out.println("Inserta el ID del hidato a guardar");
                     op = myScanner.next();
-                    loadMapa(op);
-                    break;*/
+                    System.out.println("Inserta el nom per guardar el mapa");
+                    String name = myScanner.next();
+                    saveMapa(op, name);
+                    break;
                 case "7":
                     System.out.println("Inserta el ID del hidato a borrar");
                     op = myScanner.next();
@@ -76,6 +78,11 @@ public class DriverMapa {
         }
 
 
+    }
+
+    private static void saveMapa(String id, String name) {
+        Mapa m = ctMapa.getMapa(id);
+        ctMapa.saveMapa(m, name);
     }
 
     private static void adyacencias(String op) throws IOException {
