@@ -114,7 +114,7 @@ public abstract class Mapa {
     public void borrarNumero(int x, int y){
         matrix[x][y] = "?";
     }
-    public String getDificultat(){return dificultat;}
+    public String getDificultad(){return dificultat;}
 
     @Override
     public boolean equals(Object obj){
