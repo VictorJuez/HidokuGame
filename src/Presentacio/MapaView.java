@@ -43,25 +43,22 @@ public class MapaView {
                 //t.setVisible(true);
                 //t.setPreferredSize(new Dimension(80,80));
                 //panel1.add(t);
-                GridLayout grid = new GridLayout(mapa.getFilas(),mapa.getColumnas());
+                BorderLayout grid = new BorderLayout(mapa.getFilas(),mapa.getColumnas());
                 panel1.setLayout(grid);
                 mapaButton m = new mapaButton(mapa.getFilas(), mapa.getColumnas(), mapa.getMatrix());
                 for(int i = 0; i < m.getFiles(); i++){
                     for (int j = 0; j < m.getColumnes(); j++){
-                        m.matrix[i][j].setBounds(35+35*j, 30 + 30*i, 70,60);
+                        m.matrix[i][j].setBounds(30*j, 50*i, 80,70);
                         m.matrix[i][j].setVisible(true);
-                        m.matrix[i][j].setMinimumSize(new Dimension(60,50));
                         panel1.add(m.matrix[i][j]);
                     }
                 }
-                System.out.println("ok");
-               MapaPanel.setMinimumSize(new Dimension(m.getFiles()*65, m.getColumnes()*55));
                 panel1.setVisible(true);
                 panel1.revalidate();
                 panel1.repaint();
-                createUIComponents();
                 MapaPanel.revalidate();
                 MapaPanel.repaint();
+                System.out.println(panel1.getComponentCount());
             }
         });
         /*tablaHidato.addMouseListener(new MouseAdapter() {

@@ -1,6 +1,7 @@
 package Presentacio;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
 
 public class mapaButton extends AbstractButton {
@@ -16,11 +17,13 @@ public class mapaButton extends AbstractButton {
             for(int j = 0; j < columnes; j++){
                 if ((i + j)%2 == 0){
                     TriangleUpButton t = new TriangleUpButton();
+                    t.setMaximumSize(new Dimension(60,50));
                     t.setText(m[i][j]);
                     matrix[i][j] = t;
                 }
                 else{
                     TriangleDownButton t = new TriangleDownButton();
+                    t.setMaximumSize(new Dimension(60,50));
                     t.setText(m[i][j]);
                     matrix[i][j] = t;
                 }

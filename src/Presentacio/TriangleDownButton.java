@@ -14,12 +14,11 @@ public class TriangleDownButton extends JButton {
     public void paintComponent(Graphics g) {
         setForeground(Color.BLUE);
         int x = 30;
-        System.out.println(x);
-        g.drawString(getText(), x - getText().length() * 3, (50 - 1) / 2);
+        g.drawString(getText(), x - getText().length() * 3, (50 - 2) / 2);
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension(200, 100);
+        return new Dimension(60, 50);
     }
 
     public boolean contains(int x, int y) {
