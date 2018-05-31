@@ -1,6 +1,9 @@
 package Domini;
 
+import Domini.Mapa.Mapa;
+
 import java.io.File;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class DriverUsuari {
@@ -14,6 +17,7 @@ public class DriverUsuari {
                 "\t1) Insertar un nuevo usuario\n"+
                 "\t2) Obtener un usuario\n"+
                 "\t3) Add random Map to User\n"+
+                "\t4) getAllUsers\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -32,6 +36,9 @@ public class DriverUsuari {
                 case "3":
                     addMaptoUser();
                     break;
+                case "4":
+                    getAllUsers();
+                    break;
                 case "x":
                     System.out.println("exiting game...");
                     deleteFiles();
@@ -45,6 +52,14 @@ public class DriverUsuari {
                 op = myScanner.next();
             }
         }
+    }
+
+    private static void getAllUsers() {
+        HashMap<String, Usuari> au = controladorUsuari.getAllUsers();
+        au.forEach((k,v) -> {
+            System.out.println("k");
+            printUsuari(v);
+        });
     }
 
     private static void addMaptoUser() {
@@ -62,8 +77,8 @@ public class DriverUsuari {
         String password = myScanner.next();
 
         Usuari usuari = controladorUsuari.insertarUsuari(id, password);
-
-        printUsuari(usuari);
+        if(usuari == null) System.out.println("l'usuari ja existeix");
+        else printUsuari(usuari);
     }
 
     private static void printUsuari(Usuari usuari) {

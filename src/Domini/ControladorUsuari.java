@@ -15,6 +15,7 @@ public class ControladorUsuari {
     private static Usuari usuariActiu;
 
     public Usuari insertarUsuari(String ID, String password){
+        if(getUsuari(ID) != null) return null;
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
         saveUsuariToDisk(usuari);
