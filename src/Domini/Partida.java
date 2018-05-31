@@ -14,7 +14,8 @@ public class Partida
 {
     private String ID;
     private String usuari;
-    private double puntuacion;
+    private int puntuacion;
+    private int pistasConsultadas;
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
     private int cantidadInterogantes; //los números que quedan por
@@ -66,10 +67,13 @@ public class Partida
         return numerosInsertados;
     }
     public int getCantidadInterrogantes() { return this.cantidadInterogantes; }
+    public int getPistasConsultadas() {
+        return this.pistasConsultadas;
+    }
 
     //SETTERS DE LA CLASE
     public void setID(String ID) { this.ID = ID; }
-    public void setPuntuacion(double puntuacion) { this.puntuacion = puntuacion; }
+    public void setPuntuacion(int puntuacion) { this.puntuacion = puntuacion; }
     public void setReloj(double reloj) { this.tiempoTranscurrido = reloj; }
     public void setCantidadInterrogantes(int cantidadInterogantes) { this.cantidadInterogantes = cantidadInterogantes; }
     public void setNumerosInsertados (Vector<Integer> numerosInsertados)
@@ -86,7 +90,8 @@ public class Partida
         this.usuari = usuari;
         this.paused = false;
         this.cantidadInterogantes = mapaEnunciado.getInterrogants();
-        this.puntuacion = 0.0;
+        this.pistasConsultadas = 0;
+        this.puntuacion = 0;
 
         //gestión del tiempo transcurrido en la partida
         this.tiempoTranscurrido = 0;
@@ -211,5 +216,13 @@ public class Partida
         //las funciones ya comprueban que se pueda realizar el reemplazo del número así que sólo las llamo.
         borrarNumero(i, j);
         insertarNumero(i, j, numero);
+    }
+
+    public void consultarPista ()
+    {
+        ++pistasConsultadas;
+        UtilsMapaDecorator umd = new UtilsMapaDecorator(this.mapaPartida);
+        int resultatPista = umd.pista();
+
     }
 }

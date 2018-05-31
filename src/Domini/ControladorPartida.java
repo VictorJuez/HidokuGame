@@ -98,10 +98,11 @@ public class ControladorPartida
             //aqui entra si el Hidato está bien resuelto
             String dificultad = p.getMapaPartida().getDificultad();
 
-            int puntuacion = calculoPuntuacion(dificultad, p.getReloj(), p.getNumeroPistas());
+            int puntuacion = calculoPuntuacion(dificultad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
             String userID = cU.getUsuariActiu();
             cR.insertarResultat(cU.getUsuari(userID), p.getMapaPartida(), puntuacion);
+            p.setPuntuacion(puntuacion);
         }
     }
 
@@ -127,6 +128,11 @@ public class ControladorPartida
         p.reemplazarNumero(i, j, numero);
     }
 
+    public void consultarPista ()
+    {
+        Partida p = partidasMap.get(partidaEnCurso);
+        p.consultarPista();
+    }
 
     public int consultarTiempo ()
     {
