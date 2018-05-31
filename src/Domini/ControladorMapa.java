@@ -148,6 +148,7 @@ public class ControladorMapa {
 
     public void saveMapa(Mapa m, String name) {
         try {
+            m.setName(name);
             md.saveMapa(m.getID(), name, m.getTipo(), m.getAngulos(), m.getFilas(), m.getColumnas(), m.getMatrix());
         } catch (IOException e) {
             e.printStackTrace();

@@ -70,7 +70,6 @@ public class MapaDAO {
             if (listOfFiles[i].isFile()) {
                 if(!listOfFiles[i].getName().equals(".gitignore")) {
                     String mapName = listOfFiles[i].getName();
-                    System.out.println(mapName);
                     mapName = mapName.substring(0, mapName.length() - 11);
                     mapasDisk.add(mapName);
                 }
