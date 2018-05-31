@@ -17,8 +17,8 @@ public class Main {
     JPanel singUpPanel;
     JPanel loginPanel;
     JPanel mapaViewPanel;
-    JButton signUpButton;
     JButton loginButton;
+    JButton signUpButton;
     static CardLayout cl = new CardLayout();
 
 
@@ -28,7 +28,6 @@ public class Main {
         signUp = new SignUp();
         Login = new Login();
         mapaView = new MapaView();
-
         singUpPanel = signUp.getSignUpPanel();
         loginPanel = Login.getLoginPanel();
         mapaViewPanel = mapaView.getMapaPanel();
@@ -37,7 +36,6 @@ public class Main {
         panelCont.add(loginPanel, "login");
         panelCont.add(mapaViewPanel, "mapaView");
         cl.show(panelCont, "main");
-
         //Trying cardLayout
         signUpButton.addActionListener(new ActionListener() {
             @Override
