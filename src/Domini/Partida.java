@@ -14,11 +14,11 @@ public class Partida
 {
     private String ID;
     private String usuari;
+    private double puntuacion;
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
     private int cantidadInterogantes; //los números que quedan por
     protected Mapa mapaPartida;
-    private Mapa mapaEnunciado;
     private Date data;
     private boolean paused;
     private double tiempoTranscurrido; //expresado en SEGUNDOS, tiempo entre pausas.
@@ -69,6 +69,7 @@ public class Partida
 
     //SETTERS DE LA CLASE
     public void setID(String ID) { this.ID = ID; }
+    public void setPuntuacion(double puntuacion) { this.puntuacion = puntuacion; }
     public void setReloj(double reloj) { this.tiempoTranscurrido = reloj; }
     public void setCantidadInterrogantes(int cantidadInterogantes) { this.cantidadInterogantes = cantidadInterogantes; }
     public void setNumerosInsertados (Vector<Integer> numerosInsertados)
@@ -85,13 +86,13 @@ public class Partida
         this.usuari = usuari;
         this.paused = false;
         this.cantidadInterogantes = mapaEnunciado.getInterrogants();
+        this.puntuacion = 0.0;
 
         //gestión del tiempo transcurrido en la partida
         this.tiempoTranscurrido = 0;
         this.tiempoTotal = 0;
 
         //copia del mapa a usar
-        this.mapaEnunciado = mapaEnunciado;
         MapaFactory mapaFactory = new MapaFactory();
         this.mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
         this.numerosInsertados = mapaPartida.getNumerosExistents();

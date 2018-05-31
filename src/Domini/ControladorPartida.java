@@ -8,12 +8,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static oracle.jrockit.jfr.events.Bits.intValue;
+
 public class ControladorPartida
 {
-    private String partidaEnCurso;
+    private static String partidaEnCurso;
     private static HashMap<String, Partida> partidasMap = new HashMap<>();
     private ArrayList<String> partidasDisk = new ArrayList<>();
     public PartidaDAO pDAO = new PartidaDAO();
+    private ControladorResultat cR = new ControladorResultat();
+    private ControladorUsuari cU = new ControladorUsuari();
 
     public ControladorPartida() {}
 
@@ -92,10 +96,12 @@ public class ControladorPartida
         if (utilsMapa.hidatoValido())
         {
             //aqui entra si el Hidato está bien resuelto
-        }
-        else
-        {
-            //aqui no está bien resuelto
+            String dificultad = p.getMapaPartida().getDificultad();
+
+            int puntuacion = calculoPuntuacion(dificultad, p.getReloj(), p.getNumeroPistas());
+            //commit de la puntuacion en resultado
+            String userID = cU.getUsuariActiu();
+            cR.insertarResultat(cU.getUsuari(userID), p.getMapaPartida(), puntuacion);
         }
     }
 
@@ -117,13 +123,30 @@ public class ControladorPartida
 
     public void reemplazarNumero (int i, int j, int numero)
     {
-        borrarNumero(i, j);
-        insertarNumero(i, j, numero);
+        Partida p = partidasMap.get(partidaEnCurso);
+        p.reemplazarNumero(i, j, numero);
     }
+
 
     public int consultarTiempo ()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         return p.getReloj();
+    }
+
+    public int calculoPuntuacion (String dificultad, int tiempo, int numeroPistas)
+    {
+        double factorTiempo = 0;
+        double factorDificultad = 0;
+        switch (dificultad)
+        {
+            case ("FACIL"): { factorTiempo = 1; factorDificultad = 0.25; break; }
+            case ("MEDIO"): { factorTiempo = 0.75; factorDificultad = 0.75; break; }
+            case ("DIFICIL"): { factorTiempo = 0.25; factorDificultad = 1; break; }
+        }
+        factorTiempo = factorTiempo * tiempo;
+        double factorPistas = Math.pow(2, numeroPistas);
+
+        return intValue((100000 * factorDificultad) - factorPistas - factorTiempo);
     }
 }
