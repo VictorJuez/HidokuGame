@@ -26,9 +26,12 @@ public class SignUp {
                 String pss2 = String.valueOf(passwordField2.getPassword());
                 if(!pss.equals(pss2))JOptionPane.showMessageDialog(null, "contrasenyes no coincideixen");
                 else {
-                    controladorUsuari.insertarUsuari(username, pss);
-                    JOptionPane.showMessageDialog(null, "Usuari creat!");
-                    Main.showMapaView();
+                    Usuari usuari = controladorUsuari.insertarUsuari(username, pss);
+                    if(usuari == null) JOptionPane.showMessageDialog(null, "Aquest nom ja esta utilitzat");
+                    else {
+                        JOptionPane.showMessageDialog(null, "Usuari creat!");
+                        Main.showMapaView();
+                    }
                 }
             }
         });
