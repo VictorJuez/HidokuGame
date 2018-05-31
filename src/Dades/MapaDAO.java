@@ -12,18 +12,19 @@ import Domini.Mapa.MapaFactory;
 
 public class MapaDAO {
 
-    public static void saveMapa(Mapa m) throws IOException {
+    public void saveMapa(String ID, String name, String topologia, String adyacencias, int filas, int columnas, String[][] matriz) throws IOException {
 
         Properties properties = new Properties();
-        properties.setProperty("ID", m.getID());
-        properties.setProperty("topologia", m.getTipo());
-        properties.setProperty("adyacencia", m.getAngulos());
-        properties.setProperty("filas", String.valueOf(m.getFilas()));
-        properties.setProperty("columnas", String.valueOf(m.getColumnas()));
+        properties.setProperty("ID", ID);
+        properties.setProperty("name", name);
+        properties.setProperty("topologia", topologia);
+        properties.setProperty("adyacencia", adyacencias);
+        properties.setProperty("filas", String.valueOf(filas));
+        properties.setProperty("columnas", String.valueOf(columnas));
         String matrixString = null;
-        String[][] matrix = m.getMatrix();
-        for(int i=0; i<m.getFilas(); ++i){
-            for(int j=0; j<m.getColumnas(); ++j) {
+        String[][] matrix = matriz;
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
                 if(i==0 && j==0) matrixString = matrix[i][j]+",";
                 else matrixString+=matrix[i][j]+",";
             }
@@ -31,13 +32,13 @@ public class MapaDAO {
         matrixString = matrixString.substring(0,matrixString.length()-1);
         properties.setProperty("matrix", matrixString);
 
-        File file2 = new File("data/mapas/"+m.getID()+".properties");
+        File file2 = new File("data/mapas/"+ID+".properties");
         FileOutputStream fileOut = new FileOutputStream(file2);
-        properties.store(fileOut, "Mapa: |" +m.getID()+"| properties");
+        properties.store(fileOut, "Mapa: |" +ID+"| properties");
         fileOut.close();
     }
 
-    public static Mapa loadMapa(String ID) throws IOException{
+    public void loadMapa(String ID, StringBuilder name, StringBuilder topologia, StringBuilder adyacencia, ArrayList<ArrayList<String>> matrix) throws IOException{
         InputStream input = new FileInputStream("data/mapas/"+ID+".properties");
 
         // load a properties file
@@ -45,25 +46,22 @@ public class MapaDAO {
         prop.load(input);
 
         // get the property value
-        String topologia = prop.getProperty("topologia");
-        String adyacencia = prop.getProperty("adyacencia");
+        name.append(prop.getProperty("name"));
+        topologia.append(prop.getProperty("topologia"));
+        adyacencia.append(prop.getProperty("adyacencia"));
         String matrixString = prop.getProperty("matrix");
         int filas = Integer.parseInt(prop.getProperty("filas"));
         int columnas = Integer.parseInt(prop.getProperty("columnas"));
-        String[][] matrix = new String[filas][columnas];
+        String[][] aux = new String[filas][columnas];
 
         List<String> items = Arrays.asList(matrixString.split("\\s*,\\s*"));
-        int k=0;
         for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) {
-                matrix[i][j] = items.get(k++);
-            }
+            ArrayList<String> al = new ArrayList<>(items.subList(columnas*i,columnas*i+columnas));
+            matrix.add(al);
         }
-        MapaFactory mapaFactory = new MapaFactory();
-        return mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
     }
 
-    public static ArrayList<String> loadAllMapas(){
+    public ArrayList<String> loadAllMapas(){
         ArrayList<String> mapasDisk = new ArrayList<>();
         File folder = new File("data/mapas");
         File[] listOfFiles = folder.listFiles();
@@ -81,8 +79,8 @@ public class MapaDAO {
         return mapasDisk;
     }
 
-    public void borrarMapa(Mapa mapa) {
-        File file = new File("data/mapas/"+mapa.getID()+".properties");
+    public void borrarMapa(String mapaID) {
+        File file = new File("data/mapas/"+mapaID+".properties");
 
         file.delete();
     }

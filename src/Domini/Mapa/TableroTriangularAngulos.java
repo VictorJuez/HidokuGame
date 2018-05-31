@@ -15,8 +15,8 @@ public class TableroTriangularAngulos extends TableroTriangular {
         angulos = "CA";
     }
 
-    public TableroTriangularAngulos(String ID, String[][] tab){
-        super(ID, tab);
+    public TableroTriangularAngulos(String ID, String name, String[][] tab){
+        super(ID, name, tab);
         angulos = "CA";
     }
 

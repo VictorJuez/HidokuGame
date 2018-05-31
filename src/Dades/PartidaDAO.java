@@ -86,6 +86,7 @@ public class PartidaDAO {
         int cantidadInterrogantes = Integer.parseInt(prop.getProperty("cantidadInterrogantes"));
 
         //cargo el mapa que estaba usando partida
+<<<<<<< HEAD
         ControladorMapa cM = new ControladorMapa();
         Mapa m = cM.getMapa(prop.getProperty("IDMapa"));
         String usuari = prop.getProperty("nomUsuari");
@@ -93,8 +94,18 @@ public class PartidaDAO {
         Partida p = new Partida(ID, usuari, numerosInicio, numerosInsertados, cantidadInterrogantes, m, reloj);
         //ya tiene el mapa bien puesto, lo único que he de modificar son numerosInicio, numerosRestantes, reloj,
         // ID (para que tenga el mismo y poder sobreescribir)
+=======
+        //MapaFactory mapaFactory = new MapaFactory();
+        //Mapa m = mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
 
-        return p; //retorna la partida tal y como la dejamos
+        //Partida p = new Partida(m);
+        //ya tiene el mapa bien puesto, lo único que he de modificar son numerosInicio, numerosRestantes, reloj,
+        // ID (para que tenga el mismo y poder sobreescribir)
+        //setPartida(ID, reloj, p, numerosInicio, numerosInsertados, cantidadInterrogantes);
+>>>>>>> db0b60e9ee7b242230bc69aea80bf7fe43a748e5
+
+        //return p; //retorna la partida tal y como la dejamos
+        return null;
     }
 
     //restablece los valores de la partida.

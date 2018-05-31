@@ -9,6 +9,7 @@ import static java.util.Collections.sort;
 
 public abstract class Mapa {
     protected String ID;
+    protected String name;
     protected int filas;
     protected int columnas;
     protected int interrogants;
@@ -95,11 +96,12 @@ public abstract class Mapa {
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
     }
-    public Mapa(String ID, String[][] matrix){
+    public Mapa(String ID, String name, String[][] matrix){
         this.matrix = matrix;
         this.filas = matrix.length;
         this.columnas = matrix[0].length;
         this.ID = ID;
+        this.name = name;
         this.solucio = false;
         inicialitzaTabla();
         tablaAD = calculoAdyacencias();
@@ -115,6 +117,12 @@ public abstract class Mapa {
     }
     public String getID() {
         return ID;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return name;
     }
     public int getFilas() {
         return filas;
