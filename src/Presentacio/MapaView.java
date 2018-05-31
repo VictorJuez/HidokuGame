@@ -51,7 +51,7 @@ public class MapaView {
                 int row = tablaHidato.rowAtPoint(e.getPoint());
                 int col = tablaHidato.columnAtPoint(e.getPoint());
 
-                partida = new Partida(mapa);
+                partida = new Partida(mapa, controladorUsuari.getUsuariActiu());
                 partida.insertarNumero(row, col, restants.get(i++));
 
                 String[] header = new String[mapa.getColumnas()];

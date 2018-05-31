@@ -88,8 +88,8 @@ public class ControladorMapa {
 
 
         //----------------------------DEFINICIÓN DE LOS PARÁMETROS DEL HIDATO:
-        numero_fil = ThreadLocalRandom.current().nextInt(5, 10 + 1);
-        numero_col = ThreadLocalRandom.current().nextInt(5, 10 + 1);
+        numero_fil = ThreadLocalRandom.current().nextInt(5, 15 + 1);
+        numero_col = ThreadLocalRandom.current().nextInt(5, 15 + 1);
 
         tipo_adyacencia = ThreadLocalRandom.current().nextInt(1, 2 + 1);    //1 - 2+1
         topologia = ThreadLocalRandom.current().nextInt(1, 3+1);               //1 - 3+1

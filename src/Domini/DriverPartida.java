@@ -29,13 +29,8 @@ public class DriverPartida
             matrix[1][0] = "4";
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
-<<<<<<< HEAD
-            Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
-            p = cP.crearPartida(m, usuari);
-=======
             Mapa m = mF.getMapa(tipo, angulos, matrix);
-            p = cP.crearPartida(m);
->>>>>>> db0b60e9ee7b242230bc69aea80bf7fe43a748e5
+            p = cP.crearPartida(m, usuari);
         }
         else if (op.equals("3"))
         {
@@ -47,13 +42,8 @@ public class DriverPartida
             matrix[1][0] = "3";
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
-<<<<<<< HEAD
-            Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
-            p = cP.crearPartida(m, usuari);
-=======
             Mapa m = mF.getMapa(tipo, angulos, matrix);
-            p = cP.crearPartida(m);
->>>>>>> db0b60e9ee7b242230bc69aea80bf7fe43a748e5
+            p = cP.crearPartida(m, usuari);
         }
         else
         {
