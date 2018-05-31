@@ -10,7 +10,9 @@
     <children>
       <component id="babdd" class="javax.swing.JButton" binding="signUpButton" default-binding="true">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="100" height="50"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Sign Up"/>
@@ -31,7 +33,9 @@
       </component>
       <component id="23907" class="javax.swing.JButton" binding="loginButton" default-binding="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="100" height="50"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Login"/>

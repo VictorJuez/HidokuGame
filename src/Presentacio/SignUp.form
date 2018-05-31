@@ -55,10 +55,10 @@
       </component>
       <component id="dcb42" class="javax.swing.JLabel">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="CREAR USUARI"/>
+          <text value="Crear Usuari"/>
         </properties>
       </component>
       <component id="28c63" class="javax.swing.JPasswordField" binding="passwordField1" default-binding="true">
@@ -79,7 +79,9 @@
       </component>
       <component id="51957" class="javax.swing.JButton" binding="enrereButton" default-binding="true">
         <constraints>
-          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <maximum-size width="100" height="50"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Enrere"/>
