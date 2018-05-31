@@ -13,8 +13,7 @@ import java.util.Vector;
 public class Partida
 {
     private String ID;
-    private Usuari usuari;
-    public ControladorPartida cP = new ControladorPartida();
+    private String usuari;
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
     private int cantidadInterogantes; //los números que quedan por
@@ -26,37 +25,20 @@ public class Partida
     private int tiempoTotal; //tiempo total acumulado de la partida.
     private long horaInicio;
     private long horaPausa;
-    private boolean salirPartida;
-
-    //hacer otro constructor para cuando cargue la partida.
-    public Partida (Mapa mapaEnunciado)
-    {
-        //asignación del ID de la partida (para gestionar load/save, rankings..)
-        this.ID = UUID.randomUUID().toString();
-        //this.usuari = usuari;
-        this.salirPartida = false;
-        this.paused = false;
-        this.cantidadInterogantes = mapaEnunciado.getInterrogants();
-
-        //gestión del tiempo transcurrido en la partida
-        this.tiempoTranscurrido = 0;
-        this.tiempoTotal = 0;
-
-        //copia del mapa a usar
-        this.mapaEnunciado = mapaEnunciado;
-        MapaFactory mapaFactory = new MapaFactory();
-        this.mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
-        this.numerosInsertados = mapaPartida.getNumerosExistents();
-        this.numerosInicio = mapaPartida.getNumerosExistents();
-    }
 
     //GETTERS DE LA CLASE
     public String getID() { return this.ID; }
+    public String getUsuari() {
+        return usuari;
+    }
     public int getReloj() { return this.tiempoTotal; }
     public String getTipoMapa() { return this.mapaPartida.getTipo(); }
     public String getAngulosMapa() { return this.mapaPartida.getAngulos(); }
     public int getFilasMapa() { return this.mapaPartida.getFilas(); }
     public int getColumnasMapa() { return this.mapaPartida.getColumnas(); }
+    public Mapa getMapaPartida() {
+        return mapaPartida;
+    }
     public String[][] getMatrixMapa() { return this.mapaPartida.getMatrix(); }
     //lo devuelve como string para pasarselo a PartidaDAO
     public String getNumerosInicio() {
@@ -83,7 +65,7 @@ public class Partida
         }
         return numerosInsertados;
     }
-    public String getCantidadInterrogantes() { return String.valueOf(this.cantidadInterogantes); }
+    public int getCantidadInterrogantes() { return this.cantidadInterogantes; }
 
     //SETTERS DE LA CLASE
     public void setID(String ID) { this.ID = ID; }
@@ -93,114 +75,52 @@ public class Partida
     {
         this.numerosInsertados = numerosInsertados;
     }
-    public void setNumerosInicio (Vector<Integer> numerosInicio) { this.numerosInicio = numerosInicio;}
+    public void setNumerosInicio (Vector<Integer> numerosInicio) { this.numerosInicio = numerosInicio; }
 
-    //LO DEJO DE MOMENTO POR TESTIONG DE LA CLASE (HAY QUE CAMBIARLO A CAPA PRESENTACION)
-    public void jugar () throws IOException {
-        //gestión del cálculo del tiempo
+    //hacer otro constructor para cuando cargue la partida.
+    public Partida (Mapa mapaEnunciado, String usuari)
+    {
+        //asignación del ID de la partida (para gestionar load/save, rankings..)
+        this.ID = UUID.randomUUID().toString();
+        this.usuari = usuari;
+        this.paused = false;
+        this.cantidadInterogantes = mapaEnunciado.getInterrogants();
+
+        //gestión del tiempo transcurrido en la partida
+        this.tiempoTranscurrido = 0;
+        this.tiempoTotal = 0;
+
+        //copia del mapa a usar
+        this.mapaEnunciado = mapaEnunciado;
+        MapaFactory mapaFactory = new MapaFactory();
+        this.mapaPartida = mapaFactory.getMapa(mapaEnunciado.getTipo(), mapaEnunciado.getAngulos(), mapaEnunciado.getMatrix());
+        this.numerosInsertados = mapaPartida.getNumerosExistents();
+        this.numerosInicio = mapaPartida.getNumerosExistents();
+    }
+
+    public Partida (String ID, String usuari, Vector<Integer> numerosInicio, Vector<Integer> numerosInsertados, int cantidadInterogantes,
+                   Mapa mapaPartida, int tiempoTotal)
+    {
+        this.ID = ID;
+        this.usuari = usuari;
+        this.numerosInicio = numerosInicio;
+        this.numerosInsertados = numerosInsertados;
+        this.cantidadInterogantes = cantidadInterogantes;
+        this.mapaPartida = mapaPartida;
+        this.paused = false;
+        this.tiempoTotal = tiempoTotal;
+    }
+
+    public void activarContador()
+    {
         this.data = new Date();
         this.horaInicio = data.getTime();
+    }
 
-        Scanner myScanner = new Scanner(System.in);
-        String op;
-        System.out.print("Topologia: ");
-        System.out.println(this.mapaPartida.getTipo());
-        System.out.print("Adyacencias: ");
-        System.out.println(this.mapaPartida.getAngulos());
+    public void actualizarContador()
+    {
         pausarPartida();
         reanudarPartida();
-        cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
-        while (!salirPartida)
-        {
-            pausarPartida();
-            reanudarPartida();
-            System.out.println("1 -> añadir, 2 -> borrar, 7 -> reemplazar,3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar");
-
-            op = myScanner.next();
-
-            switch (op)
-            {
-                case ("1"):
-                {
-                    System.out.println("Introduce la fila:");
-                    int i = myScanner.nextInt();
-                    System.out.println("Introduce la columna:");
-                    int j = myScanner.nextInt();
-                    System.out.println("Introduce el número:");
-                    Integer numero = myScanner.nextInt();
-                    insertarNumero(i-1, j-1, numero);
-                    cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
-                    break;
-                }
-                case ("2"):
-                {
-                    System.out.println("Introduce la fila:");
-                    int i = myScanner.nextInt();
-                    System.out.println("Introduce la columna:");
-                    int j = myScanner.nextInt();
-                    borrarNumero(i-1, j-1);
-                    cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
-                    break;
-                }
-                case ("3"):
-                {
-                    System.out.println("Partida pausada");
-                    pausarPartida();
-                    break;
-                }
-                case ("4"):
-                {
-                    System.out.println("Partida reanudada");
-                    reanudarPartida();
-                    break;
-                }
-                case ("5"):
-                {
-                    salirPartida = true;
-                    break;
-                }
-                case ("6"):
-                {
-                    guardarPartida();
-                    break;
-                }
-                case ("7"):
-                    System.out.println("Introduce la fila:");
-                    int i = myScanner.nextInt();
-                    System.out.println("Introduce la columna:");
-                    int j = myScanner.nextInt();
-                    System.out.println("Introduce el número:");
-                    Integer numero = myScanner.nextInt();
-                    reemplazarNumero(i-1, j-1, numero);
-                    cP.printPartida(mapaPartida.getMatrix(), tiempoTotal);
-                    break;
-            }
-        }
-    }
-
-    //están todos los números puestos?
-    public boolean tableroLleno()
-    {
-        return (this.cantidadInterogantes == 0);
-    }
-
-    //todos los números están puestos
-    public void acabarPartida()
-    {
-        //aquí entra si el Hidato está bien.
-        UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(this.mapaPartida);
-
-
-        if (utilsMapa.hidatoValido())
-        {
-            System.out.println("El hidato es correcto");
-            salirPartida = true;
-        }
-        //aquí entra si el Hidato está mal, podemos escoger si queremos acabar la partida o
-        else
-        {
-            System.out.println("El hidato no es correcto");
-        }
     }
 
     public void pausarPartida() //sobretodo hago ésto por la gestión del cronómetro.
@@ -223,16 +143,6 @@ public class Partida
         this.paused = false;
     }
 
-    //--------------------------------------ÉSTO NO SÉ SI ES CORRECTO EN CUANTO A DISEÑO
-    public void guardarPartida() throws IOException
-    {
-        //para actualizar el reloj
-        pausarPartida();
-        reanudarPartida();
-
-        cP.savePartida(this);
-    }
-
     //indica si en la casilla que apuntamos con i y j es para números o es una casilla no válida
     private boolean casillaNumero (int i, int j)
     {
@@ -250,11 +160,8 @@ public class Partida
     //inserta un número en el tablero si no ha sido insertado antes y si la casilla es valida.
     public void insertarNumero (int i, int j, int numero)
     {
-        if (casillaValida(i, j)) {
-            System.out.print("La fila es: ");
-            System.out.println(i);
-            System.out.print("La columna es: ");
-            System.out.println(j);
+        if (paused) System.out.println ("La partida está en pausa");
+        else if (casillaValida(i, j)) {
             //para que no se pueda meter un número más grande que las casillas totales del hidato
             if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants()) {
                 System.out.print("El numero más grande es: ");
@@ -269,8 +176,6 @@ public class Partida
                         this.mapaPartida.insertarNumero(numero, i, j);
                         this.cantidadInterogantes -= 1;
 
-                        //por si ése número que hemos puesto era el último que quedaba por poner
-                        if (tableroLleno()) acabarPartida();
                     } else System.out.println("El número que está intentando poner ya existe en el tablero.");
                 } else System.out.println("La casilla no es válida para introducir un número");
             }
@@ -280,7 +185,8 @@ public class Partida
 
     public void borrarNumero (int i, int j)
     {
-        if (casillaValida(i, j)) {
+        if (paused) System.out.println ("La partida está en pausa");
+        else if (casillaValida(i, j)) {
             String casilla = this.mapaPartida.getMatrix()[i][j];
             if (casillaNumero(i, j) && casilla != "?") //si casilla apta para número y no hay ninguno puesto ya
             {
@@ -305,5 +211,4 @@ public class Partida
         borrarNumero(i, j);
         insertarNumero(i, j, numero);
     }
-
 }

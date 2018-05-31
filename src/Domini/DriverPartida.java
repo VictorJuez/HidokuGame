@@ -9,15 +9,16 @@ import java.util.Scanner;
 public class DriverPartida
 {
     public static void main (String[] args) throws IOException {
-        //creo un mapa random para pasarle a la partida:
+        ControladorPartida cP = new ControladorPartida();
+
+        String usuari = "Mathias";
 
         Scanner myScanner = new Scanner(System.in);
-        System.out.println("1 para mapa random, 2 para mapa simple de prueba, 3 para mapa sin solucion (testeo), 4 para cargar partida");
+        System.out.println("1 para mapa random, 2 para mapa simple de prueba, 3 para mapa sin solucion (testeo), 4 para cargar partida, 0 para salir");
         String op = myScanner.next();
 
-        ControladorPartida cP = new ControladorPartida();
         Partida p;
-        if (op.equals("1")) p = cP.crearPartidaRandom();
+        if (op.equals("1")) p = cP.crearPartidaRandom(usuari);
         else if (op.equals("2"))
         {
             String ID = "1";
@@ -30,7 +31,7 @@ public class DriverPartida
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
-            p = cP.crearPartida(m);
+            p = cP.crearPartida(m, usuari);
         }
         else if (op.equals("3"))
         {
@@ -44,7 +45,7 @@ public class DriverPartida
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(ID, tipo, angulos, matrix);
-            p = cP.crearPartida(m);
+            p = cP.crearPartida(m, usuari);
         }
         else
         {
@@ -52,6 +53,85 @@ public class DriverPartida
             String ID = myScanner.next();
             p = cP.getPartida(ID);
         }
-        p.jugar();
+        //aqui es donde empezamos a jugar:
+        cP.seleccionarPartida(p.getID());
+
+        while (op != "0")
+        {
+            System.out.println("1 -> añadir, 2 -> borrar, 7 -> reemplazar,3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar");
+            printPartida(p.getMapaPartida().getMatrix(), cP, p.getMapaPartida());
+            op = myScanner.next();
+
+            switch (op)
+            {
+                case ("1"):
+                {
+                    System.out.println("Introduce la fila:");
+                    int i = myScanner.nextInt();
+                    System.out.println("Introduce la columna:");
+                    int j = myScanner.nextInt();
+                    System.out.println("Introduce el número:");
+                    Integer numero = myScanner.nextInt();
+                    cP.insertarNumero(i-1, j-1, numero);
+                    printPartida(p.getMapaPartida().getMatrix(), cP, p.getMapaPartida());
+                    break;
+                }
+                case ("2"):
+                {
+                    System.out.println("Introduce la fila:");
+                    int i = myScanner.nextInt();
+                    System.out.println("Introduce la columna:");
+                    int j = myScanner.nextInt();
+                    cP.borrarNumero(i-1, j-1);
+                    printPartida(p.getMapaPartida().getMatrix(), cP, p.getMapaPartida());
+                    break;
+                }
+                case ("3"):
+                {
+                    System.out.println("Partida pausada");
+                    p.pausarPartida();
+                    break;
+                }
+                case ("4"):
+                {
+                    System.out.println("Partida reanudada");
+                    p.reanudarPartida();
+                    break;
+                }
+                case ("6"):
+                {
+                    cP.savePartida(p);
+                    break;
+                }
+                case ("7"):
+                    System.out.println("Introduce la fila:");
+                    int i = myScanner.nextInt();
+                    System.out.println("Introduce la columna:");
+                    int j = myScanner.nextInt();
+                    System.out.println("Introduce el número:");
+                    Integer numero = myScanner.nextInt();
+                    cP.reemplazarNumero(i-1, j-1, numero);
+                    printPartida(p.getMapaPartida().getMatrix(), cP, p.getMapaPartida());
+                    break;
+            }
+        }
+    }
+
+    public static void printPartida(String[][] matrix, ControladorPartida cP, Mapa mapa){
+        int filas = matrix.length;
+        int columnas = matrix[0].length;
+        System.out.print("Topologia: ");
+        System.out.println(mapa.getTipo());
+        System.out.print("Adyacencias: ");
+        System.out.println(mapa.getAngulos());
+        System.out.println(cP.consultarTiempo());
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
+                System.out.print(matrix[i][j]);
+                if(j!=columnas-1) System.out.print(",");
+            }
+            System.out.print("\n");
+        }
+        System.out.println();
     }
 }

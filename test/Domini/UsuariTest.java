@@ -39,14 +39,14 @@ public class UsuariTest {
 
     @Test
     public void addAndGetPartida() {
-        Partida p = controladorPartida.crearPartida(controladorMapa.generarHidato());
+        Partida p = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
         usuari.addPartida(p);
         Assert.assertEquals(p, usuari.getPartidas().get(p.getID()));
     }
 
     @Test
     public void popPartida() {
-        Partida p = controladorPartida.crearPartida(controladorMapa.generarHidato());
+        Partida p = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
         usuari.addPartida(p);
         Assert.assertEquals(1, usuari.getPartidas().size());
         usuari.popPartida(p);
@@ -85,9 +85,9 @@ public class UsuariTest {
 
     @Test
     public void getPartidas() {
-        Partida p1 = controladorPartida.crearPartida(controladorMapa.generarHidato());
-        Partida p2 = controladorPartida.crearPartida(controladorMapa.generarHidato());
-        Partida p3 = controladorPartida.crearPartida(controladorMapa.generarHidato());
+        Partida p1 = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
+        Partida p2 = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
+        Partida p3 = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
 
         usuari.addPartida(p1);
         usuari.addPartida(p2);

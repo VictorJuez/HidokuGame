@@ -3,6 +3,7 @@ package Dades;
 import java.io.*;
 import java.util.*;
 
+import Domini.ControladorMapa;
 import Domini.Mapa.Mapa;
 import Domini.Mapa.MapaFactory;
 import Domini.Partida;
@@ -13,7 +14,8 @@ public class PartidaDAO {
     public static void savePartida (Partida p) throws IOException {
 
         Properties properties = new Properties();
-        properties.setProperty("ID", p.getID());
+        properties.setProperty("IDPartida", p.getID());
+        properties.setProperty("IDMapa", p.getMapaPartida().getID());
         properties.setProperty("topologia", p.getTipoMapa());
         properties.setProperty("adyacencia", p.getAngulosMapa());
         properties.setProperty("filas", String.valueOf(p.getFilasMapa()));
@@ -28,16 +30,15 @@ public class PartidaDAO {
         }
         matrixString = matrixString.substring(0,matrixString.length()-1);
         properties.setProperty("matrix", matrixString);
-
         //esto para saber que numeros estaban puestos ya en el inicio
         String numerosInicio = p.getNumerosInicio();
         properties.setProperty("numerosInicio", numerosInicio);
         //esto los que hemos añadido nosotros
         String numerosInsertados = p.getNumerosInsertados();
         properties.setProperty("numerosInsertados", numerosInsertados);
-
-        properties.setProperty("cantidadInterrogantes", p.getCantidadInterrogantes());
+        properties.setProperty("cantidadInterrogantes", String.valueOf(p.getCantidadInterrogantes()));
         properties.setProperty("reloj", String.valueOf(p.getReloj()));
+        properties.setProperty("nomUsuari", p.getUsuari());
 
         File file2 = new File("data/partidas/"+p.getID()+".properties");
         FileOutputStream fileOut = new FileOutputStream(file2);
@@ -70,8 +71,7 @@ public class PartidaDAO {
         }
 
         //cargamos los atributos específicos de partida
-        double reloj = Double.parseDouble(prop.getProperty("reloj"));
-
+        int reloj = Integer.parseInt(prop.getProperty("reloj"));
         String[] numerosInicioS = prop.getProperty("numerosInicio").split(",");
         String[] numerosInsertadosS = prop.getProperty("numerosInsertados").split(",");
 
@@ -86,27 +86,18 @@ public class PartidaDAO {
         int cantidadInterrogantes = Integer.parseInt(prop.getProperty("cantidadInterrogantes"));
 
         //cargo el mapa que estaba usando partida
-        MapaFactory mapaFactory = new MapaFactory();
-        Mapa m = mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
+        ControladorMapa cM = new ControladorMapa();
+        Mapa m = cM.getMapa(prop.getProperty("IDMapa"));
+        String usuari = prop.getProperty("nomUsuari");
 
-        Partida p = new Partida(m);
+        Partida p = new Partida(ID, usuari, numerosInicio, numerosInsertados, cantidadInterrogantes, m, reloj);
         //ya tiene el mapa bien puesto, lo único que he de modificar son numerosInicio, numerosRestantes, reloj,
         // ID (para que tenga el mismo y poder sobreescribir)
-        setPartida(ID, reloj, p, numerosInicio, numerosInsertados, cantidadInterrogantes);
 
         return p; //retorna la partida tal y como la dejamos
     }
 
     //restablece los valores de la partida.
-    private static void setPartida (String ID, double reloj, Partida p, Vector<Integer> numerosInicio, Vector<Integer> numerosInsertados,
-                                    int cantidadInterrogantes)
-    {
-        p.setID(ID);
-        p.setReloj(reloj);
-        p.setNumerosInicio(numerosInicio);
-        p.setNumerosInsertados(numerosInsertados);
-        p.setCantidadInterrogantes(cantidadInterrogantes);
-    }
 
     public static ArrayList<String> loadAllPartidas()
     {

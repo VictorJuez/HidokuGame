@@ -2,6 +2,7 @@ package Domini;
 
 import Dades.PartidaDAO;
 import Domini.Mapa.Mapa;
+import Domini.Mapa.UtilsMapaDecorator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,26 +10,34 @@ import java.util.HashMap;
 
 public class ControladorPartida
 {
+    private String partidaEnCurso;
     private static HashMap<String, Partida> partidasMap = new HashMap<>();
     private ArrayList<String> partidasDisk = new ArrayList<>();
     public PartidaDAO pDAO = new PartidaDAO();
 
     public ControladorPartida() {}
 
-    public Partida crearPartida(Mapa m)
+    public void seleccionarPartida (String ID)
+    {
+        this.partidaEnCurso = ID;
+        Partida p = partidasMap.get(ID);
+        p.activarContador();
+    }
+
+    public Partida crearPartida(Mapa m, String usuari)
     {
         //crea una partida y la añade al hashmap de partidas existentes.
         Partida p;
-        p = new Partida(m);
+        p = new Partida(m, usuari);
         this.partidasMap.put(p.getID(), p);
         return p;
     }
 
-    public Partida crearPartidaRandom()
+    public Partida crearPartidaRandom(String usuari)
     {
         ControladorMapa cM = new ControladorMapa();
         Mapa mapaRandom = cM.generarHidato();
-        Partida p = new Partida(mapaRandom);
+        Partida p = new Partida(mapaRandom, usuari);
         this.partidasMap.put(p.getID(), p);
         return p;
     }
@@ -76,18 +85,45 @@ public class ControladorPartida
         partidasDisk = pDAO.loadAllPartidas();
     }
 
-    public static void printPartida(String[][] matrix, double tiempoTranscurrido){
-        System.out.print ("Tiempo transcurrido: ");
-        System.out.println(tiempoTranscurrido);
-        int filas = matrix.length;
-        int columnas = matrix[0].length;
-        for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) {
-                System.out.print(matrix[i][j]);
-                if(j!=columnas-1) System.out.print(",");
-            }
-            System.out.print("\n");
+    public void tableroLleno()
+    {
+        Partida p = partidasMap.get(partidaEnCurso);
+        UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
+        if (utilsMapa.hidatoValido())
+        {
+            //aqui entra si el Hidato está bien resuelto
         }
-        System.out.println();
+        else
+        {
+            //aqui no está bien resuelto
+        }
+    }
+
+    //cada vez que haya que insertar un numero he de consultar interrogantes para saber si está la matriz llena
+    public void insertarNumero (int i, int j, int numero)
+    {
+        Partida p = partidasMap.get(partidaEnCurso);
+        p.insertarNumero(i, j, numero);
+        p.actualizarContador();
+        if (p.getCantidadInterrogantes() == 0) tableroLleno();
+    }
+
+    public void borrarNumero (int i, int j)
+    {
+        Partida p = partidasMap.get(partidaEnCurso);
+        p.borrarNumero(i, j);
+        p.actualizarContador();
+    }
+
+    public void reemplazarNumero (int i, int j, int numero)
+    {
+        borrarNumero(i, j);
+        insertarNumero(i, j, numero);
+    }
+
+    public int consultarTiempo ()
+    {
+        Partida p = partidasMap.get(partidaEnCurso);
+        return p.getReloj();
     }
 }
