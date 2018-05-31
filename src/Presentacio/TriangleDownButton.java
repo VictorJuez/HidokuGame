@@ -12,7 +12,10 @@ public class TriangleDownButton extends JButton {
     }
 
     public void paintComponent(Graphics g) {
+        ((Graphics2D) g).setBackground(Color.BLACK);
         setForeground(Color.BLUE);
+        setBackground(Color.GRAY);
+        setContentAreaFilled(true);
         int x = 30;
         g.drawString(getText(), x - getText().length() * 3, (50 - 2) / 2);
     }

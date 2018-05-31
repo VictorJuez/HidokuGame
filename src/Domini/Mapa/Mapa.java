@@ -19,48 +19,9 @@ public abstract class Mapa {
     protected Vector<Integer> numerosRestants;
     protected String[][] matrix;
     protected boolean solucio;
-
-    public class adyacencias{
-        private String valor;
-        boolean visitat;
-        private Integer x;
-        private Integer y;
-        private Integer z;
-        private Vector<Integer> ad;
-
-        public adyacencias(int y, int x, String valor){
-            this.y = y;
-            this.x = x;
-            this.z = x + y*columnas;
-            this.valor = valor;
-            this.visitat = false;
-            this.ad = new Vector<>();
-        }
-
-        public Integer getZ() {
-            return z;
-        }
-        public Integer getX() {
-            return x;
-        }
-        public Integer getY() { return y; }
+    String dificultat;
 
 
-        public Vector<Integer> getAd() {
-            return ad;
-        }
-
-        public void add(Integer i) {
-            ad.add(i);
-        }
-
-        public String getValor() {
-            return valor;
-        }
-        public void setValorAdyacencia(String value){
-            this.valor = value;
-        }
-    };
 
     protected void putValorV(int value){
         numerosExistents.add(value);
@@ -90,6 +51,7 @@ public abstract class Mapa {
         numerosRestants = getNumerosRestants();
         interrogants = getInterrogants();
         numeros = numerosExistents.size();
+        this.dificultat = calculoDificultat();
     }
     public Mapa(){
         this.ID = UUID.randomUUID().toString();
@@ -107,6 +69,7 @@ public abstract class Mapa {
         numerosRestants = getNumerosRestants();
         interrogants = getInterrogants();
         numeros = numerosExistents.size();
+        this.dificultat = calculoDificultat();
     }
 
     public Vector<adyacencias> getTablaAD() {
@@ -143,6 +106,7 @@ public abstract class Mapa {
     public void borrarNumero(int x, int y){
         matrix[x][y] = "?";
     }
+    public String getDificultat(){return dificultat;}
 
     @Override
     public boolean equals(Object obj){
@@ -152,6 +116,17 @@ public abstract class Mapa {
 
         Mapa m = (Mapa) obj;
         return this.ID.equals(m.getID());
+    }
+
+    private String calculoDificultat(){
+        int ad = 0;
+        for (int i = 0; i < tablaAD.size(); i++){
+            ad = ad+tablaAD.get(i).getAd().size();
+        }
+        ad = ad/2;
+        if (ad <=4 || interrogants-numeros<=7) return "FACIL";
+        else if (ad <= 6 || interrogants-numeros <= 14) return "MEDIO";
+        else return "DIFICIL";
     }
 
     public void setMatrix(String[][] matrix) {
@@ -225,7 +200,7 @@ public abstract class Mapa {
         for (int i = 0; i < filas; i++){
             for (int j = 0; j < columnas; j++){
                 if(!matrix[i][j].equals("#") && !matrix[i][j].equals("*")){
-                    adyacencias a = new adyacencias(i,j, matrix[i][j]);
+                    adyacencias a = new adyacencias(i,j, matrix[i][j], this.columnas);
                     tablaAD.add(a);
                 }
             }
