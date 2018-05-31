@@ -115,7 +115,6 @@ public class ControladorMapa {
         result.setMatrix(tablero);
 
         mapasMap.put(result.getID(), result);
-        saveMapa(result);
         return result;
     }
 
@@ -123,7 +122,6 @@ public class ControladorMapa {
         MapaFactory mapaFactory = new MapaFactory();
         Mapa m = mapaFactory.getMapa(topologia, angulos, tab);
         mapasMap.put(m.getID(), m);
-        saveMapa(m);
         return m;
     }
 
@@ -148,9 +146,9 @@ public class ControladorMapa {
         return mapasMap.get(ID);
     }
 
-    public void saveMapa(Mapa m) {
+    public void saveMapa(Mapa m, String name) {
         try {
-            md.saveMapa(m);
+            md.saveMapa(m.getID(), name, m.getTipo(), m.getAngulos(), m.getFilas(), m.getColumnas(), m.getMatrix());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,8 +162,9 @@ public class ControladorMapa {
     private Mapa loadMapaDisk(String ID) throws IOException {
         StringBuilder topologia = new StringBuilder();
         StringBuilder adyacencia = new StringBuilder();
+        StringBuilder name = new StringBuilder();
         ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
-        md.loadMapa(ID, topologia, adyacencia, matrix);
+        md.loadMapa(ID, name, topologia, adyacencia, matrix);
 
         String[][] matrixResult = new String[matrix.size()][matrix.get(0).size()];
         for(int i=0; i<matrixResult.length; ++i){
@@ -173,7 +172,7 @@ public class ControladorMapa {
         }
 
         MapaFactory mapaFactory = new MapaFactory();
-        Mapa mapa = mapaFactory.getMapa(ID, topologia.toString(), adyacencia.toString(), matrixResult);
+        Mapa mapa = mapaFactory.getMapa(ID, name.toString(), topologia.toString(), adyacencia.toString(), matrixResult);
 
         mapasMap.put(ID, mapa);
         return mapa;

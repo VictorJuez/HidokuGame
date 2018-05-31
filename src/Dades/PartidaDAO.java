@@ -86,15 +86,16 @@ public class PartidaDAO {
         int cantidadInterrogantes = Integer.parseInt(prop.getProperty("cantidadInterrogantes"));
 
         //cargo el mapa que estaba usando partida
-        MapaFactory mapaFactory = new MapaFactory();
-        Mapa m = mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
+        //MapaFactory mapaFactory = new MapaFactory();
+        //Mapa m = mapaFactory.getMapa(ID, topologia, adyacencia, matrix);
 
-        Partida p = new Partida(m);
+        //Partida p = new Partida(m);
         //ya tiene el mapa bien puesto, lo único que he de modificar son numerosInicio, numerosRestantes, reloj,
         // ID (para que tenga el mismo y poder sobreescribir)
-        setPartida(ID, reloj, p, numerosInicio, numerosInsertados, cantidadInterrogantes);
+        //setPartida(ID, reloj, p, numerosInicio, numerosInsertados, cantidadInterrogantes);
 
-        return p; //retorna la partida tal y como la dejamos
+        //return p; //retorna la partida tal y como la dejamos
+        return null;
     }
 
     //restablece los valores de la partida.

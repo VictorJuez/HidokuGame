@@ -17,8 +17,8 @@ public class TableroTriangular extends Mapa {
         angulos = "C";
     }
 
-    public TableroTriangular(String ID, String[][] tab){
-        super(ID, tab);
+    public TableroTriangular(String ID, String name, String[][] tab){
+        super(ID, name, tab);
         tipo = "T";
         angulos = "C";
     }

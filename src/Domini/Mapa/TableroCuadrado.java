@@ -17,8 +17,8 @@ public class TableroCuadrado extends Mapa {
         angulos = "C";
     }
 
-    public TableroCuadrado(String ID, String[][] tab){
-        super(ID, tab);
+    public TableroCuadrado(String ID, String name, String[][] tab){
+        super(ID, name, tab);
         tipo = "Q";
         angulos = "C";
     }

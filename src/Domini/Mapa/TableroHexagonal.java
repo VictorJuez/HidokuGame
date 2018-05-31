@@ -17,8 +17,8 @@ public class TableroHexagonal extends Mapa {
         angulos = "C";
     }
 
-    public TableroHexagonal(String ID, String[][] tab){
-        super(ID, tab);
+    public TableroHexagonal(String ID, String name, String[][] tab){
+        super(ID, name, tab);
         tipo = "H";
         angulos = "C";
     }

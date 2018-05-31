@@ -12,18 +12,19 @@ import Domini.Mapa.MapaFactory;
 
 public class MapaDAO {
 
-    public void saveMapa(Mapa m) throws IOException {
+    public void saveMapa(String ID, String name, String topologia, String adyacencias, int filas, int columnas, String[][] matriz) throws IOException {
 
         Properties properties = new Properties();
-        properties.setProperty("ID", m.getID());
-        properties.setProperty("topologia", m.getTipo());
-        properties.setProperty("adyacencia", m.getAngulos());
-        properties.setProperty("filas", String.valueOf(m.getFilas()));
-        properties.setProperty("columnas", String.valueOf(m.getColumnas()));
+        properties.setProperty("ID", ID);
+        properties.setProperty("name", name);
+        properties.setProperty("topologia", topologia);
+        properties.setProperty("adyacencia", adyacencias);
+        properties.setProperty("filas", String.valueOf(filas));
+        properties.setProperty("columnas", String.valueOf(columnas));
         String matrixString = null;
-        String[][] matrix = m.getMatrix();
-        for(int i=0; i<m.getFilas(); ++i){
-            for(int j=0; j<m.getColumnas(); ++j) {
+        String[][] matrix = matriz;
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
                 if(i==0 && j==0) matrixString = matrix[i][j]+",";
                 else matrixString+=matrix[i][j]+",";
             }
@@ -31,13 +32,13 @@ public class MapaDAO {
         matrixString = matrixString.substring(0,matrixString.length()-1);
         properties.setProperty("matrix", matrixString);
 
-        File file2 = new File("data/mapas/"+m.getID()+".properties");
+        File file2 = new File("data/mapas/"+ID+".properties");
         FileOutputStream fileOut = new FileOutputStream(file2);
-        properties.store(fileOut, "Mapa: |" +m.getID()+"| properties");
+        properties.store(fileOut, "Mapa: |" +ID+"| properties");
         fileOut.close();
     }
 
-    public void loadMapa(String ID, StringBuilder topologia, StringBuilder adyacencia, ArrayList<ArrayList<String>> matrix) throws IOException{
+    public void loadMapa(String ID, StringBuilder name, StringBuilder topologia, StringBuilder adyacencia, ArrayList<ArrayList<String>> matrix) throws IOException{
         InputStream input = new FileInputStream("data/mapas/"+ID+".properties");
 
         // load a properties file
@@ -45,6 +46,7 @@ public class MapaDAO {
         prop.load(input);
 
         // get the property value
+        name.append(prop.getProperty("name"));
         topologia.append(prop.getProperty("topologia"));
         adyacencia.append(prop.getProperty("adyacencia"));
         String matrixString = prop.getProperty("matrix");
