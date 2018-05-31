@@ -10,15 +10,17 @@ public class DriverPartida
 {
     public static void main (String[] args) throws IOException {
         ControladorPartida cP = new ControladorPartida();
+        ControladorUsuari cU = new ControladorUsuari();
+        Usuari u = cU.insertarUsuari("Mathias", "123");
+        cU.login("Mathias", "123");
 
-        String usuari = "Mathias";
 
         Scanner myScanner = new Scanner(System.in);
         System.out.println("1 para mapa random, 2 para mapa simple de prueba, 3 para mapa sin solucion (testeo), 4 para cargar partida, 0 para salir");
         String op = myScanner.next();
 
         Partida p;
-        if (op.equals("1")) p = cP.crearPartidaRandom(usuari);
+        if (op.equals("1")) p = cP.crearPartidaRandom(cU.getUsuariActiu());
         else if (op.equals("2"))
         {
             String tipo = "Q";
@@ -30,7 +32,7 @@ public class DriverPartida
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(tipo, angulos, matrix);
-            p = cP.crearPartida(m, usuari);
+            p = cP.crearPartida(m, cU.getUsuariActiu());
         }
         else if (op.equals("3"))
         {
@@ -43,7 +45,7 @@ public class DriverPartida
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(tipo, angulos, matrix);
-            p = cP.crearPartida(m, usuari);
+            p = cP.crearPartida(m, cU.getUsuariActiu());
         }
         else
         {
