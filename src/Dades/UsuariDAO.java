@@ -5,7 +5,10 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class UsuariDAO {
-    public void saveUsuari(String id, String password, ArrayList<String> partidasID, ArrayList<String> mapasID) throws IOException {
+
+    private UsuariDAO(){}
+
+    public static void saveUsuari(String id, String password, ArrayList<String> partidasID, ArrayList<String> mapasID) throws IOException {
         Properties properties = new Properties();
         properties.setProperty("id", id);
         properties.setProperty("password", password);
@@ -18,7 +21,7 @@ public class UsuariDAO {
         fileOut.close();
     }
 
-    private String arrayListToString(ArrayList<String> partidasID) {
+    private static String arrayListToString(ArrayList<String> partidasID) {
         String result = "";
         for(String partidaID : partidasID){
             result+=partidaID+",";
@@ -26,7 +29,7 @@ public class UsuariDAO {
         return result;
     }
 
-    public void loadUsuari(String id, StringBuilder password, ArrayList<String> partidasID, ArrayList<String> mapasID) throws IOException {
+    public static void loadUsuari(String id, StringBuilder password, ArrayList<String> partidasID, ArrayList<String> mapasID) throws IOException {
         InputStream input = new FileInputStream("data/usuaris/"+id+".properties");
 
         // load a properties file
@@ -47,7 +50,7 @@ public class UsuariDAO {
         }
     }
 
-    private ArrayList<String> stringToArrayList(String str) {
+    private static ArrayList<String> stringToArrayList(String str) {
         String[] parts = str.split(",");
         ArrayList<String> result = new ArrayList<>();
         for(String element : parts) result.add(element);
@@ -55,7 +58,7 @@ public class UsuariDAO {
         return result;
     }
 
-    public ArrayList<String> loadAllUsuaris(){
+    public static ArrayList<String> loadAllUsuaris(){
         File folder = new File("data/usuaris");
         File[] listOfFiles = folder.listFiles();
         ArrayList<String> result = new ArrayList<>();

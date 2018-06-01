@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class UsuariDAOTest {
-    UsuariDAO usuariDAO = new UsuariDAO();
     ArrayList<String> usuaris = new ArrayList<>();
 
     @Test
@@ -21,14 +20,14 @@ public class UsuariDAOTest {
         Usuari usuari = new Usuari("enric", "hola");
         usuari.addMapa(ControladorMapa.generarHidato());
         usuari.addMapa(ControladorMapa.generarHidato());
-        usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+        UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
         usuaris.add(usuari.getID());
 
         StringBuilder password = new StringBuilder();
         ArrayList<String> partidasID = new ArrayList<>();
         ArrayList<String> mapasID = new ArrayList<>();
 
-        usuariDAO.loadUsuari(usuari.getID(), password, partidasID, mapasID);
+        UsuariDAO.loadUsuari(usuari.getID(), password, partidasID, mapasID);
         Assert.assertEquals(usuari.getPassword(), password.toString());
 
         for(String mapaID : mapasID){
@@ -42,11 +41,11 @@ public class UsuariDAOTest {
         for(int i =0; i<3; ++i){
             Usuari usuari = new Usuari("enric"+i, "hola");
             userList.add(usuari.getID());
-            usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+            UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
             usuaris.add(usuari.getID());
         }
 
-        ArrayList<String> usersID = usuariDAO.loadAllUsuaris();
+        ArrayList<String> usersID = UsuariDAO.loadAllUsuaris();
 
         for(int i=0; i<3; ++i){
             Assert.assertTrue(userList.contains(usersID.get(i)));

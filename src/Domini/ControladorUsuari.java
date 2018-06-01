@@ -2,15 +2,12 @@ package Domini;
 
 import Dades.UsuariDAO;
 
-import javax.naming.ldap.Control;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ControladorUsuari {
     private static HashMap<String, Usuari> allUsers = new HashMap<>();
-    private static UsuariDAO usuariDAO = new UsuariDAO();
     private static Usuari usuariActiu;
 
     private ControladorUsuari(){}
@@ -52,7 +49,7 @@ public class ControladorUsuari {
         ArrayList<String> mapasID = new ArrayList<>();
 
         try {
-            usuariDAO.loadUsuari(ID, password, partidasID, mapasID);
+            UsuariDAO.loadUsuari(ID, password, partidasID, mapasID);
         } catch (IOException e) {
             return null;
         }
@@ -76,7 +73,7 @@ public class ControladorUsuari {
 
     private static void saveUsuariToDisk(Usuari usuari) {
         try {
-            usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+            UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,7 +93,7 @@ public class ControladorUsuari {
     }
 
     private static ArrayList<String> loadAllUsersDisk(){
-        return usuariDAO.loadAllUsuaris();
+        return UsuariDAO.loadAllUsuaris();
     }
 
     public static void cleanUp() {
