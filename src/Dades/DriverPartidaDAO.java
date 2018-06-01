@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class DriverPartidaDAO {
     private static Scanner myScanner;
-    private static PartidaDAO pDAO = new PartidaDAO();
 
     public static void main(String[] args) throws IOException {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
@@ -22,10 +21,10 @@ public class DriverPartidaDAO {
             switch (op){
                 case "1":
                     op = myScanner.next();
-                    pDAO.loadPartida(op);
+                    PartidaDAO.loadPartida(op);
                     break;
                 case "2":
-                    pDAO.loadAllPartidas();
+                    PartidaDAO.loadAllPartidas();
                     break;
                 case "x":
                     System.out.println("exiting game...");

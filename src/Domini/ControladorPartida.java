@@ -14,36 +14,35 @@ public class ControladorPartida
 {
     private static String partidaEnCurso;
     private static HashMap<String, Partida> partidasMap = new HashMap<>();
-    private ArrayList<String> partidasDisk = new ArrayList<>();
-    public PartidaDAO pDAO = new PartidaDAO();
+    private static ArrayList<String> partidasDisk = new ArrayList<>();
 
-    public ControladorPartida() {}
+    private ControladorPartida() {}
 
-    public void seleccionarPartida (String ID)
+    public static void seleccionarPartida (String ID)
     {
-        this.partidaEnCurso = ID;
+        partidaEnCurso = ID;
         Partida p = partidasMap.get(ID);
         p.activarContador();
     }
 
-    public Partida crearPartida(Mapa m, String usuari)
+    public static Partida crearPartida(Mapa m, String usuari)
     {
         //crea una partida y la añade al hashmap de partidas existentes.
         Partida p;
         p = new Partida(m, usuari);
-        this.partidasMap.put(p.getID(), p);
+        partidasMap.put(p.getID(), p);
         return p;
     }
 
-    public Partida crearPartidaRandom(String usuari)
+    public static Partida crearPartidaRandom(String usuari)
     {
         Mapa mapaRandom = ControladorMapa.generarHidato();
         Partida p = new Partida(mapaRandom, usuari);
-        this.partidasMap.put(p.getID(), p);
+        partidasMap.put(p.getID(), p);
         return p;
     }
 
-    public HashMap<String, Partida> getAllPartidas () throws IOException {
+    public static HashMap<String, Partida> getAllPartidas () throws IOException {
         loadAllPartidasDisk();
         for(int i=0; i<partidasDisk.size(); ++i){
             String id = partidasDisk.get(i);
@@ -52,7 +51,7 @@ public class ControladorPartida
         return partidasMap;
     }
 
-    public Partida getPartida(String ID) {
+    public static Partida getPartida(String ID) {
         if(partidasMap.get(ID) == null){
             try {
                 return loadPartidaDisk(ID);
@@ -63,30 +62,30 @@ public class ControladorPartida
         return partidasMap.get(ID);
     }
 
-    public void savePartida(Partida p) {
+    public static void savePartida(Partida p) {
         try {
-            pDAO.savePartida(p);
+            PartidaDAO.savePartida(p);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void deletePartida (Partida p) {
+    public static void deletePartida (Partida p) {
         partidasMap.remove(p.getID());
-        pDAO.deletePartida(p);
+        PartidaDAO.deletePartida(p);
     }
 
-    private Partida loadPartidaDisk(String ID) throws IOException {
-        Partida p = pDAO.loadPartida(ID);
+    private static Partida loadPartidaDisk(String ID) throws IOException {
+        Partida p = PartidaDAO.loadPartida(ID);
         partidasMap.put(ID, p);
         return p;
     }
 
-    private void loadAllPartidasDisk(){
-        partidasDisk = pDAO.loadAllPartidas();
+    private static  void loadAllPartidasDisk(){
+        partidasDisk = PartidaDAO.loadAllPartidas();
     }
 
-    public void tableroLleno()
+    public static void tableroLleno()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
@@ -105,7 +104,7 @@ public class ControladorPartida
     }
 
     //cada vez que haya que insertar un numero he de consultar interrogantes para saber si está la matriz llena
-    public void insertarNumero (int i, int j, int numero)
+    public static void insertarNumero (int i, int j, int numero)
     {
         Partida p = partidasMap.get(partidaEnCurso);
         p.insertarNumero(i, j, numero);
@@ -113,32 +112,32 @@ public class ControladorPartida
         if (p.getCantidadInterrogantes() == 0) tableroLleno();
     }
 
-    public void borrarNumero (int i, int j)
+    public static void borrarNumero (int i, int j)
     {
         Partida p = partidasMap.get(partidaEnCurso);
         p.borrarNumero(i, j);
         p.actualizarContador();
     }
 
-    public void reemplazarNumero (int i, int j, int numero)
+    public static void reemplazarNumero (int i, int j, int numero)
     {
         Partida p = partidasMap.get(partidaEnCurso);
         p.reemplazarNumero(i, j, numero);
     }
 
-    public void consultarPista ()
+    public static void consultarPista ()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         p.consultarPista();
     }
 
-    public int consultarTiempo ()
+    public static int consultarTiempo ()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         return p.getReloj();
     }
 
-    public int calControladorUsuariloPuntuacion (String difiControladorUsuariltad, int tiempo, int numeroPistas)
+    public static int calControladorUsuariloPuntuacion (String difiControladorUsuariltad, int tiempo, int numeroPistas)
     {
         double factorTiempo = 0;
         double factorDifiControladorUsuariltad = 0;

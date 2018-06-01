@@ -11,6 +11,8 @@ import Domini.Usuari;
 
 public class PartidaDAO {
 
+    private PartidaDAO(){}
+
     public static void savePartida (Partida p) throws IOException {
 
         Properties properties = new Properties();
@@ -118,7 +120,7 @@ public class PartidaDAO {
         return partidasDisk;
     }
 
-    public void deletePartida(Partida p) {
+    public static void deletePartida(Partida p) {
         File file = new File("data/partidas/"+p.getID()+".properties");
 
         file.delete();
