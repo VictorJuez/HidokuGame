@@ -41,7 +41,11 @@ public class Partida
         return mapaPartida;
     }
     public String[][] getMatrixMapa() { return this.mapaPartida.getMatrix(); }
-    //lo devuelve como string para pasarselo a PartidaDAO
+    public int getCantidadInterrogantes() { return this.cantidadInterogantes; }
+    public int getPistasConsultadas() {
+        return this.pistasConsultadas;
+    }
+    //los devuelve como string para pasarselo a PartidaDAO
     public String getNumerosInicio() {
         int size = this.numerosInicio.size();
         String numerosInicio = "";
@@ -65,10 +69,6 @@ public class Partida
             numerosInsertados += String.valueOf(this.numerosInsertados.get(i));
         }
         return numerosInsertados;
-    }
-    public int getCantidadInterrogantes() { return this.cantidadInterogantes; }
-    public int getPistasConsultadas() {
-        return this.pistasConsultadas;
     }
 
     //SETTERS DE LA CLASE
@@ -223,6 +223,6 @@ public class Partida
         ++pistasConsultadas;
         UtilsMapaDecorator umd = new UtilsMapaDecorator(this.mapaPartida);
         int resultatPista = umd.pista();
-
+        if (resultatPista == -1) System.out.println("Hay algún número mal puesto");
     }
 }

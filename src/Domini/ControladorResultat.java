@@ -57,7 +57,10 @@ public class ControladorResultat {
     }
 
     private void initializeGlobalRanking() {
-        for(int i=0; i<users.size(); ++i) GlobalRanking.put(users.get(i).getID(),0);
+        ArrayList<String> usersID = new ArrayList<String>(ctUsuari.getAllUsers().keySet());
+        for(int i=0; i<usersID.size(); ++i) {
+            GlobalRanking.put(usersID.get(i),0);
+        }
     }
 
     public ArrayList<Resultat> getAllResultats() throws IOException {
