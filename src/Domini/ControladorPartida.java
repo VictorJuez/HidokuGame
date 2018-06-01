@@ -16,8 +16,6 @@ public class ControladorPartida
     private static HashMap<String, Partida> partidasMap = new HashMap<>();
     private ArrayList<String> partidasDisk = new ArrayList<>();
     public PartidaDAO pDAO = new PartidaDAO();
-    private ControladorResultat cR = new ControladorResultat();
-    private ControladorUsuari cU = new ControladorUsuari();
 
     public ControladorPartida() {}
 
@@ -96,13 +94,13 @@ public class ControladorPartida
         if (utilsMapa.hidatoValido())
         {
             //aqui entra si el Hidato está bien resuelto
-            //String dificultad = p.getMapaPartida().getDificultad();
-            String dificultad = "FACIL"; //para el testeo, de mientras lo dejo así
+            //String difiControladorUsuariltad = p.getMapaPartida().getDifiControladorUsuariltad();
+            String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
 
-            int puntuacion = calculoPuntuacion(dificultad, p.getReloj(), p.getPistasConsultadas());
+            int puntuacion = calControladorUsuariloPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
-            String userID = cU.getUsuariActiu();
-            cR.insertarResultat(cU.getUsuari(userID), p.getMapaPartida(), puntuacion);
+            String userID = ControladorUsuari.getUsuariActiu();
+            ControladorResultat.insertarResultat(ControladorUsuari.getUsuari(userID), p.getMapaPartida(), puntuacion);
             p.setPuntuacion(puntuacion);
         }
     }
@@ -141,21 +139,19 @@ public class ControladorPartida
         return p.getReloj();
     }
 
-    public int calculoPuntuacion (String dificultad, int tiempo, int numeroPistas)
+    public int calControladorUsuariloPuntuacion (String difiControladorUsuariltad, int tiempo, int numeroPistas)
     {
-        ControladorResultat cR = new ControladorResultat();
-
         double factorTiempo = 0;
-        double factorDificultad = 0;
-        switch (dificultad)
+        double factorDifiControladorUsuariltad = 0;
+        switch (difiControladorUsuariltad)
         {
-            case ("FACIL"): { factorTiempo = 1; factorDificultad = 0.25; break; }
-            case ("MEDIO"): { factorTiempo = 0.75; factorDificultad = 0.75; break; }
-            case ("DIFICIL"): { factorTiempo = 0.25; factorDificultad = 1; break; }
+            case ("FACIL"): { factorTiempo = 1; factorDifiControladorUsuariltad = 0.25; break; }
+            case ("MEDIO"): { factorTiempo = 0.75; factorDifiControladorUsuariltad = 0.75; break; }
+            case ("DIFICIL"): { factorTiempo = 0.25; factorDifiControladorUsuariltad = 1; break; }
         }
         factorTiempo = factorTiempo * tiempo;
         double factorPistas = Math.pow(2, numeroPistas);
 
-        return intValue((100000 * factorDificultad) - factorPistas - factorTiempo);
+        return intValue((100000 * factorDifiControladorUsuariltad) - factorPistas - factorTiempo);
     }
 }

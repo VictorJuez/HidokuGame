@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ControladorUsuari {
-    private HashMap<String, Usuari> allUsers = new HashMap<>();
-    private UsuariDAO usuariDAO = new UsuariDAO();
-    private ControladorMapa controladorMapa = new ControladorMapa();
+    private static HashMap<String, Usuari> allUsers = new HashMap<>();
+    private static UsuariDAO usuariDAO = new UsuariDAO();
+    private static ControladorMapa controladorMapa = new ControladorMapa();
     private static Usuari usuariActiu;
 
-    public Usuari insertarUsuari(String ID, String password){
+    private ControladorUsuari(){}
+
+    public static Usuari insertarUsuari(String ID, String password){
         if(getUsuari(ID) != null) return null;
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
@@ -24,18 +26,18 @@ public class ControladorUsuari {
         return usuari;
     }
 
-    public Usuari getUsuari(String ID) {
+    public static Usuari getUsuari(String ID) {
         if(allUsers.get(ID) == null){
             return loadUsuariDisk(ID);
         }
         return allUsers.get(ID);
     }
 
-    public boolean login(String ID, String password){
+    public static boolean login(String ID, String password){
         return getUsuari(ID).checkPassword(password);
     }
 
-    public HashMap<String, Usuari> getAllUsers(){
+    public static HashMap<String, Usuari> getAllUsers(){
         ArrayList<String> usersDisk = loadAllUsersDisk();
         for(String userDisk : usersDisk){
             if(!allUsers.containsKey(userDisk))loadUsuariDisk(userDisk);
@@ -44,7 +46,7 @@ public class ControladorUsuari {
         return allUsers;
     }
 
-    private Usuari loadUsuariDisk(String ID){
+    private static Usuari loadUsuariDisk(String ID){
         Usuari usuari = null;
         StringBuilder password = new StringBuilder();
         ArrayList<String> partidasID = new ArrayList<>();
@@ -67,13 +69,13 @@ public class ControladorUsuari {
         return usuari;
     }
 
-    public void addMapatoUser(String usuariId, String mapaID){
+    public static void addMapatoUser(String usuariId, String mapaID){
         Usuari usuari = getUsuari(usuariId);
         usuari.addMapa(controladorMapa.getMapa(mapaID));
         saveUsuariToDisk(usuari);
     }
 
-    private void saveUsuariToDisk(Usuari usuari) {
+    private static void saveUsuariToDisk(Usuari usuari) {
         try {
             usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
         } catch (IOException e) {
@@ -81,7 +83,7 @@ public class ControladorUsuari {
         }
     }
 
-    public boolean login(Usuari usuari, String password){
+    public static boolean login(Usuari usuari, String password){
         if(usuari.checkPassword(password)) {
             usuariActiu = usuari;
             return true;
@@ -94,7 +96,12 @@ public class ControladorUsuari {
         else return "nobody";
     }
 
-    private ArrayList<String> loadAllUsersDisk(){
+    private static ArrayList<String> loadAllUsersDisk(){
         return usuariDAO.loadAllUsuaris();
+    }
+
+    public static void cleanUp() {
+        allUsers = new HashMap<>();
+        usuariActiu = null;
     }
 }

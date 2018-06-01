@@ -10,9 +10,8 @@ public class DriverPartida
 {
     public static void main (String[] args) throws IOException {
         ControladorPartida cP = new ControladorPartida();
-        ControladorUsuari cU = new ControladorUsuari();
-        Usuari u = cU.insertarUsuari("Mathias", "123");
-        cU.login("Mathias", "123");
+        Usuari u = ControladorUsuari.insertarUsuari("Mathias", "123");
+        ControladorUsuari.login("Mathias", "123");
 
 
         Scanner myScanner = new Scanner(System.in);
@@ -20,7 +19,7 @@ public class DriverPartida
         String op = myScanner.next();
 
         Partida p;
-        if (op.equals("1")) p = cP.crearPartidaRandom(cU.getUsuariActiu());
+        if (op.equals("1")) p = cP.crearPartidaRandom(ControladorUsuari.getUsuariActiu());
         else if (op.equals("2"))
         {
             String tipo = "Q";
@@ -32,7 +31,7 @@ public class DriverPartida
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(tipo, angulos, matrix);
-            p = cP.crearPartida(m, cU.getUsuariActiu());
+            p = cP.crearPartida(m, ControladorUsuari.getUsuariActiu());
         }
         else if (op.equals("3"))
         {
@@ -45,7 +44,7 @@ public class DriverPartida
             matrix[1][1] = "?";
             MapaFactory mF = new MapaFactory();
             Mapa m = mF.getMapa(tipo, angulos, matrix);
-            p = cP.crearPartida(m, cU.getUsuariActiu());
+            p = cP.crearPartida(m, ControladorUsuari.getUsuariActiu());
         }
         else
         {

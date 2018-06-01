@@ -10,12 +10,10 @@ import java.util.Scanner;
 
 public class DriverRanking {
     private static Scanner myScanner;
-    private static ControladorResultat ctResultat = new ControladorResultat();
     private static ControladorMapa ctMapa = new ControladorMapa();
-    private static ControladorUsuari ctUsuari = new ControladorUsuari();
 
     public static void main(String[] args) throws IOException {
-        ctResultat.loadAllResultsDisk();
+        ControladorResultat.loadAllResultsDisk();
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1)Insertar resultado partida \n"+
@@ -39,10 +37,10 @@ public class DriverRanking {
                     Mapa mapa = ctMapa.getMapa(idmapa);
                     //System.out.println("Insertar ID del jugador");
                     //String iduser = myScanner.next();
-                    Usuari usuari = ctUsuari.insertarUsuari("enric", "hola");
+                    Usuari usuari = ControladorUsuari.insertarUsuari("enric", "hola");
                     System.out.println("Insertar puntuacion");
                     int puntuacion = myScanner.nextInt();
-                    ctResultat.insertarResultat(usuari, mapa, puntuacion);
+                    ControladorResultat.insertarResultat(usuari, mapa, puntuacion);
                     break;
                 case "2":
                     System.out.println("Insertar ID del mapa");
@@ -50,9 +48,9 @@ public class DriverRanking {
                     mapa = ctMapa.getMapa(idmapa);
                     System.out.println("Insertar ID del jugador");
                     String iduser = myScanner.next();
-                    usuari = ctUsuari.getUsuari(iduser);
+                    usuari = ControladorUsuari.getUsuari(iduser);
                     System.out.println("puntuacio en el mapa: "+ mapa.getID());
-                    System.out.println(ctResultat.getUserMapResult(usuari, mapa)+ "punts");
+                    System.out.println(ControladorResultat.getUserMapResult(usuari, mapa)+ "punts");
                     break;
                 case "3":
                     getGlobalRanking();
@@ -67,14 +65,14 @@ public class DriverRanking {
                 case "5":
                     System.out.println("Insertar ID del jugador");
                     iduser = myScanner.next();
-                    usuari = ctUsuari.getUsuari(iduser);
+                    usuari = ControladorUsuari.getUsuari(iduser);
                     getUserRanking(usuari);
                     break;
                 case "6":
                     System.out.println("Insertar ID del jugador");
                     iduser = myScanner.next();
-                    usuari = ctUsuari.getUsuari(iduser);
-                    System.out.println(ctResultat.getUserGlobalResult(usuari));
+                    usuari = ControladorUsuari.getUsuari(iduser);
+                    System.out.println(ControladorResultat.getUserGlobalResult(usuari));
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -93,7 +91,7 @@ public class DriverRanking {
     }
 
     private static void getUserRanking(Usuari usuari) {
-        HashMap<Mapa, Integer> hm = ctResultat.getUserAllResults(usuari);
+        HashMap<Mapa, Integer> hm = ControladorResultat.getUserAllResults(usuari);
         Iterator it = hm.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
@@ -104,7 +102,7 @@ public class DriverRanking {
     }
 
     private static void getMapRanking(Mapa mapa) {
-        HashMap<Usuari, Integer> hm = ctResultat.getMapRanking(mapa);
+        HashMap<Usuari, Integer> hm = ControladorResultat.getMapRanking(mapa);
         Iterator it = hm.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
@@ -115,7 +113,7 @@ public class DriverRanking {
     }
 
     private static void getGlobalRanking() {
-        HashMap<String, Integer> hm = ctResultat.getGlobalRanking();
+        HashMap<String, Integer> hm = ControladorResultat.getGlobalRanking();
         printMap(hm);
     }
 

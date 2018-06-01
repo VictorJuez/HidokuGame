@@ -20,10 +20,9 @@ public class Login {
     private String username;
 
     private MapaView mapaView;
-    private ControladorUsuari controladorUsuari;
+    private ControladorUsuari ControladorUsuari;
 
     public Login() {
-        controladorUsuari = new ControladorUsuari();
         mapaView = new MapaView();
 
         setUpUserBox();
@@ -33,10 +32,10 @@ public class Login {
             public void actionPerformed(ActionEvent e) {
                 String password = String.valueOf(passwordField.getPassword());
 
-                Usuari usuari = controladorUsuari.getUsuari(username);
+                Usuari usuari = ControladorUsuari.getUsuari(username);
                 if(usuari == null) JOptionPane.showMessageDialog(null, "El username no correspon a cap usuari!");
                 else {
-                    if(!controladorUsuari.login(usuari, password)) JOptionPane.showMessageDialog(null, "Contrasenya incorrecte!");
+                    if(!ControladorUsuari.login(usuari, password)) JOptionPane.showMessageDialog(null, "Contrasenya incorrecte!");
                     else {
                         JOptionPane.showMessageDialog(null, "Login correctament!");
                         Main.showMapaView();
@@ -67,7 +66,7 @@ public class Login {
     }
 
     private void setUpUserBox() {
-        ArrayList<String> usersID = new ArrayList<>(controladorUsuari.getAllUsers().keySet());
+        ArrayList<String> usersID = new ArrayList<>(ControladorUsuari.getAllUsers().keySet());
         String[] prova = usersID.toArray(new String[0]);
         userBox.setModel(new javax.swing.DefaultComboBoxModel(prova));
         if(prova.length>0)userBox.setSelectedIndex(0);

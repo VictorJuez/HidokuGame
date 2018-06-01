@@ -14,13 +14,12 @@ import java.util.HashMap;
 public class ResultatDAOTest {
     //ControladorResultat controladorResultat = new ControladorResultat();
     ControladorMapa controladorMapa = new ControladorMapa();
-    ControladorUsuari controladorUsuari = new ControladorUsuari();
     MapaDAO mapaDAO = new MapaDAO();
     ArrayList<String> resultats = new ArrayList<>();
 
     @Test
     public void loadAndSaveResultat() throws IOException {
-        Usuari usuari = controladorUsuari.insertarUsuari("enric", "hola");
+        Usuari usuari = ControladorUsuari.insertarUsuari("enric", "hola");
         Mapa mapa = controladorMapa.generarHidato();
 
         ResultatDAO resultatDAO = new ResultatDAO();

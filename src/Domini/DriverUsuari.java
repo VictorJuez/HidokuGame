@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class DriverUsuari {
     private static Scanner myScanner;
-    private static ControladorUsuari controladorUsuari = new ControladorUsuari();
     private static ControladorMapa controladorMapa = new ControladorMapa();
 
     public static void main(String[] args){
@@ -55,7 +54,7 @@ public class DriverUsuari {
     }
 
     private static void getAllUsers() {
-        HashMap<String, Usuari> au = controladorUsuari.getAllUsers();
+        HashMap<String, Usuari> au = ControladorUsuari.getAllUsers();
         au.forEach((k,v) -> {
             printUsuari(v);
         });
@@ -64,8 +63,8 @@ public class DriverUsuari {
     private static void addMaptoUser() {
         System.out.println("Escribe el id del usuario");
         String id = myScanner.next();
-        Usuari usuari = controladorUsuari.getUsuari(id);
-        controladorUsuari.addMapatoUser(usuari.getID(), controladorMapa.generarHidato().getID());
+        Usuari usuari = ControladorUsuari.getUsuari(id);
+        ControladorUsuari.addMapatoUser(usuari.getID(), controladorMapa.generarHidato().getID());
         printUsuari(usuari);
     }
 
@@ -75,7 +74,7 @@ public class DriverUsuari {
         System.out.println("Escribe la contraseña del usuario");
         String password = myScanner.next();
 
-        Usuari usuari = controladorUsuari.insertarUsuari(id, password);
+        Usuari usuari = ControladorUsuari.insertarUsuari(id, password);
         if(usuari == null) System.out.println("l'usuari ja existeix");
         else printUsuari(usuari);
     }
@@ -92,7 +91,7 @@ public class DriverUsuari {
     private static void getUsuari(){
         System.out.println("Escribe el id del usuario");
         String id = myScanner.next();
-        printUsuari(controladorUsuari.getUsuari(id));
+        printUsuari(ControladorUsuari.getUsuari(id));
     }
 
     public static void deleteFiles() {

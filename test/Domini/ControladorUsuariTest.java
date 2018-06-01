@@ -1,8 +1,6 @@
 package Domini;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -11,42 +9,43 @@ import java.util.HashMap;
 import static org.junit.Assert.*;
 
 public class ControladorUsuariTest {
-    ControladorUsuari controladorUsuari = new ControladorUsuari();
     ArrayList<String> usuaris = new ArrayList<>();
+    static Usuari usuari;
+
+    @BeforeClass
+    public static void before(){
+        usuari = ControladorUsuari.insertarUsuari("enric", "hola");
+    }
 
     @Test
     public void insertarUsuari() {
-        Usuari usuari = controladorUsuari.insertarUsuari("enric", "hola");
-        usuaris.add(usuari.getID());
         Assert.assertEquals(usuari.getID(), "enric");
     }
 
     @Test
     public void getUsuari() {
-        Usuari usuari = controladorUsuari.insertarUsuari("enric", "hola");
-        usuaris.add(usuari.getID());
-        Assert.assertEquals(usuari, controladorUsuari.getUsuari(usuari.getID()));
+        Assert.assertNotNull(usuari);
+        Assert.assertNotNull(ControladorUsuari.getUsuari(usuari.getID()));
+        Assert.assertEquals(usuari, ControladorUsuari.getUsuari(usuari.getID()));
     }
 
     @Test
     public void login() {
-        Usuari usuari = controladorUsuari.insertarUsuari("enric", "hola");
-        usuaris.add(usuari.getID());
-        Assert.assertTrue(controladorUsuari.login("enric","hola"));
+        Assert.assertTrue(ControladorUsuari.login("enric","hola"));
     }
 
     @Test
     public void getAllUsers() {
         ArrayList<String> usersList = new ArrayList<>();
         for(int i=0; i<3; ++i){
-            Usuari usuari = controladorUsuari.insertarUsuari("enric"+i, "hola");
+            Usuari usuari = ControladorUsuari.insertarUsuari("enric"+i, "hola");
             usersList.add(usuari.getID());
             usuaris.add(usuari.getID());
         }
-        HashMap<String, Usuari> usuariHashMap = controladorUsuari.getAllUsers();
+        HashMap<String, Usuari> usuariHashMap = ControladorUsuari.getAllUsers();
         for(int i=0; i<3; ++i){
             Assert.assertTrue(usuariHashMap.containsKey(usersList.get(i)));
-            Assert.assertEquals(controladorUsuari.getUsuari(usersList.get(i)), usuariHashMap.get(usersList.get(i)));
+            Assert.assertEquals(ControladorUsuari.getUsuari(usersList.get(i)), usuariHashMap.get(usersList.get(i)));
         }
     }
 

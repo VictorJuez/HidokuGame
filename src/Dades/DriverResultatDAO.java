@@ -10,9 +10,7 @@ import java.util.*;
 public class DriverResultatDAO {
     private static Scanner myScanner;
     private static ResultatDAO resultatDAO = new ResultatDAO();
-    private static ControladorUsuari controladorUsuari = new ControladorUsuari();
     private static ControladorMapa controladorMapa = new ControladorMapa();
-    private static ControladorResultat controladorResultat = new ControladorResultat();
     public static void main(String[] args) throws IOException {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) loadResult(UserID, mapaID)\n"+
@@ -32,7 +30,7 @@ public class DriverResultatDAO {
                     String mapaID = myScanner.next();
                     HashMap<String, String > resultatMap= resultatDAO.loadResultat(userID, mapaID);
                     Mapa map = controladorMapa.getMapa(resultatMap.get("mapa"));
-                    Usuari usuari = controladorUsuari.getUsuari(resultatMap.get("usuari"));
+                    Usuari usuari = ControladorUsuari.getUsuari(resultatMap.get("usuari"));
                     int puntuacio = Integer.parseInt(resultatMap.get("puntuacio"));
                     printResultat(new Resultat(usuari, map, puntuacio));
                     break;
@@ -40,9 +38,9 @@ public class DriverResultatDAO {
                     userID = myScanner.next();
                     mapaID = myScanner.next();
                     puntuacio = myScanner.nextInt();
-                    usuari = controladorUsuari.getUsuari(userID);
+                    usuari = ControladorUsuari.getUsuari(userID);
                     Mapa mapa = controladorMapa.getMapa(mapaID);
-                    resultatDAO.saveResultat(controladorResultat.insertarResultat(usuari, mapa, puntuacio));
+                    resultatDAO.saveResultat(ControladorResultat.insertarResultat(usuari, mapa, puntuacio));
                     break;
                 case "3":
                     HashMap<String, Integer> resultatsDisk = resultatDAO.loadAllResults();
@@ -51,7 +49,7 @@ public class DriverResultatDAO {
                         Map.Entry resultatPair = (Map.Entry)it.next();
                         String filename = (String) resultatPair.getKey();
                         String parts[] = filename.split("_");
-                        usuari = controladorUsuari.getUsuari(parts[0]);
+                        usuari = ControladorUsuari.getUsuari(parts[0]);
                         mapa = controladorMapa.getMapa(parts[1]);
                         Resultat resultat = new Resultat(usuari, mapa, (Integer) resultatPair.getValue());
                         printResultat(resultat);
