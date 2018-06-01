@@ -38,7 +38,7 @@ public class Login {
                     if(!ControladorUsuari.login(usuari, password)) JOptionPane.showMessageDialog(null, "Contrasenya incorrecte!");
                     else {
                         JOptionPane.showMessageDialog(null, "Login correctament!");
-                        Main.showMapaView();
+                        Main.showMenu();
                     }
                 }
             }

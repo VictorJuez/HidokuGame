@@ -28,16 +28,14 @@ public class SignUp {
                     if(usuari == null) JOptionPane.showMessageDialog(null, "Aquest nom ja esta utilitzat");
                     else {
                         JOptionPane.showMessageDialog(null, "Usuari creat!");
-                        Main.showMapaView();
+                        Main.showMenu();
                     }
                 }
             }
         });
         enrereButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.showMain();
-            }
+            public void actionPerformed(ActionEvent e) { Main.showMain(); }
         });
     }
 

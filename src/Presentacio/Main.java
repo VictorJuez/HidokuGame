@@ -10,6 +10,8 @@ public class Main {
     private SignUp signUp;
     private Login Login;
     private MapaView mapaView;
+    private CreadorMapa creadorMapa;
+    private Menu menu;
 
     JFrame frame = new JFrame("Main demo");
     static JPanel panelCont = new JPanel();
@@ -17,8 +19,11 @@ public class Main {
     JPanel singUpPanel;
     JPanel loginPanel;
     JPanel mapaViewPanel;
+    JPanel creadorMapaPanel;
+    JPanel menuPanel;
     JButton loginButton;
     JButton signUpButton;
+    private JButton sortirButton;
     static CardLayout cl = new CardLayout();
 
 
@@ -28,14 +33,24 @@ public class Main {
         signUp = new SignUp();
         Login = new Login();
         mapaView = new MapaView();
+        creadorMapa = new CreadorMapa();
+        menu = new Menu();
+
         singUpPanel = signUp.getSignUpPanel();
         loginPanel = Login.getLoginPanel();
         mapaViewPanel = mapaView.getMapaPanel();
+        creadorMapaPanel = creadorMapa.getCreadorMapasPanel();
+        menuPanel = menu.getMenuPanel();
+
         panelCont.add(MainPanel,"main");
         panelCont.add(singUpPanel, "singUp");
         panelCont.add(loginPanel, "login");
         panelCont.add(mapaViewPanel, "mapaView");
+        panelCont.add(creadorMapaPanel, "creadorMapa");
+        panelCont.add(menuPanel, "menu");
+
         cl.show(panelCont, "main");
+
         //Trying cardLayout
         signUpButton.addActionListener(new ActionListener() {
             @Override
@@ -58,15 +73,28 @@ public class Main {
         frame.setMinimumSize(new Dimension(500,375));
         //frame.pack();
         frame.setVisible(true);
+        sortirButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Close();
+            }
+        });
     }
 
     public static void showMain(){
         cl.show(panelCont, "main");
     }
 
+    public static void showCreadorMapa() { cl.show(panelCont, "creadorMapa"); }
+
+    public static void showMenu() { cl.show(panelCont, "menu"); }
+
     public static void showMapaView(){
         cl.show(panelCont, "mapaView");
     }
+
+    //he hecho ésto por si queremos meter un botón salir
+    public static void Close() { System.exit(0); }
 
     public static void main(String[] args) {
         try {

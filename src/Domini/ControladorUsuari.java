@@ -32,6 +32,7 @@ public class ControladorUsuari {
     public static boolean login(String ID, String password){
         return getUsuari(ID).checkPassword(password);
     }
+    public static void logout () { usuariActiu = null; }
 
     public static HashMap<String, Usuari> getAllUsers(){
         ArrayList<String> usersDisk = loadAllUsersDisk();
