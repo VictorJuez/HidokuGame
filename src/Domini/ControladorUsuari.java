@@ -10,7 +10,7 @@ public class ControladorUsuari {
     private static HashMap<String, Usuari> allUsers = new HashMap<>();
     private static Usuari usuariActiu;
 
-    private ControladorUsuari(){}
+    public ControladorUsuari(){}
 
     public static Usuari insertarUsuari(String ID, String password){
         if(getUsuari(ID) != null) return null;

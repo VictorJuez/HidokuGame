@@ -17,13 +17,11 @@ public class Menu {
     private JButton CreadorMapasButton;
     private JButton JugarButton;
     private JButton LogOutButton;
+    private JLabel usuariLabel;
+    private JLabel usuariActiuLabel;
 
     JFrame frame = new JFrame("Menu principal");
     static JPanel panelCont = new JPanel();
-    JPanel menuPanel;
-    JPanel jugarPanel;
-    JPanel rankingPanel;
-    JPanel creadorMapasPanel;
 
     JButton jugarButton;
     JButton rankingButton;
@@ -33,6 +31,8 @@ public class Menu {
 
     public Menu ()
     {
+        cU = new ControladorUsuari();
+        setUpUsuariLabel(); //sale nobody porque hay que hacer el refresh después del login
         CreadorMapasButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,6 +47,8 @@ public class Menu {
             }
         });
     }
+
+    public void setUpUsuariLabel() { this.usuariActiuLabel.setText(cU.getUsuariActiu()); }
 
     public JPanel getMenuPanel() { return MenuPanel; }
 }

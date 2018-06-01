@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CreadorMapa {
+    String nommapa = "";
+
     private JTextField nomMapa;
     private JComboBox tipusMapa;
     private JComboBox adjacencies;
@@ -21,10 +23,11 @@ public class CreadorMapa {
         setUpAdjacenciesBox();
         setUpFilesBox();
         setUpColumnesBox();
+
         SegüentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (nommapa.equals("")) JOptionPane.showMessageDialog(null, "Escriu un nom pel mapa");
             }
         });
 
@@ -34,9 +37,21 @@ public class CreadorMapa {
                 Main.showMenu();
             }
         });
+
+        nomMapa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setNomMapa();
+            }
+        });
     }
 
     public JPanel getCreadorMapasPanel() { return CreadorMapaPanel; }
+
+    public void setNomMapa()
+    {
+        nommapa = nomMapa.getText();
+    }
 
     private void setUpTipusMapaBox()
     {
