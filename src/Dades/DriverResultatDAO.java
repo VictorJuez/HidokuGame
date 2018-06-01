@@ -10,7 +10,6 @@ import java.util.*;
 public class DriverResultatDAO {
     private static Scanner myScanner;
     private static ResultatDAO resultatDAO = new ResultatDAO();
-    private static ControladorMapa controladorMapa = new ControladorMapa();
     public static void main(String[] args) throws IOException {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) loadResult(UserID, mapaID)\n"+
@@ -29,7 +28,7 @@ public class DriverResultatDAO {
                     String userID = myScanner.next();
                     String mapaID = myScanner.next();
                     HashMap<String, String > resultatMap= resultatDAO.loadResultat(userID, mapaID);
-                    Mapa map = controladorMapa.getMapa(resultatMap.get("mapa"));
+                    Mapa map = ControladorMapa.getMapa(resultatMap.get("mapa"));
                     Usuari usuari = ControladorUsuari.getUsuari(resultatMap.get("usuari"));
                     int puntuacio = Integer.parseInt(resultatMap.get("puntuacio"));
                     printResultat(new Resultat(usuari, map, puntuacio));
@@ -39,7 +38,7 @@ public class DriverResultatDAO {
                     mapaID = myScanner.next();
                     puntuacio = myScanner.nextInt();
                     usuari = ControladorUsuari.getUsuari(userID);
-                    Mapa mapa = controladorMapa.getMapa(mapaID);
+                    Mapa mapa = ControladorMapa.getMapa(mapaID);
                     resultatDAO.saveResultat(ControladorResultat.insertarResultat(usuari, mapa, puntuacio));
                     break;
                 case "3":
@@ -50,7 +49,7 @@ public class DriverResultatDAO {
                         String filename = (String) resultatPair.getKey();
                         String parts[] = filename.split("_");
                         usuari = ControladorUsuari.getUsuari(parts[0]);
-                        mapa = controladorMapa.getMapa(parts[1]);
+                        mapa = ControladorMapa.getMapa(parts[1]);
                         Resultat resultat = new Resultat(usuari, mapa, (Integer) resultatPair.getValue());
                         printResultat(resultat);
                     }

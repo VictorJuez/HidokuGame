@@ -20,7 +20,6 @@ public class MapaView {
     private JPanel panel1;
 
     private ControladorUsuari controladorUsuari;
-    private ControladorMapa controladorMapa;
     private Mapa mapa;
     private Partida partida;
     private int i = 0;
@@ -37,7 +36,7 @@ public class MapaView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 generarMapaRandomButton.setVisible(false);
-                mapa = controladorMapa.generarHidato();
+                mapa = ControladorMapa.generarHidato();
                 //TriangleUpButton t = new TriangleUpButton();
                 //t.setText("1");
                 //t.setVisible(true);
@@ -87,7 +86,6 @@ public class MapaView {
         MapaPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                controladorMapa = new ControladorMapa();
                 activeUsertxt.setText(ControladorUsuari.getUsuariActiu());
             }
         });

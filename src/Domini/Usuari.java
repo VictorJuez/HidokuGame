@@ -12,7 +12,6 @@ public class Usuari {
     private String password;  //password del usuario
     private HashMap<String, Partida> partidas = new HashMap<>();   //partidas del usuario
     private HashMap<String, Mapa> mapas = new HashMap<>();      //mapas que ha creado el usuario
-    private ControladorMapa controladorMapa = new ControladorMapa();
 
     public Usuari(String ID, String password){
         this.ID = ID;
@@ -26,7 +25,7 @@ public class Usuari {
         /*for(String partidaID : partidas){
         }*/
         for(String mapaID : mapas){
-            Mapa mapa = controladorMapa.getMapa(mapaID);
+            Mapa mapa = ControladorMapa.getMapa(mapaID);
             this.mapas.put(mapa.getID(), mapa);
         }
     }

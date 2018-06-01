@@ -15,13 +15,12 @@ import static org.junit.Assert.*;
 public class UsuariDAOTest {
     UsuariDAO usuariDAO = new UsuariDAO();
     ArrayList<String> usuaris = new ArrayList<>();
-    ControladorMapa controladorMapa = new ControladorMapa();
 
     @Test
     public void saveAndLoadUsuari() throws IOException {
         Usuari usuari = new Usuari("enric", "hola");
-        usuari.addMapa(controladorMapa.generarHidato());
-        usuari.addMapa(controladorMapa.generarHidato());
+        usuari.addMapa(ControladorMapa.generarHidato());
+        usuari.addMapa(ControladorMapa.generarHidato());
         usuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
         usuaris.add(usuari.getID());
 

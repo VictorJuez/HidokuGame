@@ -13,13 +13,12 @@ import java.util.HashMap;
 public class ControladorResultatTest {
     ArrayList<Mapa> mapaList = new ArrayList<>();
     ArrayList<Usuari> usuariList = new ArrayList<>();
-    ControladorMapa ctMapa = new ControladorMapa();
 
     @Before
     public void setUp() {
         ControladorUsuari.cleanUp();
         for(int i=0; i<3; ++i) {
-            mapaList.add(ctMapa.generarHidato());
+            mapaList.add(ControladorMapa.generarHidato());
             usuariList.add(ControladorUsuari.insertarUsuari(String.valueOf(i), String.valueOf(i)));
         }
     }

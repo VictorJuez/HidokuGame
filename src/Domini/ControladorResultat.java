@@ -15,7 +15,6 @@ public class ControladorResultat {
     private static ArrayList<Resultat> resultatList = new ArrayList<>();
     private static ResultatDAO resultatDAO = new ResultatDAO();
     private static HashMap<String, Integer> GlobalRanking = new HashMap<>();
-    private static ControladorMapa controladorMapa = new ControladorMapa();
 
     private ControladorResultat() {}
 
@@ -68,7 +67,7 @@ public class ControladorResultat {
 
     private static Resultat loadResultDisk(String userID, String mapaID) throws IOException {
         HashMap<String, String> resultMap = resultatDAO.loadResultat(userID, mapaID);
-        Mapa mapa = controladorMapa.getMapa(resultMap.get("mapa"));
+        Mapa mapa = ControladorMapa.getMapa(resultMap.get("mapa"));
         Usuari usuari = ControladorUsuari.getUsuari(resultMap.get("usuari"));
         int puntuacio = Integer.parseInt(resultMap.get("puntuacio"));
         return insertarResultat(usuari, mapa, puntuacio);
@@ -88,7 +87,7 @@ public class ControladorResultat {
             String resultatString = (String) resultatPair.getKey();
             String parts[] = resultatString.split("_");
             Usuari usuari = ControladorUsuari.getUsuari(parts[0]);
-            Mapa mapa = controladorMapa.getMapa(parts[1]);
+            Mapa mapa = ControladorMapa.getMapa(parts[1]);
             insertarResultat(usuari, mapa, (Integer) resultatPair.getValue());
         }
     }

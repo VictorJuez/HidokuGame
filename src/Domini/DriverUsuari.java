@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class DriverUsuari {
     private static Scanner myScanner;
-    private static ControladorMapa controladorMapa = new ControladorMapa();
 
     public static void main(String[] args){
         System.out.println("Hidato Game");
@@ -64,7 +63,7 @@ public class DriverUsuari {
         System.out.println("Escribe el id del usuario");
         String id = myScanner.next();
         Usuari usuari = ControladorUsuari.getUsuari(id);
-        ControladorUsuari.addMapatoUser(usuari.getID(), controladorMapa.generarHidato().getID());
+        ControladorUsuari.addMapatoUser(usuari.getID(), ControladorMapa.generarHidato().getID());
         printUsuari(usuari);
     }
 

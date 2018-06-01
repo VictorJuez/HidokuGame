@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 public class UsuariTest {
     Usuari usuari;
     ControladorPartida controladorPartida = new ControladorPartida();
-    ControladorMapa controladorMapa = new ControladorMapa();
 
     @Before
     public void setUp(){
@@ -39,14 +38,14 @@ public class UsuariTest {
 
     @Test
     public void addAndGetPartida() {
-        Partida p = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
+        Partida p = controladorPartida.crearPartida(ControladorMapa.generarHidato(), usuari.getID());
         usuari.addPartida(p);
         Assert.assertEquals(p, usuari.getPartidas().get(p.getID()));
     }
 
     @Test
     public void popPartida() {
-        Partida p = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
+        Partida p = controladorPartida.crearPartida(ControladorMapa.generarHidato(), usuari.getID());
         usuari.addPartida(p);
         Assert.assertEquals(1, usuari.getPartidas().size());
         usuari.popPartida(p);
@@ -55,14 +54,14 @@ public class UsuariTest {
 
     @Test
     public void addAndGetMapa() {
-        Mapa m = controladorMapa.generarHidato();
+        Mapa m = ControladorMapa.generarHidato();
         usuari.addMapa(m);
         Assert.assertEquals(m, usuari.getMapas().get(m.getID()));
     }
 
     @Test
     public void popMapa() {
-        Mapa m = controladorMapa.generarHidato();
+        Mapa m = ControladorMapa.generarHidato();
         usuari.addMapa(m);
         usuari.popMapa(m);
         Assert.assertNull(usuari.getMapas().get(m.getID()));
@@ -70,9 +69,9 @@ public class UsuariTest {
 
     @Test
     public void getMapas() {
-        Mapa m = controladorMapa.generarHidato();
-        Mapa m1 = controladorMapa.generarHidato();
-        Mapa m2 = controladorMapa.generarHidato();
+        Mapa m = ControladorMapa.generarHidato();
+        Mapa m1 = ControladorMapa.generarHidato();
+        Mapa m2 = ControladorMapa.generarHidato();
         usuari.addMapa(m);
         usuari.addMapa(m1);
         usuari.addMapa(m2);
@@ -85,9 +84,9 @@ public class UsuariTest {
 
     @Test
     public void getPartidas() {
-        Partida p1 = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
-        Partida p2 = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
-        Partida p3 = controladorPartida.crearPartida(controladorMapa.generarHidato(), usuari.getID());
+        Partida p1 = controladorPartida.crearPartida(ControladorMapa.generarHidato(), usuari.getID());
+        Partida p2 = controladorPartida.crearPartida(ControladorMapa.generarHidato(), usuari.getID());
+        Partida p3 = controladorPartida.crearPartida(ControladorMapa.generarHidato(), usuari.getID());
 
         usuari.addPartida(p1);
         usuari.addPartida(p2);

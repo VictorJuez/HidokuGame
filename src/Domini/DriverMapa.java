@@ -10,7 +10,6 @@ import java.util.*;
 public class DriverMapa {
 
     private static Scanner myScanner;
-    private static ControladorMapa ctMapa = new ControladorMapa();
 
     public static void main(String[] args) throws IOException {
         System.out.println("Hidato Game");
@@ -60,8 +59,8 @@ public class DriverMapa {
                 case "7":
                     System.out.println("Inserta el ID del hidato a borrar");
                     op = myScanner.next();
-                    Mapa mapa = ctMapa.getMapa(op);
-                    ctMapa.borrarMapa(mapa);
+                    Mapa mapa = ControladorMapa.getMapa(op);
+                    ControladorMapa.borrarMapa(mapa);
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -82,12 +81,12 @@ public class DriverMapa {
     }
 
     private static void saveMapa(String id, String name) {
-        Mapa m = ctMapa.getMapa(id);
-        ctMapa.saveMapa(m, name);
+        Mapa m = ControladorMapa.getMapa(id);
+        ControladorMapa.saveMapa(m, name);
     }
 
     private static void adyacencias(String op) throws IOException {
-        Mapa m = ctMapa.getMapa(op);
+        Mapa m = ControladorMapa.getMapa(op);
         Vector<adyacencias> k = m.getTablaAD();
         for (int i = 0; i < k.size(); i++){
             System.out.println("("+k.get(i).getY()+") ("+k.get(i).getX()+") z = "+ k.get(i).getZ() + " posicio =" + i);
@@ -131,14 +130,14 @@ public class DriverMapa {
             tab[i] = items.toArray(tab[i]);
         }
 
-        Mapa m = ctMapa.insertarHidato(index[0], index[1], tab);
+        Mapa m = ControladorMapa.insertarHidato(index[0], index[1], tab);
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
         printTablero(m.getMatrix());
     }
 
     public static void listaHidatos() throws IOException {
-        HashMap<String, Mapa> l = ctMapa.getAllMapas();
+        HashMap<String, Mapa> l = ControladorMapa.getAllMapas();
         l.forEach((k,v) -> {
             System.out.println("ID: "+ k);
             System.out.println("name: "+ v.getName());
@@ -148,7 +147,7 @@ public class DriverMapa {
     }
 
     public static void generarHidato() throws IOException {
-        Mapa m = ctMapa.generarHidato();
+        Mapa m = ControladorMapa.generarHidato();
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 
@@ -157,7 +156,7 @@ public class DriverMapa {
      }
 
      public static void validarHidato(String ID) throws IOException {
-         Mapa m = ctMapa.getMapa(ID);
+         Mapa m = ControladorMapa.getMapa(ID);
          UtilsMapaDecorator um = new UtilsMapaDecorator(m);
          if(um.hidatoValido()){
             System.out.println("Té solucio:");
@@ -170,7 +169,7 @@ public class DriverMapa {
      }
 
      public static void adyacencia(String ID) throws IOException {
-         Mapa m = ctMapa.getMapa(ID);
+         Mapa m = ControladorMapa.getMapa(ID);
          for(int i = 0; i < m.getTablaAD().size(); i++){
              System.out.println("posicio a la taula: "+ i + " identificador: " + m.getTablaAD().get(i).getZ());
              System.out.println("vector adjacents: "+ m.getTablaAD().get(i).getAd());
@@ -178,7 +177,7 @@ public class DriverMapa {
      }
 
      /*public static void loadMapa(String ID) throws IOException, ParseException {
-        Mapa m = ctMapa.loadMapa(ID);
+        Mapa m = ControladorMapa.loadMapa(ID);
         System.out.println("ID: "+m.getID());
         System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
         printTablero(m.getMatrix());

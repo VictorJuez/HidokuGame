@@ -12,15 +12,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ResultatDAOTest {
-    //ControladorResultat controladorResultat = new ControladorResultat();
-    ControladorMapa controladorMapa = new ControladorMapa();
-    MapaDAO mapaDAO = new MapaDAO();
     ArrayList<String> resultats = new ArrayList<>();
 
     @Test
     public void loadAndSaveResultat() throws IOException {
         Usuari usuari = ControladorUsuari.insertarUsuari("enric", "hola");
-        Mapa mapa = controladorMapa.generarHidato();
+        Mapa mapa = ControladorMapa.generarHidato();
 
         ResultatDAO resultatDAO = new ResultatDAO();
         resultatDAO.saveResultat(new Resultat(usuari, mapa, 10));

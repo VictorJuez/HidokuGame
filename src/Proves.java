@@ -9,8 +9,7 @@ public class Proves {
         while (true) {
             ++contador;
             System.out.println("iteraciones: "+contador);
-            ControladorMapa controladorMapa = new ControladorMapa();
-            Mapa m = controladorMapa.generarHidato();
+            Mapa m = ControladorMapa.generarHidato();
             //System.out.println("ID: "+m.getID());
             //System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 

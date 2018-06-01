@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class DriverRanking {
     private static Scanner myScanner;
-    private static ControladorMapa ctMapa = new ControladorMapa();
 
     public static void main(String[] args) throws IOException {
         ControladorResultat.loadAllResultsDisk();
@@ -34,7 +33,7 @@ public class DriverRanking {
                 case "1":
                     System.out.println("Insertar ID del mapa");
                     String idmapa = myScanner.next();
-                    Mapa mapa = ctMapa.getMapa(idmapa);
+                    Mapa mapa = ControladorMapa.getMapa(idmapa);
                     //System.out.println("Insertar ID del jugador");
                     //String iduser = myScanner.next();
                     Usuari usuari = ControladorUsuari.insertarUsuari("enric", "hola");
@@ -45,7 +44,7 @@ public class DriverRanking {
                 case "2":
                     System.out.println("Insertar ID del mapa");
                     idmapa = myScanner.next();
-                    mapa = ctMapa.getMapa(idmapa);
+                    mapa = ControladorMapa.getMapa(idmapa);
                     System.out.println("Insertar ID del jugador");
                     String iduser = myScanner.next();
                     usuari = ControladorUsuari.getUsuari(iduser);
@@ -59,7 +58,7 @@ public class DriverRanking {
                 case "4":
                     System.out.println("Insertar ID del mapa");
                     idmapa = myScanner.next();
-                    mapa = ctMapa.getMapa(idmapa);
+                    mapa = ControladorMapa.getMapa(idmapa);
                     getMapRanking(mapa);
                     break;
                 case "5":

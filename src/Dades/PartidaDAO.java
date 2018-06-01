@@ -86,8 +86,7 @@ public class PartidaDAO {
         int cantidadInterrogantes = Integer.parseInt(prop.getProperty("cantidadInterrogantes"));
 
         //cargo el mapa que estaba usando partida
-        ControladorMapa cM = new ControladorMapa();
-        Mapa m = cM.getMapa(prop.getProperty("IDMapa"));
+        Mapa m = ControladorMapa.getMapa(prop.getProperty("IDMapa"));
         String usuari = prop.getProperty("nomUsuari");
 
         Partida p = new Partida(ID, usuari, numerosInicio, numerosInsertados, cantidadInterrogantes, m, reloj);

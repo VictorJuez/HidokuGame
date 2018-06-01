@@ -11,9 +11,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ControladorMapa {
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
-    private ArrayList<String> mapasDisk = new ArrayList<>();
-    private MapaDAO md = new MapaDAO();
-    public ControladorMapa(){}
+    private static ArrayList<String> mapasDisk = new ArrayList<>();
+    private static MapaDAO md = new MapaDAO();
+    private ControladorMapa(){}
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
      * @param i,j fila y columna de la casilla a comprobar
@@ -21,7 +21,7 @@ public class ControladorMapa {
      * @param max_col El numero de columnas del hidato
      * @return Boolean indicando si la casilla sera # o no.
      */
-    protected boolean holeChecker(int i, int j, int max_fil, int max_col)
+    private static boolean holeChecker(int i, int j, int max_fil, int max_col)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
         //ahora vamos a ver si la casilla está en el borde.
@@ -33,7 +33,7 @@ public class ControladorMapa {
         return false;
     }
 
-    protected String[][] completePath(Integer[][] casillas_usadas, int numero_fil, int numero_col){
+    private static String[][] completePath(Integer[][] casillas_usadas, int numero_fil, int numero_col){
         String[][] tablero = new String[numero_fil][numero_col];
         int randValue;
         int biggestNumber = 0;
@@ -78,7 +78,7 @@ public class ControladorMapa {
      *         <li>su segunda posicion contiene una matriz de Strings con el hidato generado</li>
      *     </ul>
      */
-    public Mapa generarHidato() {
+    public static Mapa generarHidato() {
         int numero_fil, numero_col; //número de filas y columnas del tablero
         int tipo_adyacencia; //1 -> costados, 2 -> costados y angulos
         int topologia; //1-> cuadrados, 2-> triangilos, 3-> hexagonos
@@ -118,14 +118,14 @@ public class ControladorMapa {
         return result;
     }
 
-    public Mapa insertarHidato(String topologia, String angulos, String[][] tab) {
+    public static Mapa insertarHidato(String topologia, String angulos, String[][] tab) {
         MapaFactory mapaFactory = new MapaFactory();
         Mapa m = mapaFactory.getMapa(topologia, angulos, tab);
         mapasMap.put(m.getID(), m);
         return m;
     }
 
-    public HashMap<String, Mapa> getAllMapas() throws IOException {
+    public static HashMap<String, Mapa> getAllMapas() throws IOException {
         loadAllMapsDisk();
         for(int i=0; i<mapasDisk.size(); ++i){
             String id = mapasDisk.get(i);
@@ -134,7 +134,7 @@ public class ControladorMapa {
         return mapasMap;
     }
 
-    public Mapa getMapa(String ID) {
+    public static Mapa getMapa(String ID) {
         if(mapasMap.get(ID) == null){
             try {
                 return loadMapaDisk(ID);
@@ -146,7 +146,7 @@ public class ControladorMapa {
         return mapasMap.get(ID);
     }
 
-    public void saveMapa(Mapa m, String name) {
+    public static void saveMapa(Mapa m, String name) {
         try {
             m.setName(name);
             md.saveMapa(m.getID(), name, m.getTipo(), m.getAngulos(), m.getFilas(), m.getColumnas(), m.getMatrix());
@@ -155,12 +155,12 @@ public class ControladorMapa {
         }
     }
 
-    public void borrarMapa(Mapa mapa) {
+    public static void borrarMapa(Mapa mapa) {
         mapasMap.remove(mapa.getID());
         md.borrarMapa(mapa.getID());
     }
 
-    private Mapa loadMapaDisk(String ID) throws IOException {
+    private static Mapa loadMapaDisk(String ID) throws IOException {
         StringBuilder topologia = new StringBuilder();
         StringBuilder adyacencia = new StringBuilder();
         StringBuilder name = new StringBuilder();
@@ -179,20 +179,7 @@ public class ControladorMapa {
         return mapa;
     }
 
-    private void loadAllMapsDisk(){
+    private static void loadAllMapsDisk(){
         mapasDisk = md.loadAllMapas();
-    }
-
-    public static void printTablero(String[][] matrix){
-        int filas = matrix.length;
-        int columnas = matrix[0].length;
-        for(int i=0; i<filas; ++i){
-            for(int j=0; j<columnas; ++j) {
-                System.out.print(matrix[i][j]);
-                if(j!=columnas-1) System.out.print(",");
-            }
-            System.out.print("\n");
-        }
-        System.out.println();
     }
 }

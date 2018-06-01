@@ -11,7 +11,6 @@ import java.util.HashMap;
 public class ControladorUsuari {
     private static HashMap<String, Usuari> allUsers = new HashMap<>();
     private static UsuariDAO usuariDAO = new UsuariDAO();
-    private static ControladorMapa controladorMapa = new ControladorMapa();
     private static Usuari usuariActiu;
 
     private ControladorUsuari(){}
@@ -71,7 +70,7 @@ public class ControladorUsuari {
 
     public static void addMapatoUser(String usuariId, String mapaID){
         Usuari usuari = getUsuari(usuariId);
-        usuari.addMapa(controladorMapa.getMapa(mapaID));
+        usuari.addMapa(ControladorMapa.getMapa(mapaID));
         saveUsuariToDisk(usuari);
     }
 

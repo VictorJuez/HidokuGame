@@ -37,8 +37,7 @@ public class ControladorPartida
 
     public Partida crearPartidaRandom(String usuari)
     {
-        ControladorMapa cM = new ControladorMapa();
-        Mapa mapaRandom = cM.generarHidato();
+        Mapa mapaRandom = ControladorMapa.generarHidato();
         Partida p = new Partida(mapaRandom, usuari);
         this.partidasMap.put(p.getID(), p);
         return p;
