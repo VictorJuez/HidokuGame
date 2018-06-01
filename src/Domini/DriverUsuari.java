@@ -81,6 +81,7 @@ public class DriverUsuari {
     private static void printUsuari(Usuari usuari) {
         System.out.println("usuari id: "+usuari.getID());
         System.out.println("usuari password: "+usuari.getPassword());
+        System.out.println("partidas del usuario: ");
         for(String partidaID : usuari.getPartidasID()) System.out.print(partidaID+",");
         System.out.println();
         for(String mapaID : usuari.getMapasID()) System.out.print(mapaID+",");

@@ -22,8 +22,9 @@ public class Usuari {
     public Usuari (String ID, String password, ArrayList<String> partidas, ArrayList<String> mapas) throws IOException {
         this.ID = ID;
         this.password = password;
-        /*for(String partidaID : partidas){
-        }*/
+        for(String partidaID : partidas){
+            this.partidas.put(partidaID, ControladorPartida.getPartida(partidaID));
+        }
         for(String mapaID : mapas){
             Mapa mapa = ControladorMapa.getMapa(mapaID);
             this.mapas.put(mapa.getID(), mapa);

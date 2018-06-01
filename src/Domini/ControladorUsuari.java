@@ -71,6 +71,12 @@ public class ControladorUsuari {
         saveUsuariToDisk(usuari);
     }
 
+    public static void addPartidaToUser(String usuariID, String partidaID){
+        Usuari usuari = getUsuari(usuariID);
+        usuari.addPartida(ControladorPartida.getPartida(partidaID));
+        saveUsuariToDisk(usuari);
+    }
+
     private static void saveUsuariToDisk(Usuari usuari) {
         try {
             UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());

@@ -96,7 +96,7 @@ public class PartidaDAO {
         // ID (para que tenga el mismo y poder sobreescribir)
 
         //return p; //retorna la partida tal y como la dejamos
-        return null;
+        return p;
     }
 
     //restablece los valores de la partida.
