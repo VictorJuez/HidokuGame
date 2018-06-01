@@ -13,14 +13,12 @@ import java.util.Map;
 public class ControladorResultat {
     private static final HashMap<String, Usuari> users;
     private static ArrayList<Resultat> resultatList = new ArrayList<>();
-    private static ResultatDAO resultatDAO = new ResultatDAO();
     private static HashMap<String, Integer> GlobalRanking = new HashMap<>();
 
     private ControladorResultat() {}
 
     static{
         users = ControladorUsuari.getAllUsers();
-        resultatDAO = new ResultatDAO();
         initializeGlobalRanking();
     }
 
@@ -39,7 +37,7 @@ public class ControladorResultat {
             resultatList.add(r);
         }
         try {
-            resultatDAO.saveResultat(r);
+            ResultatDAO.saveResultat(r);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +64,7 @@ public class ControladorResultat {
     }
 
     private static Resultat loadResultDisk(String userID, String mapaID) throws IOException {
-        HashMap<String, String> resultMap = resultatDAO.loadResultat(userID, mapaID);
+        HashMap<String, String> resultMap = ResultatDAO.loadResultat(userID, mapaID);
         Mapa mapa = ControladorMapa.getMapa(resultMap.get("mapa"));
         Usuari usuari = ControladorUsuari.getUsuari(resultMap.get("usuari"));
         int puntuacio = Integer.parseInt(resultMap.get("puntuacio"));
@@ -76,7 +74,7 @@ public class ControladorResultat {
     public static void loadAllResultsDisk() {
         HashMap<String, Integer> resultatsDisk = null;
         try {
-            resultatsDisk = resultatDAO.loadAllResults();
+            resultatsDisk = ResultatDAO.loadAllResults();
         } catch (IOException e) {
             e.printStackTrace();
         }

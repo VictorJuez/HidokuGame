@@ -9,7 +9,6 @@ import java.util.*;
 
 public class DriverResultatDAO {
     private static Scanner myScanner;
-    private static ResultatDAO resultatDAO = new ResultatDAO();
     public static void main(String[] args) throws IOException {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) loadResult(UserID, mapaID)\n"+
@@ -27,7 +26,7 @@ public class DriverResultatDAO {
                 case "1":
                     String userID = myScanner.next();
                     String mapaID = myScanner.next();
-                    HashMap<String, String > resultatMap= resultatDAO.loadResultat(userID, mapaID);
+                    HashMap<String, String > resultatMap= ResultatDAO.loadResultat(userID, mapaID);
                     Mapa map = ControladorMapa.getMapa(resultatMap.get("mapa"));
                     Usuari usuari = ControladorUsuari.getUsuari(resultatMap.get("usuari"));
                     int puntuacio = Integer.parseInt(resultatMap.get("puntuacio"));
@@ -39,10 +38,10 @@ public class DriverResultatDAO {
                     puntuacio = myScanner.nextInt();
                     usuari = ControladorUsuari.getUsuari(userID);
                     Mapa mapa = ControladorMapa.getMapa(mapaID);
-                    resultatDAO.saveResultat(ControladorResultat.insertarResultat(usuari, mapa, puntuacio));
+                    ResultatDAO.saveResultat(ControladorResultat.insertarResultat(usuari, mapa, puntuacio));
                     break;
                 case "3":
-                    HashMap<String, Integer> resultatsDisk = resultatDAO.loadAllResults();
+                    HashMap<String, Integer> resultatsDisk = ResultatDAO.loadAllResults();
                     Iterator it = resultatsDisk.entrySet().iterator();
                     while(it.hasNext()) {
                         Map.Entry resultatPair = (Map.Entry)it.next();

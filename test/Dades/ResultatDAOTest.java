@@ -19,10 +19,9 @@ public class ResultatDAOTest {
         Usuari usuari = ControladorUsuari.insertarUsuari("enric", "hola");
         Mapa mapa = ControladorMapa.generarHidato();
 
-        ResultatDAO resultatDAO = new ResultatDAO();
-        resultatDAO.saveResultat(new Resultat(usuari, mapa, 10));
+        ResultatDAO.saveResultat(new Resultat(usuari, mapa, 10));
         resultats.add(usuari.getID()+"_"+mapa.getID());
-        HashMap<String, String> resultat= resultatDAO.loadResultat(usuari.getID(), mapa.getID());
+        HashMap<String, String> resultat= ResultatDAO.loadResultat(usuari.getID(), mapa.getID());
         Assert.assertEquals("check username", "enric", resultat.get("usuari"));
         Assert.assertEquals("check map", mapa.getID(), resultat.get("mapa"));
         Assert.assertEquals("check result", "10", resultat.get("puntuacio"));

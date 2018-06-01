@@ -8,7 +8,10 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class ResultatDAO {
-    public void saveResultat(Resultat r) throws IOException {
+
+    private ResultatDAO(){}
+
+    public static void saveResultat(Resultat r) throws IOException {
         Properties properties = new Properties();
         properties.setProperty("usuari", r.getUsuari().getID());
         properties.setProperty("mapa", r.getMapa().getID());
@@ -20,7 +23,7 @@ public class ResultatDAO {
         fileOut.close();
     }
 
-    public HashMap<String, String> loadResultat(String userID, String mapaID) throws IOException {
+    public static HashMap<String, String> loadResultat(String userID, String mapaID) throws IOException {
         InputStream input = new FileInputStream("data/resultats/"+userID+"_"+mapaID+".properties");
 
         // load a properties file
@@ -37,7 +40,7 @@ public class ResultatDAO {
         return result;
     }
 
-    public HashMap<String, Integer> loadAllResults() throws IOException {
+    public static HashMap<String, Integer> loadAllResults() throws IOException {
         HashMap<String, Integer> resultsDisk = new HashMap<String, Integer>();
         File folder = new File("data/resultats");
         File[] listOfFiles = folder.listFiles();
