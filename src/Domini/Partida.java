@@ -181,7 +181,7 @@ public class Partida
                         this.numerosInsertados.add(numero);
                         this.mapaPartida.insertarNumero(numero, i, j);
                         this.cantidadInterogantes -= 1;
-
+                        this.mapaPartida.actualizaAdyacencias();
                     } else System.out.println("El número que está intentando poner ya existe en el tablero.");
                 } else System.out.println("La casilla no es válida para introducir un número");
             }

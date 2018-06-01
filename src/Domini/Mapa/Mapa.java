@@ -58,6 +58,12 @@ public abstract class Mapa {
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
     }
+
+    public void actualizaAdyacencias(){
+        inicialitzaTabla();
+        tablaAD = calculoAdyacencias();
+    }
+
     public Mapa(String ID, String name, String[][] matrix){
         this.matrix = matrix;
         this.filas = matrix.length;

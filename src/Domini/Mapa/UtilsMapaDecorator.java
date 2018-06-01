@@ -91,9 +91,12 @@ public class UtilsMapaDecorator extends MapaDecorator {
             int indexAD;
 
             valor = v.get(posicio).toString();
+            System.out.println(v);
+            System.out.println(valor+"valor");
             indexAD = busca(valor);
             Integer distancia = calculDistancia(posicio, v);
             franjes.add(franja, new Vector<>());
+            System.out.println(indexAD);
             decoratedMap.tablaAD.get(indexAD).visitat = true;
             cami.add(indexAD);//aqui afageixes caselles amb numeros
             calculCamins(posicio, distancia, v, cami, indexAD, franja);
