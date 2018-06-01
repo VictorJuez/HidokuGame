@@ -96,7 +96,8 @@ public class ControladorPartida
         if (utilsMapa.hidatoValido())
         {
             //aqui entra si el Hidato está bien resuelto
-            String dificultad = p.getMapaPartida().getDificultad();
+            //String dificultad = p.getMapaPartida().getDificultad();
+            String dificultad = "FACIL"; //para el testeo, de mientras lo dejo así
 
             int puntuacion = calculoPuntuacion(dificultad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
@@ -142,6 +143,8 @@ public class ControladorPartida
 
     public int calculoPuntuacion (String dificultad, int tiempo, int numeroPistas)
     {
+        ControladorResultat cR = new ControladorResultat();
+
         double factorTiempo = 0;
         double factorDificultad = 0;
         switch (dificultad)

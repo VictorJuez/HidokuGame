@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class DriverPartidaDAO {
     private static Scanner myScanner;
     private static PartidaDAO pDAO = new PartidaDAO();
+
     public static void main(String[] args) throws IOException {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) LoadPartida(ID)\n"+
