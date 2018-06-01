@@ -116,9 +116,11 @@ public abstract class Mapa {
     }
     public void insertarNumero(int numero, int x, int y){
         matrix[x][y] = String.valueOf(numero);
+        actualizaAdyacencias();
     }
     public void borrarNumero(int x, int y){
         matrix[x][y] = "?";
+        actualizaAdyacencias();
     }
     public String getDificultad(){return dificultat;}
 
