@@ -116,12 +116,14 @@ public class UtilsMapaDecorator extends MapaDecorator {
     }
 
     private int buscarLast(Vector<Integer> v, Vector<Integer> f){//aquí tens la franja
-        if(decoratedMap.tablaAD.get(f.get(f.size()-2)).getValor().equalsIgnoreCase("?")){
-            return f.get(f.size()-1);
-        }
-        for(int i = f.size()-1; i >=0; i--){    //el penultim cas es absurd, pases directament al últim.
-            if (decoratedMap.tablaAD.get(f.get(i)).getValor().equalsIgnoreCase("?")){
-                return f.get(i);//retorna la posicio de tablaAD del ultim numero posat.
+        if(f.size() > 1) {
+            if (decoratedMap.tablaAD.get(f.get(f.size() - 2)).getValor().equalsIgnoreCase("?")) {
+                return f.get(f.size() - 1);
+            }
+            for (int i = f.size() - 1; i >= 0; i--) {    //el penultim cas es absurd, pases directament al últim.
+                if (decoratedMap.tablaAD.get(f.get(i)).getValor().equalsIgnoreCase("?")) {
+                    return f.get(i);//retorna la posicio de tablaAD del ultim numero posat.
+                }
             }
         }
         return f.get(f.size()-1);
