@@ -137,13 +137,14 @@ public class DriverMapa {
     }
 
     public static void listaHidatos() throws IOException {
-        HashMap<String, Mapa> l = ControladorMapa.getAllMapas();
-        l.forEach((k,v) -> {
-            System.out.println("ID: "+ k);
-            System.out.println("name: "+ v.getName());
+        ArrayList<String> l = ControladorMapa.getAllSavedMaps();
+        for(String s : l) {
+            Mapa v = ControladorMapa.getMapa(s);
+            System.out.println("ID: " + v.getID());
+            System.out.println("name: " + v.getName());
             System.out.println(v.getTipo() + "," + v.getAngulos() + "," + v.getFilas() + "," + v.getColumnas());
             printTablero(v.getMatrix());
-        });
+        }
     }
 
     public static void generarHidato() throws IOException {
