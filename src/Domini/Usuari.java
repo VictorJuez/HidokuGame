@@ -12,7 +12,6 @@ public class Usuari {
     private String password;  //password del usuario
     private HashMap<String, Partida> partidas = new HashMap<>();   //partidas del usuario
     private HashMap<String, Mapa> mapas = new HashMap<>();      //mapas que ha creado el usuario
-    private ControladorPartida controladorPartida = new ControladorPartida();
     private ControladorMapa controladorMapa = new ControladorMapa();
 
     public Usuari(String ID, String password){
