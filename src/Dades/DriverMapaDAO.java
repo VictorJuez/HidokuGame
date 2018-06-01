@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class DriverMapaDAO {
     private static Scanner myScanner;
-    private static MapaDAO mdao = new MapaDAO();
     public static void main(String[] args) throws IOException {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) SaveMapa(ID)\n"+
@@ -28,7 +27,7 @@ public class DriverMapaDAO {
                     loadMapa();
                     break;
                 case "3":
-                    mdao.loadAllMapas();
+                    MapaDAO.loadAllMapas();
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -53,7 +52,7 @@ public class DriverMapaDAO {
         String name = myScanner.next();
         String[][] matrix = {{"1","2"},{"3","4"}};
         try {
-            mdao.saveMapa(mapaID, name, "Q", "CA", 2, 2, matrix);
+            MapaDAO.saveMapa(mapaID, name, "Q", "CA", 2, 2, matrix);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +65,7 @@ public class DriverMapaDAO {
         StringBuilder name = new StringBuilder();
         ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
         try {
-            mdao.loadMapa(mapaID, name, topologia, adyacencia, matrix);
+            MapaDAO.loadMapa(mapaID, name, topologia, adyacencia, matrix);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -12,7 +12,9 @@ import Domini.Mapa.MapaFactory;
 
 public class MapaDAO {
 
-    public void saveMapa(String ID, String name, String topologia, String adyacencias, int filas, int columnas, String[][] matriz) throws IOException {
+    private MapaDAO(){}
+
+    public static void saveMapa(String ID, String name, String topologia, String adyacencias, int filas, int columnas, String[][] matriz) throws IOException {
 
         Properties properties = new Properties();
         properties.setProperty("ID", ID);
@@ -38,7 +40,7 @@ public class MapaDAO {
         fileOut.close();
     }
 
-    public void loadMapa(String ID, StringBuilder name, StringBuilder topologia, StringBuilder adyacencia, ArrayList<ArrayList<String>> matrix) throws IOException{
+    public static void loadMapa(String ID, StringBuilder name, StringBuilder topologia, StringBuilder adyacencia, ArrayList<ArrayList<String>> matrix) throws IOException{
         InputStream input = new FileInputStream("data/mapas/"+ID+".properties");
 
         // load a properties file
@@ -61,7 +63,7 @@ public class MapaDAO {
         }
     }
 
-    public ArrayList<String> loadAllMapas(){
+    public static ArrayList<String> loadAllMapas(){
         ArrayList<String> mapasDisk = new ArrayList<>();
         File folder = new File("data/mapas");
         File[] listOfFiles = folder.listFiles();
@@ -78,7 +80,7 @@ public class MapaDAO {
         return mapasDisk;
     }
 
-    public void borrarMapa(String mapaID) {
+    public static void borrarMapa(String mapaID) {
         File file = new File("data/mapas/"+mapaID+".properties");
 
         file.delete();

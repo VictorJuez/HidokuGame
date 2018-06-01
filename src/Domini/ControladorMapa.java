@@ -12,7 +12,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ControladorMapa {
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
     private static ArrayList<String> mapasDisk = new ArrayList<>();
-    private static MapaDAO md = new MapaDAO();
     private ControladorMapa(){}
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
@@ -149,7 +148,7 @@ public class ControladorMapa {
     public static void saveMapa(Mapa m, String name) {
         try {
             m.setName(name);
-            md.saveMapa(m.getID(), name, m.getTipo(), m.getAngulos(), m.getFilas(), m.getColumnas(), m.getMatrix());
+            MapaDAO.saveMapa(m.getID(), name, m.getTipo(), m.getAngulos(), m.getFilas(), m.getColumnas(), m.getMatrix());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -157,7 +156,7 @@ public class ControladorMapa {
 
     public static void borrarMapa(Mapa mapa) {
         mapasMap.remove(mapa.getID());
-        md.borrarMapa(mapa.getID());
+        MapaDAO.borrarMapa(mapa.getID());
     }
 
     private static Mapa loadMapaDisk(String ID) throws IOException {
@@ -165,7 +164,7 @@ public class ControladorMapa {
         StringBuilder adyacencia = new StringBuilder();
         StringBuilder name = new StringBuilder();
         ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
-        md.loadMapa(ID, name, topologia, adyacencia, matrix);
+        MapaDAO.loadMapa(ID, name, topologia, adyacencia, matrix);
 
         String[][] matrixResult = new String[matrix.size()][matrix.get(0).size()];
         for(int i=0; i<matrixResult.length; ++i){
@@ -180,6 +179,6 @@ public class ControladorMapa {
     }
 
     private static void loadAllMapsDisk(){
-        mapasDisk = md.loadAllMapas();
+        mapasDisk = MapaDAO.loadAllMapas();
     }
 }
