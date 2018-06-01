@@ -124,13 +124,20 @@ public class ControladorMapa {
         return m;
     }
 
-    public static HashMap<String, Mapa> getAllMapas() throws IOException {
+    public static ArrayList<String> getAllSavedMaps() throws IOException {
         loadAllMapsDisk();
         for(int i=0; i<mapasDisk.size(); ++i){
             String id = mapasDisk.get(i);
             if(mapasMap.get(id) == null) mapasMap.put(id, loadMapaDisk(id));
         }
-        return mapasMap;
+
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> mapsID = new ArrayList<String>(mapasMap.keySet());
+        for(String mapID : mapsID){
+            if(getMapa(mapID).getName() != null) result.add(mapID);
+        }
+
+        return result;
     }
 
     public static Mapa getMapa(String ID) {
