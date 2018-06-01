@@ -1,5 +1,7 @@
 import Domini.*;
-import javafx.util.Pair;
+import Domini.Mapa.Mapa;
+import Domini.Mapa.MapaFactory;
+import Domini.Mapa.UtilsMapaDecorator;
 
 public class Proves {
     public static void main(String[] args) {
@@ -7,33 +9,51 @@ public class Proves {
         while (true) {
             ++contador;
             System.out.println("iteraciones: "+contador);
-            Mapa m1 = new Mapa();
-            Pair<String[], String[][]> tab = m1.generarHidato();
-            String[] index = tab.getKey();
-            for (int i = 0; i < index.length; ++i) System.out.print(index[i]);
-            System.out.println();
+            Mapa m = ControladorMapa.generarHidato();
+            //System.out.println("ID: "+m.getID());
+            //System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
 
-            int filas = Integer.parseInt(index[2]);
-            int columnas = Integer.parseInt(index[3]);
-
-            Mapa m;
-
-            switch (index[0]) {
-                case "Q":
-                    if (index[1].equals("CA")) m = new TableroCuadradoAngulos(filas, columnas, tab.getValue());
-                    else m = new TableroCuadrado(filas, columnas, tab.getValue());
-                    break;
-                case "T":
-                    if (index[1].equals("CA")) m = new TableroTriangularAngulos(filas, columnas, tab.getValue());
-                    else m = new TableroTriangular(filas, columnas, tab.getValue());
-                    break;
-                case "H":
-                    m = new TableroHexagonal(filas, columnas, tab.getValue());
-                    break;
-                default:
-                    m = null;
-            }
-            m.hidatoValido();
+            validarHidato(m);
+           // comprobarSolucion(m);
         }
+    }
+
+    public static void validarHidato(Mapa m){
+        /*if(m.hidatoValido()){
+            System.out.println("Té solucio:");
+            System.out.println("ID: "+m.getID());
+            System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
+            printTablero(m.getSolutionMatrix());
+        }*/
+        UtilsMapaDecorator um = new UtilsMapaDecorator(m);
+        if(!um.hidatoValido()) System.out.println("No té solucio");
+    }
+
+   /* public static void comprobarSolucion(Mapa m){
+        MapaFactory mapaFactory = new MapaFactory();
+        Mapa m2 = mapaFactory.getMapa(m.getTipo(), m.getAngulos(), m.getMatrix());
+        /*if(m2.matriuCorrecte()){
+            System.out.println("Solucio correcte!");
+        }*/
+     /*   if(!m2.matriuCorrecte()) {
+            System.out.println("Solucio incorrecte!");
+            System.out.println(m.getTipo() + "," + m.getAngulos() + "," + m.getFilas() + "," + m.getColumnas());
+            printTablero(m.getMatrix());
+        }
+
+
+    } */
+
+    public static void printTablero(String[][] matrix){
+        int filas = matrix.length;
+        int columnas = matrix[0].length;
+        for(int i=0; i<filas; ++i){
+            for(int j=0; j<columnas; ++j) {
+                System.out.print(matrix[i][j]);
+                if(j!=columnas-1) System.out.print(",");
+            }
+            System.out.print("\n");
+        }
+        System.out.println();
     }
 }
