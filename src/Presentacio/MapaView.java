@@ -13,45 +13,50 @@ import java.util.Vector;
 
 public class MapaView {
     private JButton generarMapaRandomButton;
-    private JButton sortirButton;
     private JPanel MapaPanel;
-    private JLabel activeUsertxt;
-    private JButton menuPrincipal;
+    private JButton button1;
     private JPanel panel1;
-
     private ControladorUsuari controladorUsuari;
     private Mapa mapa;
     private Partida partida;
     private int i = 0;
     private Vector<Integer> restants;
 
-    public MapaView() {
-        sortirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
-        generarMapaRandomButton.addActionListener(new ActionListener() {
+    public MapaView() {
+
+        button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                generarMapaRandomButton.setVisible(false);
+                //button1.setVisible(false);
                 mapa = ControladorMapa.generarHidato();
                 //TriangleUpButton t = new TriangleUpButton();
                 //t.setText("1");
                 //t.setVisible(true);
                 //t.setPreferredSize(new Dimension(80,80));
                 //panel1.add(t);
-                BorderLayout grid = new BorderLayout(mapa.getFilas(),mapa.getColumnas());
+                panel1.removeAll();
+                BorderLayout grid = new BorderLayout(/*mapa.getFilas()*50,mapa.getColumnas()*60*/);
                 panel1.setLayout(grid);
-                mapaButton m = new mapaButton(mapa.getFilas(), mapa.getColumnas(), mapa.getMatrix());
+                mapaFactoryButton factory = new mapaFactoryButton();
+                mapaButton m = factory.getMapaButton(mapa.getColumnas(), mapa.getFilas(),mapa.getMatrix(), mapa.getTipo());
+                System.out.println(mapa.getTipo());
                 for(int i = 0; i < m.getFiles(); i++){
                     for (int j = 0; j < m.getColumnes(); j++){
-                        m.matrix[i][j].setBounds(30*j, 50*i, 80,70);
-                        m.matrix[i][j].setVisible(true);
                         panel1.add(m.matrix[i][j]);
+                        /*m.matrix[i][j].addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                JButton myButton = (JButton)e.getSource();
+                                String s = myButton.getName();
+                                System.out.println(s);
+                                //listenerMatrix(i,j);
+                            }
+                        });*/
                     }
                 }
+                panel1.add(m.matrix[0][0]);
+
                 panel1.setVisible(true);
                 panel1.revalidate();
                 panel1.repaint();
@@ -60,35 +65,8 @@ public class MapaView {
                 System.out.println(panel1.getComponentCount());
             }
         });
-        /*tablaHidato.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = tablaHidato.rowAtPoint(e.getPoint());
-                int col = tablaHidato.columnAtPoint(e.getPoint());
 
-                partida = new Partida(mapa, controladorUsuari.getUsuariActiu());
-                partida.insertarNumero(row, col, restants.get(i++));
 
-                String[] header = new String[mapa.getColumnas()];
-                for(int i=0; i<header.length; ++i) header[i] = String.valueOf(i);
-                JTable table = new JTable(partida.getMatrixMapa(), header);
-                TableModel tm = table.getModel();
-                tablaHidato.setModel(tm);
-            }
-        });*/
-        menuPrincipal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.showMain();
-            }
-        });
-
-        MapaPanel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                activeUsertxt.setText(ControladorUsuari.getUsuariActiu());
-            }
-        });
         MapaPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
@@ -97,20 +75,14 @@ public class MapaView {
         });
     }
 
+    public void listenerMatrix(int  i, int j){
+
+    }
+
+
     public JPanel getMapaPanel() {
         return MapaPanel;
     }
 
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-
-
-        panel1 = new JPanel();
-
-        panel1.setVisible(false);
-        panel1.revalidate();
-        panel1.repaint();
-        //MapaPanel.add(panel1);
-    }
 }

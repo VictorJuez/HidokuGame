@@ -24,6 +24,7 @@ public class Main {
     JButton loginButton;
     JButton signUpButton;
     private JButton sortirButton;
+    private JButton button1;
     static CardLayout cl = new CardLayout();
 
 
@@ -68,6 +69,13 @@ public class Main {
             }
         });
 
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cl.show(panelCont, "mapaView");
+            }
+        });
+
         frame.add(panelCont);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(500,375));
@@ -79,6 +87,7 @@ public class Main {
                 Close();
             }
         });
+
     }
 
     public static void showMain(){

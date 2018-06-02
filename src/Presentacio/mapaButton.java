@@ -1,46 +1,31 @@
 package Presentacio;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.Vector;
 
-public class mapaButton extends AbstractButton {
+public abstract class mapaButton {
     public JButton[][] matrix;
-    private int files;
-    private int columnes;
+    protected int files;
+    protected int columnes;
+    protected String tipo;
 
-    public mapaButton(int files, int columnes, String[][] m) {
+    public mapaButton(String[][] matrix, int files, int columnes, String tipo) {
         this.files = files;
         this.columnes = columnes;
-        this.matrix = new JButton[files][columnes];
-        for(int i = 0; i < files; i++){
-            for(int j = 0; j < columnes; j++){
-                if ((i + j)%2 == 0){
-                    TriangleUpButton t = new TriangleUpButton();
-                    t.setMaximumSize(new Dimension(60,50));
-                    t.setText(m[i][j]);
-                    matrix[i][j] = t;
-                }
-                else{
-                    TriangleDownButton t = new TriangleDownButton();
-                    t.setMaximumSize(new Dimension(60,50));
-                    t.setText(m[i][j]);
-                    matrix[i][j] = t;
-                }
-            }
-        }
-    }
-
-        public JButton[][] getMatrix() {
-            return matrix;
-        }
-
-        public int getColumnes() {
-        return columnes;
+        this.tipo = tipo;
+        setMatrix(matrix);
     }
 
     public int getFiles() {
-
         return files;
     }
+
+    public int getColumnes() {
+        return columnes;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    protected abstract void setMatrix(String[][] matrix);
 }
