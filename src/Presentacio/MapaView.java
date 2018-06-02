@@ -16,6 +16,7 @@ public class MapaView {
     private JPanel MapaPanel;
     private JButton button1;
     private JPanel panel1;
+    private JButton Jugar;
     private ControladorUsuari controladorUsuari;
     private Mapa mapa;
     private Partida partida;
@@ -71,6 +72,12 @@ public class MapaView {
             @Override
             public void componentShown(ComponentEvent e) {
                 super.componentShown(e);
+            }
+        });
+        Jugar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }

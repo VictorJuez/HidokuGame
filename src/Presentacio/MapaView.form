@@ -27,7 +27,14 @@
         </constraints>
         <properties/>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="86c35" class="javax.swing.JButton" binding="Jugar">
+            <constraints border-constraint="East"/>
+            <properties>
+              <text value="Jugar"/>
+            </properties>
+          </component>
+        </children>
       </grid>
     </children>
   </grid>

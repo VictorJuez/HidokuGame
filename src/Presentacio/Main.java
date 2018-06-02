@@ -1,5 +1,6 @@
 package Presentacio;
 
+
 import sun.rmi.runtime.Log;
 
 import java.awt.*;
@@ -21,8 +22,10 @@ public class Main {
     JPanel mapaViewPanel;
     JPanel creadorMapaPanel;
     JPanel menuPanel;
+    JPanel Partida;
     JButton loginButton;
     JButton signUpButton;
+
     private JButton sortirButton;
     private JButton button1;
     static CardLayout cl = new CardLayout();
@@ -49,6 +52,7 @@ public class Main {
         panelCont.add(mapaViewPanel, "mapaView");
         panelCont.add(creadorMapaPanel, "creadorMapa");
         panelCont.add(menuPanel, "menu");
+        panelCont.add(Partida,"Partida");
 
         cl.show(panelCont, "main");
 
