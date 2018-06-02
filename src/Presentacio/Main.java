@@ -1,5 +1,6 @@
 package Presentacio;
 
+
 import sun.rmi.runtime.Log;
 
 import java.awt.*;
@@ -13,6 +14,7 @@ public class Main {
     private CreadorMapa creadorMapa;
     private Menu menu;
     private EditorMapa editorMapa;
+    private Partida partida;
 
     JFrame frame = new JFrame("Main demo");
     static JPanel panelCont = new JPanel();
@@ -23,9 +25,13 @@ public class Main {
     JPanel creadorMapaPanel;
     JPanel menuPanel;
     JPanel editorMapaPanel;
+    JPanel partidaPanel;
+
     JButton loginButton;
     JButton signUpButton;
+
     private JButton sortirButton;
+    private JButton button1;
     static CardLayout cl = new CardLayout();
 
 
@@ -38,6 +44,7 @@ public class Main {
         creadorMapa = new CreadorMapa();
         menu = new Menu();
         editorMapa = new EditorMapa();
+        partida = new Partida();
 
         singUpPanel = signUp.getSignUpPanel();
         loginPanel = Login.getLoginPanel();
@@ -45,6 +52,7 @@ public class Main {
         creadorMapaPanel = creadorMapa.getCreadorMapasPanel();
         menuPanel = menu.getMenuPanel();
         editorMapaPanel = editorMapa.getEditorMapa();
+        partidaPanel = partida.getPartidaPanel();
 
         panelCont.add(MainPanel,"main");
         panelCont.add(singUpPanel, "singUp");
@@ -53,6 +61,7 @@ public class Main {
         panelCont.add(creadorMapaPanel, "creadorMapa");
         panelCont.add(menuPanel, "menu");
         panelCont.add(editorMapaPanel, "editorMapa");
+        panelCont.add(partidaPanel,"Partida");
 
         cl.show(panelCont, "main");
 
@@ -73,6 +82,13 @@ public class Main {
             }
         });
 
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cl.show(panelCont, "mapaView");
+            }
+        });
+
         frame.add(panelCont);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(500,375));
@@ -84,6 +100,7 @@ public class Main {
                 Close();
             }
         });
+
     }
 
     public static void showMain(){
