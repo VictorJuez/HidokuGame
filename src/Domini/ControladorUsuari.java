@@ -69,16 +69,16 @@ public class ControladorUsuari {
     public static void addMapatoUser(String usuariId, String mapaID){
         Usuari usuari = getUsuari(usuariId);
         usuari.addMapa(ControladorMapa.getMapa(mapaID));
-        saveUsuariToDisk(usuari);
+        //saveUsuariToDisk(usuari);
     }
 
     public static void addPartidaToUser(String usuariID, String partidaID){
         Usuari usuari = getUsuari(usuariID);
         usuari.addPartida(ControladorPartida.getPartida(partidaID));
-        saveUsuariToDisk(usuari);
+        //saveUsuariToDisk(usuari);
     }
 
-    private static void saveUsuariToDisk(Usuari usuari) {
+    public static void saveUsuariToDisk(Usuari usuari) {
         try {
             UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
         } catch (IOException e) {

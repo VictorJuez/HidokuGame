@@ -67,6 +67,7 @@ public class ControladorPartida
     public static void savePartida(Partida p) {
         try {
             PartidaDAO.savePartida(p);
+            ControladorUsuari.saveUsuariToDisk(ControladorUsuari.getUsuari(p.getUsuari()));
         } catch (IOException e) {
             e.printStackTrace();
         }
