@@ -1,4 +1,6 @@
-package Presentacio;
+package Presentacio.EditorMapa;
+
+import Presentacio.Main;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

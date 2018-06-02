@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class CreadorMapa {
     private String nommapa = new String();
+    private String tipus = new String();
+    private String tipusAdjacencies = new String();
+    private String nombreFiles = new String();
+    private String nombreColumnes = new String();
 
     private JTextField nomMapa;
     private JComboBox tipusMapa;
@@ -31,7 +35,7 @@ public class CreadorMapa {
                 if (nommapa.equals("")) JOptionPane.showMessageDialog(null, "Escriu un nom pel mapa");
                 //hay parámetros válidos
                 else {
-                    Main.showEditorMapa();
+                    if (tipus.equals("Quadrats")) Main.showEditorMapa();
                 }
             }
         });
@@ -42,7 +46,29 @@ public class CreadorMapa {
                 Main.showMenu();
             }
         });
+        //TIPUS DE MAPA
+        tipusMapa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { setTipus(); }
+        });
+        //TIPUS D'ADJACENCIES
+        adjacencies.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { tipusAdjacencies = (String)adjacencies.getSelectedItem(); }
+        });
+        //NOMBRE DE FILES
+        files.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { nombreFiles = (String) files.getSelectedItem(); }
+        });
+        //NOMBRE DE COLUMNES
+        columnes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { nombreColumnes = (String) columnes.getSelectedItem(); }
+        });
     }
+
+    public void setTipus() { this.tipus = (String)tipusMapa.getSelectedItem(); }
 
     public JPanel getCreadorMapasPanel() { return CreadorMapaPanel; }
 

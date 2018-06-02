@@ -1,7 +1,7 @@
 package Presentacio;
 
 
-import sun.rmi.runtime.Log;
+import Presentacio.EditorMapa.EditorMapa;
 
 import java.awt.*;
 import javax.swing.*;
@@ -85,7 +85,7 @@ public class Main {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cl.show(panelCont, "mapaView");
+                showMapaView();
             }
         });
 
