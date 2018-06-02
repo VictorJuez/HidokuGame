@@ -20,15 +20,16 @@ public class ControladorMapa {
      * @param max_col El numero de columnas del hidato
      * @return Boolean indicando si la casilla sera # o no.
      */
-    private static boolean holeChecker(int i, int j, int max_fil, int max_col)
+    private static boolean holeChecker(int i, int j, int max_fil, int max_col, String[][] matrix)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
         //ahora vamos a ver si la casilla está en el borde.
+        //comprueba la columna minima y la extrema de la matriz y las filas tmb
         if (i == 0 || j == 0 || i == max_fil - 1 || j == max_col - 1) if (randValue > 55) return true;
+        //comprueba las 4 esquinas de la matriz
         else if ((i == 0 && j == max_col - 1) || (i == max_fil - 1 && j == max_col - 1)
                 || (i == max_fil - 1 && j == 0) || (i == 0 && j == 0)) if (randValue > 55) return true;
-        //else if ((i < max_fil - 1 && j < max_col - 1) && tablero[i-1][j] == "#" || tablero[i][j+1] == "#" || tablero[i+1][j] == "#" || tablero[i][j-1] == "#")
-        //if (randValue > 55) return true;
+//        else if (matrix[i-1][j].equals("#") || matrix[i+1][j].equals("#") || matrix[i][j-1].equals("#") || matrix[i][j+1].equals("#")) if (randValue > 55) return true;
         return false;
     }
 
@@ -59,7 +60,7 @@ public class ControladorMapa {
                 }
                 else
                 {
-                    if (holeChecker(i, j, numero_fil, numero_col)) tablero[i][j] = "#";
+                    if (holeChecker(i, j, numero_fil, numero_col, tablero)) tablero[i][j] = "#";
                     else tablero[i][j] = "*";
                 }
             }

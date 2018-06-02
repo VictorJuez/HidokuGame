@@ -3,10 +3,12 @@ package Presentacio.EditorMapa;
 import Presentacio.Main;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EditorMapa {
+    private JPanel ButtonGridPanel;
     private JPanel editorMapaPanel;
     private JLabel CrearMapaLabel;
     private JLabel astLabel;
@@ -16,6 +18,12 @@ public class EditorMapa {
     private JButton següentButton;
 
     public EditorMapa() {
+        BorderLayout grid = new BorderLayout();
+        ButtonGridPanel.removeAll();
+
+        ButtonGridPanel.setLayout(grid);
+        GridEditorFactory fact = new GridEditorFactory();
+        //GridEditor gE = fact.getGridEditor();
 
         enrereButton.addActionListener(new ActionListener() {
             @Override
@@ -25,9 +33,7 @@ public class EditorMapa {
         });
         següentButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
+            public void actionPerformed(ActionEvent e) { }
         });
     }
 

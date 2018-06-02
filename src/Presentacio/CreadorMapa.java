@@ -54,21 +54,24 @@ public class CreadorMapa {
         //TIPUS D'ADJACENCIES
         adjacencies.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { tipusAdjacencies = (String)adjacencies.getSelectedItem(); }
+            public void actionPerformed(ActionEvent e) { setTipusAdjacencies(); }
         });
         //NOMBRE DE FILES
         files.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { nombreFiles = (String) files.getSelectedItem(); }
+            public void actionPerformed(ActionEvent e) { setNombreFiles(); }
         });
         //NOMBRE DE COLUMNES
         columnes.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { nombreColumnes = (String) columnes.getSelectedItem(); }
+            public void actionPerformed(ActionEvent e) { setNombreColumnes(); }
         });
     }
 
     public void setTipus() { this.tipus = (String)tipusMapa.getSelectedItem(); }
+    public void setTipusAdjacencies() { this.tipusAdjacencies = (String)adjacencies.getSelectedItem(); }
+    public void setNombreFiles() { this.nombreFiles = (String)files.getSelectedItem(); }
+    public void setNombreColumnes() { this.nombreColumnes = (String)columnes.getSelectedItem(); }
 
     public JPanel getCreadorMapasPanel() { return CreadorMapaPanel; }
 
