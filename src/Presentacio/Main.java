@@ -12,6 +12,7 @@ public class Main {
     private MapaView mapaView;
     private CreadorMapa creadorMapa;
     private Menu menu;
+    private EditorMapa editorMapa;
 
     JFrame frame = new JFrame("Main demo");
     static JPanel panelCont = new JPanel();
@@ -21,6 +22,7 @@ public class Main {
     JPanel mapaViewPanel;
     JPanel creadorMapaPanel;
     JPanel menuPanel;
+    JPanel editorMapaPanel;
     JButton loginButton;
     JButton signUpButton;
     private JButton sortirButton;
@@ -35,12 +37,14 @@ public class Main {
         mapaView = new MapaView();
         creadorMapa = new CreadorMapa();
         menu = new Menu();
+        editorMapa = new EditorMapa();
 
         singUpPanel = signUp.getSignUpPanel();
         loginPanel = Login.getLoginPanel();
         mapaViewPanel = mapaView.getMapaPanel();
         creadorMapaPanel = creadorMapa.getCreadorMapasPanel();
         menuPanel = menu.getMenuPanel();
+        editorMapaPanel = editorMapa.getEditorMapa();
 
         panelCont.add(MainPanel,"main");
         panelCont.add(singUpPanel, "singUp");
@@ -48,6 +52,7 @@ public class Main {
         panelCont.add(mapaViewPanel, "mapaView");
         panelCont.add(creadorMapaPanel, "creadorMapa");
         panelCont.add(menuPanel, "menu");
+        panelCont.add(editorMapaPanel, "editorMapa");
 
         cl.show(panelCont, "main");
 
@@ -88,6 +93,8 @@ public class Main {
     public static void showCreadorMapa() { cl.show(panelCont, "creadorMapa"); }
 
     public static void showMenu() { cl.show(panelCont, "menu"); }
+
+    public static void showEditorMapa() { cl.show(panelCont, "editorMapa"); }
 
     public static void showMapaView(){
         cl.show(panelCont, "mapaView");

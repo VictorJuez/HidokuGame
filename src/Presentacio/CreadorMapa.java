@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CreadorMapa {
-    String nommapa = "";
+    private String nommapa = new String();
 
     private JTextField nomMapa;
     private JComboBox tipusMapa;
@@ -27,7 +27,12 @@ public class CreadorMapa {
         SegüentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setNomMapa();
                 if (nommapa.equals("")) JOptionPane.showMessageDialog(null, "Escriu un nom pel mapa");
+                //hay parámetros válidos
+                else {
+                    Main.showEditorMapa();
+                }
             }
         });
 
@@ -35,13 +40,6 @@ public class CreadorMapa {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.showMenu();
-            }
-        });
-
-        nomMapa.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setNomMapa();
             }
         });
     }
