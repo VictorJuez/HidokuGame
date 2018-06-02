@@ -29,13 +29,8 @@ public class MapaView {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //button1.setVisible(false);
                 mapa = ControladorMapa.generarHidato();
-                //TriangleUpButton t = new TriangleUpButton();
-                //t.setText("1");
-                //t.setVisible(true);
-                //t.setPreferredSize(new Dimension(80,80));
-                //panel1.add(t);
+
                 panel1.removeAll();
                 BorderLayout grid = new BorderLayout(/*mapa.getFilas()*50,mapa.getColumnas()*60*/);
                 panel1.setLayout(grid);
@@ -58,7 +53,7 @@ public class MapaView {
                 }
                 panel1.add(m.matrix[0][0]);
 
-                panel1.setVisible(true);
+                //panel1.setVisible(true);
                 panel1.revalidate();
                 panel1.repaint();
                 MapaPanel.revalidate();

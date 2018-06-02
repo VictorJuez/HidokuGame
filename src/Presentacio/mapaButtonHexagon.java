@@ -18,12 +18,14 @@ public class mapaButtonHexagon extends mapaButton {
                 t.setText(m[i][j]);
                 if((i%2) == 0) {
                     t.setBounds(60 * j, (60 -15) * i, 65, 65);
-                    t.setVisible(true);
+                    if(m[i][j].equals("#"))t.setVisible(false);
+                    else t.setVisible(true);
                     t.setName(i + "," + j);
                 }
                 else{
                     t.setBounds(60 * j + 30, (60 -15)* i , 65, 65);
-                    t.setVisible(true);
+                    if(m[i][j].equals("#"))t.setVisible(false);
+                    else t.setVisible(true);
                     t.setName(i + "," + j);
                 }
                 matrix[i][j] = t;

@@ -13,6 +13,7 @@ public class TriangleUpButton extends JButton {
 
     public void paintComponent(Graphics g) {
         setForeground(Color.BLUE);
+        if(getText().equals("*"))((Graphics2D)g).fill(triangle);
         int x = 30;
         g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
     }
