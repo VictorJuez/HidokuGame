@@ -6,6 +6,8 @@ import javafx.util.Pair;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class Ranking {
     private JPanel rankingPanel;
     private JTable TablaRanking;
     private JLabel actualRecordLabel;
+    private JButton menuPrincipalButton;
 
     public Ranking() {
         rankingPanel.addComponentListener(new ComponentAdapter() {
@@ -44,17 +47,16 @@ public class Ranking {
         for(Pair<String, Integer> p : al){
             System.out.println(p.getKey()+ ", "+ p.getValue());
         }
+        menuPrincipalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showMenu();
+            }
+        });
     }
 
     public JPanel getRankingPanel() {
         return rankingPanel;
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Ranking");
-        frame.setContentPane(new Ranking().rankingPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 }

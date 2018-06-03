@@ -58,6 +58,12 @@ public class Menu {
                 setUpUsuariLabel();
             }
         });
+        RankingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showRanking();
+            }
+        });
     }
 
     public void setUpUsuariLabel() { this.usuariActiuLabel.setText(ControladorUsuari.getUsuariActiu()); }
