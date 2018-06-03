@@ -147,6 +147,7 @@ public class MapaView {
                 Main.showPartida();
             }
         });
+
     }
 
 
