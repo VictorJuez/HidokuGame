@@ -49,17 +49,17 @@ public class ControladorUsuariTest {
         }
     }
 
-    @After
-    public void deleteFiles() {
-        for(String usuari : usuaris){
-            File file = new File("data/usuaris/"+usuari+".properties");
-            file.delete();
-        }
+    @Test
+    public void insertAndGetResultat(){
+        ControladorUsuari.insertarResultat(usuari, 10);
+        ControladorUsuari.insertarResultat(usuari, 5);
+        Assert.assertEquals(usuari.getPuntuacio(), 15);
+        Assert.assertEquals(usuari.getRecord(), 10);
     }
 
     @After
     public void deleteAllFiles() {
-        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        String[] pathNames = {"usuaris", "mapas","partidas"};
         for(String pathName : pathNames) {
             for (File file : new File("data/" +pathName+"/").listFiles()) {
                 if (!file.getName().equals(".gitignore")) {
