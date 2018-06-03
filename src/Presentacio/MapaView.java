@@ -2,6 +2,7 @@ package Presentacio;
 
 import Domini.ControladorMapa;
 import Domini.ControladorUsuari;
+import Domini.ControladorPartida;
 import Domini.Mapa.Mapa;
 import Domini.Partida;
 
@@ -16,7 +17,10 @@ public class MapaView {
     private JPanel MapaPanel;
     private JButton button1;
     private JPanel panel1;
-    private JButton Jugar;
+    private JLabel random;
+    private JButton guardaMapaButton;
+    private JButton EnrereButton;
+    // private JButton Jugar;
     private JButton Anterior;
     private JButton Siguiente;
     private ControladorUsuari controladorUsuari;
@@ -25,7 +29,6 @@ public class MapaView {
     private int i = 0;
     private Vector<Integer> restants;
     private mapaButton m;
-    private JLabel numero;
 
 
     public MapaView() {
@@ -99,7 +102,7 @@ public class MapaView {
                 super.componentShown(e);
             }
         });
-        Jugar.addActionListener(new ActionListener() {
+       /* Jugar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 button1.setVisible(false);
@@ -116,8 +119,8 @@ public class MapaView {
                     }
                 }
             }
-        });
-        Anterior.addActionListener(new ActionListener() {
+        });*/
+        /*Anterior.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //if (numero > 1) numero--;
@@ -129,12 +132,23 @@ public class MapaView {
             public void actionPerformed(ActionEvent e) {
               //  if (numero < )
             }
+        });*/
+        EnrereButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showNovaPartida1();
+            }
+        });
+        guardaMapaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Partida p = ControladorPartida.crearPartida(mapa,ControladorUsuari.getUsuariActiu());
+                ControladorPartida.seleccionarPartida(p.getID());
+                Main.showPartida();
+            }
         });
     }
 
-    public void listenerMatrix(int  i, int j){
-
-    }
 
 
     public JPanel getMapaPanel() {
