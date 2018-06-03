@@ -35,7 +35,6 @@ public class ControladorPartida
         Partida p;
         p = new Partida(m, usuari);
         partidasMap.put(p.getID(), p);
-        ControladorUsuari.addPartidaToUser(usuari, p.getID());
         return p;
     }
 
@@ -71,7 +70,7 @@ public class ControladorPartida
     public static void savePartida(Partida p) {
         try {
             PartidaDAO.savePartida(p);
-            ControladorUsuari.saveUsuariToDisk(ControladorUsuari.getUsuari(p.getUsuari()));
+            ControladorUsuari.addPartidaToUser(p.getUsuari(), p.getID());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,6 +79,7 @@ public class ControladorPartida
     public static void deletePartida (Partida p) {
         partidasMap.remove(p.getID());
         PartidaDAO.deletePartida(p);
+        ControladorUsuari.removePartidaToUser(p.getUsuari(), p.getID());
     }
 
     private static Partida loadPartidaDisk(String ID) throws IOException {
