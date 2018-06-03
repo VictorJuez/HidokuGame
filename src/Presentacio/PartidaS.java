@@ -183,6 +183,20 @@ public class PartidaS {
             }
         });
 
+        salirGuardarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] buttons = { "Si", "No"};
+                int returnValue = JOptionPane.showOptionDialog(null, "Vols guardar la partida?", "Guardar i sortir",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[0]);
+                System.out.println(returnValue);
+
+                if(returnValue == 0){
+                    ControladorPartida.savePartida(p);
+                }
+                Main.showMenu();
+            }
+        });
     }
 
     public JPanel getPanelPartida() {
