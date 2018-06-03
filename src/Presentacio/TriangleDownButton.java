@@ -7,6 +7,16 @@ import javax.swing.border.LineBorder;
 
 public class TriangleDownButton extends JButton {
     private Shape triangle = createTriangle();
+    int fila;
+    int columna;
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
 
     public void paintBorder(Graphics g) {
         ((Graphics2D) g).draw(triangle);

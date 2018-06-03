@@ -33,6 +33,7 @@ public class mapaButtonTriangle extends mapaButton {
                     t.setName(i + "," + j);
                     matrix[i][j] = t;
                 }
+
             }
         }
     }

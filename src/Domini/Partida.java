@@ -167,7 +167,7 @@ public class Partida
     }
 
     //inserta un número en el tablero si no ha sido insertado antes y si la casilla es valida.
-    public void insertarNumero (int i, int j, int numero)
+    public boolean insertarNumero (int i, int j, int numero)
     {
         if (paused) System.out.println ("La partida está en pausa");
         else if (casillaValida(i, j)) {
@@ -184,11 +184,13 @@ public class Partida
                         this.numerosInsertados.add(numero);
                         this.mapaPartida.insertarNumero(numero, i, j);
                         this.cantidadInterogantes -= 1;
+                        return true;
                     } else System.out.println("El número que está intentando poner ya existe en el tablero.");
                 } else System.out.println("La casilla no es válida para introducir un número");
             }
         }
         else System.out.println("La casilla está fuera de la matriz");
+        return false;
     }
 
     public void borrarNumero (int i, int j)
@@ -212,12 +214,14 @@ public class Partida
         else System.out.println("La casilla está fuera de la matriz");
     }
 
-    public void reemplazarNumero (int i, int j, int numero)
+    public boolean reemplazarNumero (int i, int j, int numero)
     {
+        boolean b = false;
         //borra el que había y inserta el siguiente.
         //las funciones ya comprueban que se pueda realizar el reemplazo del número así que sólo las llamo.
         borrarNumero(i, j);
-        insertarNumero(i, j, numero);
+        b = insertarNumero(i, j, numero);
+        return b;
     }
 
     public void consultarPista ()

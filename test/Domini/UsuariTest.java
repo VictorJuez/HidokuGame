@@ -52,36 +52,6 @@ public class UsuariTest {
     }
 
     @Test
-    public void addAndGetMapa() {
-        Mapa m = ControladorMapa.generarHidato();
-        usuari.addMapa(m);
-        Assert.assertEquals(m, usuari.getMapas().get(m.getID()));
-    }
-
-    @Test
-    public void popMapa() {
-        Mapa m = ControladorMapa.generarHidato();
-        usuari.addMapa(m);
-        usuari.popMapa(m);
-        Assert.assertNull(usuari.getMapas().get(m.getID()));
-    }
-
-    @Test
-    public void getMapas() {
-        Mapa m = ControladorMapa.generarHidato();
-        Mapa m1 = ControladorMapa.generarHidato();
-        Mapa m2 = ControladorMapa.generarHidato();
-        usuari.addMapa(m);
-        usuari.addMapa(m1);
-        usuari.addMapa(m2);
-
-        Assert.assertEquals(3, usuari.getMapas().size());
-        Assert.assertEquals(m, usuari.getMapas().get(m.getID()));
-        Assert.assertEquals(m1, usuari.getMapas().get(m1.getID()));
-        Assert.assertEquals(m2, usuari.getMapas().get(m2.getID()));
-    }
-
-    @Test
     public void getPartidas() {
         Partida p1 = ControladorPartida.crearPartida(ControladorMapa.generarHidato(), usuari.getID());
         Partida p2 = ControladorPartida.crearPartida(ControladorMapa.generarHidato(), usuari.getID());
@@ -103,7 +73,7 @@ public class UsuariTest {
 
     @After
     public void deleteAllFiles() {
-        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        String[] pathNames = {"usuaris", "mapas","partidas"};
         for(String pathName : pathNames) {
             for (File file : new File("data/" +pathName+"/").listFiles()) {
                 if (!file.getName().equals(".gitignore")) {

@@ -41,7 +41,6 @@ public class Main {
     JButton signUpButton;
 
     private JButton sortirButton;
-    private JButton button1;
     static CardLayout cl = new CardLayout();
 
 
@@ -110,12 +109,6 @@ public class Main {
             }
         });
 
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showMapaView();
-            }
-        });
 
         frame.add(panelCont);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
