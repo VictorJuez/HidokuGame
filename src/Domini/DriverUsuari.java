@@ -14,8 +14,8 @@ public class DriverUsuari {
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) Insertar un nuevo usuario\n"+
                 "\t2) Obtener un usuario\n"+
-                "\t3) Add random Map to User\n"+
-                "\t4) getAllUsers\n"+
+                "\t3) getAllUsers\n"+
+                "\t4) insertar Resultado\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -32,10 +32,10 @@ public class DriverUsuari {
                     getUsuari();
                     break;
                 case "3":
-                    addMaptoUser();
+                    getAllUsers();
                     break;
                 case "4":
-                    getAllUsers();
+                    insertarResultado();
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -52,19 +52,21 @@ public class DriverUsuari {
         }
     }
 
+    private static void insertarResultado() {
+        System.out.println("Escribe el id del usuario");
+        String id = myScanner.next();
+        System.out.println("Inserte la puntuacion");
+        int puntuacion = myScanner.nextInt();
+        Usuari usuari = ControladorUsuari.getUsuari(id);
+        boolean record = ControladorUsuari.insertarResultat(usuari, puntuacion);
+        if(record) System.out.println("New record!");
+    }
+
     private static void getAllUsers() {
         HashMap<String, Usuari> au = ControladorUsuari.getAllUsers();
         au.forEach((k,v) -> {
             printUsuari(v);
         });
-    }
-
-    private static void addMaptoUser() {
-        System.out.println("Escribe el id del usuario");
-        String id = myScanner.next();
-        Usuari usuari = ControladorUsuari.getUsuari(id);
-        ControladorUsuari.addMapatoUser(usuari.getID(), ControladorMapa.generarHidato().getID());
-        printUsuari(usuari);
     }
 
     private static void insertarUsuario() {
@@ -81,10 +83,11 @@ public class DriverUsuari {
     private static void printUsuari(Usuari usuari) {
         System.out.println("usuari id: "+usuari.getID());
         System.out.println("usuari password: "+usuari.getPassword());
+        System.out.println("puntuacio: " + usuari.getPuntuacio());
+        System.out.println("record: " + usuari.getRecord());
+        System.out.println("");
         System.out.println("partidas del usuario: ");
         for(String partidaID : usuari.getPartidasID()) System.out.print(partidaID+",");
-        System.out.println();
-        for(String mapaID : usuari.getMapasID()) System.out.print(mapaID+",");
         System.out.println();
     }
 

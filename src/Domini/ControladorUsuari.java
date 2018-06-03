@@ -8,9 +8,15 @@ import java.util.HashMap;
 
 public class ControladorUsuari {
     private static HashMap<String, Usuari> allUsers = new HashMap<>();
+    private static HashMap<String, Integer> GlobalRanking = new HashMap<>();
+    private static HashMap<String, Integer> GlobalRecords = new HashMap<>();
     private static Usuari usuariActiu;
 
     private ControladorUsuari(){}
+
+    static{
+        getAllUsers();
+    }
 
     /**
      * Crea un usuari nou
@@ -62,34 +68,27 @@ public class ControladorUsuari {
     private static Usuari loadUsuariDisk(String ID){
         Usuari usuari = null;
         StringBuilder password = new StringBuilder();
+        StringBuilder puntuacio = new StringBuilder();
+        StringBuilder record = new StringBuilder();
         ArrayList<String> partidasID = new ArrayList<>();
         ArrayList<String> mapasID = new ArrayList<>();
 
         try {
-            UsuariDAO.loadUsuari(ID, password, partidasID, mapasID);
+            UsuariDAO.loadUsuari(ID, password, puntuacio, record, partidasID);
         } catch (IOException e) {
             return null;
         }
 
         try {
-            usuari = new Usuari(ID, password.toString(), partidasID, mapasID);
+            usuari = new Usuari(ID, password.toString(), Integer.valueOf(puntuacio.toString()), Integer.valueOf(String.valueOf(record)), partidasID, mapasID);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         allUsers.put(usuari.getID(), usuari);
+        GlobalRanking.put(usuari.getID(), usuari.getPuntuacio());
 
         return usuari;
-    }
-
-    /**
-     * Assignar un mapa a un usuari.
-     * @param usuariId
-     * @param mapaID
-     */
-    public static void addMapatoUser(String usuariId, String mapaID){
-        Usuari usuari = getUsuari(usuariId);
-        usuari.addMapa(ControladorMapa.getMapa(mapaID));
     }
 
     /**
@@ -108,7 +107,7 @@ public class ControladorUsuari {
      */
     public static void saveUsuariToDisk(Usuari usuari) {
         try {
-            UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+            UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPuntuacio(), usuari.getRecord(), usuari.getPartidasID());
         } catch (IOException e) {
             System.err.println("Couldn't save to disk user: "+ usuari.getID());
             return;
@@ -145,6 +144,27 @@ public class ControladorUsuari {
      */
     private static ArrayList<String> loadAllUsersDisk(){
         return UsuariDAO.loadAllUsuaris();
+    }
+
+    //ranking functions
+    public static boolean insertarResultat(Usuari usuari, int puntuacio){
+        usuari.setPuntuacio(usuari.getPuntuacio() + puntuacio);
+        GlobalRanking.put(usuari.getID(), usuari.getPuntuacio());
+        if(puntuacio > usuari.getRecord()){
+            usuari.setRecord(puntuacio);
+            saveUsuariToDisk(usuari);
+            return true;
+        }
+        saveUsuariToDisk(usuari);
+        return false;
+    }
+
+    public static HashMap<String, Integer> getGlobalRanking() {
+        return GlobalRanking;
+    }
+
+    public static HashMap<String, Integer> getGlobalRecords() {
+        return GlobalRecords;
     }
 
     /**

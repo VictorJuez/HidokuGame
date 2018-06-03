@@ -105,7 +105,7 @@ public class ControladorPartida
             int puntuacion = calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
             String userID = ControladorUsuari.getUsuariActiu();
-            ControladorResultat.insertarResultat(ControladorUsuari.getUsuari(userID), p.getMapaPartida(), puntuacion);
+            ControladorUsuari.insertarResultat(ControladorUsuari.getUsuari(userID), puntuacion);
             p.setPuntuacion(puntuacion);
         }
     }
