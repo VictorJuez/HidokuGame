@@ -187,7 +187,7 @@ public class ControladorUsuari {
             return true;
         }
 
-        if(puntuacio > actualRecord.getRecord()) actualRecord = usuari;
+        if(actualRecord == null || puntuacio > actualRecord.getRecord()) actualRecord = usuari;
 
         saveUsuariToDisk(usuari);
         return false;

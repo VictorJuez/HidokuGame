@@ -38,7 +38,7 @@ public abstract class Mapa {
     public void setValorTabla(int pos, String valor){
         tablaAD.get(pos).setValorAdyacencia(valor);
     }
-    protected abstract Vector<adyacencias> calculoAdyacencias();
+    protected abstract void calculoAdyacencias();
 
     public Mapa(String[][] matrix) {
         this.matrix = matrix;
@@ -47,7 +47,7 @@ public abstract class Mapa {
         this.ID = UUID.randomUUID().toString();
         this.solucio = false;
         inicialitzaTabla();
-        tablaAD = calculoAdyacencias();
+        calculoAdyacencias();
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
         interrogants = getInterrogants();
@@ -60,8 +60,9 @@ public abstract class Mapa {
     }
 
     public void actualizaAdyacencias(){
+        tablaAD.removeAllElements();
         inicialitzaTabla();
-        tablaAD = calculoAdyacencias();
+       calculoAdyacencias();
     }
 
     public Mapa(String ID, String name, String[][] matrix){
@@ -72,7 +73,7 @@ public abstract class Mapa {
         this.name = name;
         this.solucio = false;
         inicialitzaTabla();
-        tablaAD = calculoAdyacencias();
+        calculoAdyacencias();
         numerosExistents = getNumerosExistents();
         numerosRestants = getNumerosRestants();
         interrogants = getInterrogants();
@@ -81,7 +82,11 @@ public abstract class Mapa {
     }
 
     public Vector<adyacencias> getTablaAD() {
-        if(tablaAD.size() == 0)tablaAD = calculoAdyacencias();
+        if(tablaAD.size() == 0){
+            tablaAD.removeAllElements();
+            inicialitzaTabla();
+            calculoAdyacencias();
+        }
         return tablaAD;
     }
     public String getID() {
@@ -156,7 +161,7 @@ public abstract class Mapa {
         interrogants = getInterrogants();
         numeros = numerosExistents.size();
         inicialitzaTabla();
-        tablaAD = calculoAdyacencias();
+        calculoAdyacencias();
         this.dificultat = calculoDificultat();
     }
     public Vector<Integer> getNumerosExistents(){

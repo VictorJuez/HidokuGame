@@ -172,7 +172,8 @@ public class Partida
         if (paused) System.out.println ("La partida está en pausa");
         else if (casillaValida(i, j)) {
             //para que no se pueda meter un número más grande que las casillas totales del hidato
-            if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants()) {
+            System.out.println(mapaPartida.getNumeros() +" , "+ mapaPartida.getInterrogants());
+            if (numero > (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
                 System.out.print("El numero más grande es: ");
                 System.out.println(mapaPartida.getNumeros());
             }
@@ -193,7 +194,7 @@ public class Partida
         return false;
     }
 
-    public void borrarNumero (int i, int j)
+    public boolean borrarNumero (int i, int j)
     {
         if (paused) System.out.println ("La partida está en pausa");
         else if (casillaValida(i, j)) {
@@ -208,10 +209,12 @@ public class Partida
                     this.numerosInsertados.remove(pos); //lo quitamos de los números insertados.
                     this.mapaPartida.borrarNumero(i, j); //borramos el número si no era de los iniciales
                     this.cantidadInterogantes += 1;
+                    return true;
                 } else System.out.println("No puedes borrar éste número (ya estaba al inicio de la partida).");
             } else System.out.println("En la casilla no hay un número.");
         }
         else System.out.println("La casilla está fuera de la matriz");
+        return false;
     }
 
     public boolean reemplazarNumero (int i, int j, int numero)

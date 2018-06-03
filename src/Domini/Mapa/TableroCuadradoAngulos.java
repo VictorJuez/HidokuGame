@@ -23,7 +23,7 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
 
 
     @Override
-    protected Vector<adyacencias> calculoAdyacencias() {
+    protected void calculoAdyacencias() {
         Integer[] pos = new Integer[2];
         Integer[] posAD;
         for(int i = 0; i < tablaAD.size(); ++i){
@@ -42,7 +42,6 @@ public class TableroCuadradoAngulos extends TableroCuadrado {
                 }
             }
         }
-        return tablaAD;
     }
 
 

@@ -98,23 +98,22 @@ public class ControladorPartida
         partidasDisk = PartidaDAO.loadAllPartidas();
     }
 
-    public static void tableroLleno()
+    // funcion movida a PartidaS
+    /*public static void tableroLleno()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
         if (utilsMapa.hidatoValido())
         {
-            //aqui entra si el Hidato está bien resuelto
-            //String difiControladorUsuariltad = p.getMapaPartida().getDifiControladorUsuariltad();
             String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
-
+            System.out.println("si es valid");
             int puntuacion = calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
             String userID = ControladorUsuari.getUsuariActiu();
             ControladorUsuari.insertarResultat(ControladorUsuari.getUsuari(userID), puntuacion);
             p.setPuntuacion(puntuacion);
         }
-    }
+    }*/
 
     //cada vez que haya que insertar un numero he de consultar interrogantes para saber si está la matriz llena
     public static boolean insertarNumero (int i, int j, int numero)
@@ -123,16 +122,18 @@ public class ControladorPartida
         Partida p = partidasMap.get(partidaEnCurso);
         b = p.insertarNumero(i, j, numero);
         p.actualizarContador();
-       // p.getMapaPartida().actualizaAdyacencias();
-        if (p.getCantidadInterrogantes() == 0) tableroLleno();
+        p.getMapaPartida().actualizaAdyacencias();
+        //if (p.getCantidadInterrogantes() == 0) tableroLleno();
         return b;
     }
 
-    public static void borrarNumero (int i, int j)
+    public static boolean borrarNumero (int i, int j)
     {
+        boolean t = false;
         Partida p = partidasMap.get(partidaEnCurso);
-        p.borrarNumero(i, j);
+        t = p.borrarNumero(i, j);
         p.actualizarContador();
+        return t;
     }
 
     public static boolean reemplazarNumero (int i, int j, int numero)
