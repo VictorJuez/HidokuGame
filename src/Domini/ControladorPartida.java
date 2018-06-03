@@ -14,6 +14,7 @@ public class ControladorPartida
 {
     private static String partidaEnCurso;
     private static HashMap<String, Partida> partidasMap = new HashMap<>();
+    private static HashMap<String, Partida> partidasUsuariActiu = new HashMap<>();
     private static ArrayList<String> partidasDisk = new ArrayList<>();
 
     private ControladorPartida() {}
@@ -28,13 +29,17 @@ public class ControladorPartida
     public static String getPartidaEnCurso() {
         return partidaEnCurso;
     }
+    public static String getUsuariPartida(String ID) {
+        Partida p = partidasMap.get(ID);
+        return p.getUsuari();
+    }
 
     public static Partida crearPartida(Mapa m, String usuari)
     {
         //crea una partida y la añade al hashmap de partidas existentes.
-        Partida p;
-        p = new Partida(m, usuari);
+        Partida p = new Partida(m, usuari);
         partidasMap.put(p.getID(), p);
+        ControladorUsuari.addPartidaToUser(usuari, p.getID());
         return p;
     }
 
@@ -58,11 +63,7 @@ public class ControladorPartida
 
     public static Partida getPartida(String ID) {
         if(partidasMap.get(ID) == null){
-            try {
-                return loadPartidaDisk(ID);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return loadPartidaDisk(ID);
         }
         return partidasMap.get(ID);
     }
@@ -82,8 +83,13 @@ public class ControladorPartida
         ControladorUsuari.removePartidaToUser(p.getUsuari(), p.getID());
     }
 
-    private static Partida loadPartidaDisk(String ID) throws IOException {
-        Partida p = PartidaDAO.loadPartida(ID);
+    private static Partida loadPartidaDisk(String ID) {
+        Partida p = null;
+        try {
+            p = PartidaDAO.loadPartida(ID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         partidasMap.put(ID, p);
         return p;
     }

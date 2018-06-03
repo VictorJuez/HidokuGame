@@ -1,6 +1,7 @@
 package Presentacio;
 
 import Domini.ControladorPartida;
+import Domini.ControladorUsuari;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 public class CargarPartida {
     private ControladorPartida ControladorPartida;
+    private String IDPartida;
 
     private JPanel CargarPartidaPanel;
     private JLabel cargarPartidaLabel;
@@ -20,12 +22,6 @@ public class CargarPartida {
     private JButton CarregarButton;
 
     public CargarPartida() {
-        EnrereButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Main.showJugar();
-            }
-        });
         CargarPartidaPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
@@ -36,14 +32,39 @@ public class CargarPartida {
                 }
             }
         });
+
+        EnrereButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showJugar();
+            }
+        });
+
+        CarregarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ControladorPartida.seleccionarPartida(IDPartida);
+                Main.showPartida();
+            }
+        });
+        PartidesGuardadesBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setIDPartida();
+            }
+        });
     }
 
     public JPanel getCargarPartidaPanel() { return CargarPartidaPanel; }
     //VV LLAMAR EN EL SHOW
     private void setUpPartidesGuardadesBox() throws IOException {
-        ArrayList<String> usersID = new ArrayList<>(ControladorPartida.getAllPartidas().keySet());
-        String[] prova = usersID.toArray(new String[0]);
+        ArrayList<String> partidasUsuari = ControladorUsuari.getUsuari(ControladorUsuari.getUsuariActiu()).getPartidasID();
+        String[] prova = partidasUsuari.toArray(new String[0]);
         PartidesGuardadesBox.setModel(new javax.swing.DefaultComboBoxModel(prova));
         if(prova.length>0)PartidesGuardadesBox.setSelectedIndex(0);
+    }
+
+    private void setIDPartida() {
+        IDPartida = (String) PartidesGuardadesBox.getSelectedItem();
     }
 }
