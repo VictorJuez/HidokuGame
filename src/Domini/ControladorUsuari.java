@@ -1,21 +1,38 @@
 package Domini;
 
 import Dades.UsuariDAO;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class ControladorUsuari {
     private static HashMap<String, Usuari> allUsers = new HashMap<>();
     private static HashMap<String, Integer> GlobalRanking = new HashMap<>();
     private static HashMap<String, Integer> GlobalRecords = new HashMap<>();
+    private static Usuari actualRecord;
     private static Usuari usuariActiu;
 
     private ControladorUsuari(){}
 
     static{
         getAllUsers();
+        HashMap<String, Usuari> hm = ControladorUsuari.getAllUsers();
+        ArrayList<String> al = new ArrayList<>(hm.keySet());
+
+        int record = 0;
+        Usuari usuariRecord = null;
+        for(String userID : al){
+            int userRecord = ControladorUsuari.getUsuari(userID).getRecord();
+            if(userRecord > record){
+                record = userRecord;
+                usuariRecord = ControladorUsuari.getUsuari(userID);
+            }
+        }
+        actualRecord = usuariRecord;
     }
 
     /**
@@ -25,7 +42,10 @@ public class ControladorUsuari {
      * @return retorna l'usuari creat o null en cas que l'ID del usuari ja existís en el sistema
      */
     public static Usuari insertarUsuari(String ID, String password){
-        if(getUsuari(ID) != null) return null;
+        if(getUsuari(ID) != null) {
+            System.err.println("L'usuari "+ ID + " ja existeix en el sistema, no es pot tornar a crear");
+            return null;
+        }
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
         saveUsuariToDisk(usuari);
@@ -99,6 +119,13 @@ public class ControladorUsuari {
     public static void addPartidaToUser(String usuariID, String partidaID){
         Usuari usuari = getUsuari(usuariID);
         usuari.addPartida(ControladorPartida.getPartida(partidaID));
+        saveUsuariToDisk(getUsuari(usuariID));
+    }
+
+    public static void removePartidaToUser(String usuariID, String partidaID){
+        Usuari usuari = getUsuari(usuariID);
+        usuari.popPartida(ControladorPartida.getPartida(partidaID));
+        saveUsuariToDisk(getUsuari(usuariID));
     }
 
     /**
@@ -138,6 +165,10 @@ public class ControladorUsuari {
         else return "nobody";
     }
 
+    public static Usuari getActualRecord() {
+        return actualRecord;
+    }
+
     /**
      * Carregar tots els usuaris del disc
      * @return un ArrayList amb tots els IDs dels usuaris del disc.
@@ -155,12 +186,31 @@ public class ControladorUsuari {
             saveUsuariToDisk(usuari);
             return true;
         }
+
+        if(puntuacio > actualRecord.getRecord()) actualRecord = usuari;
+
         saveUsuariToDisk(usuari);
         return false;
     }
 
-    public static HashMap<String, Integer> getGlobalRanking() {
-        return GlobalRanking;
+    public static ArrayList<Pair<String, Integer>> getGlobalRanking() {
+        ArrayList<Pair<String, Integer>> al = new ArrayList<>();
+        ArrayList<String> usersID = new ArrayList<>(GlobalRanking.keySet());
+
+        for(String userID : usersID){
+            int puntuacio = GlobalRanking.get(userID);
+            Pair p = new Pair(userID, puntuacio);
+            al.add(p);
+        }
+
+        Collections.sort(al, new Comparator<Pair<String, Integer>>() {
+            @Override
+            public int compare(final Pair<String, Integer> o1, final Pair<String, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        return al;
     }
 
     public static HashMap<String, Integer> getGlobalRecords() {
