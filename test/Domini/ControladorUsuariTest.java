@@ -31,7 +31,7 @@ public class ControladorUsuariTest {
 
     @Test
     public void login() {
-        Assert.assertTrue(ControladorUsuari.login("enric","hola"));
+        Assert.assertTrue(ControladorUsuari.login(usuari,"hola"));
     }
 
     @Test
