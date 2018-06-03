@@ -117,8 +117,8 @@ public class ControladorPartida
         Partida p = partidasMap.get(partidaEnCurso);
         b = p.insertarNumero(i, j, numero);
         p.actualizarContador();
-       // p.getMapaPartida().actualizaAdyacencias();
-        //if (p.getCantidadInterrogantes() == 0) tableroLleno();
+        p.getMapaPartida().actualizaAdyacencias();
+        if (p.getCantidadInterrogantes() == 0) tableroLleno();
         return b;
     }
 
