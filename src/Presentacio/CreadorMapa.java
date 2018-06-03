@@ -1,5 +1,8 @@
 package Presentacio;
 
+import Domini.ControladorMapa;
+import Domini.Mapa.Mapa;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +11,8 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 public class CreadorMapa {
+    ControladorMapa cM;
+
     private static String nommapa = new String();
     private static String tipus = new String();
     private static String tipusAdjacencies = new String();
@@ -35,9 +40,13 @@ public class CreadorMapa {
             public void actionPerformed(ActionEvent e) {
                 setNomMapa();
                 if (nommapa.equals("")) JOptionPane.showMessageDialog(null, "Escriu un nom pel mapa");
-                //hay parámetros válidos
+                //los parámetros están escogidos
                 else {
-                    Main.showEditorMapa();
+                    cM.getMapa(nommapa);
+                    if (cM.getMapa(nommapa) == null) {
+                        Main.showEditorMapa();
+                    }
+                    else JOptionPane.showMessageDialog(null, "Aquest nom ja existeix");
                 }
             }
         });

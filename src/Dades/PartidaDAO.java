@@ -9,6 +9,8 @@ import Domini.Mapa.MapaFactory;
 import Domini.Partida;
 import Domini.Usuari;
 
+import javax.net.ssl.ManagerFactoryParameters;
+
 public class PartidaDAO {
 
     private PartidaDAO(){}
@@ -88,7 +90,8 @@ public class PartidaDAO {
         int cantidadInterrogantes = Integer.parseInt(prop.getProperty("cantidadInterrogantes"));
 
         //cargo el mapa que estaba usando partida
-        Mapa m = ControladorMapa.getMapa(prop.getProperty("IDMapa"));
+        MapaFactory mF = new MapaFactory();
+        Mapa m = mF.getMapa(topologia, adyacencia, matrix);
         String usuari = prop.getProperty("nomUsuari");
 
         Partida p = new Partida(ID, usuari, numerosInicio, numerosInsertados, cantidadInterrogantes, m, reloj);
