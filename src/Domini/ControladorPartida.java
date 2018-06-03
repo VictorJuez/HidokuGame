@@ -25,6 +25,10 @@ public class ControladorPartida
         p.activarContador();
     }
 
+    public static String getPartidaEnCurso() {
+        return partidaEnCurso;
+    }
+
     public static Partida crearPartida(Mapa m, String usuari)
     {
         //crea una partida y la añade al hashmap de partidas existentes.
