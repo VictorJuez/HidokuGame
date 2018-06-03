@@ -146,7 +146,7 @@ public class ControladorMapa {
             try {
                 return loadMapaDisk(ID);
             } catch (IOException e) {
-                e.printStackTrace();
+                return null;
             }
         }
 

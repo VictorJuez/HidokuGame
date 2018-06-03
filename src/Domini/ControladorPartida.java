@@ -102,10 +102,10 @@ public class ControladorPartida
             //String difiControladorUsuariltad = p.getMapaPartida().getDifiControladorUsuariltad();
             String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
 
-            int puntuacion = calControladorUsuariloPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
+            int puntuacion = calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
             String userID = ControladorUsuari.getUsuariActiu();
-            ControladorResultat.insertarResultat(ControladorUsuari.getUsuari(userID), p.getMapaPartida(), puntuacion);
+            ControladorUsuari.insertarResultat(ControladorUsuari.getUsuari(userID), puntuacion);
             p.setPuntuacion(puntuacion);
         }
     }
@@ -147,7 +147,7 @@ public class ControladorPartida
         return p.getReloj();
     }
 
-    public static int calControladorUsuariloPuntuacion (String difiControladorUsuariltad, int tiempo, int numeroPistas)
+    public static int calculoPuntuacion (String difiControladorUsuariltad, int tiempo, int numeroPistas)
     {
         double factorTiempo = 0;
         double factorDifiControladorUsuariltad = 0;

@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public class Jugar {
     private JButton novaPartidaButton;
-    private JButton cargarPartidaButton;
+    private JButton carregarPartidaButton;
     private JButton enrereButton;
     private JPanel JugarPanel;
     private JLabel jugarLabel;
@@ -29,6 +29,12 @@ public class Jugar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.showNovaPartida1();
+            }
+        });
+        carregarPartidaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showCargarPartida();
             }
         });
     }

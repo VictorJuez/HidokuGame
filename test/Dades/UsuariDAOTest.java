@@ -10,29 +10,23 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
-
 public class UsuariDAOTest {
     ArrayList<String> usuaris = new ArrayList<>();
 
     @Test
     public void saveAndLoadUsuari() throws IOException {
         Usuari usuari = new Usuari("enric", "hola");
-        usuari.addMapa(ControladorMapa.generarHidato());
-        usuari.addMapa(ControladorMapa.generarHidato());
-        UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+        UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPuntuacio(), usuari.getRecord(), usuari.getPartidasID());
         usuaris.add(usuari.getID());
 
         StringBuilder password = new StringBuilder();
+        StringBuilder puntuacio = new StringBuilder();
+        StringBuilder record = new StringBuilder();
         ArrayList<String> partidasID = new ArrayList<>();
         ArrayList<String> mapasID = new ArrayList<>();
 
-        UsuariDAO.loadUsuari(usuari.getID(), password, partidasID, mapasID);
+        UsuariDAO.loadUsuari(usuari.getID(), password, puntuacio, record, partidasID);
         Assert.assertEquals(usuari.getPassword(), password.toString());
-
-        for(String mapaID : mapasID){
-            Assert.assertTrue(usuari.getMapasID().contains(mapaID));
-        }
     }
 
     @Test
@@ -41,7 +35,7 @@ public class UsuariDAOTest {
         for(int i =0; i<3; ++i){
             Usuari usuari = new Usuari("enric"+i, "hola");
             userList.add(usuari.getID());
-            UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
+            UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPuntuacio(), usuari.getRecord(), usuari.getPartidasID());
             usuaris.add(usuari.getID());
         }
 
@@ -63,7 +57,7 @@ public class UsuariDAOTest {
 
     @After
     public void deleteAllFiles() {
-        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        String[] pathNames = {"usuaris", "mapas","partidas"};
         for(String pathName : pathNames) {
             for (File file : new File("data/" +pathName+"/").listFiles()) {
                 if (!file.getName().equals(".gitignore")) {

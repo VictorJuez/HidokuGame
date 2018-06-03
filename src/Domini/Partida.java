@@ -18,7 +18,8 @@ public class Partida
     private int pistasConsultadas;
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
-    private int cantidadInterogantes; //los números que quedan por
+    private int cantidadInterogantes; //los números que quedan por poner
+    protected Mapa mapaEnunciado;
     protected Mapa mapaPartida;
     private Date data;
     private boolean paused;
@@ -96,6 +97,8 @@ public class Partida
         //gestión del tiempo transcurrido en la partida
         this.tiempoTranscurrido = 0;
         this.tiempoTotal = 0;
+
+        this.mapaEnunciado = mapaEnunciado;
 
         //copia del mapa a usar
         MapaFactory mapaFactory = new MapaFactory();
