@@ -66,6 +66,10 @@ public class EditorMapa {
 
         GridEditorFactory fact = new GridEditorFactory();
         gE = fact.getGridEditor(nomMapa, matrix, columnes, files, topologia);
+    }
+
+    private void displayGridEditor()
+    {
 
     }
 
