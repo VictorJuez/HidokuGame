@@ -40,6 +40,7 @@ public class Ranking {
 
                 if(ControladorUsuari.getActualRecord()!= null) actualRecordLabel.setText(ControladorUsuari.getActualRecord().getID()+ ": " + String.valueOf(ControladorUsuari.getActualRecord().getRecord()));
 
+         actualRecordLabel.setText(ControladorUsuari.getActualRecord().getID()+ ": " + String.valueOf(ControladorUsuari.getActualRecord().getRecord()));
                 for(Pair<String, Integer> p : al){
                     System.out.println(p.getKey()+ ", "+ p.getValue());
                 }

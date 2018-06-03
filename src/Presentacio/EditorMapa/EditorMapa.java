@@ -12,13 +12,13 @@ import java.awt.event.ComponentEvent;
 import java.util.Arrays;
 
 public class EditorMapa {
-    private GridEditor gE;
-    private CreadorMapa cM;
-    private String nomMapa;
-    private String topologia;
-    private String adjacencies;
-    private int columnes;
-    private int files;
+    private static GridEditor gE;
+    private static CreadorMapa cM;
+    private static String nomMapa;
+    private static String topologia;
+    private static String adjacencies;
+    private static int columnes;
+    private static int files;
 
     private JPanel ButtonGridPanel;
     private JPanel editorMapaPanel;
