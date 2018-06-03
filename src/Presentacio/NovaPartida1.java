@@ -30,5 +30,11 @@ public class NovaPartida1 {
                 Main.showJugar();
             }
         });
+        mapaAleatoriButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showMapaView();
+            }
+        });
     }
 }

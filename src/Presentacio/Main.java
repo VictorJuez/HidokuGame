@@ -51,7 +51,9 @@ public class Main {
         partida = new Partida();
         jugar = new Jugar();
         novaPartida1 = new NovaPartida1();
+        partida = new Partida();
 
+        partidaPanel = partida.getPartidaPanel();
         novapartida1 = novaPartida1.getNovaPartida1();
         jugarPanel = jugar.getJugarPanel();     //ja tens el jpanel
         singUpPanel = signUp.getSignUpPanel();
@@ -62,7 +64,7 @@ public class Main {
         editorMapaPanel = editorMapa.getEditorMapa();
         partidaPanel = partida.getPartidaPanel();
 
-
+        panelCont.add(partidaPanel,"Partida");
         panelCont.add(novapartida1,"Nova Partida");
         panelCont.add(jugarPanel, "Jugar");
         panelCont.add(MainPanel,"main");
@@ -125,6 +127,8 @@ public class Main {
     public static void showCreadorMapa() { cl.show(panelCont, "creadorMapa"); }
 
     public static void showMenu() { cl.show(panelCont, "menu"); }
+
+    public static void showPartida(){ cl.show(panelCont, "Partida");}
 
     public static void showEditorMapa() { cl.show(panelCont, "editorMapa"); }
 
