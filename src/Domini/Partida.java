@@ -172,7 +172,8 @@ public class Partida
         if (paused) System.out.println ("La partida está en pausa");
         else if (casillaValida(i, j)) {
             //para que no se pueda meter un número más grande que las casillas totales del hidato
-            if (numero > mapaPartida.getNumeros() + mapaPartida.getInterrogants()) {
+            System.out.println(mapaPartida.getNumeros() +" , "+ mapaPartida.getInterrogants());
+            if (numero > (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
                 System.out.print("El numero más grande es: ");
                 System.out.println(mapaPartida.getNumeros());
             }

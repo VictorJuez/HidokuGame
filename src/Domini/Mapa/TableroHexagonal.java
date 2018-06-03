@@ -24,7 +24,7 @@ public class TableroHexagonal extends Mapa {
     }
 
     @Override
-    protected Vector<adyacencias> calculoAdyacencias() {
+    protected void calculoAdyacencias() {
         Integer[] pos = new Integer[2];
         Integer[] posAD;
         Integer[] par = {-2,0,1, 2, 3, 5};
@@ -48,7 +48,6 @@ public class TableroHexagonal extends Mapa {
                 }
             }
         }
-        return tablaAD;
     }
 
 

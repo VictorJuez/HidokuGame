@@ -4,7 +4,9 @@ import Domini.ControladorMapa;
 import Domini.ControladorPartida;
 import Domini.ControladorUsuari;
 import Domini.Mapa.Mapa;
+import Domini.Mapa.MapaDecorator;
 import Domini.Mapa.MapaFactory;
+import Domini.Mapa.UtilsMapaDecorator;
 import Domini.Partida;
 
 import javax.swing.*;
@@ -24,6 +26,8 @@ public class PartidaS {
     private JButton button4;
     private JLabel numberLabel;
     private JButton button5;
+    private JButton comprovar;
+    private JLabel Solucio;
     private Partida p;
 
     public PartidaS() {
@@ -122,6 +126,17 @@ public class PartidaS {
                     v++;
                     numberLabel.setText(String.valueOf(v));
                 }
+            }
+        });
+        comprovar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Mapa mapaa = p.getMapaPartida();
+                UtilsMapaDecorator mapa1 = new UtilsMapaDecorator(mapaa);
+                if (mapa1.hidatoValido()) Solucio.setText("té solucio");
+                else Solucio.setText("no te solucio");
+                System.out.println(Solucio.getText());
+
             }
         });
     }

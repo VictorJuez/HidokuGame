@@ -55,6 +55,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
 
 
     private void calculCamins(Integer posicio, Integer distancia, Vector v, Vector cami, Integer indexAD, Integer franja) {//posicio es la posicio del vector dexistens
+        System.out.println("fent camins a gas");
         if(distancia == 0){
             if(posicio == 0){
                 franjes.get(franja).add(cami);
@@ -69,9 +70,16 @@ public class UtilsMapaDecorator extends MapaDecorator {
             }
         }
         else{
+            /*boolean t = false;
+            for(int i = 0; i < decoratedMap.tablaAD.get(indexAD).getAd().size() && !t; i++){
+                Integer aux = decoratedMap.tablaAD.get(indexAD).getAd().get(i);
+                if (decoratedMap.tablaAD.get(aux).getValor().equals("?") && !decoratedMap.tablaAD.get(aux).visitat) t = true;
+            }*/
             for(int i = 0; i < decoratedMap.tablaAD.get(indexAD).getAd().size(); i++){
                 Integer aux = decoratedMap.tablaAD.get(indexAD).getAd().get(i);
+                System.out.println("adjacents"+decoratedMap.tablaAD.get(indexAD).getAd().size());
                 if (!decoratedMap.tablaAD.get(aux).visitat && decoratedMap.tablaAD.get(aux).getValor().equals("?")){
+                    System.out.println(distancia);
                     cami.add(aux);
                     decoratedMap.tablaAD.get(aux).visitat = true;
                     calculCamins(posicio,distancia -1, v, cami, aux, franja);
@@ -84,12 +92,14 @@ public class UtilsMapaDecorator extends MapaDecorator {
     }
     private boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total, Integer franja){
         boolean b = false;
-        if (total == decoratedMap.interrogants + decoratedMap.numeros) return true;
+        if (total == decoratedMap.getInterrogants() + decoratedMap.getNumeros()) return true;
         else{
             Vector<Integer> cami = new Vector<>();
             String valor;
             int indexAD;
-
+            System.out.println("v: "+v);
+            System.out.println("posicio: "+posicio);
+            System.out.println("Total: "+total);
             valor = v.get(posicio).toString();
             indexAD = busca(valor);
             Integer distancia = calculDistancia(posicio, v);
@@ -105,7 +115,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
                     decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
                 }
                 b = inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
-                if (b && last == -1) last = buscarLast (v, franjes.get(franja).get(i));
+                //if (b && last == -1) last = buscarLast (v, franjes.get(franja).get(i));
                 for (int l = 0; l < franjes.get(franja).get(i).size(); l++) {
                     decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(l)).visitat = false;
                 }

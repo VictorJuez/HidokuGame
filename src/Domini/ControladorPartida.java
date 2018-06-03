@@ -101,7 +101,7 @@ public class ControladorPartida
             //aqui entra si el Hidato está bien resuelto
             //String difiControladorUsuariltad = p.getMapaPartida().getDifiControladorUsuariltad();
             String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
-
+            System.out.println("si es valid");
             int puntuacion = calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
             String userID = ControladorUsuari.getUsuariActiu();
@@ -118,7 +118,7 @@ public class ControladorPartida
         b = p.insertarNumero(i, j, numero);
         p.actualizarContador();
        // p.getMapaPartida().actualizaAdyacencias();
-        if (p.getCantidadInterrogantes() == 0) tableroLleno();
+        //if (p.getCantidadInterrogantes() == 0) tableroLleno();
         return b;
     }
 
