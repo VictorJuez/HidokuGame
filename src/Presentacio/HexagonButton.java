@@ -5,7 +5,16 @@ import java.awt.*;
 
 public class HexagonButton extends JButton {
     private Shape hexagon = createHexagon();
+    int fila;
+    int columna;
 
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
 
     public void paintBorder(Graphics g) {
         ((Graphics2D) g).draw(hexagon);
