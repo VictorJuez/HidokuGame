@@ -25,28 +25,27 @@ public class Ranking {
         rankingPanel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
+                ArrayList<Pair<String, Integer>>al =ControladorUsuari.getGlobalRanking();
 
+                String[] columnNames = {"Usuario","Puntuacion"};
+                Object[][] data = new Object[al.size()][2];
+
+                for(int i=0; i<data.length; ++i){
+                    data[i][0] = al.get(i).getKey();
+                    data[i][1] = al.get(i).getValue();
+                }
+
+                TableModel tableModel = new DefaultTableModel(data, columnNames);
+                TablaRanking.setModel(tableModel);
+
+                if(ControladorUsuari.getActualRecord()!= null) actualRecordLabel.setText(ControladorUsuari.getActualRecord().getID()+ ": " + String.valueOf(ControladorUsuari.getActualRecord().getRecord()));
+
+                for(Pair<String, Integer> p : al){
+                    System.out.println(p.getKey()+ ", "+ p.getValue());
+                }
             }
         });
 
-        ArrayList<Pair<String, Integer>>al =ControladorUsuari.getGlobalRanking();
-
-        String[] columnNames = {"Usuario","Puntuacion"};
-        Object[][] data = new Object[al.size()][2];
-
-        for(int i=0; i<data.length; ++i){
-            data[i][0] = al.get(i).getKey();
-            data[i][1] = al.get(i).getValue();
-        }
-
-        TableModel tableModel = new DefaultTableModel(data, columnNames);
-        TablaRanking.setModel(tableModel);
-
-        actualRecordLabel.setText(ControladorUsuari.getActualRecord().getID()+ ": " + String.valueOf(ControladorUsuari.getActualRecord().getRecord()));
-
-        for(Pair<String, Integer> p : al){
-            System.out.println(p.getKey()+ ", "+ p.getValue());
-        }
         menuPrincipalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
