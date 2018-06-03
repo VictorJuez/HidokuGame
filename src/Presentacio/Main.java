@@ -17,6 +17,7 @@ public class Main {
     private PartidaS partida;
     private Jugar jugar;
     private NovaPartida1 novaPartida1;
+    private CargarPartida cargarPartida;
 
     JFrame frame = new JFrame("Main demo");
     static JPanel panelCont = new JPanel();
@@ -27,7 +28,10 @@ public class Main {
     JPanel creadorMapaPanel;
     JPanel menuPanel;
     JPanel editorMapaPanel;
-    JPanel partidaPanel;    //donde vamos a jugar una partida
+
+    JPanel partidaPanel;
+    JPanel cargarPartidaPanel;
+
     JPanel novapartida1;    //es la ventana donde escojes si quieres un mapa existente o un mapa aleatorio
     JPanel jugarPanel;
 
@@ -50,7 +54,11 @@ public class Main {
         editorMapa = new EditorMapa();
         jugar = new Jugar();
         novaPartida1 = new NovaPartida1();
+
         partida = new PartidaS();
+
+        cargarPartida = new CargarPartida();
+
 
         partidaPanel = partida.getPanelPartida();
         novapartida1 = novaPartida1.getNovaPartida1();
@@ -61,6 +69,9 @@ public class Main {
         creadorMapaPanel = creadorMapa.getCreadorMapasPanel();
         menuPanel = menu.getMenuPanel();
         editorMapaPanel = editorMapa.getEditorMapa();
+
+        partidaPanel = partida.getPanelPartida();
+        cargarPartidaPanel = cargarPartida.getCargarPartidaPanel();
 
         panelCont.add(partidaPanel,"Partida");
         panelCont.add(novapartida1,"Nova Partida");
