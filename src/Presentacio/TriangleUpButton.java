@@ -2,6 +2,8 @@ package Presentacio;
 
 import java.awt.*;
 import javax.swing.JButton;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 
 public class TriangleUpButton extends JButton {
@@ -14,6 +16,10 @@ public class TriangleUpButton extends JButton {
     public void paintComponent(Graphics g) {
         setForeground(Color.BLUE);
         if(getText().equals("*"))((Graphics2D)g).fill(triangle);
+        else if(!getText().equals("?")) {
+            setForeground(Color.RED);
+        }
+        else repaint();
         int x = 30;
         g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
     }

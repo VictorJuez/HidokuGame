@@ -10,8 +10,14 @@ public class ControladorUsuari {
     private static HashMap<String, Usuari> allUsers = new HashMap<>();
     private static Usuari usuariActiu;
 
-    public ControladorUsuari(){}
+    private ControladorUsuari(){}
 
+    /**
+     * Crea un usuari nou
+     * @param ID
+     * @param password
+     * @return retorna l'usuari creat o null en cas que l'ID del usuari ja existís en el sistema
+     */
     public static Usuari insertarUsuari(String ID, String password){
         if(getUsuari(ID) != null) return null;
         Usuari usuari = new Usuari(ID, password);
@@ -22,6 +28,11 @@ public class ControladorUsuari {
         return usuari;
     }
 
+    /**
+     * Obte l'usuari amb l'id ID del sistema
+     * @param ID
+     * @return l'usuari corresponent o null en cas de no existir l'usuari
+     */
     public static Usuari getUsuari(String ID) {
         if(allUsers.get(ID) == null){
             return loadUsuariDisk(ID);
@@ -29,9 +40,9 @@ public class ControladorUsuari {
         return allUsers.get(ID);
     }
 
-    public static boolean login(String ID, String password){
-        return getUsuari(ID).checkPassword(password);
-    }
+    /**
+     * Logout de l'usuari en el sistema, es posa usuariActiu a null
+     */
     public static void logout () { usuariActiu = null; }
 
     public static HashMap<String, Usuari> getAllUsers(){
@@ -43,6 +54,11 @@ public class ControladorUsuari {
         return allUsers;
     }
 
+    /**
+     * Carregar un usuari amb id ID del disc.
+     * @param ID
+     * @return l'Usuari corresponent o null en cas de no existir.
+     */
     private static Usuari loadUsuariDisk(String ID){
         Usuari usuari = null;
         StringBuilder password = new StringBuilder();
@@ -66,26 +82,46 @@ public class ControladorUsuari {
         return usuari;
     }
 
+    /**
+     * Assignar un mapa a un usuari.
+     * @param usuariId
+     * @param mapaID
+     */
     public static void addMapatoUser(String usuariId, String mapaID){
         Usuari usuari = getUsuari(usuariId);
         usuari.addMapa(ControladorMapa.getMapa(mapaID));
-        //saveUsuariToDisk(usuari);
     }
 
+    /**
+     * Assignar una partida a un usuari.
+     * @param usuariID
+     * @param partidaID
+     */
     public static void addPartidaToUser(String usuariID, String partidaID){
         Usuari usuari = getUsuari(usuariID);
         usuari.addPartida(ControladorPartida.getPartida(partidaID));
-        //saveUsuariToDisk(usuari);
     }
 
+    /**
+     * Guardar un usuari al disc.
+     * @param usuari
+     */
     public static void saveUsuariToDisk(Usuari usuari) {
         try {
             UsuariDAO.saveUsuari(usuari.getID(), usuari.getPassword(), usuari.getPartidasID(), usuari.getMapasID());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Couldn't save to disk user: "+ usuari.getID());
+            return;
         }
     }
 
+
+    /**
+     * Login d'un usuari al sistema
+     * @param usuari
+     * @param password
+     * @return true si la contrasenya correspon al usuari, false si no.
+     */
     public static boolean login(Usuari usuari, String password){
         if(usuari.checkPassword(password)) {
             usuariActiu = usuari;
@@ -94,15 +130,26 @@ public class ControladorUsuari {
         return false;
     }
 
+    /**
+     * Obte l'usuari loguejat actualment
+     * @return l'ID del usuari loguejat actualment o "nobody" si no n'hi ha cap de loguejat.
+     */
     public static String getUsuariActiu() {
         if(usuariActiu!= null) return usuariActiu.getID();
         else return "nobody";
     }
 
+    /**
+     * Carregar tots els usuaris del disc
+     * @return un ArrayList amb tots els IDs dels usuaris del disc.
+     */
     private static ArrayList<String> loadAllUsersDisk(){
         return UsuariDAO.loadAllUsuaris();
     }
 
+    /**
+     * Buida tots els usuaris del Controlador
+     */
     public static void cleanUp() {
         allUsers = new HashMap<>();
         usuariActiu = null;

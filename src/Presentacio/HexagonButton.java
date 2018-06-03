@@ -15,6 +15,7 @@ public class HexagonButton extends JButton {
 
         setForeground(Color.BLUE);
         if(getText().equals("*"))((Graphics2D)g).fill(hexagon);
+        else if(!getText().equals("?"))setForeground(Color.RED);
         int x = 30;
         g.drawString(getText(), x - getText().length() * 3, (60 + 4) / 2);
     }

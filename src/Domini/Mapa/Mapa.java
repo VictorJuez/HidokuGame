@@ -155,6 +155,7 @@ public abstract class Mapa {
         numeros = numerosExistents.size();
         inicialitzaTabla();
         tablaAD = calculoAdyacencias();
+        this.dificultat = calculoDificultat();
     }
     public Vector<Integer> getNumerosExistents(){
         Vector<Integer> existents = new Vector<>();   //numeros que existeixen a la matrix
