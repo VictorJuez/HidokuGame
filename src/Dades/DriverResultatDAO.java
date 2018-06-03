@@ -24,34 +24,13 @@ public class DriverResultatDAO {
         while(active) {
             switch (op){
                 case "1":
-                    String userID = myScanner.next();
-                    String mapaID = myScanner.next();
-                    HashMap<String, String > resultatMap= ResultatDAO.loadResultat(userID, mapaID);
-                    Mapa map = ControladorMapa.getMapa(resultatMap.get("mapa"));
-                    Usuari usuari = ControladorUsuari.getUsuari(resultatMap.get("usuari"));
-                    int puntuacio = Integer.parseInt(resultatMap.get("puntuacio"));
-                    printResultat(new Resultat(usuari, map, puntuacio));
+                    loadResult();
                     break;
                 case "2":
-                    userID = myScanner.next();
-                    mapaID = myScanner.next();
-                    puntuacio = myScanner.nextInt();
-                    usuari = ControladorUsuari.getUsuari(userID);
-                    Mapa mapa = ControladorMapa.getMapa(mapaID);
-                    ResultatDAO.saveResultat(ControladorResultat.insertarResultat(usuari, mapa, puntuacio));
+                    saveResult();
                     break;
                 case "3":
-                    HashMap<String, Integer> resultatsDisk = ResultatDAO.loadAllResults();
-                    Iterator it = resultatsDisk.entrySet().iterator();
-                    while(it.hasNext()) {
-                        Map.Entry resultatPair = (Map.Entry)it.next();
-                        String filename = (String) resultatPair.getKey();
-                        String parts[] = filename.split("_");
-                        usuari = ControladorUsuari.getUsuari(parts[0]);
-                        mapa = ControladorMapa.getMapa(parts[1]);
-                        Resultat resultat = new Resultat(usuari, mapa, (Integer) resultatPair.getValue());
-                        printResultat(resultat);
-                    }
+                    loadAllResults();
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -67,6 +46,83 @@ public class DriverResultatDAO {
                 op = myScanner.next();
             }
         }
+    }
+
+    private static void loadAllResults() {
+        HashMap<String, Integer> resultatsDisk = null;
+        try {
+            resultatsDisk = ResultatDAO.loadAllResults();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Iterator it = resultatsDisk.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry resultatPair = (Map.Entry)it.next();
+            String filename = (String) resultatPair.getKey();
+            String parts[] = filename.split("_");
+            Usuari usuari = null;
+            try {
+                usuari = ControladorUsuari.getUsuari(parts[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Mapa mapa = null;
+            try {
+                mapa = ControladorMapa.getMapa(parts[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Resultat resultat = new Resultat(usuari, mapa, (Integer) resultatPair.getValue());
+            printResultat(resultat);
+        }
+    }
+
+    private static void saveResult() {
+        String userID = myScanner.next();
+        String mapaID = myScanner.next();
+        int puntuacio = myScanner.nextInt();
+        Usuari usuari = null;
+        try {
+            usuari = ControladorUsuari.getUsuari(userID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Mapa mapa = null;
+        try {
+            mapa = ControladorMapa.getMapa(mapaID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            ResultatDAO.saveResultat(ControladorResultat.insertarResultat(usuari, mapa, puntuacio));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void loadResult() {
+        String userID = myScanner.next();
+        String mapaID = myScanner.next();
+        HashMap<String, String > resultatMap= null;
+        try {
+            resultatMap = ResultatDAO.loadResultat(userID, mapaID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Mapa map = null;
+        try {
+            map = ControladorMapa.getMapa(resultatMap.get("mapa"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Usuari usuari = null;
+        try {
+            usuari = ControladorUsuari.getUsuari(resultatMap.get("usuari"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int puntuacio = Integer.parseInt(resultatMap.get("puntuacio"));
+        printResultat(new Resultat(usuari, map, puntuacio));
     }
 
     private static void printResultat(Resultat r) {

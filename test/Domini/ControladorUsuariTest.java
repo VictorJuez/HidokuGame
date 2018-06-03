@@ -23,19 +23,19 @@ public class ControladorUsuariTest {
     }
 
     @Test
-    public void getUsuari() {
+    public void getUsuari() throws Exception {
         Assert.assertNotNull(usuari);
         Assert.assertNotNull(ControladorUsuari.getUsuari(usuari.getID()));
         Assert.assertEquals(usuari, ControladorUsuari.getUsuari(usuari.getID()));
     }
 
     @Test
-    public void login() {
+    public void login() throws Exception {
         Assert.assertTrue(ControladorUsuari.login("enric","hola"));
     }
 
     @Test
-    public void getAllUsers() {
+    public void getAllUsers() throws Exception {
         ArrayList<String> usersList = new ArrayList<>();
         for(int i=0; i<3; ++i){
             Usuari usuari = ControladorUsuari.insertarUsuari("enric"+i, "hola");

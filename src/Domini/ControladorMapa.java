@@ -3,7 +3,9 @@ package Domini;
 import Dades.MapaDAO;
 import Domini.Mapa.Mapa;
 import Domini.Mapa.MapaFactory;
+import Exceptions.MapaException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -134,18 +136,23 @@ public class ControladorMapa {
         ArrayList<String> result = new ArrayList<>();
         ArrayList<String> mapsID = new ArrayList<String>(mapasMap.keySet());
         for(String mapID : mapsID){
-            if(getMapa(mapID).getName() != null) result.add(mapID);
+            try {
+                if(getMapa(mapID).getName() != null) result.add(mapID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return result;
     }
 
-    public static Mapa getMapa(String ID) {
+    public static Mapa getMapa(String ID) throws Exception {
         if(mapasMap.get(ID) == null){
             try {
                 return loadMapaDisk(ID);
+
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new MapaException("Mapa: \""+ ID + "\", does not exist\"");
             }
         }
 

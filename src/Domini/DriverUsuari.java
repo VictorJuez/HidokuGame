@@ -62,7 +62,12 @@ public class DriverUsuari {
     private static void addMaptoUser() {
         System.out.println("Escribe el id del usuario");
         String id = myScanner.next();
-        Usuari usuari = ControladorUsuari.getUsuari(id);
+        Usuari usuari = null;
+        try {
+            usuari = ControladorUsuari.getUsuari(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ControladorUsuari.addMapatoUser(usuari.getID(), ControladorMapa.generarHidato().getID());
         printUsuari(usuari);
     }
@@ -90,7 +95,11 @@ public class DriverUsuari {
     private static void getUsuari(){
         System.out.println("Escribe el id del usuario");
         String id = myScanner.next();
-        printUsuari(ControladorUsuari.getUsuari(id));
+        try {
+            printUsuari(ControladorUsuari.getUsuari(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void deleteFiles() {

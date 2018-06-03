@@ -65,8 +65,18 @@ public class ControladorResultat {
 
     private static Resultat loadResultDisk(String userID, String mapaID) throws IOException {
         HashMap<String, String> resultMap = ResultatDAO.loadResultat(userID, mapaID);
-        Mapa mapa = ControladorMapa.getMapa(resultMap.get("mapa"));
-        Usuari usuari = ControladorUsuari.getUsuari(resultMap.get("usuari"));
+        Mapa mapa = null;
+        try {
+            mapa = ControladorMapa.getMapa(resultMap.get("mapa"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Usuari usuari = null;
+        try {
+            usuari = ControladorUsuari.getUsuari(resultMap.get("usuari"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         int puntuacio = Integer.parseInt(resultMap.get("puntuacio"));
         return insertarResultat(usuari, mapa, puntuacio);
     }
@@ -84,8 +94,18 @@ public class ControladorResultat {
             Map.Entry resultatPair = (Map.Entry)it.next();
             String resultatString = (String) resultatPair.getKey();
             String parts[] = resultatString.split("_");
-            Usuari usuari = ControladorUsuari.getUsuari(parts[0]);
-            Mapa mapa = ControladorMapa.getMapa(parts[1]);
+            Usuari usuari = null;
+            try {
+                usuari = ControladorUsuari.getUsuari(parts[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Mapa mapa = null;
+            try {
+                mapa = ControladorMapa.getMapa(parts[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             insertarResultat(usuari, mapa, (Integer) resultatPair.getValue());
         }
     }

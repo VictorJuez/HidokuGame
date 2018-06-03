@@ -21,6 +21,7 @@ public class DriverMapa {
                 "\t5) Ver adyacencias\n"+
                 "\t6) Load mapa from disk\n"+
                 "\t7) Delete mapa\n"+
+                "\t8) Get mapa(ID)\n"+
                 "\tx) Para salir del juego\n";
 
         System.out.println(introduction);
@@ -59,8 +60,24 @@ public class DriverMapa {
                 case "7":
                     System.out.println("Inserta el ID del hidato a borrar");
                     op = myScanner.next();
-                    Mapa mapa = ControladorMapa.getMapa(op);
+                    Mapa mapa = null;
+                    try {
+                        mapa = ControladorMapa.getMapa(op);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     ControladorMapa.borrarMapa(mapa);
+                    break;
+                case "8":
+                    System.out.println("Inserta el ID del mapa a obtener");
+                    op = myScanner.next();
+                    mapa = null;
+                    try {
+                        mapa = ControladorMapa.getMapa(op);
+                        printTablero(mapa.getMatrix());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -81,12 +98,22 @@ public class DriverMapa {
     }
 
     private static void saveMapa(String id, String name) {
-        Mapa m = ControladorMapa.getMapa(id);
+        Mapa m = null;
+        try {
+            m = ControladorMapa.getMapa(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ControladorMapa.saveMapa(m, name);
     }
 
     private static void adyacencias(String op) throws IOException {
-        Mapa m = ControladorMapa.getMapa(op);
+        Mapa m = null;
+        try {
+            m = ControladorMapa.getMapa(op);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Vector<adyacencias> k = m.getTablaAD();
         for (int i = 0; i < k.size(); i++){
             System.out.println("("+k.get(i).getY()+") ("+k.get(i).getX()+") z = "+ k.get(i).getZ() + " posicio =" + i);
@@ -139,7 +166,12 @@ public class DriverMapa {
     public static void listaHidatos() throws IOException {
         ArrayList<String> l = ControladorMapa.getAllSavedMaps();
         for(String s : l) {
-            Mapa v = ControladorMapa.getMapa(s);
+            Mapa v = null;
+            try {
+                v = ControladorMapa.getMapa(s);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             System.out.println("ID: " + v.getID());
             System.out.println("name: " + v.getName());
             System.out.println(v.getTipo() + "," + v.getAngulos() + "," + v.getFilas() + "," + v.getColumnas());
@@ -157,7 +189,12 @@ public class DriverMapa {
      }
 
      public static void validarHidato(String ID) throws IOException {
-         Mapa m = ControladorMapa.getMapa(ID);
+         Mapa m = null;
+         try {
+             m = ControladorMapa.getMapa(ID);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
          UtilsMapaDecorator um = new UtilsMapaDecorator(m);
          if(um.hidatoValido()){
             System.out.println("Té solucio:");
@@ -170,7 +207,12 @@ public class DriverMapa {
      }
 
      public static void adyacencia(String ID) throws IOException {
-         Mapa m = ControladorMapa.getMapa(ID);
+         Mapa m = null;
+         try {
+             m = ControladorMapa.getMapa(ID);
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
          for(int i = 0; i < m.getTablaAD().size(); i++){
              System.out.println("posicio a la taula: "+ i + " identificador: " + m.getTablaAD().get(i).getZ());
              System.out.println("vector adjacents: "+ m.getTablaAD().get(i).getAd());

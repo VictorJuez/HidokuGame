@@ -1,7 +1,9 @@
 package Domini;
 
 import Dades.UsuariDAO;
+import Exceptions.UsuariException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +15,16 @@ public class ControladorUsuari {
     private ControladorUsuari(){}
 
     public static Usuari insertarUsuari(String ID, String password){
-        if(getUsuari(ID) != null) return null;
+        try {
+            if(getUsuari(ID) != null) {
+                System.err.println("User: \""+ ID + "\", Already exists on system, returned null");
+                return null;
+            }
+        } catch (UsuariException e) {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
         saveUsuariToDisk(usuari);
@@ -22,14 +33,16 @@ public class ControladorUsuari {
         return usuari;
     }
 
-    public static Usuari getUsuari(String ID) {
+    public static Usuari getUsuari(String ID) throws Exception {
         if(allUsers.get(ID) == null){
-            return loadUsuariDisk(ID);
+            if(loadUsuariDisk(ID) == null) {
+                throw new UsuariException("User: "+ ID + ", does not exists, returned null");
+            }
         }
         return allUsers.get(ID);
     }
 
-    public static boolean login(String ID, String password){
+    public static boolean login(String ID, String password) throws Exception {
         return getUsuari(ID).checkPassword(password);
     }
 
@@ -50,8 +63,11 @@ public class ControladorUsuari {
 
         try {
             UsuariDAO.loadUsuari(ID, password, partidasID, mapasID);
-        } catch (IOException e) {
+        } catch (FileNotFoundException e){
+            System.err.println("User: "+ ID + ", does not exists on disk, returned null");
             return null;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         try {
@@ -66,8 +82,18 @@ public class ControladorUsuari {
     }
 
     public static void addMapatoUser(String usuariId, String mapaID){
-        Usuari usuari = getUsuari(usuariId);
-        usuari.addMapa(ControladorMapa.getMapa(mapaID));
+        Usuari usuari = null;
+        try {
+            usuari = getUsuari(usuariId);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        try {
+            usuari.addMapa(ControladorMapa.getMapa(mapaID));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         saveUsuariToDisk(usuari);
     }
 

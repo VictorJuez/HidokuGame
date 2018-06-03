@@ -32,7 +32,12 @@ public class Login {
             public void actionPerformed(ActionEvent e) {
                 String password = String.valueOf(passwordField.getPassword());
 
-                Usuari usuari = ControladorUsuari.getUsuari(username);
+                Usuari usuari = null;
+                try {
+                    usuari = ControladorUsuari.getUsuari(username);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
                 if(usuari == null) JOptionPane.showMessageDialog(null, "El username no correspon a cap usuari!");
                 else {
                     if(!ControladorUsuari.login(usuari, password)) JOptionPane.showMessageDialog(null, "Contrasenya incorrecte!");

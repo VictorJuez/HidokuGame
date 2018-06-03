@@ -25,7 +25,12 @@ public class Usuari {
         /*for(String partidaID : partidas){
         }*/
         for(String mapaID : mapas){
-            Mapa mapa = ControladorMapa.getMapa(mapaID);
+            Mapa mapa = null;
+            try {
+                mapa = ControladorMapa.getMapa(mapaID);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             this.mapas.put(mapa.getID(), mapa);
         }
     }

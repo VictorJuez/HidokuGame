@@ -98,7 +98,11 @@ public class ControladorPartida
             int puntuacion = calControladorUsuariloPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
             //commit de la puntuacion en resultado
             String userID = ControladorUsuari.getUsuariActiu();
-            ControladorResultat.insertarResultat(ControladorUsuari.getUsuari(userID), p.getMapaPartida(), puntuacion);
+            try {
+                ControladorResultat.insertarResultat(ControladorUsuari.getUsuari(userID), p.getMapaPartida(), puntuacion);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             p.setPuntuacion(puntuacion);
         }
     }
