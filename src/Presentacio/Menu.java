@@ -46,6 +46,12 @@ public class Menu {
                 Main.showMain();
             }
         });
+        JugarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showJugar();
+            }
+        });
     }
 
     public void setUpUsuariLabel() { this.usuariActiuLabel.setText(cU.getUsuariActiu()); }

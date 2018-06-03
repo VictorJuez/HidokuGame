@@ -15,6 +15,8 @@ public class Main {
     private Menu menu;
     private EditorMapa editorMapa;
     private Partida partida;
+    private Jugar jugar;
+    private NovaPartida1 novaPartida1;
 
     JFrame frame = new JFrame("Main demo");
     static JPanel panelCont = new JPanel();
@@ -26,6 +28,8 @@ public class Main {
     JPanel menuPanel;
     JPanel editorMapaPanel;
     JPanel partidaPanel;
+    JPanel novapartida1;    //es la ventana donde escojes si quieres un mapa existente o un mapa aleatorio
+    JPanel jugarPanel;
 
     JButton loginButton;
     JButton signUpButton;
@@ -45,7 +49,11 @@ public class Main {
         menu = new Menu();
         editorMapa = new EditorMapa();
         partida = new Partida();
+        jugar = new Jugar();
+        novaPartida1 = new NovaPartida1();
 
+        novapartida1 = novaPartida1.getNovaPartida1();
+        jugarPanel = jugar.getJugarPanel();     //ja tens el jpanel
         singUpPanel = signUp.getSignUpPanel();
         loginPanel = Login.getLoginPanel();
         mapaViewPanel = mapaView.getMapaPanel();
@@ -54,6 +62,9 @@ public class Main {
         editorMapaPanel = editorMapa.getEditorMapa();
         partidaPanel = partida.getPartidaPanel();
 
+
+        panelCont.add(novapartida1,"Nova Partida");
+        panelCont.add(jugarPanel, "Jugar");
         panelCont.add(MainPanel,"main");
         panelCont.add(singUpPanel, "singUp");
         panelCont.add(loginPanel, "login");
@@ -106,6 +117,10 @@ public class Main {
     public static void showMain(){
         cl.show(panelCont, "main");
     }
+
+    public static void showNovaPartida1(){cl.show(panelCont, "Nova Partida");}
+
+    public static void showJugar(){cl.show(panelCont, "Jugar");}
 
     public static void showCreadorMapa() { cl.show(panelCont, "creadorMapa"); }
 
