@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Vector;
 
 public class PartidaS {
     private JLabel partidaLabel;
@@ -29,12 +30,13 @@ public class PartidaS {
     private JButton comprovar;
     private JLabel Solucio;
     private Partida p;
+    int index = 0;
+    private Vector<Integer> r = new Vector<>();
 
     public PartidaS() {
         PanelPartida.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                System.out.println("holaaa");
                 mapa.removeAll();
                 BorderLayout grid = new BorderLayout();
                 mapa.setLayout(grid);
@@ -43,6 +45,10 @@ public class PartidaS {
                 String s = ControladorUsuari.getUsuariActiu();
                 String pcurso = ControladorPartida.getPartidaEnCurso();
                 p = ControladorPartida.getPartida(pcurso);
+                r = p.getMapaPartida().getNumerosRestants();
+                System.out.println(r);
+                numberLabel.setText(String.valueOf(r.get(index)));
+                numberLabel.repaint();
                 //ControladorPartida.
                 mapaButton m = factory.getMapaButton(p.getMapaPartida().getColumnas(),  p.getMapaPartida().getFilas(),  p.getMapaPartida().getMatrix(),  p.getMapaPartida().getTipo());
                 int n =  p.getMapaPartida().getNumeros();
@@ -75,21 +81,31 @@ public class PartidaS {
                                 int columna = Integer.valueOf(parts[1]);
                                 String v = myButton.getText();
                                 int v1 = Integer.valueOf(numberLabel.getText());
-                                //int valor = Integer.valueOf(myButton.getText());
                                 if (v.equals("?")) {
                                     if (ControladorPartida.insertarNumero(fila, columna, v1)) {
                                         myButton.setText(numberLabel.getText());
                                         int x = Integer.valueOf(numberLabel.getText());
-                                        x++;
-                                        numberLabel.setText(String.valueOf(x));
+
+                                        if (index < r.size()-1) {
+                                            index++;
+                                            numberLabel.setText(String.valueOf(r.get(index)));
+                                        }
                                     }
                                 }
                                 else{
-                                    if (ControladorPartida.reemplazarNumero(fila, columna, v1)) {
+                                    /*if (ControladorPartida.reemplazarNumero(fila, columna, v1)) {
                                         myButton.setText(numberLabel.getText());
                                         int x = Integer.valueOf(numberLabel.getText());
                                         x++;
                                         numberLabel.setText(String.valueOf(x));
+                                    }*/
+                                    if (ControladorPartida.borrarNumero(fila,columna)){
+                                        myButton.setText("?");
+                                        if (index > 0){
+                                            index--;
+                                            numberLabel.setText(String.valueOf(r.get(index)));
+                                        }
+
                                     }
                                 }
 
@@ -111,20 +127,20 @@ public class PartidaS {
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int v = Integer.valueOf(numberLabel.getText());
-                if (v > 1){
-                    v--;
-                    numberLabel.setText(String.valueOf(v));
+
+                if (index > 0){
+                    index--;
+                    numberLabel.setText(String.valueOf(r.get(index)));
                 }
+
             }
         });
         button5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int v = Integer.valueOf(numberLabel.getText());
-                if (v < 60){
-                    v++;
-                    numberLabel.setText(String.valueOf(v));
+                if (index < r.size() - 1){
+                    index++;
+                    numberLabel.setText(String.valueOf(r.get(index)));
                 }
             }
         });
@@ -139,6 +155,7 @@ public class PartidaS {
 
             }
         });
+
     }
 
     public JPanel getPanelPartida() {

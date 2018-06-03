@@ -122,11 +122,13 @@ public class ControladorPartida
         return b;
     }
 
-    public static void borrarNumero (int i, int j)
+    public static boolean borrarNumero (int i, int j)
     {
+        boolean t = false;
         Partida p = partidasMap.get(partidaEnCurso);
-        p.borrarNumero(i, j);
+        t = p.borrarNumero(i, j);
         p.actualizarContador();
+        return t;
     }
 
     public static boolean reemplazarNumero (int i, int j, int numero)
