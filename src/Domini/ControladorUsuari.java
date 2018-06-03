@@ -42,7 +42,10 @@ public class ControladorUsuari {
      * @return retorna l'usuari creat o null en cas que l'ID del usuari ja existís en el sistema
      */
     public static Usuari insertarUsuari(String ID, String password){
-        if(getUsuari(ID) != null) return null;
+        if(getUsuari(ID) != null) {
+            System.err.println("L'usuari "+ ID + " ja existeix en el sistema, no es pot tornar a crear");
+            return null;
+        }
         Usuari usuari = new Usuari(ID, password);
         allUsers.put(usuari.getID(), usuari);
         saveUsuariToDisk(usuari);
@@ -116,6 +119,13 @@ public class ControladorUsuari {
     public static void addPartidaToUser(String usuariID, String partidaID){
         Usuari usuari = getUsuari(usuariID);
         usuari.addPartida(ControladorPartida.getPartida(partidaID));
+        saveUsuariToDisk(getUsuari(usuariID));
+    }
+
+    public static void removePartidaToUser(String usuariID, String partidaID){
+        Usuari usuari = getUsuari(usuariID);
+        usuari.popPartida(ControladorPartida.getPartida(partidaID));
+        saveUsuariToDisk(getUsuari(usuariID));
     }
 
     /**
