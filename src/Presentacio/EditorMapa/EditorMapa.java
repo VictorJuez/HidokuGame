@@ -30,10 +30,6 @@ public class EditorMapa {
     private JButton següentButton;
 
     public EditorMapa() {
-        BorderLayout grid = new BorderLayout();
-        ButtonGridPanel.removeAll();
-        ButtonGridPanel.setLayout(grid);
-
         enrereButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +44,7 @@ public class EditorMapa {
             @Override
             public void componentShown(ComponentEvent e) {
                 processParameters();
+                processGridEditor();
             }
         });
     }
@@ -68,13 +65,23 @@ public class EditorMapa {
         gE = fact.getGridEditor(nomMapa, matrix, columnes, files, topologia);
     }
 
-    private void displayGridEditor()
+    private void processGridEditor()
     {
+        BorderLayout grid = new BorderLayout();
+        ButtonGridPanel.removeAll();
+        ButtonGridPanel.setLayout(grid);
+        GridEditorFactory geF = new GridEditorFactory();
+        String[][] matrix = new String[files][columnes];
+        for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j) matrix[i][j] = "-";
+        gE = geF.getGridEditor(nomMapa, matrix, columnes, files, topologia);
 
+        for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j) ButtonGridPanel.add(GridEditor.matrix[i][j]);
+        ButtonGridPanel.add(GridEditor.matrix[0][0]);
+        ButtonGridPanel.revalidate();
+        ButtonGridPanel.repaint();
     }
 
     public JPanel getEditorMapa() {
         return editorMapaPanel;
-
     }
 }

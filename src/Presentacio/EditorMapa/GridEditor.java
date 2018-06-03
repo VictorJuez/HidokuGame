@@ -3,7 +3,7 @@ package Presentacio.EditorMapa;
 import javax.swing.*;
 
 public abstract class GridEditor {
-    public JButton[][] matrix;
+    public static JButton[][] matrix;
     protected String nomMapa;
     protected int files;
     protected int columnes;
