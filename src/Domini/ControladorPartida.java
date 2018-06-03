@@ -111,13 +111,15 @@ public class ControladorPartida
     }
 
     //cada vez que haya que insertar un numero he de consultar interrogantes para saber si está la matriz llena
-    public static void insertarNumero (int i, int j, int numero)
+    public static boolean insertarNumero (int i, int j, int numero)
     {
+        boolean b;
         Partida p = partidasMap.get(partidaEnCurso);
-        p.insertarNumero(i, j, numero);
+        b = p.insertarNumero(i, j, numero);
         p.actualizarContador();
        // p.getMapaPartida().actualizaAdyacencias();
         if (p.getCantidadInterrogantes() == 0) tableroLleno();
+        return b;
     }
 
     public static void borrarNumero (int i, int j)
@@ -127,10 +129,10 @@ public class ControladorPartida
         p.actualizarContador();
     }
 
-    public static void reemplazarNumero (int i, int j, int numero)
+    public static boolean reemplazarNumero (int i, int j, int numero)
     {
         Partida p = partidasMap.get(partidaEnCurso);
-        p.reemplazarNumero(i, j, numero);
+        return p.reemplazarNumero(i, j, numero);
     }
 
     public static void consultarPista ()

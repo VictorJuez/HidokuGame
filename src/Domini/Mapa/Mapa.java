@@ -112,6 +112,8 @@ public abstract class Mapa {
         return matrix;
     }
     public int getNumeros() {
+        numerosExistents = getNumerosExistents();
+        numeros = numerosExistents.size();
         return numeros;
     }
     public void insertarNumero(int numero, int x, int y){
