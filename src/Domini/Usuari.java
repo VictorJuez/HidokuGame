@@ -10,24 +10,25 @@ import java.util.*;
 public class Usuari {
     private String ID;
     private String password;  //password del usuario
+    private int puntuacio;
+    private int record;
     private HashMap<String, Partida> partidas = new HashMap<>();   //partidas del usuario
-    private HashMap<String, Mapa> mapas = new HashMap<>();      //mapas que ha creado el usuario
 
     public Usuari(String ID, String password){
         this.ID = ID;
         this.password = md5(password);
+        this.puntuacio = 0;
+        this.record = 0;
 
     }
 
-    public Usuari (String ID, String password, ArrayList<String> partidas, ArrayList<String> mapas) throws IOException {
+    public Usuari (String ID, String password, int puntuacio, int record, ArrayList<String> partidas, ArrayList<String> mapas) throws IOException {
         this.ID = ID;
         this.password = password;
+        this.puntuacio = puntuacio;
+        this.record = record;
         for(String partidaID : partidas){
             this.partidas.put(partidaID, ControladorPartida.getPartida(partidaID));
-        }
-        for(String mapaID : mapas){
-            Mapa mapa = ControladorMapa.getMapa(mapaID);
-            this.mapas.put(mapa.getID(), mapa);
         }
     }
 
@@ -80,24 +81,6 @@ public class Usuari {
         partidas.remove(partida.getID());
     }
 
-    public void addMapa(Mapa mapa){
-        mapas.put(mapa.getID(), mapa);
-    }
-
-    public void popMapa (Mapa mapa){
-        mapas.remove(mapa.getID());
-    }
-
-    public HashMap<String, Mapa> getMapas() {
-        return mapas;
-    }
-
-    public ArrayList<String> getMapasID(){
-        ArrayList<String> mapasID = new ArrayList<>();
-        for ( String key : mapas.keySet() ) mapasID.add(key);
-        return mapasID;
-    }
-
     public HashMap<String, Partida> getPartidas() {
         return partidas;
     }
@@ -106,6 +89,22 @@ public class Usuari {
         ArrayList<String> partidasID = new ArrayList<>();
         for ( String key : partidas.keySet() ) partidasID.add(key);
         return partidasID;
+    }
+
+    public int getRecord() {
+        return record;
+    }
+
+    public void setRecord(int record) {
+        this.record = record;
+    }
+
+    public int getPuntuacio() {
+        return puntuacio;
+    }
+
+    public void setPuntuacio(int puntuacio) {
+        this.puntuacio = puntuacio;
     }
 
     @Override
