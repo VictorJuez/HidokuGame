@@ -16,12 +16,12 @@
           <text value="Nova Partida"/>
         </properties>
       </component>
-      <component id="576ea" class="javax.swing.JButton" binding="cargarPartidaButton" default-binding="true">
+      <component id="576ea" class="javax.swing.JButton" binding="carregarPartidaButton" default-binding="true">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Cargar Partida"/>
+          <text value="Carregar Partida"/>
         </properties>
       </component>
       <component id="8a85b" class="javax.swing.JButton" binding="enrereButton" default-binding="true">

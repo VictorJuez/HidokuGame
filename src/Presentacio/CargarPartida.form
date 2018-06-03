@@ -16,11 +16,6 @@
           <text value="Cargar Partida"/>
         </properties>
       </component>
-      <vspacer id="7ca20">
-        <constraints>
-          <grid row="3" column="2" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
       <component id="df9db" class="javax.swing.JComboBox" binding="PartidesGuardadesBox">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
@@ -50,6 +45,14 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
+      <component id="6d4af" class="javax.swing.JButton" binding="CarregarButton">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Carregar"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

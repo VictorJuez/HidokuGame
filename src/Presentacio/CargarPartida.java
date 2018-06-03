@@ -17,6 +17,7 @@ public class CargarPartida {
     private JLabel cargarPartidaLabel;
     private JComboBox PartidesGuardadesBox;
     private JButton EnrereButton;
+    private JButton CarregarButton;
 
     public CargarPartida() {
         EnrereButton.addActionListener(new ActionListener() {

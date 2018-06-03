@@ -36,5 +36,11 @@ public class NovaPartida1 {
                 Main.showMapaView();
             }
         });
+        mapesExistentsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.showMapesExistents();
+            }
+        });
     }
 }

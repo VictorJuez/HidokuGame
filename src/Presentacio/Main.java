@@ -18,6 +18,7 @@ public class Main {
     private Jugar jugar;
     private NovaPartida1 novaPartida1;
     private CargarPartida cargarPartida;
+    private MapesExistents mapesExistents;
 
     JFrame frame = new JFrame("Main demo");
     static JPanel panelCont = new JPanel();
@@ -31,6 +32,7 @@ public class Main {
 
     JPanel partidaPanel;
     JPanel cargarPartidaPanel;
+    JPanel mapesExistentsPanel;
 
     JPanel novapartida1;    //es la ventana donde escojes si quieres un mapa existente o un mapa aleatorio
     JPanel jugarPanel;
@@ -54,6 +56,7 @@ public class Main {
         editorMapa = new EditorMapa();
         jugar = new Jugar();
         novaPartida1 = new NovaPartida1();
+        mapesExistents = new MapesExistents();
 
         partida = new PartidaS();
 
@@ -72,6 +75,7 @@ public class Main {
 
         partidaPanel = partida.getPanelPartida();
         cargarPartidaPanel = cargarPartida.getCargarPartidaPanel();
+        mapesExistentsPanel = mapesExistents.getMapesExistents();
 
         panelCont.add(partidaPanel,"Partida");
         panelCont.add(novapartida1,"Nova Partida");
@@ -84,6 +88,8 @@ public class Main {
         panelCont.add(menuPanel, "menu");
         panelCont.add(editorMapaPanel, "editorMapa");
         panelCont.add(partidaPanel,"Partida");
+        panelCont.add(mapesExistentsPanel, "mapesExistents");
+        panelCont.add(cargarPartidaPanel, "cargarPartida");
 
         cl.show(panelCont, "main");
 
@@ -145,6 +151,9 @@ public class Main {
         cl.show(panelCont, "mapaView");
     }
 
+    public static void showMapesExistents() { cl.show(panelCont, "mapesExistents"); }
+
+    public static void showCargarPartida() { cl.show(panelCont, "cargarPartida"); }
     //he hecho ésto por si queremos meter un botón salir
     public static void Close() { System.exit(0); }
 
