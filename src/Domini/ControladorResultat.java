@@ -2,7 +2,6 @@ package Domini;
 
 import Dades.ResultatDAO;
 import Domini.Mapa.Mapa;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,32 +18,56 @@ public class ControladorResultat {
 
     static{
         users = ControladorUsuari.getAllUsers();
+        loadAllResultsDisk();
         initializeGlobalRanking();
     }
 
-    public static Resultat insertarResultat(Usuari user, Mapa mapa, int resultat){
-        Resultat r = new Resultat(user, mapa, resultat);
-        if(resultatList.contains(r)) {
-            r = findResultat(r);
-            r.afegirPuntuacio(resultat);
-            GlobalRanking.put(user.getID(), r.getResultat());
+    public static Resultat insertarResultat(Usuari user, Mapa mapa, int puntuacio){
+        Resultat resultat;
+        if(mapa == null) resultat = new Resultat(user, puntuacio);
+        else resultat = new Resultat(user, mapa, puntuacio);
+
+        if(resultatList.contains(resultat)) {
+            resultat = getResultatExistent(resultat);
+            resultat.afegirPuntuacio(puntuacio);
         }
 
         else {
-            Integer actualResult = 0;
-            if(GlobalRanking.containsKey(user.getID())) actualResult = GlobalRanking.get(user.getID());
-            GlobalRanking.put(user.getID(), r.getResultat() + actualResult);
-            resultatList.add(r);
+            if(mapa == null || mapa.getName()!= null) resultatList.add(resultat);
         }
-        try {
-            ResultatDAO.saveResultat(r);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if(mapa == null)GlobalRanking.put(resultat.getUsuari().getID(), resultat.getPuntuacio());
+        else {
+            System.err.println(puntuacio + " // " + getUserGlobalResult(user));
+            GlobalRanking.put(resultat.getUsuari().getID(), puntuacio + getUserGlobalResult(user));
         }
-        return r;
+
+        //si es un resultat global el guardem
+        if(mapa == null) saveResultat(resultat);
+
+        //si es un resultat d'un mapa amb nom (creat per un usuari) el guardem i guardem tambe el global.
+        else {
+            if (mapa.getName() != null) {
+                saveResultat(resultat);
+                Resultat aux = getResultatExistent(new Resultat(resultat.getUsuari(), 0));
+                aux.afegirPuntuacio(resultat.getPuntuacio());
+                saveResultat(aux);
+            }
+        }
+
+        return resultat;
     }
 
-    private static Resultat findResultat(Resultat r) {
+    private static void saveResultat(Resultat resultat){
+        try {
+            if(resultat.getMapa() != null) ResultatDAO.saveResultat(resultat.getUsuari().getID(), resultat.getMapa().getID(), String.valueOf(resultat.getPuntuacio()));
+            else ResultatDAO.saveResultat(resultat.getUsuari().getID(), "global", String.valueOf(resultat.getPuntuacio()));
+        } catch (IOException e) {
+            System.err.println("Couldn't save the result of user: "+ resultat.getUsuari().getID() + " to disk");
+        }
+    }
+
+    private static Resultat getResultatExistent(Resultat r) {
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
             if(result.equals(r)) return result;
@@ -55,7 +78,7 @@ public class ControladorResultat {
     private static void initializeGlobalRanking() {
         ArrayList<String> usersID = new ArrayList<String>(ControladorUsuari.getAllUsers().keySet());
         for(int i=0; i<usersID.size(); ++i) {
-            GlobalRanking.put(usersID.get(i),0);
+            if(!GlobalRanking.containsKey(usersID.get(i))) GlobalRanking.put(usersID.get(i),0);
         }
     }
 
@@ -71,7 +94,7 @@ public class ControladorResultat {
         return insertarResultat(usuari, mapa, puntuacio);
     }
 
-    public static void loadAllResultsDisk() {
+    private static void loadAllResultsDisk() {
         HashMap<String, Integer> resultatsDisk = null;
         try {
             resultatsDisk = ResultatDAO.loadAllResults();
@@ -85,8 +108,14 @@ public class ControladorResultat {
             String resultatString = (String) resultatPair.getKey();
             String parts[] = resultatString.split("_");
             Usuari usuari = ControladorUsuari.getUsuari(parts[0]);
-            Mapa mapa = ControladorMapa.getMapa(parts[1]);
-            insertarResultat(usuari, mapa, (Integer) resultatPair.getValue());
+            if(parts[1].equals("global")){
+                GlobalRanking.put(usuari.getID(), (Integer) resultatPair.getValue());
+                resultatList.add(new Resultat(usuari, (Integer) resultatPair.getValue()));
+            }
+            else {
+                Mapa mapa = ControladorMapa.getMapa(parts[1]);
+                resultatList.add(new Resultat(usuari,mapa, (Integer) resultatPair.getValue()));
+            }
         }
     }
 
@@ -99,7 +128,7 @@ public class ControladorResultat {
 
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
-            if(result.getMapa().equals(mapa)) mapRanking.put(result.getUsuari(), result.getResultat());
+            if(result.getMapa().equals(mapa)) mapRanking.put(result.getUsuari(), result.getPuntuacio());
         }
 
         return mapRanking;
@@ -114,7 +143,7 @@ public class ControladorResultat {
 
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
-            if(result.getMapa().equals(mapa) && result.getUsuari().equals(usuari)) total+= result.getResultat();
+            if(result.getMapa().equals(mapa) && result.getUsuari().equals(usuari)) total+= result.getPuntuacio();
         }
 
         return total;
@@ -125,7 +154,7 @@ public class ControladorResultat {
 
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
-            if(result.getUsuari().equals(usuari)) mapResults.put(result.getMapa(), result.getResultat());
+            if(result.getUsuari().equals(usuari)) mapResults.put(result.getMapa(), result.getPuntuacio());
         }
 
         return mapResults;
@@ -136,7 +165,7 @@ public class ControladorResultat {
 
         for(int i=0; i<resultatList.size(); ++i){
             Resultat result = resultatList.get(i);
-            if(result.getMapa() == mapa) mapResults.put(result.getUsuari(), result.getResultat());
+            if(result.getMapa() == mapa) mapResults.put(result.getUsuari(), result.getPuntuacio());
         }
 
         return mapResults;

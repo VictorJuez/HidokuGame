@@ -2,7 +2,6 @@ package Dades;
 
 import Domini.*;
 import Domini.Mapa.Mapa;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,7 +37,8 @@ public class DriverResultatDAO {
                     puntuacio = myScanner.nextInt();
                     usuari = ControladorUsuari.getUsuari(userID);
                     Mapa mapa = ControladorMapa.getMapa(mapaID);
-                    ResultatDAO.saveResultat(ControladorResultat.insertarResultat(usuari, mapa, puntuacio));
+                    Resultat r = ControladorResultat.insertarResultat(usuari, mapa, puntuacio);
+                    ResultatDAO.saveResultat(r.getUsuari().getID(), r.getMapa().getID(), String.valueOf(r.getPuntuacio()));
                     break;
                 case "3":
                     HashMap<String, Integer> resultatsDisk = ResultatDAO.loadAllResults();
@@ -72,7 +72,7 @@ public class DriverResultatDAO {
     private static void printResultat(Resultat r) {
         System.out.println("Mapa: "+ r.getMapa().getID());
         System.out.println("Usuari: "+ r.getUsuari().getID());
-        System.out.println("Puntuacio: "+ r.getResultat());
+        System.out.println("Puntuacio: "+ r.getPuntuacio());
         System.out.println();
     }
 }

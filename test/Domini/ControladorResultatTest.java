@@ -29,7 +29,7 @@ public class ControladorResultatTest {
         Usuari usuari = usuariList.get(0);
         Resultat resultat = ControladorResultat.insertarResultat(usuari, mapa, 10);
 
-        Assert.assertEquals("Points ok", 10, resultat.getResultat());
+        Assert.assertEquals("Points ok", 10, resultat.getPuntuacio());
         Assert.assertEquals("User ok", usuari.getID(), resultat.getUsuari().getID());
         Assert.assertEquals("Mapa ok", mapa.getID(), resultat.getMapa().getID());
 

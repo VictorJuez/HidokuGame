@@ -18,8 +18,8 @@ public class ResultatDAOTest {
     public void loadAndSaveResultat() throws IOException {
         Usuari usuari = ControladorUsuari.insertarUsuari("enric", "hola");
         Mapa mapa = ControladorMapa.generarHidato();
-
-        ResultatDAO.saveResultat(new Resultat(usuari, mapa, 10));
+        Resultat r = new Resultat(usuari, mapa, 10);
+        ResultatDAO.saveResultat(r.getUsuari().getID(), r.getMapa().getID(), String.valueOf(r.getPuntuacio()));
         resultats.add(usuari.getID()+"_"+mapa.getID());
         HashMap<String, String> resultat= ResultatDAO.loadResultat(usuari.getID(), mapa.getID());
         Assert.assertEquals("check username", "enric", resultat.get("usuari"));

@@ -12,7 +12,6 @@ public class DriverRanking {
     private static Scanner myScanner;
 
     public static void main(String[] args) throws IOException {
-        ControladorResultat.loadAllResultsDisk();
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1)Insertar resultado partida \n"+
@@ -31,47 +30,23 @@ public class DriverRanking {
         while(active) {
             switch (op){
                 case "1":
-                    System.out.println("Insertar ID del mapa");
-                    String idmapa = myScanner.next();
-                    Mapa mapa = ControladorMapa.getMapa(idmapa);
-                    //System.out.println("Insertar ID del jugador");
-                    //String iduser = myScanner.next();
-                    Usuari usuari = ControladorUsuari.insertarUsuari("enric", "hola");
-                    System.out.println("Insertar puntuacion");
-                    int puntuacion = myScanner.nextInt();
-                    ControladorResultat.insertarResultat(usuari, mapa, puntuacion);
+                    insertResult();
                     break;
                 case "2":
-                    System.out.println("Insertar ID del mapa");
-                    idmapa = myScanner.next();
-                    mapa = ControladorMapa.getMapa(idmapa);
-                    System.out.println("Insertar ID del jugador");
-                    String iduser = myScanner.next();
-                    usuari = ControladorUsuari.getUsuari(iduser);
-                    System.out.println("puntuacio en el mapa: "+ mapa.getID());
-                    System.out.println(ControladorResultat.getUserMapResult(usuari, mapa)+ "punts");
+                    getResultPartida();
                     break;
                 case "3":
                     getGlobalRanking();
                     break;
 
                 case "4":
-                    System.out.println("Insertar ID del mapa");
-                    idmapa = myScanner.next();
-                    mapa = ControladorMapa.getMapa(idmapa);
-                    getMapRanking(mapa);
+                    getMapaRanking();
                     break;
                 case "5":
-                    System.out.println("Insertar ID del jugador");
-                    iduser = myScanner.next();
-                    usuari = ControladorUsuari.getUsuari(iduser);
-                    getUserRanking(usuari);
+                    getUserResults();
                     break;
                 case "6":
-                    System.out.println("Insertar ID del jugador");
-                    iduser = myScanner.next();
-                    usuari = ControladorUsuari.getUsuari(iduser);
-                    System.out.println(ControladorResultat.getUserGlobalResult(usuari));
+                    getGlobalResult();
                     break;
                 case "x":
                     System.out.println("exiting game...");
@@ -87,6 +62,50 @@ public class DriverRanking {
                 op = myScanner.next();
             }
         }
+    }
+
+    private static void getGlobalResult() {
+        System.out.println("Insertar ID del jugador");
+        String iduser = myScanner.next();
+        Usuari usuari = ControladorUsuari.getUsuari(iduser);
+        System.out.println(ControladorResultat.getUserGlobalResult(usuari));
+    }
+
+    private static void getUserResults() {
+        System.out.println("Insertar ID del jugador");
+        String iduser = myScanner.next();
+        Usuari usuari = ControladorUsuari.getUsuari(iduser);
+        getUserRanking(usuari);
+    }
+
+    private static void getMapaRanking() {
+        System.out.println("Insertar ID del mapa");
+        String idmapa = myScanner.next();
+        Mapa mapa = ControladorMapa.getMapa(idmapa);
+        getMapRanking(mapa);
+    }
+
+    private static void getResultPartida() {
+        System.out.println("Insertar ID del mapa");
+        String idmapa = myScanner.next();
+        Mapa mapa = ControladorMapa.getMapa(idmapa);
+        System.out.println("Insertar ID del jugador");
+        String iduser = myScanner.next();
+        Usuari usuari = ControladorUsuari.getUsuari(iduser);
+        System.out.println("puntuacio en el mapa: "+ mapa.getID());
+        System.out.println(ControladorResultat.getUserMapResult(usuari, mapa)+ "punts");
+    }
+
+    private static void insertResult() {
+        System.out.println("Insertar ID del mapa");
+        String idmapa = myScanner.next();
+        Mapa mapa = null;
+        if(!idmapa.equals("global"))mapa = ControladorMapa.getMapa(idmapa);
+        System.out.println("Insertar ID del jugador");
+        String iduser = myScanner.next();
+        System.out.println("Insertar puntuacion");
+        int puntuacion = myScanner.nextInt();
+        ControladorResultat.insertarResultat(ControladorUsuari.getUsuari(iduser), mapa, puntuacion);
     }
 
     private static void getUserRanking(Usuari usuari) {

@@ -19,7 +19,7 @@ public class DriverMapa {
                 "\t3) Generar hidato\n"+
                 "\t4) Comprovar si existe solucion hidato\n"+
                 "\t5) Ver adyacencias\n"+
-                "\t6) Load mapa from disk\n"+
+                "\t6) Save mapa from disk\n"+
                 "\t7) Delete mapa\n"+
                 "\tx) Para salir del juego\n";
 

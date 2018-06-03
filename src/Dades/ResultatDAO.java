@@ -1,7 +1,6 @@
 package Dades;
 
 import Domini.*;
-import Domini.Mapa.Mapa;
 
 import java.io.*;
 import java.util.HashMap;
@@ -11,15 +10,15 @@ public class ResultatDAO {
 
     private ResultatDAO(){}
 
-    public static void saveResultat(Resultat r) throws IOException {
+    public static void saveResultat(String usuari, String mapa, String puntuacio) throws IOException {
         Properties properties = new Properties();
-        properties.setProperty("usuari", r.getUsuari().getID());
-        properties.setProperty("mapa", r.getMapa().getID());
-        properties.setProperty("resultat", String.valueOf(r.getResultat()));
+        properties.setProperty("usuari", usuari);
+        properties.setProperty("mapa", mapa);
+        properties.setProperty("puntuacio", puntuacio);
 
-        File file2 = new File("data/resultats/"+r.getUsuari().getID()+"_"+r.getMapa().getID()+".properties");
+        File file2 = new File("data/resultats/"+usuari+"_"+mapa+".properties");
         FileOutputStream fileOut = new FileOutputStream(file2);
-        properties.store(fileOut, "Result | user:" +r.getUsuari().getID()+" - map: " + r.getMapa().getID());
+        properties.store(fileOut, "Result | user:" +usuari+" - map: " + mapa);
         fileOut.close();
     }
 
@@ -32,10 +31,10 @@ public class ResultatDAO {
 
         // get the property value
         HashMap<String, String> result = new HashMap<>();
-        String resultat = prop.getProperty("resultat");
+        String puntuacio = prop.getProperty("puntuacio");
         result.put("mapa", mapaID);
         result.put("usuari", userID);
-        result.put("puntuacio", resultat);
+        result.put("puntuacio", puntuacio);
 
         return result;
     }
