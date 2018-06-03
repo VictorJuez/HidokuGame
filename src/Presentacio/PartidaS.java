@@ -147,11 +147,38 @@ public class PartidaS {
         comprovar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Mapa mapaa = p.getMapaPartida();
+                /*Mapa mapaa = p.getMapaPartida();
                 UtilsMapaDecorator mapa1 = new UtilsMapaDecorator(mapaa);
                 if (mapa1.hidatoValido()) Solucio.setText("té solucio");
                 else Solucio.setText("no te solucio");
                 System.out.println(Solucio.getText());
+                */
+
+                JOptionPane finalizar = new JOptionPane();
+                if(p.getCantidadInterrogantes() == 0){
+                    UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
+                    if (utilsMapa.hidatoValido())
+                    {
+                        String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
+                        System.out.println("si es valid");
+                        int puntuacion = ControladorPartida.calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
+                        //commit de la puntuacion en resultado
+                        String userID = ControladorUsuari.getUsuariActiu();
+                        boolean b = ControladorUsuari.insertarResultat(ControladorUsuari.getUsuari(userID), puntuacion);
+                        if (b) finalizar.showMessageDialog(null, "Nou record personal!\n" +
+                                "Puntuacio: "+ puntuacion + "\n" +
+                                "Temps: "+p.getReloj());
+                        else finalizar.showMessageDialog(null,
+                                "Puntuacio: "+ puntuacion + "\n" +
+                                "Temps: "+p.getReloj());
+                        p.setPuntuacion(puntuacion);
+                        Main.showRanking();
+                    }
+                    else {
+                        finalizar.showMessageDialog(null, "La solucio es incorrecte! torna-ho a provar");
+                    }
+
+                }
 
             }
         });
