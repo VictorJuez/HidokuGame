@@ -3,14 +3,16 @@ package Presentacio;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 public class CreadorMapa {
-    private String nommapa = new String();
-    private String tipus = new String();
-    private String tipusAdjacencies = new String();
-    private String nombreFiles = new String();
-    private String nombreColumnes = new String();
+    private static String nommapa = new String();
+    private static String tipus = new String();
+    private static String tipusAdjacencies = new String();
+    private static String nombreFiles = new String();
+    private static String nombreColumnes = new String();
 
     private JTextField nomMapa;
     private JComboBox tipusMapa;
@@ -35,7 +37,7 @@ public class CreadorMapa {
                 if (nommapa.equals("")) JOptionPane.showMessageDialog(null, "Escriu un nom pel mapa");
                 //hay parámetros válidos
                 else {
-                    if (tipus.equals("Quadrats")) Main.showEditorMapa();
+                    Main.showEditorMapa();
                 }
             }
         });
@@ -68,45 +70,49 @@ public class CreadorMapa {
         });
     }
 
+    public static String getNommapa() {
+        return nommapa;
+    }
+    public static String getTipus() {
+        return tipus;
+    }
+    public static String getTipusAdjacencies() {
+        return tipusAdjacencies;
+    }
+    public static String getNombreFiles() { return nombreFiles; }
+    public static String getNombreColumnes() { return nombreColumnes; }
+
     public void setTipus() { this.tipus = (String)tipusMapa.getSelectedItem(); }
     public void setTipusAdjacencies() { this.tipusAdjacencies = (String)adjacencies.getSelectedItem(); }
     public void setNombreFiles() { this.nombreFiles = (String)files.getSelectedItem(); }
     public void setNombreColumnes() { this.nombreColumnes = (String)columnes.getSelectedItem(); }
+    private void setUpTipusMapaBox() {
+        String[] aux = new String[3]; aux[0] = "Quadrats"; aux[1] = "Triangles"; aux[2] = "Hexagons";
+        this.tipusMapa.setModel(new javax.swing.DefaultComboBoxModel(aux));
+        if(aux.length>0)this.tipusMapa.setSelectedIndex(0);
+    }
+    private void setUpAdjacenciesBox() {
+        String[] aux = new String[2]; aux[0] = "Costats"; aux[1] = "Angles";
+        this.adjacencies.setModel(new javax.swing.DefaultComboBoxModel(aux));
+        if(aux.length>0)this.adjacencies.setSelectedIndex(0);
+    }
+    private void setUpFilesBox() {
+        String[] aux = new String[15];
+        for (int i = 0; i < 15; ++i) aux[i] = String.valueOf(i+1);
+        this.files.setModel(new javax.swing.DefaultComboBoxModel(aux));
+        if(aux.length>0)this.files.setSelectedIndex(0);
+    }
+    private void setUpColumnesBox() {
+        String[] aux = new String[15];
+        for (int i = 0; i < 15; ++i) aux[i] = String.valueOf(i+1);
+        this.columnes.setModel(new javax.swing.DefaultComboBoxModel(aux));
+        if(aux.length>0)this.columnes.setSelectedIndex(0);
+    }
 
     public JPanel getCreadorMapasPanel() { return CreadorMapaPanel; }
 
     public void setNomMapa()
     {
         nommapa = nomMapa.getText();
-    }
-
-    private void setUpTipusMapaBox()
-    {
-        String[] aux = new String[3]; aux[0] = "Quadrats"; aux[1] = "Triangles"; aux[2] = "Hexagons";
-        this.tipusMapa.setModel(new javax.swing.DefaultComboBoxModel(aux));
-        if(aux.length>0)this.tipusMapa.setSelectedIndex(0);
-    }
-
-    private void setUpAdjacenciesBox()
-    {
-        String[] aux = new String[2]; aux[0] = "Costats"; aux[1] = "Angles";
-        this.adjacencies.setModel(new javax.swing.DefaultComboBoxModel(aux));
-        if(aux.length>0)this.adjacencies.setSelectedIndex(0);
-    }
-
-    private void setUpFilesBox()
-    {
-        String[] aux = new String[15];
-        for (int i = 0; i < 15; ++i) aux[i] = String.valueOf(i+1);
-        this.files.setModel(new javax.swing.DefaultComboBoxModel(aux));
-        if(aux.length>0)this.files.setSelectedIndex(0);
-    }
-
-    private void setUpColumnesBox()
-    {
-        String[] aux = new String[15];
-        for (int i = 0; i < 15; ++i) aux[i] = String.valueOf(i+1);
-        this.columnes.setModel(new javax.swing.DefaultComboBoxModel(aux));
-        if(aux.length>0)this.columnes.setSelectedIndex(0);
     }
 }

@@ -7,9 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GridEditorTriangles extends GridEditor {
-    public GridEditorTriangles(String[][] matrix, int columnes, int files, String topologia)
+    public GridEditorTriangles(String nomMapa, String[][] matrix, int columnes, int files, String topologia)
     {
-        super(matrix, columnes, files, topologia);
+        super(nomMapa, matrix, columnes, files, topologia);
     }
 
     @Override

@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GridEditorHexagons extends GridEditor {
-    public GridEditorHexagons (String[][] matrix, int columnes, int files, String topologia)
+    public GridEditorHexagons (String nomMapa, String[][] matrix, int columnes, int files, String topologia)
     {
-        super(matrix, columnes, files, topologia);
+        super(nomMapa, matrix, columnes, files, topologia);
     }
 
     @Override
