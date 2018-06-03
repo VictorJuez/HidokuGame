@@ -10,7 +10,7 @@ public class DriverPartida
 {
     public static void main (String[] args) throws IOException {
         Usuari u = ControladorUsuari.insertarUsuari("Mathias", "123");
-        ControladorUsuari.login("Mathias", "123");
+        ControladorUsuari.login(u, "123");
 
 
         Scanner myScanner = new Scanner(System.in);
