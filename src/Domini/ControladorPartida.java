@@ -39,7 +39,7 @@ public class ControladorPartida
         //crea una partida y la añade al hashmap de partidas existentes.
         Partida p = new Partida(m, usuari);
         partidasMap.put(p.getID(), p);
-        ControladorUsuari.addPartidaToUser(usuari, p.getID());
+        //ControladorUsuari.addPartidaToUser(usuari, p.getID());
         return p;
     }
 
@@ -48,7 +48,7 @@ public class ControladorPartida
         Mapa mapaRandom = ControladorMapa.generarHidato();
         Partida p = new Partida(mapaRandom, usuari);
         partidasMap.put(p.getID(), p);
-        ControladorUsuari.addPartidaToUser(usuari, p.getID());
+        //ControladorUsuari.addPartidaToUser(usuari, p.getID());
         return p;
     }
 
