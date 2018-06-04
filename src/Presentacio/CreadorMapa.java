@@ -39,6 +39,10 @@ public class CreadorMapa {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setNomMapa();
+                setTipus();
+                setTipusAdjacencies();
+                setNombreFiles();
+                setNombreColumnes();
                 if (nommapa.equals("")) JOptionPane.showMessageDialog(null, "Escriu un nom pel mapa");
                 //los parámetros están escogidos
                 else {
@@ -91,6 +95,10 @@ public class CreadorMapa {
     public static String getNombreFiles() { return nombreFiles; }
     public static String getNombreColumnes() { return nombreColumnes; }
 
+    public void setNomMapa()
+    {
+        nommapa = nomMapa.getText();
+    }
     public void setTipus() { this.tipus = (String)tipusMapa.getSelectedItem(); }
     public void setTipusAdjacencies() { this.tipusAdjacencies = (String)adjacencies.getSelectedItem(); }
     public void setNombreFiles() { this.nombreFiles = (String)files.getSelectedItem(); }
@@ -120,8 +128,4 @@ public class CreadorMapa {
 
     public JPanel getCreadorMapasPanel() { return CreadorMapaPanel; }
 
-    public void setNomMapa()
-    {
-        nommapa = nomMapa.getText();
-    }
 }

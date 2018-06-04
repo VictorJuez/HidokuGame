@@ -12,7 +12,7 @@ public class GridEditorQuadrats extends GridEditor {
     }
 
     @Override
-    protected void setMatrix(String[][]m){
+    protected void setMatrix(String[][] m){
         matrix = new JButton[files][columnes];
         for(int i = 0; i < files; i++){
             for(int j = 0; j < columnes; j++){
