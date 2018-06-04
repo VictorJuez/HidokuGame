@@ -26,10 +26,15 @@ public class ControladorMapa {
         //ahora vamos a ver si la casilla está en el borde.
         //comprueba la columna minima y la extrema de la matriz y las filas tmb
         if (i == 0 || j == 0 || i == max_fil - 1 || j == max_col - 1) if (randValue > 55) return true;
-        //comprueba las 4 esquinas de la matriz
+        else if (i != 0 && i != max_fil -1 && j != 0 && j != max_col -1) //si se seguro que no está en el borde
+        {
+            //System.out.println("No es borde");
+            if (matrix[i-1][j].equals("#") || matrix[i+1][j].equals("#") || matrix[i][j-1].equals("#") || matrix[i][j+1].equals("#"))
+                if (randValue > 55) return true;
+        }
+        /*//comprueba las 4 esquinas de la matriz
         else if ((i == 0 && j == max_col - 1) || (i == max_fil - 1 && j == max_col - 1)
-                || (i == max_fil - 1 && j == 0) || (i == 0 && j == 0)) if (randValue > 55) return true;
-//        else if (matrix[i-1][j].equals("#") || matrix[i+1][j].equals("#") || matrix[i][j-1].equals("#") || matrix[i][j+1].equals("#")) if (randValue > 55) return true;
+                || (i == max_fil - 1 && j == 0) || (i == 0 && j == 0)) if (randValue > 55) return true;*/ //no entra
         return false;
     }
 

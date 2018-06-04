@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.Arrays;
+import java.util.Vector;
 
 public class EditorMapa {
     private static GridEditor gE;
@@ -29,6 +30,7 @@ public class EditorMapa {
     private String charSelected = "1";
     private String numSelected = "1";
     private int index = 1;
+    private Vector<Integer> numerosInserits; //para el control de numeros repetidos
 
     private JPanel ButtonGridPanel;
     private JPanel editorMapaPanel;
@@ -55,35 +57,35 @@ public class EditorMapa {
 
         següentButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                String[][] matrixHidato = getMatrixHidato();
-                MapaFactory mF = new MapaFactory();
-                switch (topologia) {        //enric fins
-                    case "Quadrats":
-                        topologia = "Q";
-                        break;
-                    case "Triangles":
-                        topologia = "T";
-                        break;
-                    case "Hexagons":
-                        topologia = "H";
-                        break;
-                }
-                if (adjacencies.equals("Angles")) adjacencies = "CA";
-                else adjacencies = "C";     //fi enric
+            public void actionPerformed(ActionEvent e) {
+                if (controlCorrectesa()) {
+                    String[][] matrixHidato = getMatrixHidato();
+                    MapaFactory mF = new MapaFactory();
+                    switch (topologia) {        //enric fins
+                        case "Quadrats":
+                            topologia = "Q";
+                            break;
+                        case "Triangles":
+                            topologia = "T";
+                            break;
+                        case "Hexagons":
+                            topologia = "H";
+                            break;
+                    }
+                    if (adjacencies.equals("Angles")) adjacencies = "CA";
+                    else adjacencies = "C";     //fi enric
 
-                Mapa m = mF.getMapa(topologia, adjacencies, matrixHidato);
-                //he de ver si tiene solución
-                System.out.println(topologia+ " " + adjacencies);
-                UtilsMapaDecorator uMD = new UtilsMapaDecorator(m);
-                if (uMD.hidatoValido())
-                {
-                    //lo guardo
-                    ControladorMapa.saveMapa(m, nomMapa);
-                    JOptionPane.showMessageDialog(null, "El mapa ha sigut guardat amb èxit");
+                    Mapa m = mF.getMapa(topologia, adjacencies, matrixHidato);
+                    //he de ver si tiene solución
+                    System.out.println(topologia + " " + adjacencies);
+                    UtilsMapaDecorator uMD = new UtilsMapaDecorator(m);
+                    if (uMD.hidatoValido()) {
+                        //lo guardo
+                        ControladorMapa.saveMapa(m, nomMapa);
+                        JOptionPane.showMessageDialog(null, "El mapa ha sigut guardat amb èxit");
+                    }
+                    else JOptionPane.showMessageDialog(null, "El mapa proposat no té solució");
                 }
-                else JOptionPane.showMessageDialog(null, "El mapa proposat no té solució");
             }
         });
 
@@ -91,6 +93,7 @@ public class EditorMapa {
             @Override
             public void componentShown(ComponentEvent e) {
                 nextNumLabel.setText(numSelected);
+                numerosInserits = new Vector<>();
                 processParameters();
                 processGridEditor();
             }
@@ -140,12 +143,6 @@ public class EditorMapa {
         adjacencies = cM.getTipusAdjacencies();
         files = Integer.valueOf(cM.getNombreFiles());
         columnes = Integer.valueOf(cM.getNombreColumnes());
-
-        String[][] matrix = new String[files][columnes];
-        for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j) matrix[i][j] = "-";
-
-        GridEditorFactory fact = new GridEditorFactory();
-        gE = fact.getGridEditor(nomMapa, matrix, columnes, files, topologia);
     }
 
     private void processGridEditor() {
@@ -200,5 +197,18 @@ public class EditorMapa {
         String[][] matrix = new String[files][columnes];
         for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j) matrix[i][j] = gE.matrix[i][j].getText();
         return matrix;
+    }
+
+    private boolean controlCorrectesa()
+    {
+        for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j)
+        {
+            if (gE.matrix[i][j].equals("X"))
+            {
+                JOptionPane.showMessageDialog(null, "Hi ha caselles sense valor (X)");
+                return false;
+            }
+        }
+        return true;
     }
 }
