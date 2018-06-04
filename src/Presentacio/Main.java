@@ -21,7 +21,7 @@ public class Main {
     private MapesExistents mapesExistents;
     private Ranking ranking;
 
-    JFrame frame = new JFrame("Main demo");
+    static JFrame frame = new JFrame("Main demo");
     static JPanel panelCont = new JPanel();
     JPanel MainPanel;
     JPanel singUpPanel;
@@ -119,8 +119,8 @@ public class Main {
 
         frame.add(panelCont);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(500,375));
-        //frame.pack();
+        //frame.setMinimumSize(new Dimension(500,375));
+        frame.pack();
         frame.setVisible(true);
         sortirButton.addActionListener(new ActionListener() {
             @Override

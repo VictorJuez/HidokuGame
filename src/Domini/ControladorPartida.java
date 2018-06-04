@@ -14,6 +14,7 @@ public class ControladorPartida
 {
     private static String partidaEnCurso;
     private static HashMap<String, Partida> partidasMap = new HashMap<>();
+    private static HashMap<String, Partida> partidasUsuariActiu = new HashMap<>();
     private static ArrayList<String> partidasDisk = new ArrayList<>();
 
     private ControladorPartida() {}
@@ -28,13 +29,17 @@ public class ControladorPartida
     public static String getPartidaEnCurso() {
         return partidaEnCurso;
     }
+    public static String getUsuariPartida(String ID) {
+        Partida p = partidasMap.get(ID);
+        return p.getUsuari();
+    }
 
     public static Partida crearPartida(Mapa m, String usuari)
     {
         //crea una partida y la añade al hashmap de partidas existentes.
-        Partida p;
-        p = new Partida(m, usuari);
+        Partida p = new Partida(m, usuari);
         partidasMap.put(p.getID(), p);
+        //ControladorUsuari.addPartidaToUser(usuari, p.getID());
         return p;
     }
 
@@ -43,7 +48,7 @@ public class ControladorPartida
         Mapa mapaRandom = ControladorMapa.generarHidato();
         Partida p = new Partida(mapaRandom, usuari);
         partidasMap.put(p.getID(), p);
-        ControladorUsuari.addPartidaToUser(usuari, p.getID());
+        //ControladorUsuari.addPartidaToUser(usuari, p.getID());
         return p;
     }
 
@@ -58,11 +63,7 @@ public class ControladorPartida
 
     public static Partida getPartida(String ID) {
         if(partidasMap.get(ID) == null){
-            try {
-                return loadPartidaDisk(ID);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            return loadPartidaDisk(ID);
         }
         return partidasMap.get(ID);
     }
@@ -82,8 +83,13 @@ public class ControladorPartida
         ControladorUsuari.removePartidaToUser(p.getUsuari(), p.getID());
     }
 
-    private static Partida loadPartidaDisk(String ID) throws IOException {
-        Partida p = PartidaDAO.loadPartida(ID);
+    private static Partida loadPartidaDisk(String ID) {
+        Partida p = null;
+        try {
+            p = PartidaDAO.loadPartida(ID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         partidasMap.put(ID, p);
         return p;
     }
@@ -92,14 +98,13 @@ public class ControladorPartida
         partidasDisk = PartidaDAO.loadAllPartidas();
     }
 
-    public static void tableroLleno()
+    // funcion movida a PartidaS
+    /*public static void tableroLleno()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
         if (utilsMapa.hidatoValido())
         {
-            //aqui entra si el Hidato está bien resuelto
-            //String difiControladorUsuariltad = p.getMapaPartida().getDifiControladorUsuariltad();
             String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
             System.out.println("si es valid");
             int puntuacion = calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
@@ -108,7 +113,7 @@ public class ControladorPartida
             ControladorUsuari.insertarResultat(ControladorUsuari.getUsuari(userID), puntuacion);
             p.setPuntuacion(puntuacion);
         }
-    }
+    }*/
 
     //cada vez que haya que insertar un numero he de consultar interrogantes para saber si está la matriz llena
     public static boolean insertarNumero (int i, int j, int numero)
@@ -118,7 +123,7 @@ public class ControladorPartida
         b = p.insertarNumero(i, j, numero);
         p.actualizarContador();
         p.getMapaPartida().actualizaAdyacencias();
-        if (p.getCantidadInterrogantes() == 0) tableroLleno();
+        //if (p.getCantidadInterrogantes() == 0) tableroLleno();
         return b;
     }
 

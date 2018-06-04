@@ -50,12 +50,12 @@ public class PartidaS {
                 numberLabel.setText(String.valueOf(r.get(index)));
                 numberLabel.repaint();
                 //ControladorPartida.
-                mapaButton m = factory.getMapaButton(p.getMapaPartida().getColumnas(),  p.getMapaPartida().getFilas(),  p.getMapaPartida().getMatrix(),  p.getMapaPartida().getTipo());
-                int n =  p.getMapaPartida().getNumeros();
+                mapaButton m = factory.getMapaButton(p.getMapaPartida().getColumnas(), p.getMapaPartida().getFilas(), p.getMapaPartida().getMatrix(), p.getMapaPartida().getTipo());
+                int n = p.getMapaPartida().getNumeros();
                 int indexn = 0;
                 int indexi = n;
-                int interrogant =  p.getMapaPartida().getInterrogants();
-                System.out.println( p.getMapaPartida().getTipo());
+                int interrogant = p.getMapaPartida().getInterrogants();
+                System.out.println(p.getMapaPartida().getTipo());
                 for (int i = 0; i < m.getFiles(); i++) {
                     for (int j = 0; j < m.getColumnes(); j++) {
                         mapa.add(m.matrix[i][j]);
@@ -74,7 +74,7 @@ public class PartidaS {
                         m.matrix[i][j].addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
-                                JButton myButton = (JButton)e.getSource();
+                                JButton myButton = (JButton) e.getSource();
                                 String s = myButton.getName();
                                 String parts[] = s.split(",");
                                 int fila = Integer.valueOf(parts[0]);
@@ -86,22 +86,21 @@ public class PartidaS {
                                         myButton.setText(numberLabel.getText());
                                         int x = Integer.valueOf(numberLabel.getText());
 
-                                        if (index < r.size()-1) {
+                                        if (index < r.size() - 1) {
                                             index++;
                                             numberLabel.setText(String.valueOf(r.get(index)));
                                         }
                                     }
-                                }
-                                else{
+                                } else {
                                     /*if (ControladorPartida.reemplazarNumero(fila, columna, v1)) {
                                         myButton.setText(numberLabel.getText());
                                         int x = Integer.valueOf(numberLabel.getText());
                                         x++;
                                         numberLabel.setText(String.valueOf(x));
                                     }*/
-                                    if (ControladorPartida.borrarNumero(fila,columna)){
+                                    if (ControladorPartida.borrarNumero(fila, columna)) {
                                         myButton.setText("?");
-                                        if (index > 0){
+                                        if (index > 0) {
                                             index--;
                                             numberLabel.setText(String.valueOf(r.get(index)));
                                         }
@@ -128,7 +127,7 @@ public class PartidaS {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (index > 0){
+                if (index > 0) {
                     index--;
                     numberLabel.setText(String.valueOf(r.get(index)));
                 }
@@ -138,7 +137,7 @@ public class PartidaS {
         button5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (index < r.size() - 1){
+                if (index < r.size() - 1) {
                     index++;
                     numberLabel.setText(String.valueOf(r.get(index)));
                 }
@@ -147,14 +146,40 @@ public class PartidaS {
         comprovar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Mapa mapaa = p.getMapaPartida();
+                /*Mapa mapaa = p.getMapaPartida();
                 UtilsMapaDecorator mapa1 = new UtilsMapaDecorator(mapaa);
                 if (mapa1.hidatoValido()) Solucio.setText("té solucio");
                 else Solucio.setText("no te solucio");
                 System.out.println(Solucio.getText());
+                */
+
+                JOptionPane finalizar = new JOptionPane();
+                if (p.getCantidadInterrogantes() == 0) {
+                    UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
+                    if (utilsMapa.hidatoValido()) {
+                        String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
+                        System.out.println("si es valid");
+                        int puntuacion = ControladorPartida.calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
+                        //commit de la puntuacion en resultado
+                        String userID = ControladorUsuari.getUsuariActiu();
+                        boolean b = ControladorUsuari.insertarResultat(ControladorUsuari.getUsuari(userID), puntuacion);
+                        if (b) finalizar.showMessageDialog(null, "Nou record personal!\n" +
+                                "Puntuacio: " + puntuacion + "\n" +
+                                "Temps: " + p.getReloj());
+                        else finalizar.showMessageDialog(null,
+                                "Puntuacio: " + puntuacion + "\n" +
+                                        "Temps: " + p.getReloj());
+                        p.setPuntuacion(puntuacion);
+                        Main.showRanking();
+                    } else {
+                        finalizar.showMessageDialog(null, "La solucio es incorrecte! torna-ho a provar");
+                    }
+
+                }
 
             }
         });
+
 
         pistaButton.addActionListener(new ActionListener() {
             @Override
@@ -163,7 +188,23 @@ public class PartidaS {
                 UtilsMapaDecorator mapa1 = new UtilsMapaDecorator(mapaa);
                 //if (mapa1.hidatoValido()) Solucio.setText("té solucio");
                 //else Solucio.setText("no te solucio");
-                System.out.println("es una pista"+mapa1.pista());
+                System.out.println("es una pista" + mapa1.pista());
+            }
+        });
+
+
+        salirGuardarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] buttons = { "Si", "No"};
+                int returnValue = JOptionPane.showOptionDialog(null, "Vols guardar la partida?", "Guardar i sortir",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[0]);
+                System.out.println(returnValue);
+
+                if(returnValue == 0){
+                    ControladorPartida.savePartida(p);
+                }
+                Main.showMenu();
 
             }
         });
