@@ -24,7 +24,7 @@ public abstract class Mapa {
 
 
 
-    protected void putValorV(int value){
+    /*protected void putValorV(int value){
         numerosExistents.add(value);
         sort(numerosExistents);
         numerosRestants.remove(value);
@@ -32,9 +32,9 @@ public abstract class Mapa {
     protected void borrarV (int value){
         numerosRestants.add(value);
         numerosExistents.remove(value);
-    }
+    }*/
 
-    protected Vector <adyacencias> tablaAD = new Vector<>();
+    public Vector <adyacencias> tablaAD = new Vector<>();
     public void setValorTabla(int pos, String valor){
         tablaAD.get(pos).setValorAdyacencia(valor);
     }

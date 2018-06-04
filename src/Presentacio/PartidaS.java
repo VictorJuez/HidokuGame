@@ -156,6 +156,17 @@ public class PartidaS {
             }
         });
 
+        pistaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Mapa mapaa = p.getMapaPartida();
+                UtilsMapaDecorator mapa1 = new UtilsMapaDecorator(mapaa);
+                //if (mapa1.hidatoValido()) Solucio.setText("té solucio");
+                //else Solucio.setText("no te solucio");
+                System.out.println("es una pista"+mapa1.pista());
+
+            }
+        });
     }
 
     public JPanel getPanelPartida() {

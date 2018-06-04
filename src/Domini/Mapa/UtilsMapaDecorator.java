@@ -5,7 +5,7 @@ import java.util.Vector;
 public class UtilsMapaDecorator extends MapaDecorator {
 
     protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
-    int last = -1;
+    private int last = -1;
     public UtilsMapaDecorator(Mapa decoratedMap) {
         super(decoratedMap);
     }
@@ -17,21 +17,25 @@ public class UtilsMapaDecorator extends MapaDecorator {
     //retorna la posicio en la tablaAD d'on es troba el seguent element
     public int pista(){
         backtrackingResolucio(this.decoratedMap.getNumerosExistents());
-        if (last == -1) return -1; //no tiene solucion, reacerlo entero
-        Integer valor = Integer.valueOf(decoratedMap.tablaAD.get(last).getValor());
-        valor++;
-        String val = valor.toString();
-        boolean trobat = false;
-        for(int i = 0; i < decoratedMap.tablaAD.get(last).getAd().size(); i++){
-            String anterior = decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).getValor();
-            decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).setValorAdyacencia(val);
-            decoratedMap.putValorV(valor);
-            trobat = backtrackingResolucio(decoratedMap.getNumerosExistents());
-            decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).setValorAdyacencia(anterior);
-            decoratedMap.borrarV(valor);
-            if(trobat) return decoratedMap.tablaAD.get(last).getAd().get(i);
-        }
-        return -1;
+        /*System.out.println("casella amb valor: "+decoratedMap.tablaAD.get(last).getValor());
+        if (last != -1) {
+            Integer valor = Integer.valueOf(decoratedMap.tablaAD.get(last).getValor());
+            valor++;
+            String val = valor.toString();
+            boolean trobat = false;
+            for (int i = 0; i < decoratedMap.tablaAD.get(last).getAd().size(); i++) {
+                String anterior = decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).getValor();
+                decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).setValorAdyacencia(val);
+                decoratedMap.putValorV(valor);
+                trobat = backtrackingResolucio(decoratedMap.getNumerosExistents());
+                decoratedMap.tablaAD.get(decoratedMap.tablaAD.get(last).getAd().get(i)).setValorAdyacencia(anterior);
+                decoratedMap.borrarV(valor);
+                if (trobat) return decoratedMap.tablaAD.get(last).getAd().get(i);
+            }
+        }*/
+        if (last != -1) System.out.println(decoratedMap.tablaAD.get(last).getX() +" , "+decoratedMap.tablaAD.get(last).getY());
+        else System.out.println(-1);
+        return last;
     }
 
     protected Integer busca(String valor){       //et retorna la posicio don es troba el valor a la taula d'adjacencies
@@ -113,11 +117,14 @@ public class UtilsMapaDecorator extends MapaDecorator {
                 int k = 0;
                 for (; k < franjes.get(franja).get(i).size(); k++) {
                     decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
+                    if (last == -1 && decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).getValor().equals("?")) last = franjes.get(franja).get(i).get(k);
+                    System.out.println("last en fase beta: "+ last);
                 }
                 b = inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
                 //if (b && last == -1) last = buscarLast (v, franjes.get(franja).get(i));
                 for (int l = 0; l < franjes.get(franja).get(i).size(); l++) {
                     decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(l)).visitat = false;
+                    last = -1;
                 }
             }
         }
