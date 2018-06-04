@@ -227,11 +227,10 @@ public class Partida
         return b;
     }
 
-    public void consultarPista ()
-    {
+    public Integer[] consultarPista () {
         ++pistasConsultadas;
         UtilsMapaDecorator umd = new UtilsMapaDecorator(this.mapaPartida);
-        int resultatPista = umd.pista();
-        if (resultatPista == -1) System.out.println("Hay algún número mal puesto");
+        Integer[] resultatPista = umd.pista();
+        return resultatPista;
     }
 }
