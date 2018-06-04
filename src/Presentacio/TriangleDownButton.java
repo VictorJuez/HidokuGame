@@ -23,10 +23,10 @@ public class TriangleDownButton extends JButton {
     }
 
     public void paintComponent(Graphics g) {
-        setForeground(Color.BLUE);
+        //setForeground(Color.BLUE);
         if(getText().equals("*"))((Graphics2D)g).fill(triangle);
         else if(!getText().equals("?")) {
-            setForeground(Color.RED);
+            //setForeground(Color.RED);
 
         }
         int x = 30;

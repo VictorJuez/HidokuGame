@@ -11,6 +11,8 @@ import sun.plugin2.os.windows.SECURITY_ATTRIBUTES;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,7 +26,6 @@ public class MapesExistents {
     private JButton CrearPartidaButton;
 
     public MapesExistents() {
-        setUpMapesExistentsBox();
         EnrereButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +49,13 @@ public class MapesExistents {
                 String IDPartida = ControladorPartida.crearPartida(m, ControladorUsuari.getUsuariActiu()).getID();
                 ControladorPartida.seleccionarPartida(IDPartida);
                 Main.showPartida();
+            }
+        });
+        MapesExistentsPanel.addComponentListener(new ComponentAdapter() {   //fet per enric
+            @Override
+            public void componentShown(ComponentEvent e) {
+                setUpMapesExistentsBox();
+                super.componentShown(e);
             }
         });
     }

@@ -142,10 +142,10 @@ public class ControladorPartida
         return p.reemplazarNumero(i, j, numero);
     }
 
-    public static void consultarPista ()
+    public static Integer[] consultarPista ()
     {
         Partida p = partidasMap.get(partidaEnCurso);
-        p.consultarPista();
+        return p.consultarPista();
     }
 
     public static int consultarTiempo ()

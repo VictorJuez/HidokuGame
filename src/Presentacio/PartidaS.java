@@ -8,7 +8,9 @@ import Domini.Mapa.MapaDecorator;
 import Domini.Mapa.MapaFactory;
 import Domini.Mapa.UtilsMapaDecorator;
 import Domini.Partida;
+import com.sun.prism.Graphics;
 
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,6 +33,7 @@ public class PartidaS {
     private JLabel Solucio;
     private Partida p;
     int index = 0;
+
     private Vector<Integer> r = new Vector<>();
 
     public PartidaS() {
@@ -41,13 +44,13 @@ public class PartidaS {
                 BorderLayout grid = new BorderLayout();
                 mapa.setLayout(grid);
                 mapaFactoryButton factory = new mapaFactoryButton();
-
                 String s = ControladorUsuari.getUsuariActiu();
                 String pcurso = ControladorPartida.getPartidaEnCurso();
                 p = ControladorPartida.getPartida(pcurso);
                 r = p.getMapaPartida().getNumerosRestants();
                 System.out.println(r);
-                numberLabel.setText(String.valueOf(r.get(index)));
+                if (r.size() > 0) numberLabel.setText(String.valueOf(r.get(index)));
+                else numberLabel.setText("0");
                 numberLabel.repaint();
                 //ControladorPartida.
                 mapaButton m = factory.getMapaButton(p.getMapaPartida().getColumnas(), p.getMapaPartida().getFilas(), p.getMapaPartida().getMatrix(), p.getMapaPartida().getTipo());
@@ -64,13 +67,13 @@ public class PartidaS {
                 //aixo es per poder pintar per sobre els que tenen numeros per defecte
                 for (int i = 0; i < m.getFiles(); i++) {
                     for (int j = 0; j < m.getColumnes(); j++) {
-                        if (!m.matrix[i][j].getText().equals("?") && !m.matrix[i][j].getText().equals("#") && !m.matrix[i][j].getText().equals("*")) {
+                        /*if (!m.matrix[i][j].getText().equals("?") && !m.matrix[i][j].getText().equals("#") && !m.matrix[i][j].getText().equals("*")) {
                             mapa.add(m.matrix[i][j], indexn);
                             indexn++;
                         } else {
                             mapa.add(m.matrix[i][j], indexi);
                             indexi++;
-                        }
+                        }*/
                         m.matrix[i][j].addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -92,12 +95,6 @@ public class PartidaS {
                                         }
                                     }
                                 } else {
-                                    /*if (ControladorPartida.reemplazarNumero(fila, columna, v1)) {
-                                        myButton.setText(numberLabel.getText());
-                                        int x = Integer.valueOf(numberLabel.getText());
-                                        x++;
-                                        numberLabel.setText(String.valueOf(x));
-                                    }*/
                                     if (ControladorPartida.borrarNumero(fila, columna)) {
                                         myButton.setText("?");
                                         if (index > 0) {
@@ -184,11 +181,16 @@ public class PartidaS {
         pistaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Mapa mapaa = p.getMapaPartida();
-                UtilsMapaDecorator mapa1 = new UtilsMapaDecorator(mapaa);
-                //if (mapa1.hidatoValido()) Solucio.setText("té solucio");
-                //else Solucio.setText("no te solucio");
-                System.out.println("es una pista" + mapa1.pista());
+                Integer i[];
+                i = ControladorPartida.consultarPista();
+                if(i[0] != -1){
+                    int x = p.getMapaPartida().getColumnas();
+                    int y = p.getMapaPartida().getFilas();
+                    JButton b = (JButton) mapa.getComponent(i[0]*y+i[1]);
+                    b.setForeground(Color.GREEN);
+                    b.repaint();
+                }
+                System.out.println(i[0]+" , "+ i[1]);
             }
         });
 

@@ -59,8 +59,23 @@ public class EditorMapa {
             {
                 String[][] matrixHidato = getMatrixHidato();
                 MapaFactory mF = new MapaFactory();
+                switch (topologia) {        //enric fins
+                    case "Quadrats":
+                        topologia = "Q";
+                        break;
+                    case "Triangles":
+                        topologia = "T";
+                        break;
+                    case "Hexagons":
+                        topologia = "H";
+                        break;
+                }
+                if (adjacencies.equals("Angles")) adjacencies = "CA";
+                else adjacencies = "C";     //fi enric
+
                 Mapa m = mF.getMapa(topologia, adjacencies, matrixHidato);
                 //he de ver si tiene solución
+                System.out.println(topologia+ " " + adjacencies);
                 UtilsMapaDecorator uMD = new UtilsMapaDecorator(m);
                 if (uMD.hidatoValido())
                 {
