@@ -58,7 +58,6 @@ public class EditorMapa {
             public void actionPerformed(ActionEvent e)
             {
                 String[][] matrixHidato = getMatrixHidato();
-                for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j) System.out.println(matrixHidato[i][j]);
                 MapaFactory mF = new MapaFactory();
                 Mapa m = mF.getMapa(topologia, adjacencies, matrixHidato);
                 //he de ver si tiene solución
