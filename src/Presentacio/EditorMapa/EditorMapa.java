@@ -144,7 +144,7 @@ public class EditorMapa {
             for (int j = 0; j < columnes; ++j) {
                 matrix[i][j] = "X";
             }
-        gE = geF.getGridEditor(nomMapa, matrix, columnes, files, topologia);
+        gE = geF.getGridEditor(nomMapa, matrix, files, columnes, topologia);
 
         for (int i = 0; i < files; ++i)
             for (int j = 0; j < columnes; ++j) {
