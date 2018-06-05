@@ -22,7 +22,9 @@ public class TableroHexagonal extends Mapa {
         tipo = "H";
         angulos = "C";
     }
-
+    /**
+     * Calcula la tabla de adyacencias del mapa tablaAD
+     */
     @Override
     protected void calculoAdyacencias() {
         Integer[] pos = new Integer[2];

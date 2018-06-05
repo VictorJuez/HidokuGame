@@ -22,22 +22,11 @@ public abstract class Mapa {
     protected boolean solucio;
     String dificultat;
 
-
-
-    /*protected void putValorV(int value){
-        numerosExistents.add(value);
-        sort(numerosExistents);
-        numerosRestants.remove(value);
-    }
-    protected void borrarV (int value){
-        numerosRestants.add(value);
-        numerosExistents.remove(value);
-    }*/
-
     public Vector <adyacencias> tablaAD = new Vector<>();
-    public void setValorTabla(int pos, String valor){
-        tablaAD.get(pos).setValorAdyacencia(valor);
-    }
+
+    /**
+     * Calcula la tabla de adyacencias del mapa tablaAD
+     */
     protected abstract void calculoAdyacencias();
 
     public Mapa(String[][] matrix) {
@@ -59,10 +48,13 @@ public abstract class Mapa {
         this.solucio = false;
     }
 
+    /**
+     * Actualiza la tabla de adyacencias
+     */
     public void actualizaAdyacencias(){
         tablaAD.removeAllElements();
         inicialitzaTabla();
-       calculoAdyacencias();
+        calculoAdyacencias();
     }
 
     public Mapa(String ID, String name, String[][] matrix){
@@ -141,6 +133,10 @@ public abstract class Mapa {
         return this.ID.equals(m.getID());
     }
 
+    /**
+     * Funcion que calcula la dificultad en funcion de las adyacencias y los diferentes caminos que habra en el hidato. Un camino es un recorrido que va de un numero a otro numero que ya estaba puesto en el mapa original
+     * @return Devuelve un String con la dificultad
+     */
     private String calculoDificultat(){
         int ad = 0;
         for (int i = 0; i < tablaAD.size(); i++){
@@ -164,6 +160,11 @@ public abstract class Mapa {
         calculoAdyacencias();
         this.dificultat = calculoDificultat();
     }
+
+    /**
+     * Calcula los numeros que estaban puestos en el mapa
+     * @return Retorna un vector de enteros con esos numeros
+     */
     public Vector<Integer> getNumerosExistents(){
         Vector<Integer> existents = new Vector<>();   //numeros que existeixen a la matrix
         for (int i = 0; i < filas; i++) {
@@ -177,7 +178,10 @@ public abstract class Mapa {
         return existents;
     }
 
-
+    /**
+     * Calcula cuantos interrogantes hay en el mapa
+     * @return Devuelve un entero que indica la cantidad de interrogantes que hay
+     */
     public int getInterrogants(){
         int interrogants = 0;
         for (int i = 0; i < filas; i++) {
@@ -191,8 +195,6 @@ public abstract class Mapa {
     }
 
     public abstract Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col);
-    //public abstract boolean posicioCorrecte(int x, int y, String[][] A, int toInsert, Vector<Integer> v);
-
     protected boolean isInteger(String s) {
         try
         {
@@ -211,6 +213,11 @@ public abstract class Mapa {
         }
         return false;
     }
+
+    /**
+     * Calcula los numeros que falta para añadir en el mapa
+     * @return  Devuelve un Vector de Integers con esos numeros
+     */
     public Vector<Integer> getNumerosRestants(){   //aixo es podria guardar tot com si fos un atribut
         if(numerosExistents == null) numerosExistents = getNumerosExistents();
         Vector<Integer> total = new Vector<>();
@@ -220,6 +227,9 @@ public abstract class Mapa {
         return total;
     }
 
+    /**
+     * Inicializa la tabla de adyacencias del mapa
+     */
     void inicialitzaTabla(){
         for (int i = 0; i < filas; i++){
             for (int j = 0; j < columnas; j++){

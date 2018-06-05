@@ -10,12 +10,20 @@ public class UtilsMapaDecorator extends MapaDecorator {
         super(decoratedMap);
     }
 
+    /**
+     * Pre: en el hidato tienen que estar puestos el primer y ultimo numero del camino, sino no lo resolvera
+     * Calcula si el Hidato de un mapa tiene solucion
+     * @return Devuelve true si tiene solucion, en caso contrario devuelve false
+     */
     public boolean hidatoValido(){
-        System.out.println(decoratedMap.getNumerosExistents().size());
         decoratedMap.solucio = backtrackingResolucio(decoratedMap.getNumerosExistents());
         return decoratedMap.solucio;
     }
-    //retorna la posicio en la tablaAD d'on es troba el seguent element
+
+    /**
+     * Si el mapa esta en un estado de posible solucion devuelve que casilla es la siguiente a poner, en caso contrario devuelve una casilla -1, -1
+     * @return  Devuelve dos enteros que indican que fila y columna va el siguiente numero
+     */
     public Integer[] pista(){
         Integer[] p = new Integer[2];
         backtrackingResolucio(this.decoratedMap.getNumerosExistents());
@@ -30,6 +38,11 @@ public class UtilsMapaDecorator extends MapaDecorator {
         return p;
     }
 
+    /**
+     * Busca en que posicion de la tabla de adyacencias se encuentra un valor, en caso de no existir devuelve -1
+     * @param valor
+     * @return  Devuelve un entero que indica en que posicio de la tabla de adyacencias se encuentra la casilla con el valor que pasamos como parametro
+     */
     protected Integer busca(String valor){       //et retorna la posicio don es troba el valor a la taula d'adjacencies
         for (int i = 0; i < decoratedMap.tablaAD.size(); i++){
             if(decoratedMap.tablaAD.get(i).getValor().equals(valor)){
@@ -39,7 +52,12 @@ public class UtilsMapaDecorator extends MapaDecorator {
         return -1;
     }
 
-    private boolean backtrackingResolucio(Vector v) {   //si v esta buid no funciona!!!!!!!!
+    /**
+     * Funcion que calcula si el mapa en cuestion tiene solucion, si la tiene devuelve true, sino false
+     * @param v
+     * @return Devuelve un booleano que indica si tiene solucion
+     */
+    private boolean backtrackingResolucio(Vector v) {
         return inner_backtrackingResolucio(v, 0, 0, 0);
     }
 
@@ -80,6 +98,15 @@ public class UtilsMapaDecorator extends MapaDecorator {
         }
 
     }
+
+    /**
+     * Funcion interna al backtracking que ayuda a saber si tiene solucion o no
+     * @param v
+     * @param posicio
+     * @param total
+     * @param franja
+     * @return  Devuelve true en caso de haber solucion, sino devuelve false
+     */
     private boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total, Integer franja){
         boolean b = false;
         if (total == decoratedMap.getInterrogants() + decoratedMap.getNumeros()) return true;

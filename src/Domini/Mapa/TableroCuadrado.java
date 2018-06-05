@@ -22,7 +22,9 @@ public class TableroCuadrado extends Mapa {
         tipo = "Q";
         angulos = "C";
     }
-
+    /**
+     * Calcula la tabla de adyacencias del mapa tablaAD
+     */
     @Override
     protected void calculoAdyacencias() {
         Integer[] pos = new Integer[2];
