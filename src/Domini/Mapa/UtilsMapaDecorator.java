@@ -61,12 +61,26 @@ public class UtilsMapaDecorator extends MapaDecorator {
         return inner_backtrackingResolucio(v, 0, 0, 0);
     }
 
+    /**
+     * Calcula la distancia que hay entre dos numeros consecutivos que ya estan en el hidato
+     * @param posicio
+     * @param v
+     * @return Devuelve un entero que indica la distancia entre dos valores consecutivos
+     */
     private Integer calculDistancia(Integer posicio, Vector<Integer> v){
         if (posicio == 0) return 0;
         else return v.get(posicio) - v.get(posicio - 1) - 1;
     }
 
-
+    /**
+     * Funcion que calculo todos los posibles caminos entre los numeros que se encuentran en el mapa y los guarda en el vector franjes
+     * @param posicio
+     * @param distancia
+     * @param v
+     * @param cami
+     * @param indexAD
+     * @param franja
+     */
 
     private void calculCamins(Integer posicio, Integer distancia, Vector v, Vector cami, Integer indexAD, Integer franja) {//posicio es la posicio del vector dexistens
         if(distancia == 0){
