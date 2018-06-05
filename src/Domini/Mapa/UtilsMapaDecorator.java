@@ -6,6 +6,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
 
     protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
     private int last = -1;
+
     public UtilsMapaDecorator(Mapa decoratedMap) {
         super(decoratedMap);
     }
@@ -151,5 +152,22 @@ public class UtilsMapaDecorator extends MapaDecorator {
         }
 
         return b;
+    }
+
+    /**
+     * Devuelve si un hidato tiene el primer y ultimo numero puestos
+     * @return devyelve true si estan los dos numeros, en caso contrario devulve false
+     */
+    public boolean principioFin(){
+        Vector<adyacencias> v = decoratedMap.getTablaAD();
+        boolean primer = false;
+        boolean ultim = false;
+        int total = v.size();
+        String fi = String.valueOf(total);
+        for (int i = 0; i < total; i++){
+            if (v.get(i).getValor().equals("1"))primer = true;
+            else if(v.get(i).getValor().equals(fi)) ultim = true;
+        }
+        return primer & ultim;
     }
 }
