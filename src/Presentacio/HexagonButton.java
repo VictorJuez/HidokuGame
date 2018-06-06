@@ -21,12 +21,32 @@ public class HexagonButton extends JButton {
     }
 
     public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D)g;
+        setForeground(Color.BLACK);
+        if(getText().equals("*")){
+            setBackground(Color.GRAY);
+            g2.setColor(getBackground());
+            g2.fill(hexagon);
+            g2.setPaint(getForeground());
+            g2.draw(hexagon);
 
-        setForeground(Color.BLUE);
-        if(getText().equals("*"))((Graphics2D)g).fill(hexagon);
-        else if(!getText().equals("?"))setForeground(Color.RED);
-        int x = 30;
-        g.drawString(getText(), x - getText().length() * 3, (60 + 4) / 2);
+        }
+        else if(!getText().equals("?")) {
+            setBackground(Color.ORANGE);
+            int x = 30;
+            g2.setColor(getBackground());
+            g2.fill(hexagon);
+            g2.setPaint(getForeground());
+            g2.draw(hexagon);
+            g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
+        }
+        else{
+            setBackground(Color.WHITE);
+            g2.setColor(getBackground());
+            g2.fill(hexagon);
+            g2.setPaint(getForeground());
+            g2.draw(hexagon);
+        }
     }
 
     public Dimension getPreferredSize() {

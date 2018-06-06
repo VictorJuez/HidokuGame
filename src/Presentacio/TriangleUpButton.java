@@ -24,14 +24,32 @@ public class TriangleUpButton extends JButton {
     }
 
     public void paintComponent(Graphics g) {
-        setForeground(Color.BLUE);
-        if(getText().equals("*"))((Graphics2D)g).fill(triangle);
-        else if(!getText().equals("?")) {
-            setForeground(Color.RED);
+        Graphics2D g2 = (Graphics2D)g;
+        setForeground(Color.BLACK);
+        if(getText().equals("*")){
+            setBackground(Color.GRAY);
+            g2.setColor(getBackground());
+            g2.fill(triangle);
+            g2.setPaint(getForeground());
+            g2.draw(triangle);
+
         }
-        else repaint();
-        int x = 30;
-        g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
+        else if(!getText().equals("?")) {
+            setBackground(Color.ORANGE);
+            int x = 30;
+            g2.setColor(getBackground());
+            g2.fill(triangle);
+            g2.setPaint(getForeground());
+            g2.draw(triangle);
+            g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
+        }
+        else{
+            setBackground(Color.WHITE);
+            g2.setColor(getBackground());
+            g2.fill(triangle);
+            g2.setPaint(getForeground());
+            g2.draw(triangle);
+        }
     }
 
     public Dimension getPreferredSize() {

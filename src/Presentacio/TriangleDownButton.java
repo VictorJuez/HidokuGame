@@ -1,7 +1,10 @@
 package Presentacio;
 
 import java.awt.*;
-import javax.swing.JButton;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
+import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 
@@ -19,18 +22,42 @@ public class TriangleDownButton extends JButton {
     }
 
     public void paintBorder(Graphics g) {
-        ((Graphics2D) g).draw(triangle);
+        //((Graphics2D) g).draw(triangle);
+        /*Border B;
+        Color C = (Color.ORANGE);
+        Border empty = BorderFactory.createEmptyBorder();
+        Border full = BorderFactory.createLineBorder(C, 10);
+        B = BorderFactory.createCompoundBorder(empty, full);
+        setBorder(B);*/
     }
 
     public void paintComponent(Graphics g) {
-        //setForeground(Color.BLUE);
-        if(getText().equals("*"))((Graphics2D)g).fill(triangle);
-        else if(!getText().equals("?")) {
-            //setForeground(Color.RED);
+        Graphics2D g2 = (Graphics2D)g;
+        setForeground(Color.BLACK);
+        if(getText().equals("*")){
+            setBackground(Color.GRAY);
+            g2.setColor(getBackground());
+            g2.fill(triangle);
+            g2.setPaint(getForeground());
+            g2.draw(triangle);
 
         }
-        int x = 30;
-        g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
+        else if(!getText().equals("?")) {
+            setBackground(Color.ORANGE);
+            int x = 30;
+            g2.setColor(getBackground());
+            g2.fill(triangle);
+            g2.setPaint(getForeground());
+            g2.draw(triangle);
+            g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
+        }
+        else{
+            setBackground(Color.WHITE);
+            g2.setColor(getBackground());
+            g2.fill(triangle);
+            g2.setPaint(getForeground());
+            g2.draw(triangle);
+        }
     }
 
     public Dimension getPreferredSize() {
