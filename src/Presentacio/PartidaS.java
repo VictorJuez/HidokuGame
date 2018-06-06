@@ -55,9 +55,6 @@ public class PartidaS {
                 //ControladorPartida.
                 mapaButton m = factory.getMapaButton(p.getMapaPartida().getColumnas(), p.getMapaPartida().getFilas(), p.getMapaPartida().getMatrix(), p.getMapaPartida().getTipo());
                 int n = p.getMapaPartida().getNumeros();
-                int indexn = 0;
-                int indexi = n;
-                int interrogant = p.getMapaPartida().getInterrogants();
                 for (int i = 0; i < m.getFiles(); i++) {
                     for (int j = 0; j < m.getColumnes(); j++) {
                         mapa.add(m.matrix[i][j]);
