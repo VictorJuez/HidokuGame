@@ -40,7 +40,7 @@ public class PartidaS {
         PanelPartida.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                mapa.removeAll();
+                //mapa.removeAll();
                 BorderLayout grid = new BorderLayout();
                 mapa.setLayout(grid);
                 mapaFactoryButton factory = new mapaFactoryButton();
@@ -58,7 +58,6 @@ public class PartidaS {
                 int indexn = 0;
                 int indexi = n;
                 int interrogant = p.getMapaPartida().getInterrogants();
-                System.out.println(p.getMapaPartida().getTipo());
                 for (int i = 0; i < m.getFiles(); i++) {
                     for (int j = 0; j < m.getColumnes(); j++) {
                         mapa.add(m.matrix[i][j]);
@@ -67,13 +66,7 @@ public class PartidaS {
                 //aixo es per poder pintar per sobre els que tenen numeros per defecte
                 for (int i = 0; i < m.getFiles(); i++) {
                     for (int j = 0; j < m.getColumnes(); j++) {
-                        /*if (!m.matrix[i][j].getText().equals("?") && !m.matrix[i][j].getText().equals("#") && !m.matrix[i][j].getText().equals("*")) {
-                            mapa.add(m.matrix[i][j], indexn);
-                            indexn++;
-                        } else {
-                            mapa.add(m.matrix[i][j], indexi);
-                            indexi++;
-                        }*/
+                        mapa.add(m.matrix[i][j]);
                         m.matrix[i][j].addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e) {
@@ -143,12 +136,6 @@ public class PartidaS {
         comprovar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*Mapa mapaa = p.getMapaPartida();
-                UtilsMapaDecorator mapa1 = new UtilsMapaDecorator(mapaa);
-                if (mapa1.hidatoValido()) Solucio.setText("té solucio");
-                else Solucio.setText("no te solucio");
-                System.out.println(Solucio.getText());
-                */
 
                 JOptionPane finalizar = new JOptionPane();
                 if (p.getCantidadInterrogantes() == 0) {

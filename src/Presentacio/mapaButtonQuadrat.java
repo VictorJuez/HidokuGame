@@ -18,7 +18,10 @@ public class mapaButtonQuadrat extends mapaButton {
                 t.setBounds(60 * j, 60 * i, 65, 65);
                 t.setText(m[i][j]);
                 if(m[i][j].equals("#"))t.setVisible(false);
-                else t.setVisible(true);
+                else{
+                    t.setVisible(true);
+                    if (!m[i][j].equals("?")) t.setModificable(false);
+                }
                 t.setName(i + "," + j);
                 matrix[i][j] = t;
             }

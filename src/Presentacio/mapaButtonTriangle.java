@@ -21,7 +21,10 @@ public class mapaButtonTriangle extends mapaButton {
                     t.setText(m[i][j]);
                     t.setBounds(30 * j, 50 * i, 60, 51);
                     if(m[i][j].equals("#"))t.setVisible(false);
-                    else t.setVisible(true);
+                    else{
+                        t.setVisible(true);
+                        if (!m[i][j].equals("?")) t.setModificable(false);
+                    }
                     t.setName(i + "," + j);
                     matrix[i][j] = t;
                 }
@@ -31,8 +34,10 @@ public class mapaButtonTriangle extends mapaButton {
                     t.setText(m[i][j]);
                     t.setBounds(30 * j, 50 * i, 60, 51);
                     if(m[i][j].equals("#"))t.setVisible(false);
-                    else t.setVisible(true);
-                    t.setText(m[i][j]);
+                    else{
+                        t.setVisible(true);
+                        if (!m[i][j].equals("?")) t.setModificable(false);
+                    }
                     t.setName(i + "," + j);
                     matrix[i][j] = t;
                 }

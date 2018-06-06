@@ -12,6 +12,12 @@ public class TriangleDownButton extends JButton {
     private Shape triangle = createTriangle();
     int fila;
     int columna;
+    private boolean modificable = true;
+
+    public boolean isModificable(){return modificable;}
+
+    public void setModificable(boolean b){this.modificable = b;}
+
 
     public void setFila(int fila) {
         this.fila = fila;
@@ -22,18 +28,13 @@ public class TriangleDownButton extends JButton {
     }
 
     public void paintBorder(Graphics g) {
-        //((Graphics2D) g).draw(triangle);
-        /*Border B;
-        Color C = (Color.ORANGE);
-        Border empty = BorderFactory.createEmptyBorder();
-        Border full = BorderFactory.createLineBorder(C, 10);
-        B = BorderFactory.createCompoundBorder(empty, full);
-        setBorder(B);*/
+
     }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         setForeground(Color.BLACK);
+        int x = 30;
         if(getText().equals("*")){
             setBackground(Color.GRAY);
             g2.setColor(getBackground());
@@ -42,9 +43,8 @@ public class TriangleDownButton extends JButton {
             g2.draw(triangle);
 
         }
-        else if(!getText().equals("?")) {
+        else if(!getText().equals("?") && !modificable) {
             setBackground(Color.ORANGE);
-            int x = 30;
             g2.setColor(getBackground());
             g2.fill(triangle);
             g2.setPaint(getForeground());
@@ -57,6 +57,7 @@ public class TriangleDownButton extends JButton {
             g2.fill(triangle);
             g2.setPaint(getForeground());
             g2.draw(triangle);
+            if (!getText().equals("?")) g.drawString(getText(), x - getText().length() * 3, (50 + 4) / 2);
         }
     }
 

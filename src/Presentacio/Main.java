@@ -135,6 +135,7 @@ public class Main {
         cl.show(panelCont, "main");
     }
 
+
     public static void showNovaPartida1(){cl.show(panelCont, "Nova Partida");}
 
     public static void showJugar(){cl.show(panelCont, "Jugar");}
