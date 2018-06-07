@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////
+////////PROGRAMAT PER MATHIAS BERTORELLI ARGIBAY////////
+////////////////////////////////////////////////////////
 package Presentacio.EditorMapa;
 
 import Dades.MapaDAO;
@@ -46,6 +49,7 @@ public class EditorMapa {
     private JLabel nextNumLabel;
     private JButton nextNumberButton;
     private JButton prevNumberButton;
+    private JButton numberButton;
 
     public EditorMapa() {
         enrereButton.addActionListener(new ActionListener() {
@@ -98,6 +102,7 @@ public class EditorMapa {
             public void componentShown(ComponentEvent e) {
                 nextNumLabel.setText(numSelected);
                 numerosInserits = new Vector<>();
+                charSelected = String.valueOf(1);
                 processParameters();
                 processGridEditor();
             }
@@ -138,6 +143,12 @@ public class EditorMapa {
                 charSelected = String.valueOf(index);
             }
         });
+        numberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                charSelected = String.valueOf(index);
+            }
+        });
     }
 
     //recoge los datos marcados por la anterior pantalla (CreadorMapa) y instancia el GridEditor
@@ -169,7 +180,7 @@ public class EditorMapa {
                     public void actionPerformed(ActionEvent e) {
                         JButton myButton = (JButton) e.getSource();
                         myButton.setText(charSelected);
-                        incIndex();
+                        if (!charSelected.equals("*") && !charSelected.equals("#") && !charSelected.equals("?") && index < (files * columnes)) incIndex();
                     }
                 });
             }
@@ -183,14 +194,15 @@ public class EditorMapa {
     }
 
     private void incIndex() {
-        if (!charSelected.equals("*") && !charSelected.equals("#") && index < (files * columnes)) index += 1;
+        numerosInserits.add(index);
+        index += 1;
         numSelected = String.valueOf(index);
         nextNumLabel.setText(numSelected);
         charSelected = numSelected;
     }
 
     private void decIndex() {
-        if (index > 0) index -= 1;
+        if (index > 1) index -= 1;
         numSelected = String.valueOf(index);
         nextNumLabel.setText(numSelected);
         charSelected = numSelected;
