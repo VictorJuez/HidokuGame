@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////
+////////PROGRAMAT PER MATHIAS BERTORELLI ARGIBAY////////
+////////////////////////////////////////////////////////
 package Domini;
 
 import Domini.Mapa.Mapa;
@@ -174,35 +177,35 @@ public class Partida
     //inserta un número en el tablero si no ha sido insertado antes y si la casilla es valida.
     public boolean insertarNumero (int i, int j, int numero)
     {
-        if (paused) System.out.println ("La partida está en pausa");
-        else if (casillaValida(i, j)) {
+        if (!paused && casillaValida(i, j))
+        {
             //para que no se pueda meter un número más grande que las casillas totales del hidato
-            System.out.println(mapaPartida.getNumeros() +" , "+ mapaPartida.getInterrogants());
-            if (numero > (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
+            //System.out.println(mapaPartida.getNumeros() +" , "+ mapaPartida.getInterrogants());
+            /*if (numero > (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
                 System.out.print("El numero más grande es: ");
                 System.out.println(mapaPartida.getNumeros());
             }
             else if (this.numerosInicio.contains(numero))
                 System.out.println("No puedes modificar éste número (ya estaba al inicio de la partida).");
-            else {
-                if (casillaNumero(i, j) && this.mapaPartida.getMatrix()[i][j].equals("?")) {
-                    if (!this.numerosInsertados.contains(numero)) {
-                        this.numerosInsertados.add(numero);
-                        this.mapaPartida.insertarNumero(numero, i, j);
-                        this.cantidadInterogantes -= 1;
-                        return true;
-                    } else System.out.println("El número que está intentando poner ya existe en el tablero.");
-                } else System.out.println("La casilla no es válida para introducir un número");
+            else {*/
+            if (casillaNumero(i, j) && this.mapaPartida.getMatrix()[i][j].equals("?") && !this.numerosInicio.contains(numero)
+                    && numero < (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
+                if (!this.numerosInsertados.contains(numero)) {
+                    this.numerosInsertados.add(numero);
+                    this.mapaPartida.insertarNumero(numero, i, j);
+                    this.cantidadInterogantes -= 1;
+                    return true;
+                    } //else System.out.println("El número que está intentando poner ya existe en el tablero.");
+                } //else System.out.println("La casilla no es válida para introducir un número");
             }
-        }
-        else System.out.println("La casilla está fuera de la matriz");
+        //else System.out.println("La casilla está fuera de la matriz");
         return false;
     }
 
     public boolean borrarNumero (int i, int j)
     {
-        if (paused) System.out.println ("La partida está en pausa");
-        else if (casillaValida(i, j)) {
+        if (casillaValida(i, j) && !paused )
+        {
             String casilla = this.mapaPartida.getMatrix()[i][j];
             if (casillaNumero(i, j) && casilla != "?") //si casilla apta para número y no hay ninguno puesto ya
             {
@@ -215,10 +218,10 @@ public class Partida
                     this.mapaPartida.borrarNumero(i, j); //borramos el número si no era de los iniciales
                     this.cantidadInterogantes += 1;
                     return true;
-                } else System.out.println("No puedes borrar éste número (ya estaba al inicio de la partida).");
-            } else System.out.println("En la casilla no hay un número.");
+                } //else System.out.println("No puedes borrar éste número (ya estaba al inicio de la partida).");
+            } //else System.out.println("En la casilla no hay un número.");
         }
-        else System.out.println("La casilla está fuera de la matriz");
+        //else System.out.println("La casilla está fuera de la matriz");
         return false;
     }
 

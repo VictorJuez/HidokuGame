@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////
+////////PROGRAMAT PER MATHIAS BERTORELLI ARGIBAY////////
+////////////////////////////////////////////////////////
 package Domini;
 
 import Dades.PartidaDAO;
@@ -160,13 +163,13 @@ public class ControladorPartida
         double factorDifiControladorUsuariltad = 0;
         switch (difiControladorUsuariltad)
         {
-            case ("FACIL"): { factorTiempo = 1; factorDifiControladorUsuariltad = 0.25; break; }
-            case ("MEDIO"): { factorTiempo = 0.75; factorDifiControladorUsuariltad = 0.75; break; }
-            case ("DIFICIL"): { factorTiempo = 0.25; factorDifiControladorUsuariltad = 1; break; }
+            case ("FACIL"): { factorTiempo = 100; factorDifiControladorUsuariltad = 0.25; break; }
+            case ("MEDIO"): { factorTiempo = 75; factorDifiControladorUsuariltad = 0.75; break; }
+            case ("DIFICIL"): { factorTiempo = 25; factorDifiControladorUsuariltad = 1; break; }
         }
         factorTiempo = factorTiempo * tiempo;
         double factorPistas = Math.pow(2, numeroPistas);
 
-        return intValue((100000 * factorDifiControladorUsuariltad) - factorPistas - factorTiempo);
+        return intValue((100000 * factorDifiControladorUsuariltad) - factorPistas - factorTiempo * tiempo);
     }
 }

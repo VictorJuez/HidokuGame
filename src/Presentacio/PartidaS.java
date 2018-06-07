@@ -148,7 +148,7 @@ public class PartidaS {
                 if (p.getCantidadInterrogantes() == 0) {
                     UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
                     if (utilsMapa.hidatoValido()) {
-                        String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
+                        String difiControladorUsuariltad = p.getMapaPartida().getDificultad(); //para el testeo, de mientras lo dejo así
                         int puntuacion = ControladorPartida.calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
                         //commit de la puntuacion en resultado
                         String userID = ControladorUsuari.getUsuariActiu();

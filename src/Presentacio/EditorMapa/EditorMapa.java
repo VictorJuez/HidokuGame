@@ -1,3 +1,6 @@
+////////////////////////////////////////////////////////
+////////PROGRAMAT PER MATHIAS BERTORELLI ARGIBAY////////
+////////////////////////////////////////////////////////
 package Presentacio.EditorMapa;
 
 import Dades.MapaDAO;
@@ -46,6 +49,7 @@ public class EditorMapa {
     private JLabel nextNumLabel;
     private JButton nextNumberButton;
     private JButton prevNumberButton;
+    private JButton numberButton;
 
     public EditorMapa() {
         enrereButton.addActionListener(new ActionListener() {
@@ -98,6 +102,7 @@ public class EditorMapa {
             public void componentShown(ComponentEvent e) {
                 nextNumLabel.setText(numSelected);
                 numerosInserits = new Vector<>();
+                charSelected = String.valueOf(1);
                 processParameters();
                 processGridEditor();
             }
@@ -134,7 +139,16 @@ public class EditorMapa {
         nextNumberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                incIndex();
+                if (Integer.valueOf(charSelected )< files * columnes)
+                {
+                    incIndex();
+                    charSelected = String.valueOf(index);
+                }
+            }
+        });
+        numberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 charSelected = String.valueOf(index);
             }
         });
@@ -168,8 +182,13 @@ public class EditorMapa {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JButton myButton = (JButton) e.getSource();
+                        String charOnButton = myButton.getText();
+                        if (!charOnButton.equals("*") && !charOnButton.equals("#") && !charOnButton.equals("?") && !charOnButton.equals("X"))
+                        {
+                            numerosInserits.remove(numerosInserits.indexOf(Integer.valueOf(charOnButton)));
+                        }
                         myButton.setText(charSelected);
-                        incIndex();
+                        if (!charSelected.equals("*") && !charSelected.equals("#") && !charSelected.equals("?") && index < (files * columnes)) incIndex();
                     }
                 });
             }
@@ -183,14 +202,15 @@ public class EditorMapa {
     }
 
     private void incIndex() {
-        if (!charSelected.equals("*") && !charSelected.equals("#") && index < (files * columnes)) index += 1;
+        numerosInserits.add(index);
+        index += 1;
         numSelected = String.valueOf(index);
         nextNumLabel.setText(numSelected);
         charSelected = numSelected;
     }
 
     private void decIndex() {
-        if (index > 0) index -= 1;
+        if (index > 1) index -= 1;
         numSelected = String.valueOf(index);
         nextNumLabel.setText(numSelected);
         charSelected = numSelected;
@@ -205,6 +225,14 @@ public class EditorMapa {
 
     private boolean controlCorrectesa()
     {
+        for (int a = 0; a < numerosInserits.size(); a++)
+        {
+            if (numerosInserits.indexOf(numerosInserits.get(a)) != a)
+            {
+                JOptionPane.showMessageDialog(null, "Hi ha nombres repetits");
+                return false;
+            }
+        }
         for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j)
         {
             if (gE.matrix[i][j].equals("X"))
