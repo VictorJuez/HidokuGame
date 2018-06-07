@@ -2,10 +2,11 @@ package Presentacio;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Vector;
 
 public class mapaButtonQuadrat extends mapaButton {
-    public mapaButtonQuadrat(String[][] matrix, int files, int columnes, String tipo) {
-        super(matrix, files, columnes, tipo);
+    public mapaButtonQuadrat(String[][] matrix, int files, int columnes, String tipo, Vector<Integer> existents) {
+        super(matrix, files, columnes, tipo, existents);
     }
 
     @Override
@@ -20,7 +21,10 @@ public class mapaButtonQuadrat extends mapaButton {
                 if(m[i][j].equals("#"))t.setVisible(false);
                 else{
                     t.setVisible(true);
-                    if (!m[i][j].equals("?")) t.setModificable(false);
+                    if (!m[i][j].equals("?") && !m[i][j].equals("*")){
+                        Integer x = Integer.valueOf(m[i][j]);
+                        if (ex.contains(x)) t.setModificable(false);
+                    }
                 }
                 t.setName(i + "," + j);
                 matrix[i][j] = t;

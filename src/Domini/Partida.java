@@ -47,6 +47,11 @@ public class Partida
         return this.pistasConsultadas;
     }
     //los devuelve como string para pasarselo a PartidaDAO
+
+    public Vector<Integer> getNumInicio(){
+        return numerosInicio;
+    }
+
     public String getNumerosInicio() {
         int size = this.numerosInicio.size();
         String numerosInicio = "";

@@ -36,24 +36,37 @@ public class PartidaS {
 
     private Vector<Integer> r = new Vector<>();
 
+    private void calculoFaltan (Vector<Integer> e){
+        r.removeAllElements();
+        int inicio = 1;
+        for (int i = 0; i < e.size(); i++){
+            while(inicio != e.get(i)){
+                r.add(inicio);
+                inicio++;
+            }
+            inicio++;
+        }
+        System.out.println(r);
+    }
+
     public PartidaS() {
         PanelPartida.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                //mapa.removeAll();
+                mapa.removeAll();
                 BorderLayout grid = new BorderLayout();
                 mapa.setLayout(grid);
                 mapaFactoryButton factory = new mapaFactoryButton();
                 String s = ControladorUsuari.getUsuariActiu();
                 String pcurso = ControladorPartida.getPartidaEnCurso();
                 p = ControladorPartida.getPartida(pcurso);
-                r = p.getMapaPartida().getNumerosRestants();
-                System.out.println(r);
-                if (r.size() > 0) numberLabel.setText(String.valueOf(r.get(index)));
+                calculoFaltan(p.getNumInicio());
+
+                if (r.size() > 0) numberLabel.setText(String.valueOf(r.get(0)));
                 else numberLabel.setText("0");
                 numberLabel.repaint();
                 //ControladorPartida.
-                mapaButton m = factory.getMapaButton(p.getMapaPartida().getColumnas(), p.getMapaPartida().getFilas(), p.getMapaPartida().getMatrix(), p.getMapaPartida().getTipo());
+                mapaButton m = factory.getMapaButton(p.getMapaPartida().getColumnas(), p.getMapaPartida().getFilas(), p.getMapaPartida().getMatrix(), p.getMapaPartida().getTipo(),p.getNumInicio());
                 int n = p.getMapaPartida().getNumeros();
                 for (int i = 0; i < m.getFiles(); i++) {
                     for (int j = 0; j < m.getColumnes(); j++) {

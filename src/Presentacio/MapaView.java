@@ -38,7 +38,7 @@ public class MapaView {
                 mapaFactoryButton factory = new mapaFactoryButton();
                 int n = mapa.getNumeros();
                 int indexi = n;
-                m = factory.getMapaButton(mapa.getColumnas(), mapa.getFilas(),mapa.getMatrix(), mapa.getTipo());
+                m = factory.getMapaButton(mapa.getColumnas(), mapa.getFilas(),mapa.getMatrix(), mapa.getTipo(), mapa.getNumerosExistents());
                 System.out.println(mapa.getTipo());
                 for(int i = 0; i < m.getFiles(); i++){
                     for (int j = 0; j < m.getColumnes(); j++){

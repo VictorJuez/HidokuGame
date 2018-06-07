@@ -6,36 +6,20 @@ import java.util.Vector;
 
 public class mapaFactoryButton {
 
-    public mapaButton getMapaButton(int columnes, int files, String[][] m, String tipo){
+    public mapaButton getMapaButton(int columnes, int files, String[][] m, String tipo, Vector<Integer> existents){
         mapaButton mapa = null;
         switch (tipo){
             case "T":
-                mapa = new mapaButtonTriangle(m,files,columnes,tipo);
+                mapa = new mapaButtonTriangle(m,files,columnes,tipo,existents);
                 break;
             case "Q":
-                mapa = new mapaButtonQuadrat(m,files,columnes,tipo);
+                mapa = new mapaButtonQuadrat(m,files,columnes,tipo, existents);
                 break;
             case "H":
-                mapa = new mapaButtonHexagon(m,files,columnes,tipo);
+                mapa = new mapaButtonHexagon(m,files,columnes,tipo, existents);
                 break;
         }
         return mapa;
     }
-    /*
-        for(int i = 0; i < files; i++){
-            for(int j = 0; j < columnes; j++){
-                if ((i + j)%2 == 0){
-                    TriangleUpButton t = new TriangleUpButton();
-                    t.setMaximumSize(new Dimension(60,50));
-                    t.setText(m[i][j]);
-                    matrix[i][j] = t;
-                }
-                else{
-                    TriangleDownButton t = new TriangleDownButton();
-                    t.setMaximumSize(new Dimension(60,50));
-                    t.setText(m[i][j]);
-                    matrix[i][j] = t;
-                }
-            }
-        }*/
+
 }
