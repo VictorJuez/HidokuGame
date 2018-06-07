@@ -46,7 +46,6 @@ public class PartidaS {
             }
             inicio++;
         }
-        System.out.println(r);
     }
 
     public PartidaS() {
@@ -90,8 +89,6 @@ public class PartidaS {
                                 if (v.equals("?")) {
                                     if (ControladorPartida.insertarNumero(fila, columna, v1)) {
                                         myButton.setText(numberLabel.getText());
-                                        int x = Integer.valueOf(numberLabel.getText());
-
                                         if (index < r.size() - 1) {
                                             index++;
                                             numberLabel.setText(String.valueOf(r.get(index)));
@@ -119,7 +116,6 @@ public class PartidaS {
                 PanelPartida.setVisible(true);
                 PanelPartida.revalidate();
                 PanelPartida.repaint();
-                System.out.println(mapa.getComponentCount());
                 super.componentShown(e);
             }
         });
@@ -152,7 +148,6 @@ public class PartidaS {
                     UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
                     if (utilsMapa.hidatoValido()) {
                         String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
-                        System.out.println("si es valid");
                         int puntuacion = ControladorPartida.calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
                         //commit de la puntuacion en resultado
                         String userID = ControladorUsuari.getUsuariActiu();
@@ -183,11 +178,23 @@ public class PartidaS {
                 if(i[0] != -1){
                     int x = p.getMapaPartida().getColumnas();
                     int y = p.getMapaPartida().getFilas();
-                    JButton b = (JButton) mapa.getComponent(i[0]*y+i[1]);
-                    b.setForeground(Color.GREEN);
-                    b.repaint();
+                    int u = Integer.valueOf(numberLabel.getText());
+                    index = 0;
+                    while(!ControladorPartida.insertarNumero(i[1],i[0],r.get(index)) && index < r.size()){
+                        index++;
+                        //i[0]: columnas i[1]: fila
+                    }
+                    JButton b = (JButton) mapa.getComponent(/*i[1]*x + i[0]*/ i[2]-1);
+                    if (index < r.size() - 1){
+                        b.setText(String.valueOf(r.get(index)));
+                        index = index+1;
+                    }
+                    else{
+                        index = r.size()-1;
+                        b.setText(String.valueOf(r.get(index)));
+                    }
+                    numberLabel.setText(String.valueOf(r.get(index)));
                 }
-                System.out.println(i[0]+" , "+ i[1]);
             }
         });
 
@@ -198,7 +205,6 @@ public class PartidaS {
                 String[] buttons = { "Si", "No"};
                 int returnValue = JOptionPane.showOptionDialog(null, "Vols guardar la partida?", "Guardar i sortir",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, buttons, buttons[0]);
-                System.out.println(returnValue);
 
                 if(returnValue == 0){
                     ControladorPartida.savePartida(p);

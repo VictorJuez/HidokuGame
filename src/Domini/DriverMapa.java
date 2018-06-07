@@ -66,6 +66,11 @@ public class DriverMapa {
                     System.out.println("exiting game...");
                     active = false;
                     break;
+                case "8":
+                    System.out.println("Inserta el ID del hidato adyacencias");
+                    op = myScanner.next();
+                    adyacencia(op);
+                    break;
                 default:
                     System.out.println("this operation does not exist");
                     break;

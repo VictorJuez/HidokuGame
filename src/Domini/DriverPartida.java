@@ -56,7 +56,7 @@ public class DriverPartida
 
         while (op != "0")
         {
-            System.out.println("1 -> añadir, 2 -> borrar, 7 -> reemplazar,3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar");
+            System.out.println("1 -> añadir, 2 -> borrar, 7 -> reemplazar,3 -> pausar, 4 -> reanudar, 5 -> salir, 6-> guardar, 7-> pista");
             printPartida(p.getMapaPartida().getMatrix(), p.getMapaPartida());
             op = myScanner.next();
 
@@ -102,14 +102,8 @@ public class DriverPartida
                     break;
                 }
                 case ("7"):
-                    System.out.println("Introduce la fila:");
-                    int i = myScanner.nextInt();
-                    System.out.println("Introduce la columna:");
-                    int j = myScanner.nextInt();
-                    System.out.println("Introduce el número:");
-                    Integer numero = myScanner.nextInt();
-                    ControladorPartida.reemplazarNumero(i-1, j-1, numero);
-                    printPartida(p.getMapaPartida().getMatrix(), p.getMapaPartida());
+                    Integer[] i = p.consultarPista();
+                    System.out.println(i[0]+" "+i[1]);
                     break;
             }
         }

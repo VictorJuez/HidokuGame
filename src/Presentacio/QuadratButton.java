@@ -23,6 +23,14 @@ public class QuadratButton extends JButton {
     public void setColumna(int columna) {
         this.columna = columna;
     }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
     public void paintBorder(Graphics g) {
         ((Graphics2D) g).draw(quadrat);
     }

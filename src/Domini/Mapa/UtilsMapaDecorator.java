@@ -4,8 +4,9 @@ import java.util.Vector;
 
 public class UtilsMapaDecorator extends MapaDecorator {
 
-    protected Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
-    private int last = -1;
+    private Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
+    private Integer last;
+    private Vector<Vector<Integer> > solucio = new Vector<>();
 
     public UtilsMapaDecorator(Mapa decoratedMap) {
         super(decoratedMap);
@@ -26,16 +27,28 @@ public class UtilsMapaDecorator extends MapaDecorator {
      * @return  Devuelve dos enteros que indican que fila y columna va el siguiente numero
      */
     public Integer[] pista(){
-        Integer[] p = new Integer[2];
-        backtrackingResolucio(this.decoratedMap.getNumerosExistents());
-        if (last != -1){
+        Integer[] p = new Integer[3];
+        int last = -1;
+        if (backtrackingResolucio(this.decoratedMap.getNumerosExistents())) {
+
+            for (int m = 0; m < solucio.size() && last == -1; m++) {
+                System.out.println(solucio.get(m));
+                if (solucio.get(m).size() > 1) {
+                    last = solucio.get(m).get(solucio.get(m).size()-1);
+                }
+            }
+        }
+        if (last != -1) {
             p[0] = decoratedMap.tablaAD.get(last).getX();
             p[1] = decoratedMap.tablaAD.get(last).getY();
+            p[2] = decoratedMap.tablaAD.get(last).getZ();
         }
-        else{
+        else {
             p[0] = -1;
             p[1] = -1;
+            p[2] = -1;
         }
+        //System.out.println(p[0] +" "+ p[1]+ " "+p[2]);
         return p;
     }
 
@@ -59,6 +72,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
      * @return Devuelve un booleano que indica si tiene solucion
      */
     private boolean backtrackingResolucio(Vector v) {
+        this.last = -1;
         return inner_backtrackingResolucio(v, 0, 0, 0);
     }
 
@@ -138,36 +152,18 @@ public class UtilsMapaDecorator extends MapaDecorator {
             calculCamins(posicio, distancia, v, cami, indexAD, franja);
             decoratedMap.tablaAD.get(indexAD).visitat = false;
             for (int i = 0; i < franjes.get(franja).size() && !b; i++) {
-                int k = 0;
-                for (; k < franjes.get(franja).get(i).size(); k++) {
-                    decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true;
-                    if (last == -1 && decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).getValor().equals("?")) last = franjes.get(franja).get(i).get(k);
+                for (int k = 0; k < franjes.get(franja).get(i).size(); k++) {
+                    decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true; //guardar la solucio maquina
                 }
+                solucio.add(franjes.get(franja).get(i));
                 b = inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
+                if (!b) solucio.remove(solucio.size()-1);
                 for (int l = 0; l < franjes.get(franja).get(i).size(); l++) {
                     decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(l)).visitat = false;
-                    if (!b)last = -1;
                 }
             }
+            //System.out.println(decoratedMap.tablaAD.get(last).getZ());
         }
-
         return b;
-    }
-
-    /**
-     * Devuelve si un hidato tiene el primer y ultimo numero puestos
-     * @return devyelve true si estan los dos numeros, en caso contrario devulve false
-     */
-    public boolean principioFin(){
-        Vector<adyacencias> v = decoratedMap.getTablaAD();
-        boolean primer = false;
-        boolean ultim = false;
-        int total = v.size();
-        String fi = String.valueOf(total);
-        for (int i = 0; i < total; i++){
-            if (v.get(i).getValor().equals("1"))primer = true;
-            else if(v.get(i).getValor().equals(fi)) ultim = true;
-        }
-        return primer & ultim;
     }
 }

@@ -27,6 +27,14 @@ public class TriangleDownButton extends JButton {
         this.columna = columna;
     }
 
+    public int getFila() {
+        return fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
     public void paintBorder(Graphics g) {
 
     }

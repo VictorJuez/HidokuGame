@@ -28,6 +28,14 @@ public class TriangleUpButton extends JButton {
         ((Graphics2D) g).draw(triangle);
     }
 
+    public int getFila() {
+        return fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         setForeground(Color.BLACK);
