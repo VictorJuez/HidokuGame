@@ -179,6 +179,11 @@ public class EditorMapa {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JButton myButton = (JButton) e.getSource();
+                        String charOnButton = myButton.getText();
+                        if (!charOnButton.equals("*") && !charOnButton.equals("#") && !charOnButton.equals("?") && !charOnButton.equals("X"))
+                        {
+                            numerosInserits.remove(numerosInserits.indexOf(Integer.valueOf(charOnButton)));
+                        }
                         myButton.setText(charSelected);
                         if (!charSelected.equals("*") && !charSelected.equals("#") && !charSelected.equals("?") && index < (files * columnes)) incIndex();
                     }
@@ -217,6 +222,14 @@ public class EditorMapa {
 
     private boolean controlCorrectesa()
     {
+        for (int a = 0; a < numerosInserits.size(); a++)
+        {
+            if (numerosInserits.indexOf(numerosInserits.get(a)) != a)
+            {
+                JOptionPane.showMessageDialog(null, "Hi ha nombres repetits");
+                return false;
+            }
+        }
         for (int i = 0; i < files; ++i) for (int j = 0; j < columnes; ++j)
         {
             if (gE.matrix[i][j].equals("X"))
