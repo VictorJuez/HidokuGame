@@ -19,6 +19,8 @@ public class MapaView {
     private JLabel random;
     private JButton guardaMapaButton;
     private JButton EnrereButton;
+    private JLabel topologiaLabel;
+    private JLabel infoTopologia;
     // private JButton Jugar;
     private Mapa mapa;
     private int i = 0;
@@ -50,6 +52,11 @@ public class MapaView {
                 panel1.repaint();
                 MapaPanel.revalidate();
                 MapaPanel.repaint();
+
+                //label info topologia
+                if(!infoTopologia.isVisible())infoTopologia.setVisible(true);
+                topologiaLabel.setText(mapa.getTipo() + ", "+ mapa.getAngulos());
+                if(!topologiaLabel.isVisible())topologiaLabel.setVisible(true);
             }
         });
 
@@ -75,6 +82,13 @@ public class MapaView {
             }
         });
 
+        MapaPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                infoTopologia.setVisible(false);
+                topologiaLabel.setVisible(false);
+            }
+        });
     }
 
 

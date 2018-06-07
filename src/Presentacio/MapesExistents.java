@@ -74,5 +74,5 @@ public class MapesExistents {
         if(prova.length>0) MapesExistentsBox.setSelectedIndex(0);
     }
 
-    private void setMapaSeleccionatID() { mapaSeleccionatID = (String) MapesExistentsBox.getSelectedItem(); }
+    private void setMapaSeleccionatID() { mapaSeleccionatID = ControladorMapa.getID(String.valueOf(MapesExistentsBox.getSelectedItem())) ; }
 }

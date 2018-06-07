@@ -79,12 +79,16 @@ public class EditorMapa {
                     //he de ver si tiene solución
                     System.out.println(topologia + " " + adjacencies);
                     UtilsMapaDecorator uMD = new UtilsMapaDecorator(m);
-                    if (uMD.hidatoValido()) {
-                        //lo guardo
-                        ControladorMapa.saveMapa(m, nomMapa);
-                        JOptionPane.showMessageDialog(null, "El mapa ha sigut guardat amb èxit");
+                    if(uMD.conteValorsNoAdmesos()) JOptionPane.showMessageDialog(null, "Encara falten caselles per omplir");
+                    else if(!m.matriuBenInicialitzada()) JOptionPane.showMessageDialog(null, "El primer i últim número han d'apareixer sempre");
+                    else {
+                        if (uMD.hidatoValido()) {
+                            //lo guardo
+                            ControladorMapa.saveMapa(m, nomMapa);
+                            JOptionPane.showMessageDialog(null, "El mapa ha sigut guardat amb èxit");
+                            Main.showMenu();
+                        } else JOptionPane.showMessageDialog(null, "El mapa proposat no té solució");
                     }
-                    else JOptionPane.showMessageDialog(null, "El mapa proposat no té solució");
                 }
             }
         });

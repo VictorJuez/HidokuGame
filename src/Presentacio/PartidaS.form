@@ -82,12 +82,12 @@
         <border type="none"/>
         <children/>
       </grid>
-      <component id="85d19" class="javax.swing.JLabel" binding="Solucio">
+      <component id="85d19" class="javax.swing.JLabel" binding="topologiaLabel">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Solucio"/>
+          <text value="topologia"/>
         </properties>
       </component>
       <grid id="9c3a1" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">

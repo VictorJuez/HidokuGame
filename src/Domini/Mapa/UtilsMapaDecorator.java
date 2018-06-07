@@ -18,8 +18,21 @@ public class UtilsMapaDecorator extends MapaDecorator {
      * @return Devuelve true si tiene solucion, en caso contrario devuelve false
      */
     public boolean hidatoValido(){
+        if(conteValorsNoAdmesos()) {
+            return false;
+        }
         decoratedMap.solucio = backtrackingResolucio(decoratedMap.getNumerosExistents());
         return decoratedMap.solucio;
+    }
+
+    public boolean conteValorsNoAdmesos() {
+        String[][] matrix = this.decoratedMap.getMatrix();
+        for(int i=0; i<matrix.length; ++i){
+            for(int j=0; j<matrix[i].length; ++j){
+                if(!Character.isDigit(matrix[i][j].charAt(0)) && !matrix[i][j].equals("?") && !matrix[i][j].equals("*") && !matrix[i][j].equals("#")) return true;
+            }
+        }
+        return false;
     }
 
     /**

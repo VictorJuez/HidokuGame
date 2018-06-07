@@ -30,7 +30,7 @@ public class PartidaS {
     private JLabel numberLabel;
     private JButton button5;
     private JButton comprovar;
-    private JLabel Solucio;
+    private JLabel topologiaLabel;
     private Partida p;
     int index = 0;
 
@@ -116,7 +116,8 @@ public class PartidaS {
                 PanelPartida.setVisible(true);
                 PanelPartida.revalidate();
                 PanelPartida.repaint();
-                super.componentShown(e);
+
+                topologiaLabel.setText("Topologia: " + p.getTipoMapa() + "," + p.getAngulosMapa());
             }
         });
         button4.addActionListener(new ActionListener() {
@@ -164,6 +165,9 @@ public class PartidaS {
                         finalizar.showMessageDialog(null, "La solucio es incorrecte! torna-ho a provar");
                     }
 
+                }
+                else {
+                    finalizar.showMessageDialog(null, "Encara falten caselles per omplir!");
                 }
 
             }
