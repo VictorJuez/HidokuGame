@@ -7,6 +7,8 @@ public class UtilsMapaDecorator extends MapaDecorator {
     private Vector<Vector<Vector<Integer> > > franjes = new Vector<>(); // franja conte un conjunt de camins
     private Integer last;
     private Vector<Vector<Integer> > solucio = new Vector<>();
+    private long start;
+    private long end;
 
     public UtilsMapaDecorator(Mapa decoratedMap) {
         super(decoratedMap);
@@ -40,6 +42,9 @@ public class UtilsMapaDecorator extends MapaDecorator {
      * @return  Devuelve dos enteros que indican que fila y columna va el siguiente numero
      */
     public Integer[] pista(){
+        start = 0;
+        start = System.currentTimeMillis();
+        end = start + 7*1000;
         Integer[] p = new Integer[3];
         int last = -1;
         if (backtrackingResolucio(this.decoratedMap.getNumerosExistents())) {
@@ -111,6 +116,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
      */
 
     private void calculCamins(Integer posicio, Integer distancia, Vector v, Vector cami, Integer indexAD, Integer franja) {//posicio es la posicio del vector dexistens
+        //System.out.println(decoratedMap.tablaAD.size()+ " "+ decoratedMap.tablaAD.get(indexAD).getAd().size()+" "+cami+" "+distancia);
         if(distancia == 0){
             if(posicio == 0){
                 Vector<Integer> c1 = new Vector<>(cami);
@@ -119,6 +125,8 @@ public class UtilsMapaDecorator extends MapaDecorator {
             else{
                 for(int i = 0; i < decoratedMap.tablaAD.get(indexAD).getAd().size(); i++){
                     Integer aux = decoratedMap.tablaAD.get(indexAD).getAd().get(i);
+                    //System.out.println("ok2");
+
                     if (decoratedMap.tablaAD.get(aux).getValor().equals(v.get(posicio-1).toString())){
                         Vector<Integer> c1 = new Vector<>(cami);
                         franjes.get(franja).add(c1);
@@ -132,6 +140,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
                 if (!decoratedMap.tablaAD.get(aux).visitat && decoratedMap.tablaAD.get(aux).getValor().equals("?")){
                     cami.add(aux);
                     decoratedMap.tablaAD.get(aux).visitat = true;
+
                     calculCamins(posicio,distancia -1, v, cami, aux, franja);
                     decoratedMap.tablaAD.get(aux).visitat = false;
                     cami.remove(aux);
@@ -151,6 +160,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
      */
     private boolean inner_backtrackingResolucio( Vector v, Integer posicio, Integer total, Integer franja){
         boolean b = false;
+        System.out.println(total+ " "+decoratedMap.getInterrogants() + decoratedMap.getNumeros());
         if (total == decoratedMap.getInterrogants() + decoratedMap.getNumeros()) return true;
         else{
             Vector<Integer> cami = new Vector<>();
@@ -169,6 +179,7 @@ public class UtilsMapaDecorator extends MapaDecorator {
                     decoratedMap.tablaAD.get(franjes.get(franja).get(i).get(k)).visitat = true; //guardar la solucio maquina
                 }
                 solucio.add(franjes.get(franja).get(i));
+                System.out.println(franjes.get(franja).get(i));
                 b = inner_backtrackingResolucio(v, posicio + 1, total + distancia + 1, franja + 1);
                 if (!b) solucio.remove(solucio.size()-1);
                 for (int l = 0; l < franjes.get(franja).get(i).size(); l++) {

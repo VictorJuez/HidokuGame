@@ -178,26 +178,31 @@ public class PartidaS {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer i[];
-                i = ControladorPartida.consultarPista();
-                if(i[0] != -1){
-                    int x = p.getMapaPartida().getColumnas();
-                    int y = p.getMapaPartida().getFilas();
-                    int u = Integer.valueOf(numberLabel.getText());
-                    index = 0;
-                    while(!ControladorPartida.insertarNumero(i[1],i[0],r.get(index)) && index < r.size()){
-                        index++;
-                        //i[0]: columnas i[1]: fila
+                if (p.getCantidadInterrogantes() > p.getNumInicio().get(p.getNumInicio().size()-1)/2){
+                    JOptionPane.showMessageDialog(null,"Ups!! Has de posar més caselles per consultar una pista.");
+                }
+                else {
+                    i = ControladorPartida.consultarPista();
+                    if (i[0] != -1) {
+                        int x = p.getMapaPartida().getColumnas();
+                        int y = p.getMapaPartida().getFilas();
+                        int u = Integer.valueOf(numberLabel.getText());
+                        index = 0;
+                        while (!ControladorPartida.insertarNumero(i[1], i[0], r.get(index)) && index < r.size()) {
+                            index++;
+                            //i[0]: columnas i[1]: fila
+                        }
+                        JButton b = (JButton) mapa.getComponent(/*i[1]*x + i[0]*/ i[2] - 1);
+                        if (index < r.size() - 1) {
+                            b.setText(String.valueOf(r.get(index)));
+                            index = index + 1;
+                        } else {
+                            index = r.size() - 1;
+                            b.setText(String.valueOf(r.get(index)));
+                        }
+                        numberLabel.setText(String.valueOf(r.get(index)));
                     }
-                    JButton b = (JButton) mapa.getComponent(/*i[1]*x + i[0]*/ i[2]-1);
-                    if (index < r.size() - 1){
-                        b.setText(String.valueOf(r.get(index)));
-                        index = index+1;
-                    }
-                    else{
-                        index = r.size()-1;
-                        b.setText(String.valueOf(r.get(index)));
-                    }
-                    numberLabel.setText(String.valueOf(r.get(index)));
+                    else JOptionPane.showMessageDialog(null,"Ups!! Sembla ser que no vas per bon camí");
                 }
             }
         });
