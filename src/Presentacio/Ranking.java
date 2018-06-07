@@ -27,6 +27,7 @@ public class Ranking {
             public void componentShown(ComponentEvent e) {
                 ArrayList<Pair<String, Integer>>al =ControladorUsuari.getGlobalRanking();
 
+                //System.out.println("Actual record: " + ControladorUsuari.getActualRecord().getID());
                 String[] columnNames = {"Usuario","Puntuacion"};
                 Object[][] data = new Object[al.size()][2];
 

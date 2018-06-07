@@ -179,12 +179,13 @@ public class ControladorUsuari {
 
     //ranking functions
     public static boolean insertarResultat(Usuari usuari, int puntuacio){
+        boolean result = false;
         usuari.setPuntuacio(usuari.getPuntuacio() + puntuacio);
         GlobalRanking.put(usuari.getID(), usuari.getPuntuacio());
         if(puntuacio > usuari.getRecord()){
             usuari.setRecord(puntuacio);
             saveUsuariToDisk(usuari);
-            return true;
+            result = true;
         }
 
         if(actualRecord == null || puntuacio > actualRecord.getRecord()) actualRecord = usuari;
