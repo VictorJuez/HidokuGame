@@ -169,7 +169,7 @@ public abstract class Mapa {
         Vector<Integer> existents = new Vector<>();   //numeros que existeixen a la matrix
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                if (!matrix[i][j].equals("#") && !matrix[i][j].equals("*") && !matrix[i][j].equals("-2") && !matrix[i][j].equals("?")){
+                if (Character.isDigit(matrix[i][j].charAt(0))){
                     existents.add(Integer.valueOf(matrix[i][j]));
                 }
             }
@@ -239,5 +239,10 @@ public abstract class Mapa {
                 }
             }
         }
+    }
+
+    public boolean matriuBenInicialitzada() {
+        if(numerosExistents.contains(1) && numerosExistents.contains(numeros+interrogants)) return true;
+        return false;
     }
 }
