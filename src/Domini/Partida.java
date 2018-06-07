@@ -181,23 +181,23 @@ public class Partida
         {
             //para que no se pueda meter un número más grande que las casillas totales del hidato
             //System.out.println(mapaPartida.getNumeros() +" , "+ mapaPartida.getInterrogants());
-            if (numero > (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
+            /*if (numero > (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
                 System.out.print("El numero más grande es: ");
                 System.out.println(mapaPartida.getNumeros());
             }
             else if (this.numerosInicio.contains(numero))
                 System.out.println("No puedes modificar éste número (ya estaba al inicio de la partida).");
-            else {
-                if (casillaNumero(i, j) && this.mapaPartida.getMatrix()[i][j].equals("?")) {
-                    if (!this.numerosInsertados.contains(numero)) {
-                        this.numerosInsertados.add(numero);
-                        this.mapaPartida.insertarNumero(numero, i, j);
-                        this.cantidadInterogantes -= 1;
-                        return true;
-                    } else System.out.println("El número que está intentando poner ya existe en el tablero.");
-                } else System.out.println("La casilla no es válida para introducir un número");
+            else {*/
+            if (casillaNumero(i, j) && this.mapaPartida.getMatrix()[i][j].equals("?") && !this.numerosInicio.contains(numero)
+                    && numero < (mapaPartida.getNumeros() + mapaPartida.getInterrogants())) {
+                if (!this.numerosInsertados.contains(numero)) {
+                    this.numerosInsertados.add(numero);
+                    this.mapaPartida.insertarNumero(numero, i, j);
+                    this.cantidadInterogantes -= 1;
+                    return true;
+                    } //else System.out.println("El número que está intentando poner ya existe en el tablero.");
+                } //else System.out.println("La casilla no es válida para introducir un número");
             }
-        }
         //else System.out.println("La casilla está fuera de la matriz");
         return false;
     }
