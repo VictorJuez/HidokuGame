@@ -30,7 +30,7 @@ public class PartidaS {
     private JLabel numberLabel;
     private JButton button5;
     private JButton comprovar;
-    private JLabel Solucio;
+    private JLabel topologiaLabel;
     private Partida p;
     int index = 0;
 
@@ -120,7 +120,10 @@ public class PartidaS {
                 PanelPartida.revalidate();
                 PanelPartida.repaint();
                 System.out.println(mapa.getComponentCount());
-                super.componentShown(e);
+                //super.componentShown(e);
+
+                //infoLabel
+                topologiaLabel.setText("Topologia: " + p.getTipoMapa() + "," + p.getAngulosMapa());
             }
         });
         button4.addActionListener(new ActionListener() {
@@ -152,7 +155,7 @@ public class PartidaS {
                     UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
                     if (utilsMapa.hidatoValido()) {
                         String difiControladorUsuariltad = "FACIL"; //para el testeo, de mientras lo dejo así
-                        System.out.println("si es valid");
+
                         int puntuacion = ControladorPartida.calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
                         //commit de la puntuacion en resultado
                         String userID = ControladorUsuari.getUsuariActiu();
@@ -169,6 +172,9 @@ public class PartidaS {
                         finalizar.showMessageDialog(null, "La solucio es incorrecte! torna-ho a provar");
                     }
 
+                }
+                else {
+                    finalizar.showMessageDialog(null, "Encara falten caselles per omplir!");
                 }
 
             }
