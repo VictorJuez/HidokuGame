@@ -139,8 +139,11 @@ public class EditorMapa {
         nextNumberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                incIndex();
-                charSelected = String.valueOf(index);
+                if (Integer.valueOf(charSelected )< files * columnes)
+                {
+                    incIndex();
+                    charSelected = String.valueOf(index);
+                }
             }
         });
         numberButton.addActionListener(new ActionListener() {

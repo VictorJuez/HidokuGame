@@ -117,13 +117,13 @@ public class CreadorMapa {
         if(aux.length>0)this.adjacencies.setSelectedIndex(0);
     }
     private void setUpFilesBox() {
-        String[] aux = new String[15];
+        String[] aux = new String[14];
         for (int i = 1; i < 15; ++i) aux[i-1] = String.valueOf(i+1);
         this.files.setModel(new javax.swing.DefaultComboBoxModel(aux));
         if(aux.length>0)this.files.setSelectedIndex(0);
     }
     private void setUpColumnesBox() {
-        String[] aux = new String[15];
+        String[] aux = new String[14];
         for (int i = 1; i < 15; ++i) aux[i-1] = String.valueOf(i+1);
         this.columnes.setModel(new javax.swing.DefaultComboBoxModel(aux));
         if(aux.length>0)this.columnes.setSelectedIndex(0);
