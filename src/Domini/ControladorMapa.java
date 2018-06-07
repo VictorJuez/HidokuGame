@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ControladorMapa {
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
-    private static ArrayList<String> mapasDisk = new ArrayList<>();
+    private static HashMap<String, String> mapasDisk = new HashMap<>(); // Name, ID
     private ControladorMapa(){}
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
@@ -20,6 +20,11 @@ public class ControladorMapa {
      * @param max_col El numero de columnas del hidato
      * @return Boolean indicando si la casilla sera # o no.
      */
+
+    static {
+        loadAllMapsDisk();
+    }
+
     private static boolean holeChecker(int i, int j, int max_fil, int max_col, String[][] matrix)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
@@ -132,30 +137,30 @@ public class ControladorMapa {
 
     public static ArrayList<String> getAllSavedMaps() throws IOException {
         loadAllMapsDisk();
-        for(int i=0; i<mapasDisk.size(); ++i){
-            String id = mapasDisk.get(i);
-            if(mapasMap.get(id) == null) mapasMap.put(id, loadMapaDisk(id));
-        }
 
         ArrayList<String> result = new ArrayList<>();
-        ArrayList<String> mapsID = new ArrayList<String>(mapasMap.keySet());
-        for(String mapID : mapsID){
-            if(getMapa(mapID).getName() != null) result.add(mapID);
+        ArrayList<String> mapsName = new ArrayList<String>(mapasDisk.keySet());
+        for(String mapaName : mapsName){
+            if(mapaName != null) result.add(mapaName);
         }
 
         return result;
     }
 
     public static Mapa getMapa(String ID) {
-        if(mapasMap.get(ID) == null){
-            try {
-                return loadMapaDisk(ID);
-            } catch (IOException e) {
-                return null;
-            }
+        if(!mapasMap.containsKey(ID)){
+           if(!mapasDisk.containsKey(ID)){
+               return null;
+           }
+           else return mapasMap.get(mapasDisk.get(ID));
         }
 
         return mapasMap.get(ID);
+    }
+
+    public static String getID(String mapaName){
+        if(mapasDisk.containsKey(mapaName)) return mapasDisk.get(mapaName);
+        return null;
     }
 
     public static void saveMapa(Mapa m, String name) {
@@ -187,11 +192,22 @@ public class ControladorMapa {
         MapaFactory mapaFactory = new MapaFactory();
         Mapa mapa = mapaFactory.getMapa(ID, name.toString(), topologia.toString(), adyacencia.toString(), matrixResult);
 
-        mapasMap.put(ID, mapa);
+        //mapasMap.put(ID, mapa);
         return mapa;
     }
 
     private static void loadAllMapsDisk(){
-        mapasDisk = MapaDAO.loadAllMapas();
+        ArrayList<String> arrayMapasID = new ArrayList<>();
+        arrayMapasID = MapaDAO.loadAllMapas();
+        for(String mapaID : arrayMapasID){
+            Mapa m = null;
+            try {
+                m = loadMapaDisk(mapaID);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(!mapasDisk.containsKey(mapaID))mapasDisk.put(m.getName(), mapaID);
+            if(!mapasMap.containsKey(mapaID))mapasMap.put(mapaID, m);
+        }
     }
 }
