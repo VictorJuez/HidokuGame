@@ -1,0 +1,3 @@
+Descripcion de directorios:
+- En cada uno de los directorios con nombre de los componentes del grupo hay las clases que ha programado dicha persona.
+- En el directorio "compartidas" hay las clases de la primera entrega que hicimos entre los 3.

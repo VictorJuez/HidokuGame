@@ -18,11 +18,11 @@ public class DriverMapa {
         System.out.println("Hidato Game");
         String introduction = "Introduce qué operación desea ejecutar:\n"+
                 "\t1) Insertar un nuevo hidato\n"+
-                "\t2) Lista hidatos\n"+
-                "\t3) Generar hidato\n"+
+                "\t2) Lista de hidatos guardados en disco\n"+
+                "\t3) Generar hidato random\n"+
                 "\t4) Comprovar si existe solucion hidato\n"+
                 "\t5) Ver adyacencias\n"+
-                "\t6) Save mapa from disk\n"+
+                "\t6) Save mapa to disk\n"+
                 "\t7) Delete mapa\n"+
                 "\tx) Para salir del juego\n";
 

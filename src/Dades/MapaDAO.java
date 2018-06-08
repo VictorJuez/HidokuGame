@@ -77,7 +77,6 @@ public class MapaDAO {
         String matrixString = prop.getProperty("matrix");
         int filas = Integer.parseInt(prop.getProperty("filas"));
         int columnas = Integer.parseInt(prop.getProperty("columnas"));
-        String[][] aux = new String[filas][columnas];
 
         List<String> items = Arrays.asList(matrixString.split("\\s*,\\s*"));
         for(int i=0; i<filas; ++i){
