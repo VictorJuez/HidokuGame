@@ -132,17 +132,20 @@ public class EditorMapa {
         prevNumberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                decIndex();
-                charSelected = String.valueOf(index);
+                if(Character.isDigit(charSelected.charAt(0))) {
+                    decIndex();
+                    charSelected = String.valueOf(index);
+                }
             }
         });
         nextNumberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Integer.valueOf(charSelected )< files * columnes)
-                {
-                    incIndex();
-                    charSelected = String.valueOf(index);
+                if(Character.isDigit(charSelected.charAt(0))) {
+                    if (Integer.valueOf(charSelected) < files * columnes) {
+                        incIndex();
+                        charSelected = String.valueOf(index);
+                    }
                 }
             }
         });
