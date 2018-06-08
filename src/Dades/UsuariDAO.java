@@ -10,6 +10,15 @@ public class UsuariDAO {
 
     private UsuariDAO(){}
 
+    /**
+     * Guardar un usuari al disc
+     * @param id
+     * @param password
+     * @param puntuacio
+     * @param record
+     * @param partidasID
+     * @throws IOException
+     */
     public static void saveUsuari(String id, String password, int puntuacio, int record, ArrayList<String> partidasID) throws IOException {
         Properties properties = new Properties();
         properties.setProperty("id", id);
@@ -24,6 +33,11 @@ public class UsuariDAO {
         fileOut.close();
     }
 
+    /**
+     * Convertir un arrayList a un string separat per comes.
+     * @param partidasID
+     * @return
+     */
     private static String arrayListToString(ArrayList<String> partidasID) {
         String result = "";
         for(String partidaID : partidasID){
@@ -32,6 +46,15 @@ public class UsuariDAO {
         return result;
     }
 
+    /**
+     * Carregar un usuari del disc
+     * @param id
+     * @param password
+     * @param puntuacio
+     * @param record
+     * @param partidasID
+     * @throws IOException
+     */
     public static void loadUsuari(String id, StringBuilder password, StringBuilder puntuacio, StringBuilder record, ArrayList<String> partidasID) throws IOException {
         InputStream input = new FileInputStream("data/usuaris/"+id+".properties");
 
@@ -50,14 +73,10 @@ public class UsuariDAO {
         }
     }
 
-    private static ArrayList<String> stringToArrayList(String str) {
-        String[] parts = str.split(",");
-        ArrayList<String> result = new ArrayList<>();
-        for(String element : parts) result.add(element);
-
-        return result;
-    }
-
+    /**
+     * Carrega tots els usuaris del disc
+     * @return un ArrayList amb l'id de tots els usuaris que estan al disc.
+     */
     public static ArrayList<String> loadAllUsuaris(){
         File folder = new File("data/usuaris");
         File[] listOfFiles = folder.listFiles();

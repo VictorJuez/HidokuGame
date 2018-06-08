@@ -17,6 +17,17 @@ public class MapaDAO {
 
     private MapaDAO(){}
 
+    /**
+     * Guardar un mapa al disc
+     * @param ID
+     * @param name
+     * @param topologia
+     * @param adyacencias
+     * @param filas
+     * @param columnas
+     * @param matriz
+     * @throws IOException
+     */
     public static void saveMapa(String ID, String name, String topologia, String adyacencias, int filas, int columnas, String[][] matriz) throws IOException {
 
         Properties properties = new Properties();
@@ -43,6 +54,15 @@ public class MapaDAO {
         fileOut.close();
     }
 
+    /**
+     * Carregar un mapa del disc
+     * @param ID
+     * @param name
+     * @param topologia
+     * @param adyacencia
+     * @param matrix
+     * @throws IOException
+     */
     public static void loadMapa(String ID, StringBuilder name, StringBuilder topologia, StringBuilder adyacencia, ArrayList<ArrayList<String>> matrix) throws IOException{
         InputStream input = new FileInputStream("data/mapas/"+ID+".properties");
 
@@ -66,6 +86,10 @@ public class MapaDAO {
         }
     }
 
+    /**
+     * Carregar tots els mapes del disc
+     * @return ArrayList amb tots els id's dels mapes que estan al disc.
+     */
     public static ArrayList<String> loadAllMapas(){
         ArrayList<String> mapasDisk = new ArrayList<>();
         File folder = new File("data/mapas");
@@ -83,6 +107,10 @@ public class MapaDAO {
         return mapasDisk;
     }
 
+    /**
+     * Borra un mapa del disc.
+     * @param mapaID
+     */
     public static void borrarMapa(String mapaID) {
         File file = new File("data/mapas/"+mapaID+".properties");
 

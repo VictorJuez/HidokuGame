@@ -16,6 +16,11 @@ public class ControladorMapa {
     private static HashMap<String, Mapa> mapasMap = new HashMap<>();
     private static HashMap<String, String> mapasDisk = new HashMap<>(); // Name, ID
     private ControladorMapa(){}
+
+    static {
+        loadAllMapsDisk();
+    }
+
     /**
      * Establece si la posicion del hidato i,j debe ser un # o no.
      * @param i,j fila y columna de la casilla a comprobar
@@ -23,11 +28,6 @@ public class ControladorMapa {
      * @param max_col El numero de columnas del hidato
      * @return Boolean indicando si la casilla sera # o no.
      */
-
-    static {
-        loadAllMapsDisk();
-    }
-
     private static boolean holeChecker(int i, int j, int max_fil, int max_col, String[][] matrix)
     {
         int randValue = ThreadLocalRandom.current().nextInt(0, 100+1);
@@ -46,6 +46,13 @@ public class ControladorMapa {
         return false;
     }
 
+    /**
+     * Genera la matriz definitiva del algoritmo de generacion de mapas.
+     * @param casillas_usadas
+     * @param numero_fil
+     * @param numero_col
+     * @return
+     */
     private static String[][] completePath(Integer[][] casillas_usadas, int numero_fil, int numero_col){
         String[][] tablero = new String[numero_fil][numero_col];
         int randValue;
@@ -131,6 +138,13 @@ public class ControladorMapa {
         return result;
     }
 
+    /**
+     * Inserta un nuevo hidato al sistema.
+     * @param topologia
+     * @param angulos
+     * @param tab
+     * @return El mapa generado a partir de los parametros de entrada.
+     */
     public static Mapa insertarHidato(String topologia, String angulos, String[][] tab) {
         MapaFactory mapaFactory = new MapaFactory();
         Mapa m = mapaFactory.getMapa(topologia, angulos, tab);
@@ -138,7 +152,11 @@ public class ControladorMapa {
         return m;
     }
 
-    public static ArrayList<String> getAllSavedMaps() throws IOException {
+    /**
+     * Obtiene una lista con los mapas almacenados en el disco
+     * @return ArrayList con los nombres de los mapas guardados en el disco
+     */
+    public static ArrayList<String> getAllSavedMaps(){
         loadAllMapsDisk();
 
         ArrayList<String> result = new ArrayList<>();
@@ -150,6 +168,11 @@ public class ControladorMapa {
         return result;
     }
 
+    /**
+     * Dado un ID o un nombre de un mapa obtener dicho mapa.
+     * @param ID
+     * @return null en caso de no existir el map con el ID o nombre pasado, o el Mapa de lo contrario.
+     */
     public static Mapa getMapa(String ID) {
         if(!mapasMap.containsKey(ID)){
            if(!mapasDisk.containsKey(ID)){
@@ -161,11 +184,21 @@ public class ControladorMapa {
         return mapasMap.get(ID);
     }
 
+    /**
+     * Obtiene el ID de un mapa dado su nombre.
+     * @param mapaName
+     * @return el ID del mapa correspiondiente o null en caso de no existir un mapa con el nombre pasado.
+     */
     public static String getID(String mapaName){
         if(mapasDisk.containsKey(mapaName)) return mapasDisk.get(mapaName);
         return null;
     }
 
+    /**
+     * Guarda un mapa con un nombre concreto en el disco.
+     * @param m
+     * @param name
+     */
     public static void saveMapa(Mapa m, String name) {
         try {
             m.setName(name);
@@ -175,11 +208,21 @@ public class ControladorMapa {
         }
     }
 
+    /**
+     * Borra un mapa del sistema
+     * @param mapa
+     */
     public static void borrarMapa(Mapa mapa) {
         mapasMap.remove(mapa.getID());
         MapaDAO.borrarMapa(mapa.getID());
     }
 
+    /**
+     * Dado un ID carga el mapa del disco y lo devuelve.
+     * @param ID
+     * @return el Mapa en cuestion
+     * @throws IOException
+     */
     private static Mapa loadMapaDisk(String ID) throws IOException {
         StringBuilder topologia = new StringBuilder();
         StringBuilder adyacencia = new StringBuilder();
@@ -199,6 +242,9 @@ public class ControladorMapa {
         return mapa;
     }
 
+    /**
+     * Carga todos los mapas del disco
+     */
     private static void loadAllMapsDisk(){
         ArrayList<String> arrayMapasID = new ArrayList<>();
         arrayMapasID = MapaDAO.loadAllMapas();

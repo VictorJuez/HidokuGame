@@ -125,6 +125,11 @@ public class ControladorUsuari {
         saveUsuariToDisk(getUsuari(usuariID));
     }
 
+    /**
+     * Desasigna una partida a un usuari.
+     * @param usuariID
+     * @param partidaID
+     */
     public static void removePartidaToUser(String usuariID, String partidaID){
         Usuari usuari = getUsuari(usuariID);
         usuari.popPartida(ControladorPartida.getPartida(partidaID));
@@ -181,6 +186,13 @@ public class ControladorUsuari {
     }
 
     //ranking functions
+
+    /**
+     * Afegeix un resultat a un usuari
+     * @param usuari
+     * @param puntuacio
+     * @return true si l'usuari fa un nou record personal, false si no.
+     */
     public static boolean insertarResultat(Usuari usuari, int puntuacio){
         boolean result = false;
         usuari.setPuntuacio(usuari.getPuntuacio() + puntuacio);
@@ -197,6 +209,10 @@ public class ControladorUsuari {
         return false;
     }
 
+    /**
+     * Obte el ranking actual del joc.
+     * @return ArrayList de pairs amb ID del jugador i resultat.
+     */
     public static ArrayList<Pair<String, Integer>> getGlobalRanking() {
         ArrayList<Pair<String, Integer>> al = new ArrayList<>();
         ArrayList<String> usersID = new ArrayList<>(GlobalRanking.keySet());
