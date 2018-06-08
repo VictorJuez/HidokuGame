@@ -19,7 +19,7 @@ public class UsuariDAO {
      * @param partidasID
      * @throws IOException
      */
-    public static void saveUsuari(String id, String password, int puntuacio, int record, ArrayList<String> partidasID) throws IOException {
+    public static void saveUsuari(String id, String password, long puntuacio, long record, ArrayList<String> partidasID) throws IOException {
         Properties properties = new Properties();
         properties.setProperty("id", id);
         properties.setProperty("password", password);

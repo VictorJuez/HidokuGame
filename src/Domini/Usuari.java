@@ -13,8 +13,8 @@ import java.util.*;
 public class Usuari {
     private String ID;
     private String password;  //password del usuario
-    private int puntuacio;
-    private int record;
+    private long puntuacio;
+    private long record;
     private HashMap<String, Partida> partidas = new HashMap<>();   //partidas del usuario
 
     /**
@@ -152,7 +152,7 @@ public class Usuari {
      * Obtenir el record de punutuacio de l'usuari
      * @return
      */
-    public int getRecord() {
+    public long getRecord() {
         return record;
     }
 
@@ -160,7 +160,7 @@ public class Usuari {
      * Establir el record de puntuacio a l'usuari
      * @param record
      */
-    public void setRecord(int record) {
+    public void setRecord(long record) {
         this.record = record;
     }
 
@@ -168,7 +168,7 @@ public class Usuari {
      * Obtenir la puntuacio de l'usuari
      * @return
      */
-    public int getPuntuacio() {
+    public long getPuntuacio() {
         return puntuacio;
     }
 
@@ -176,7 +176,7 @@ public class Usuari {
      * Establir la puntuacio a l'usuari
      * @param puntuacio
      */
-    public void setPuntuacio(int puntuacio) {
+    public void setPuntuacio(long puntuacio) {
         this.puntuacio = puntuacio;
     }
 

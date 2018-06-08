@@ -274,7 +274,7 @@ public class ControladorPartida
      * @return Un Integer amb la quantitat de segons que han passat des de l'inici de la partida (sense comptar pauses)
      */
 
-    public static int consultarTiempo ()
+    public static long consultarTiempo ()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         return p.getReloj();
@@ -288,7 +288,7 @@ public class ControladorPartida
      * @return Un Integer que indica la puntuació de la partida.
      */
 
-    public static int calculoPuntuacion (String difiControladorUsuariltad, int tiempo, int numeroPistas)
+    public static long calculoPuntuacion (String difiControladorUsuariltad, long tiempo, int numeroPistas)
     {
         double factorTiempo = 0;
         double factorDifiControladorUsuariltad = 0;

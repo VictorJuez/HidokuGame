@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class ControladorUsuari {
     private static HashMap<String, Usuari> allUsers = new HashMap<>();
-    private static HashMap<String, Integer> GlobalRanking = new HashMap<>();
-    private static HashMap<String, Integer> GlobalRecords = new HashMap<>();
+    private static HashMap<String, Long> GlobalRanking = new HashMap<>();
+    private static HashMap<String, Long> GlobalRecords = new HashMap<>();
     private static Usuari actualRecord;
     private static Usuari usuariActiu;
 
@@ -26,10 +26,10 @@ public class ControladorUsuari {
         HashMap<String, Usuari> hm = ControladorUsuari.getAllUsers();
         ArrayList<String> al = new ArrayList<>(hm.keySet());
 
-        int record = 0;
+        long record = 0;
         Usuari usuariRecord = null;
         for(String userID : al){
-            int userRecord = ControladorUsuari.getUsuari(userID).getRecord();
+            long userRecord = ControladorUsuari.getUsuari(userID).getRecord();
             if(userRecord > record){
                 record = userRecord;
                 usuariRecord = ControladorUsuari.getUsuari(userID);
@@ -193,7 +193,7 @@ public class ControladorUsuari {
      * @param puntuacio
      * @return true si l'usuari fa un nou record personal, false si no.
      */
-    public static boolean insertarResultat(Usuari usuari, int puntuacio){
+    public static boolean insertarResultat(Usuari usuari, long puntuacio){
         boolean result = false;
         usuari.setPuntuacio(usuari.getPuntuacio() + puntuacio);
         GlobalRanking.put(usuari.getID(), usuari.getPuntuacio());
@@ -218,7 +218,7 @@ public class ControladorUsuari {
         ArrayList<String> usersID = new ArrayList<>(GlobalRanking.keySet());
 
         for(String userID : usersID){
-            int puntuacio = GlobalRanking.get(userID);
+            long puntuacio = GlobalRanking.get(userID);
             Pair p = new Pair(userID, puntuacio);
             al.add(p);
         }
@@ -233,7 +233,7 @@ public class ControladorUsuari {
         return al;
     }
 
-    public static HashMap<String, Integer> getGlobalRecords() {
+    public static HashMap<String, Long> getGlobalRecords() {
         return GlobalRecords;
     }
 

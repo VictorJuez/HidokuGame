@@ -17,7 +17,7 @@ public class Partida
 {
     private String ID;
     private String usuari;
-    private int puntuacion;
+    private long puntuacion;
     private int pistasConsultadas;
     private Vector<Integer> numerosInsertados; //contiene los números que había al principio y los que hemos ido poniendo
     private Vector<Integer> numerosInicio; //sólo contiene los números del inicio
@@ -27,7 +27,7 @@ public class Partida
     private Date data;
     private boolean paused;
     private double tiempoTranscurrido; //expresado en SEGUNDOS, tiempo entre pausas.
-    private int tiempoTotal; //tiempo total acumulado de la partida.
+    private long tiempoTotal; //tiempo total acumulado de la partida.
     private long horaInicio;
     private long horaPausa;
 
@@ -51,7 +51,7 @@ public class Partida
      * Retorna el temps de joc comprés des de l'inici de la partida
      * @return Un Integer amb el temps de joc.
      */
-    public int getReloj() { return this.tiempoTotal; }
+    public long getReloj() { return this.tiempoTotal; }
 
     /**
      * Retorna un String amb la tipologia del mapa
@@ -158,7 +158,7 @@ public class Partida
      * Fixa una puntuació per a la partida
      * @param puntuacion
      */
-    public void setPuntuacion(int puntuacion) { this.puntuacion = puntuacion; }
+    public void setPuntuacion(long puntuacion) { this.puntuacion = puntuacion; }
 
     /**
      * Fixa un cert temps emprat per la partida
@@ -227,7 +227,7 @@ public class Partida
      * @param tiempoTotal
      */
     public Partida (String ID, String usuari, Vector<Integer> numerosInicio, Vector<Integer> numerosInsertados, int cantidadInterogantes,
-                   Mapa mapaPartida, int tiempoTotal)
+                   Mapa mapaPartida, long tiempoTotal)
     {
         this.ID = ID;
         this.usuari = usuari;

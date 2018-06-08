@@ -60,6 +60,7 @@ public class PartidaS {
                 String pcurso = ControladorPartida.getPartidaEnCurso();
                 p = ControladorPartida.getPartida(pcurso);
                 calculoFaltan(p.getNumInicio());
+                index = 0;
 
                 if (r.size() > 0) numberLabel.setText(String.valueOf(r.get(0)));
                 else numberLabel.setText("0");
@@ -126,6 +127,7 @@ public class PartidaS {
 
                 if (index > 0) {
                     index--;
+                    System.out.println(r.size() + ", " + index);
                     numberLabel.setText(String.valueOf(r.get(index)));
                 }
 
@@ -136,6 +138,7 @@ public class PartidaS {
             public void actionPerformed(ActionEvent e) {
                 if (index < r.size() - 1) {
                     index++;
+                    System.out.println(r.size() + ", " + index);
                     numberLabel.setText(String.valueOf(r.get(index)));
                 }
             }
@@ -149,7 +152,7 @@ public class PartidaS {
                     UtilsMapaDecorator utilsMapa = new UtilsMapaDecorator(p.getMapaPartida());
                     if (utilsMapa.hidatoValido()) {
                         String difiControladorUsuariltad = p.getMapaPartida().getDificultad(); //para el testeo, de mientras lo dejo así
-                        int puntuacion = ControladorPartida.calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
+                        long puntuacion = ControladorPartida.calculoPuntuacion(difiControladorUsuariltad, p.getReloj(), p.getPistasConsultadas());
                         //commit de la puntuacion en resultado
                         String userID = ControladorUsuari.getUsuariActiu();
                         boolean b = ControladorUsuari.insertarResultat(ControladorUsuari.getUsuari(userID), puntuacion);
