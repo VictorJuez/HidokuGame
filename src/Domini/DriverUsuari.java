@@ -42,7 +42,7 @@ public class DriverUsuari {
                     break;
                 case "x":
                     System.out.println("exiting game...");
-                    deleteFiles();
+                    //deleteFiles();
                     active = false;
                     break;
             }
@@ -101,7 +101,7 @@ public class DriverUsuari {
     }
 
     public static void deleteFiles() {
-        String[] pathNames = {"usuaris", "mapas","partidas", "resultats"};
+        String[] pathNames = {"usuaris", "mapas","partidas"};
         for(String pathName : pathNames) {
             for (File file : new File("data/" +pathName+"/").listFiles()) {
                 if (!file.getName().equals(".gitignore")) {

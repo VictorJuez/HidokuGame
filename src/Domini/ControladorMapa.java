@@ -214,6 +214,7 @@ public class ControladorMapa {
      */
     public static void borrarMapa(Mapa mapa) {
         mapasMap.remove(mapa.getID());
+        mapasDisk.remove(mapa.getName());
         MapaDAO.borrarMapa(mapa.getID());
     }
 
