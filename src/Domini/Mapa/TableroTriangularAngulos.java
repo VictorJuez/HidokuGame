@@ -51,7 +51,10 @@ public class TableroTriangularAngulos extends TableroTriangular {
     }
 
 
-
+    /**
+     * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
+     * @return Boolean indicando si esta bien resuelto o no.
+     */
     @Override
     protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir){
         Integer[] sig_casilla = new Integer[2];

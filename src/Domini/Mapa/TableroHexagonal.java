@@ -54,7 +54,10 @@ public class TableroHexagonal extends Mapa {
 
 
 
-
+    /**
+     * Comprueba si el hidato (matrix) ya resuelto está bien resuelto o no.
+     * @return Boolean indicando si esta bien resuelto o no.
+     */
     protected Integer[] siguienteCasilla(Integer[] ant_casilla, int dir){
         //{-2, 0, 1, 2, 3, 5}
         Integer[] sig_casilla = new Integer[2];

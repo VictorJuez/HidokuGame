@@ -4,6 +4,13 @@
 package Domini.Mapa;
 
 public class MapaFactory {
+    /**
+     * Crea un mapa dados los parametros de entreada
+     * @param tipo
+     * @param angulos
+     * @param tab
+     * @return
+     */
     public Mapa getMapa(String tipo, String angulos, String[][] tab){
         if(tipo.equals("Q")){
             if(angulos.equals("CA")) return new TableroCuadradoAngulos(tab);
@@ -20,6 +27,12 @@ public class MapaFactory {
         return null;
     }
 
+    /**
+     * Crea un mapa dados los parametros de entreada
+     * @param tipo
+     * @param angulos
+     * @return
+     */
     public Mapa getMapa(String tipo, String angulos){
         if(tipo.equals("Q")){
             if(angulos.equals("CA")) return new TableroCuadradoAngulos();
@@ -36,6 +49,15 @@ public class MapaFactory {
         return null;
     }
 
+    /**
+     * Crea un mapa dados los parametros de entreada
+     * @param ID
+     * @param name
+     * @param tipo
+     * @param angulos
+     * @param tab
+     * @return
+     */
     public Mapa getMapa(String ID, String name, String tipo, String angulos, String[][] tab){
         if(tipo.equals("Q")){
             if(angulos.equals("CA")) return new TableroCuadradoAngulos(ID, name, tab);

@@ -73,6 +73,10 @@ public abstract class Mapa {
         this.dificultat = calculoDificultat();
     }
 
+    /**
+     * Calcula la tabla de adyacencias y la retorna
+     * @return Vector con las adyacencias
+     */
     public Vector<adyacencias> getTablaAD() {
         if(tablaAD.size() == 0){
             tablaAD.removeAllElements();
@@ -81,46 +85,106 @@ public abstract class Mapa {
         }
         return tablaAD;
     }
+
+    /**
+     * Obtener el id del Mapa
+     * @return
+     */
     public String getID() {
         return ID;
     }
+
+    /**
+     * Setter del nombre del mapa
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * Obtener el nombre del mapa
+     * @return
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     * Obtener el numero de filas del mapa
+     * @return
+     */
     public int getFilas() {
         return filas;
     }
+
+    /**
+     * Obtener el numero de columnas del mapa
+     * @return
+     */
     public int getColumnas() {
         return columnas;
     }
+
+    /**
+     * Obtener la topologia del mapa
+     * @return
+     */
     public String getTipo() {
         return tipo;
     }
+
+    /**
+     * Obtener el tipo de adyacencias del mapa
+     * @return
+     */
     public String getAngulos() {
         return angulos;
     }
-    public boolean isSolucio() {
-        return solucio;
-    }
+
+    /**
+     * Obtener la matriz del mapa
+     * @return
+     */
     public String[][] getMatrix() {
         return matrix;
     }
+
+    /**
+     * Obtener la cantidad de numeros que hay puestos en el mapa
+     * @return
+     */
     public int getNumeros() {
         numerosExistents = getNumerosExistents();
         numeros = numerosExistents.size();
         return numeros;
     }
+
+    /**
+     * Insertar un numero en el mapa
+     * @param numero
+     * @param x
+     * @param y
+     */
     public void insertarNumero(int numero, int x, int y){
         matrix[x][y] = String.valueOf(numero);
         actualizaAdyacencias();
     }
+
+    /**
+     * Eliminar un numero insertado en el mapa y ponerlo como ?
+     * @param x
+     * @param y
+     */
     public void borrarNumero(int x, int y){
         matrix[x][y] = "?";
         actualizaAdyacencias();
     }
+
+    /**
+     * Obtener la dificultad del hidato
+     * @return
+     */
     public String getDificultad(){return dificultat;}
 
     @Override
@@ -148,6 +212,10 @@ public abstract class Mapa {
         else return "DIFICIL";
     }
 
+    /**
+     * Set de la matriz del mapa
+     * @param matrix
+     */
     public void setMatrix(String[][] matrix) {
         this.matrix = matrix;
         this.filas = matrix.length;
@@ -194,19 +262,24 @@ public abstract class Mapa {
         return interrogants;
     }
 
+    /**
+     * Rellena casillas_validas con ?, * i # para obtener la matriz del mapa
+     * @param casillas_validas
+     * @param numero_fil
+     * @param numero_col
+     * @return matriz en formato Integer[][]
+     */
     public abstract Integer[][] pathFinder(int casillas_validas, int numero_fil, int numero_col);
-    protected boolean isInteger(String s) {
-        try
-        {
-            Integer.parseInt(s);
-            // s is a valid integer
-            return true;
-        }
-        catch (Exception ex)
-        {
-            return false;
-        }
-    }
+
+    /**
+     * Comprueba que la posicion i,j sea correcta dentro del mapa.
+     * @param i
+     * @param j
+     * @param num_filas
+     * @param num_col
+     * @param casillas_visitadas
+     * @return true si es correcta, false si no
+     */
     protected boolean casillaValida(int i, int j, int num_filas, int num_col, Integer[][] casillas_visitadas) {
         if (i < (num_filas - 1) && j < (num_col - 1) && i > 0 && j > 0) {
             if (casillas_visitadas[i][j] == -1) return true;
@@ -241,6 +314,10 @@ public abstract class Mapa {
         }
     }
 
+    /**
+     * Comprueba que cuando se inserta un nuevo hidato tenga la primera y ultima posicion puesta
+     * @return true si tiene la primera y ultima posicion puestas, false si no
+     */
     public boolean matriuBenInicialitzada() {
         if(numerosExistents.contains(1) && numerosExistents.contains(numeros+interrogants)) return true;
         return false;
