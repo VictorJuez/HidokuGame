@@ -67,11 +67,7 @@ public class MapesExistents {
 
     private void setUpMapesExistentsBox() {
         ArrayList<String> usersID = null;
-        try {
-            usersID = new ArrayList<>(ControladorMapa.getAllSavedMaps());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        usersID = new ArrayList<>(ControladorMapa.getAllSavedMaps());
         String[] prova = usersID.toArray(new String[0]);
         MapesExistentsBox.setModel(new javax.swing.DefaultComboBoxModel(prova));
         if(prova.length>0) MapesExistentsBox.setSelectedIndex(0);
