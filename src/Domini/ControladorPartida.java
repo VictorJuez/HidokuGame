@@ -22,6 +22,11 @@ public class ControladorPartida
 
     private ControladorPartida() {}
 
+    /**
+     * Selecciona una partida de les carregades al programa y la marca com activa
+     * @param ID
+     */
+
     public static void seleccionarPartida (String ID)
     {
         partidaEnCurso = ID;
@@ -29,13 +34,32 @@ public class ControladorPartida
         p.activarContador();
     }
 
+    /**
+     * Ens retorna el ID de la partida que està activa en el moment que es crida la funció
+     * @return String amb el ID de la partida
+     */
+
     public static String getPartidaEnCurso() {
         return partidaEnCurso;
     }
+
+    /**
+     * Retorna el ID de l'usuari propietari d'una partida
+     * @param ID
+     * @return String amb el ID de l'usuari
+     */
+
     public static String getUsuariPartida(String ID) {
         Partida p = partidasMap.get(ID);
         return p.getUsuari();
     }
+
+    /**
+     * Crea una partida amb un mapa concret i per a l'usuari seleccionat
+     * @param m
+     * @param usuari
+     * @return Partida creada amb els paràmetres enviats.
+     */
 
     public static Partida crearPartida(Mapa m, String usuari)
     {
@@ -46,6 +70,12 @@ public class ControladorPartida
         return p;
     }
 
+    /**
+     * Crea una partida per a l'usuari seleccionat amb un mapa generat aleatoriament
+     * @param usuari
+     * @return Partida amb un mapa aleatori per a l'usuari seleccionat
+     */
+
     public static Partida crearPartidaRandom(String usuari)
     {
         Mapa mapaRandom = ControladorMapa.generarHidato();
@@ -54,6 +84,12 @@ public class ControladorPartida
         //ControladorUsuari.addPartidaToUser(usuari, p.getID());
         return p;
     }
+
+    /**
+     * Retorna un HashMap amb totes les partides que hi ha al disc, amb KEY -> ID y VALUE -> la partida
+     * @return HashMap
+     * @throws IOException
+     */
 
     public static HashMap<String, Partida> getAllPartidas () throws IOException {
         loadAllPartidasDisk();
@@ -64,12 +100,23 @@ public class ControladorPartida
         return partidasMap;
     }
 
+    /**
+     * Retorna la partida que s'identifica per la ID indicada.
+     * @param ID
+     * @return Partida identificada pel ID
+     */
+
     public static Partida getPartida(String ID) {
         if(partidasMap.get(ID) == null){
             return loadPartidaDisk(ID);
         }
         return partidasMap.get(ID);
     }
+
+    /**
+     * Guarda una partida al disc.
+     * @param p
+     */
 
     public static void savePartida(Partida p) {
         try {
@@ -80,11 +127,22 @@ public class ControladorPartida
         }
     }
 
+    /**
+     * Borra una partida del disc.
+     * @param p
+     */
+
     public static void deletePartida (Partida p) {
         partidasMap.remove(p.getID());
         PartidaDAO.deletePartida(p);
         ControladorUsuari.removePartidaToUser(p.getUsuari(), p.getID());
     }
+
+    /**
+     * Carrega la partida identificada per la ID del disc.
+     * @param ID
+     * @return La partida identificada per ID
+     */
 
     private static Partida loadPartidaDisk(String ID) {
         Partida p = null;
@@ -96,6 +154,10 @@ public class ControladorPartida
         partidasMap.put(ID, p);
         return p;
     }
+
+    /**
+     * Carrega a partidasDisk totes les partides que estàn presents al disc
+     */
 
     private static  void loadAllPartidasDisk(){
         partidasDisk = PartidaDAO.loadAllPartidas();
@@ -118,6 +180,14 @@ public class ControladorPartida
         }
     }*/
 
+    /**
+     * Inserta un nombre a la casella indicada de la partida que està activada
+     * @param i
+     * @param j
+     * @param numero
+     * @return Un boolean indicant si s'ha pogut insertar el nombre
+     */
+
     //cada vez que haya que insertar un numero he de consultar interrogantes para saber si está la matriz llena
     public static boolean insertarNumero (int i, int j, int numero)
     {
@@ -130,6 +200,13 @@ public class ControladorPartida
         return b;
     }
 
+    /**
+     * Borra el nombre indicat a la casella indicada pels paràmetres
+     * @param i
+     * @param j
+     * @return Un boolean que indica si el nombre de la casella s'ha pogut esborrar
+     */
+
     public static boolean borrarNumero (int i, int j)
     {
         boolean t = false;
@@ -139,11 +216,24 @@ public class ControladorPartida
         return t;
     }
 
+    /**
+     * Esborra un numero a la casella indicada i fica un altre
+     * @param i
+     * @param j
+     * @param numero
+     * @return Un boolean que indica si s'ha pogut efectuar la substitució
+     */
+
     public static boolean reemplazarNumero (int i, int j, int numero)
     {
         Partida p = partidasMap.get(partidaEnCurso);
         return p.reemplazarNumero(i, j, numero);
     }
+
+    /**
+     * Consulta una pista disponible pel mapa
+     * @return Retorna un Array de Integers amb el nombre a col·locar i la fila i la columna de la casella on ha d'anar
+     */
 
     public static Integer[] consultarPista ()
     {
@@ -151,11 +241,24 @@ public class ControladorPartida
         return p.consultarPista();
     }
 
+    /**
+     * Consulta el temps que ha estat emprat fins ara en la partida
+     * @return Un Integer amb la quantitat de segons que han passat des de l'inici de la partida (sense comptar pauses)
+     */
+
     public static int consultarTiempo ()
     {
         Partida p = partidasMap.get(partidaEnCurso);
         return p.getReloj();
     }
+
+    /**
+     * Càlcul de la puntuació corresponent a la partida que s'ha finalitzat
+     * @param difiControladorUsuariltad
+     * @param tiempo
+     * @param numeroPistas
+     * @return Un Integer que indica la puntuació de la partida.
+     */
 
     public static int calculoPuntuacion (String difiControladorUsuariltad, int tiempo, int numeroPistas)
     {

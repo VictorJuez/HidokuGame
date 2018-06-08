@@ -69,7 +69,14 @@ public class Menu {
         });
     }
 
+    /**
+     * Mostra pe'l label de usuari l'usuari actiu al sistema
+     */
     public void setUpUsuariLabel() { this.usuariActiuLabel.setText(ControladorUsuari.getUsuariActiu()); }
 
+    /**
+     * Retorna aquest mateix menu
+     * @return JPanel amb aquest mateix menu
+     */
     public JPanel getMenuPanel() { return MenuPanel; }
 }

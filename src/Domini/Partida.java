@@ -32,29 +32,92 @@ public class Partida
     private long horaPausa;
 
     //GETTERS DE LA CLASE
+
+    /**
+     * Retorna la ID de la partida
+     * @return String amb la ID de la partida
+     */
     public String getID() { return this.ID; }
+
+    /**
+     * Retorna la ID de l'usuari
+     * @return String amb la ID de l'usuari
+     */
     public String getUsuari() {
         return usuari;
     }
+
+    /**
+     * Retorna el temps de joc comprés des de l'inici de la partida
+     * @return Un Integer amb el temps de joc.
+     */
     public int getReloj() { return this.tiempoTotal; }
+
+    /**
+     * Retorna un String amb la tipologia del mapa
+     * @return String amb la tipologia del mapa
+     */
     public String getTipoMapa() { return this.mapaPartida.getTipo(); }
+
+    /**
+     * Retorna un String amb el tipus d'adjacència del mapa
+     * @return Un String amb el tipus d'adjacència del mapa
+     */
     public String getAngulosMapa() { return this.mapaPartida.getAngulos(); }
+
+    /**
+     * Retorna un Integer amb el nombre de files del mapa
+     * @return un Integer amb el nombre de files del mapa
+     */
     public int getFilasMapa() { return this.mapaPartida.getFilas(); }
+
+    /**
+     * Retorna un Integer amb el nombre de columnes del mapa
+     * @return un Integer amb el nombre de columnes del mapa
+     */
     public int getColumnasMapa() { return this.mapaPartida.getColumnas(); }
+
+    /**
+     * Retorna el mapa de la partida
+     * @return el mapa de la partida
+     */
     public Mapa getMapaPartida() {
         return mapaPartida;
     }
+
+    /**
+     * Retorna un Array d'Strings amb el tauler del mapa
+     * @return un Array d'Strings amb el tauler del mapa
+     */
     public String[][] getMatrixMapa() { return this.mapaPartida.getMatrix(); }
+
+    /**
+     * Retorna la quantitat d'interrogants que hi han actualment al mapa de la partida
+     * @return un Integer amb la quantitat d'interrogants que hi han actualment al mapa de la partida
+     */
     public int getCantidadInterrogantes() { return this.cantidadInterogantes; }
+
+    /**
+     * Retorna la quantitat de pistes que s'han consultat a la partida
+     * @return un Integer amb la quantitat de pistes consultadas
+     */
     public int getPistasConsultadas() {
         return this.pistasConsultadas;
     }
     //los devuelve como string para pasarselo a PartidaDAO
 
+    /**
+     * Retorna un Vector de Integers amb els nombres que estaven al mapa al començament de la partida
+     * @return un Vector de Integers amb els nombres que estaven al mapa al començament de la partida
+     */
     public Vector<Integer> getNumInicio(){
         return numerosInicio;
     }
 
+    /**
+     * Retorna un String amb els nombres que estaven al mapa al començament de la partida
+     * @return un String amb els nombres que estaven al mapa al començament de la partida
+     */
     public String getNumerosInicio() {
         int size = this.numerosInicio.size();
         String numerosInicio = "";
@@ -67,6 +130,11 @@ public class Partida
         }
         return numerosInicio;
     }
+
+    /**
+     * Retorna un String amb els nombres que l'usuari ha inserit durant la partida (mes els de l'inici)
+     * @return Un String amb els nombres que l'usuari ha inserit durant la partida (mes els de l'inici)
+     */
     public String getNumerosInsertados() {
         int size = this.numerosInsertados.size();
         String numerosInsertados = "";
@@ -80,17 +148,50 @@ public class Partida
         return numerosInsertados;
     }
 
-    //SETTERS DE LA CLASE
+    /**
+     * Fixa una ID per la partida
+     * @param ID
+     */
     public void setID(String ID) { this.ID = ID; }
+
+    /**
+     * Fixa una puntuació per a la partida
+     * @param puntuacion
+     */
     public void setPuntuacion(int puntuacion) { this.puntuacion = puntuacion; }
+
+    /**
+     * Fixa un cert temps emprat per la partida
+     * @param reloj
+     */
     public void setReloj(double reloj) { this.tiempoTranscurrido = reloj; }
+
+    /**
+     * Fixa una quantitat d'interrogants a la partida
+     * @param cantidadInterogantes
+     */
     public void setCantidadInterrogantes(int cantidadInterogantes) { this.cantidadInterogantes = cantidadInterogantes; }
+
+    /**
+     * Fixa un vector de nombres inserits per a la partida
+     * @param numerosInsertados
+     */
     public void setNumerosInsertados (Vector<Integer> numerosInsertados)
     {
         this.numerosInsertados = numerosInsertados;
     }
+
+    /**
+     * Fixa un vector de nombres inicials per a la partida
+     * @param numerosInicio
+     */
     public void setNumerosInicio (Vector<Integer> numerosInicio) { this.numerosInicio = numerosInicio; }
 
+    /**
+     * Crea una partida amb el mapa passat per paràmetre i fixa l'usuari passat per paràmetre com propietari
+     * @param mapaEnunciado
+     * @param usuari
+     */
     //hacer otro constructor para cuando cargue la partida.
     public Partida (Mapa mapaEnunciado, String usuari)
     {
@@ -115,6 +216,16 @@ public class Partida
         this.numerosInicio = mapaPartida.getNumerosExistents();
     }
 
+    /**
+     * Crea una partida amb una certa ID, un usuari propietari, i demés paràmetres concrets.
+     * @param ID
+     * @param usuari
+     * @param numerosInicio
+     * @param numerosInsertados
+     * @param cantidadInterogantes
+     * @param mapaPartida
+     * @param tiempoTotal
+     */
     public Partida (String ID, String usuari, Vector<Integer> numerosInicio, Vector<Integer> numerosInsertados, int cantidadInterogantes,
                    Mapa mapaPartida, int tiempoTotal)
     {
@@ -128,18 +239,27 @@ public class Partida
         this.tiempoTotal = tiempoTotal;
     }
 
+    /**
+     * Activa el recompte del temps per a la partida activa
+     */
     public void activarContador()
     {
         this.data = new Date();
         this.horaInicio = data.getTime();
     }
 
+    /**
+     * Refresh del contador de temps
+     */
     public void actualizarContador()
     {
         pausarPartida();
         reanudarPartida();
     }
 
+    /**
+     * Pausa la partida (es deixa de comptabilitzar el temps)
+     */
     public void pausarPartida() //sobretodo hago ésto por la gestión del cronómetro.
     {
         if (!paused)
@@ -153,6 +273,9 @@ public class Partida
         }
     }
 
+    /**
+     * Despausa la partida (es torna a comptar el temps)
+     */
     public void reanudarPartida()
     {
         data = new Date();
@@ -160,6 +283,12 @@ public class Partida
         this.paused = false;
     }
 
+    /**
+     * Verifica si a la casella indicada hi ha un nombre o hi ha un # o un *
+     * @param i
+     * @param j
+     * @return
+     */
     //indica si en la casilla que apuntamos con i y j es para números o es una casilla no válida
     private boolean casillaNumero (int i, int j)
     {
@@ -168,12 +297,25 @@ public class Partida
         return false;
     }
 
+    /**
+     * Indica si la casella no es surt de la matriu del mapa
+     * @param i
+     * @param j
+     * @return Un boolean que indica si la casella està dins del rang de la matriu
+     */
     //para que no de un out of bounds
     private boolean casillaValida(int i, int j)
     {
         return (i < this.mapaPartida.getFilas() && j < this.mapaPartida.getColumnas());
     }
 
+    /**
+     * Inserta un nombre a la casella indicada
+     * @param i
+     * @param j
+     * @param numero
+     * @return un boolean que indica si s'ha pogut insertar el nombre a la casella.
+     */
     //inserta un número en el tablero si no ha sido insertado antes y si la casilla es valida.
     public boolean insertarNumero (int i, int j, int numero)
     {
@@ -202,6 +344,12 @@ public class Partida
         return false;
     }
 
+    /**
+     * Esborra un nombre a la casella indicada
+     * @param i
+     * @param j
+     * @return Un boolean que indica si s'ha pogut esborrar
+     */
     public boolean borrarNumero (int i, int j)
     {
         if (casillaValida(i, j) && !paused )
@@ -225,6 +373,13 @@ public class Partida
         return false;
     }
 
+    /**
+     * Borra el nombre a la casella indicada i inserta un altre
+     * @param i
+     * @param j
+     * @param numero
+     * @return Un boolean que indica si s'ha pogut realitzar la operació
+     */
     public boolean reemplazarNumero (int i, int j, int numero)
     {
         boolean b = false;
@@ -234,6 +389,11 @@ public class Partida
         b = insertarNumero(i, j, numero);
         return b;
     }
+
+    /**
+     * Consulta una pista sobre el mapa que s'està jugant
+     * @return Un Array de Integers on figuren el següent nombre a insertar i la fila i columna de la casella on ha d'anar
+     */
 
     public Integer[] consultarPista () {
         ++pistasConsultadas;

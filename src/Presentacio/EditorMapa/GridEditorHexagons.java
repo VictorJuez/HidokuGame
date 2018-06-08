@@ -9,11 +9,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GridEditorHexagons extends GridEditor {
+    /**
+     * Crida a la constructora de la clase abstracta
+     * @param nomMapa
+     * @param matrix
+     * @param columnes
+     * @param files
+     * @param topologia
+     */
     public GridEditorHexagons (String nomMapa, String[][] matrix, int columnes, int files, String topologia)
     {
         super(nomMapa, matrix, columnes, files, topologia);
     }
 
+    /**
+     * Retorna la matriu de botons amb la tipologia escollida
+     * @param m
+     */
     @Override
     protected void setMatrix(String[][]m){
         matrix = new JButton[files][columnes];

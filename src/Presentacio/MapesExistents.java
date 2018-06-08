@@ -63,8 +63,15 @@ public class MapesExistents {
         });
     }
 
+    /**
+     * Retorna aquest mateix menu
+     * @return JPanel amb la pantalla MapesExistents
+     */
     public JPanel getMapesExistents() { return MapesExistentsPanel; }
 
+    /**
+     * Prepara el Box amb els mapes que existeixen al disc
+     */
     private void setUpMapesExistentsBox() {
         ArrayList<String> usersID = null;
         usersID = new ArrayList<>(ControladorMapa.getAllSavedMaps());
@@ -73,5 +80,8 @@ public class MapesExistents {
         if(prova.length>0) MapesExistentsBox.setSelectedIndex(0);
     }
 
+    /**
+     * Actualitza la ID seleccionada a partir del valor marcat al Box.
+     */
     private void setMapaSeleccionatID() { mapaSeleccionatID = ControladorMapa.getID(String.valueOf(MapesExistentsBox.getSelectedItem())) ; }
 }

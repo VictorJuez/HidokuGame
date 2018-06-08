@@ -10,11 +10,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GridEditorTriangles extends GridEditor {
+    /**
+     * Crida a la constructora de la classe abstracta
+     * @param nomMapa
+     * @param matrix
+     * @param columnes
+     * @param files
+     * @param topologia
+     */
     public GridEditorTriangles(String nomMapa, String[][] matrix, int columnes, int files, String topologia)
     {
         super(nomMapa, matrix, columnes, files, topologia);
     }
 
+    /**
+     * Retorna la matriu de botons de la topologia escollida
+     * @param m
+     */
     @Override
     protected void setMatrix(String[][]m){
         matrix = new JButton[files][columnes];

@@ -86,42 +86,101 @@ public class CreadorMapa {
         });
     }
 
+    /**
+     * Retorna el nom seleccionat pel mapa
+     * @return String amb el nom del mapa
+     */
     public static String getNommapa() {
         return nommapa;
     }
+
+    /**
+     * Retorna la tipologia seleccionada pel mapa
+     * @return String amb la tipologia del mapa
+     */
     public static String getTipus() {
         return tipus;
     }
+
+    /**
+     * Retorna el tipus d'adjacencies del mapa
+     * @return String amb el tipus d'adjacències del mapa
+     */
     public static String getTipusAdjacencies() {
         return tipusAdjacencies;
     }
+
+    /**
+     * Retorna el nombre de files del mapa
+     * @return un String amb el nombre de files del mapa
+     */
     public static String getNombreFiles() { return nombreFiles; }
+
+    /**
+     * Retorna el nombre de columnes del mapa
+     * @return un String amb el nombre de columnes del mapa
+     */
     public static String getNombreColumnes() { return nombreColumnes; }
 
+    /**
+     * Fixa la variable nommapa amb el nom indicat
+     */
     public void setNomMapa()
     {
         nommapa = nomMapa.getText();
     }
+
+    /**
+     * Fixa la variable tipus (topologia) amb el tipus indicat
+     */
     public void setTipus() { this.tipus = (String)tipusMapa.getSelectedItem(); }
+
+    /**
+     * Fixa la variable adjacencies amb el tipus d'adjacencies indicat
+     */
     public void setTipusAdjacencies() { this.tipusAdjacencies = (String)adjacencies.getSelectedItem(); }
+
+    /**
+     * Fixa la variable nombreFiles amb el nombre de files indicat
+     */
     public void setNombreFiles() { this.nombreFiles = (String)files.getSelectedItem(); }
+
+    /**
+     * Fixa la variable nombreColumnes amb el nombre de columnes indicat
+     */
     public void setNombreColumnes() { this.nombreColumnes = (String)columnes.getSelectedItem(); }
+
+    /**
+     * Prepara el Box de tipus mapa amb les topologies disponibles
+     */
     private void setUpTipusMapaBox() {
         String[] aux = new String[3]; aux[0] = "Quadrats"; aux[1] = "Triangles"; aux[2] = "Hexagons";
         this.tipusMapa.setModel(new javax.swing.DefaultComboBoxModel(aux));
         if(aux.length>0)this.tipusMapa.setSelectedIndex(0);
     }
+
+    /**
+     * Prepara el Box de les adjacencies amb les adjacencies disponibles
+     */
     private void setUpAdjacenciesBox() {
         String[] aux = new String[2]; aux[0] = "Costats"; aux[1] = "Angles";
         this.adjacencies.setModel(new javax.swing.DefaultComboBoxModel(aux));
         if(aux.length>0)this.adjacencies.setSelectedIndex(0);
     }
+
+    /**
+     * Prepara el Box de les files els valors disponibles
+     */
     private void setUpFilesBox() {
         String[] aux = new String[14];
         for (int i = 1; i < 15; ++i) aux[i-1] = String.valueOf(i+1);
         this.files.setModel(new javax.swing.DefaultComboBoxModel(aux));
         if(aux.length>0)this.files.setSelectedIndex(0);
     }
+
+    /**
+     * Prepara el Box de les columnes els valors disponibles
+     */
     private void setUpColumnesBox() {
         String[] aux = new String[14];
         for (int i = 1; i < 15; ++i) aux[i-1] = String.valueOf(i+1);
@@ -129,6 +188,10 @@ public class CreadorMapa {
         if(aux.length>0)this.columnes.setSelectedIndex(0);
     }
 
+    /**
+     * Retorna aquest mateix menu
+     * @return un JPanel amb aquest mateix menu
+     */
     public JPanel getCreadorMapasPanel() { return CreadorMapaPanel; }
 
 }

@@ -4,6 +4,15 @@
 package Presentacio.EditorMapa;
 
 public class GridEditorFactory {
+    /**
+     * Crea una instancia de GridEditor segons la tipologia escollida
+     * @param nomMapa
+     * @param matrix
+     * @param columnes
+     * @param files
+     * @param topologia
+     * @return GridEditor Quadrats, Triangles o Hexagons en funció del que hem escollit
+     */
     public GridEditor getGridEditor(String nomMapa, String[][] matrix, int columnes, int files, String topologia)
     {
         GridEditor gE = null;

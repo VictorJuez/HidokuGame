@@ -9,11 +9,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GridEditorQuadrats extends GridEditor {
+    /**
+     * Crida a la constructora de la clase abstracta
+     * @param nomMapa
+     * @param matrix
+     * @param files
+     * @param columnes
+     * @param topologia
+     */
     public GridEditorQuadrats(String nomMapa, String[][] matrix, int files, int columnes, String topologia)
     {
         super(nomMapa, matrix, files, columnes, topologia);
     }
 
+    /**
+     * Retorna la matriu de botons de la topologia escollida
+     * @param m
+     */
     @Override
     protected void setMatrix(String[][] m){
         matrix = new JButton[files][columnes];

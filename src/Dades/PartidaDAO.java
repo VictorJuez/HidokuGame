@@ -18,6 +18,12 @@ public class PartidaDAO {
 
     private PartidaDAO(){}
 
+    /**
+     * Guarda una partida al disc.
+     * @param p
+     * @throws IOException
+     */
+
     public static void savePartida (Partida p) throws IOException {
 
         Properties properties = new Properties();
@@ -53,6 +59,12 @@ public class PartidaDAO {
         fileOut.close();
     }
 
+    /**
+     * Carrega una partida de disc.
+     * @param ID
+     * @return Partida p
+     * @throws IOException
+     */
     public static Partida loadPartida (String ID) throws IOException{
         InputStream input = new FileInputStream("data/partidas/"+ID+".properties");
 
@@ -107,6 +119,10 @@ public class PartidaDAO {
 
     //restablece los valores de la partida.
 
+    /**
+     * Carrega totes les partides que hi ha guardades al disc
+     * @return ArrayList amb el ID de les partides.
+     */
     public static ArrayList<String> loadAllPartidas()
     {
         ArrayList<String> partidasDisk = new ArrayList<>();
@@ -125,6 +141,11 @@ public class PartidaDAO {
         }
         return partidasDisk;
     }
+
+    /**
+     * Borra la partida seleccionada
+     * @param p
+     */
 
     public static void deletePartida(Partida p) {
         File file = new File("data/partidas/"+p.getID()+".properties");

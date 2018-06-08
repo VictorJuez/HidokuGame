@@ -58,8 +58,16 @@ public class CargarPartida {
         });
     }
 
+    /**
+     * Retorna aquest mateix menu
+     * @return un JPanel amb aquest mateix menu
+     */
     public JPanel getCargarPartidaPanel() { return CargarPartidaPanel; }
-    //VV LLAMAR EN EL SHOW
+
+    /**
+     * Prepara el Box de partides guardades amb les partides disponibles al disc
+     * @throws IOException
+     */
     private void setUpPartidesGuardadesBox() throws IOException {
         ArrayList<String> partidasUsuari = ControladorUsuari.getUsuari(ControladorUsuari.getUsuariActiu()).getPartidasID();
         String[] prova = partidasUsuari.toArray(new String[0]);
@@ -67,6 +75,9 @@ public class CargarPartida {
         if(prova.length>0)PartidesGuardadesBox.setSelectedIndex(0);
     }
 
+    /**
+     * Fixa el paràmetre ID de la partida
+     */
     private void setIDPartida() {
         IDPartida = (String) PartidesGuardadesBox.getSelectedItem();
     }

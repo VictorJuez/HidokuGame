@@ -154,6 +154,9 @@ public class EditorMapa {
         });
     }
 
+    /**
+     * Recull els paràmetres seleccionats pel mapa
+     */
     //recoge los datos marcados por la anterior pantalla (CreadorMapa) y instancia el GridEditor
     private void processParameters() {
         nomMapa = cM.getNommapa();
@@ -163,6 +166,9 @@ public class EditorMapa {
         columnes = Integer.valueOf(cM.getNombreColumnes());
     }
 
+    /**
+     * Crea una matriu de botons per poder crear un mapa de forma interactiva
+     */
     private void processGridEditor() {
         BorderLayout grid = new BorderLayout();
         ButtonGridPanel.removeAll();
@@ -197,10 +203,17 @@ public class EditorMapa {
         ButtonGridPanel.repaint();
     }
 
+    /**
+     * Retorna l'editor de mapes
+     * @return un JPanel amb l'editor de mapes
+     */
     public JPanel getEditorMapa() {
         return editorMapaPanel;
     }
 
+    /**
+     * Incrementa l'index (que serveix per saber que nombre estem insertant) i actualitza el nombre seleccionat
+     */
     private void incIndex() {
         numerosInserits.add(index);
         index += 1;
@@ -209,6 +222,9 @@ public class EditorMapa {
         charSelected = numSelected;
     }
 
+    /**
+     * Decrementa l'index (que serveix per saber que nombre estem insertant) i actualitza el nombre seleccionat
+     */
     private void decIndex() {
         if (index > 1) index -= 1;
         numSelected = String.valueOf(index);
@@ -216,6 +232,10 @@ public class EditorMapa {
         charSelected = numSelected;
     }
 
+    /**
+     * Retorna la matriu de l'Hidato segons el valor que hem assignat als botons
+     * @return un array d'Strings
+     */
     private String[][] getMatrixHidato()
     {
         String[][] matrix = new String[files][columnes];
@@ -223,6 +243,10 @@ public class EditorMapa {
         return matrix;
     }
 
+    /**
+     * Vigila que es compleixin tots els paràmetres d'un mapa correcte (que no hagi numeros repetits )
+     * @return un boolean indicant si el mapa es correcte (que no significa que tingui solucio)
+     */
     private boolean controlCorrectesa()
     {
         for (int a = 0; a < numerosInserits.size(); a++)
