@@ -88,7 +88,7 @@ public abstract class Mapa {
 
     /**
      * Obtener el id del Mapa
-     * @return
+     * @return ID
      */
     public String getID() {
         return ID;
@@ -104,7 +104,7 @@ public abstract class Mapa {
 
     /**
      * Obtener el nombre del mapa
-     * @return
+     * @return nombre
      */
     public String getName() {
         return name;
@@ -112,7 +112,7 @@ public abstract class Mapa {
 
     /**
      * Obtener el numero de filas del mapa
-     * @return
+     * @return numero de filas
      */
     public int getFilas() {
         return filas;
@@ -120,7 +120,7 @@ public abstract class Mapa {
 
     /**
      * Obtener el numero de columnas del mapa
-     * @return
+     * @return numero de columnas
      */
     public int getColumnas() {
         return columnas;
@@ -128,7 +128,7 @@ public abstract class Mapa {
 
     /**
      * Obtener la topologia del mapa
-     * @return
+     * @return topologia
      */
     public String getTipo() {
         return tipo;
@@ -136,7 +136,7 @@ public abstract class Mapa {
 
     /**
      * Obtener el tipo de adyacencias del mapa
-     * @return
+     * @return String indicando las adyacencias
      */
     public String getAngulos() {
         return angulos;
@@ -144,7 +144,7 @@ public abstract class Mapa {
 
     /**
      * Obtener la matriz del mapa
-     * @return
+     * @return String[][] de la matriz del mapa
      */
     public String[][] getMatrix() {
         return matrix;
@@ -152,7 +152,7 @@ public abstract class Mapa {
 
     /**
      * Obtener la cantidad de numeros que hay puestos en el mapa
-     * @return
+     * @return entero con la cantidad de numeros
      */
     public int getNumeros() {
         numerosExistents = getNumerosExistents();

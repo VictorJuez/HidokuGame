@@ -88,7 +88,7 @@ public class ControladorPartida
     }
 
     /**
-     * Retorna un HashMap amb totes les partides que hi ha al disc, amb KEY -> ID y VALUE -> la partida
+     * Retorna un HashMap amb totes les partides que hi ha al disc, amb KEY ID y VALUE la partida
      * @return HashMap
      * @throws IOException
      */
