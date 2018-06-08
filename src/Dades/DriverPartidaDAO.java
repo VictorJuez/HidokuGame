@@ -23,8 +23,8 @@ public class DriverPartidaDAO {
         while(active) {
             switch (op){
                 case "1":
-                    op = myScanner.next();
-                    PartidaDAO.loadPartida(op);
+                    /*op = myScanner.next();
+                    PartidaDAO.loadPartida(op)*/;
                     break;
                 case "2":
                     PartidaDAO.loadAllPartidas();

@@ -5,11 +5,13 @@ package Domini;
 
 import Dades.PartidaDAO;
 import Domini.Mapa.Mapa;
+import Domini.Mapa.MapaFactory;
 import Domini.Mapa.UtilsMapaDecorator;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 import static oracle.jrockit.jfr.events.Bits.intValue;
 
@@ -108,7 +110,11 @@ public class ControladorPartida
 
     public static Partida getPartida(String ID) {
         if(partidasMap.get(ID) == null){
-            return loadPartidaDisk(ID);
+            try {
+                return loadPartidaDisk(ID);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return partidasMap.get(ID);
     }
@@ -120,11 +126,13 @@ public class ControladorPartida
 
     public static void savePartida(Partida p) {
         try {
-            PartidaDAO.savePartida(p);
-            ControladorUsuari.addPartidaToUser(p.getUsuari(), p.getID());
+            PartidaDAO.savePartida(p.getID(), p.getMapaPartida().getID(), p.getTipoMapa(), p.getAngulosMapa(), p.getMatrixMapa(), p.getNumerosInicio(),
+                    p.getNumerosInsertados(), String.valueOf(p.getCantidadInterrogantes()), String.valueOf(p.getReloj()), p.getUsuari());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ControladorUsuari.addPartidaToUser(p.getUsuari(), p.getID());
     }
 
     /**
@@ -143,14 +151,34 @@ public class ControladorPartida
      * @param ID
      * @return La partida identificada per ID
      */
+    private static Partida loadPartidaDisk(String ID) throws IOException {
+        StringBuilder userID                = new StringBuilder();
+        StringBuilder topologia             = new StringBuilder();
+        StringBuilder adyacencia            = new StringBuilder();
+        StringBuilder reloj                 = new StringBuilder();
+        StringBuilder cantidadInterrogantes = new StringBuilder();
 
-    private static Partida loadPartidaDisk(String ID) {
-        Partida p = null;
-        try {
-            p = PartidaDAO.loadPartida(ID);
-        } catch (IOException e) {
-            e.printStackTrace();
+        ArrayList<ArrayList<String>> matrix = new ArrayList<ArrayList<String>>();
+        Vector<Integer> numerosInicio       = new Vector<>();
+        Vector<Integer> numerosInsertados   = new Vector<>();
+
+        PartidaDAO.loadPartida(ID,userID, topologia, adyacencia, matrix, reloj, numerosInicio, numerosInsertados, cantidadInterrogantes);
+
+        String[][] matrixResult = new String[matrix.size()][matrix.get(0).size()];
+        for(int i=0; i<matrixResult.length; ++i){
+            matrixResult[i] = matrix.get(i).toArray(matrixResult[i]);
         }
+
+        //cargo el mapa que estaba usando partida
+        MapaFactory mF = new MapaFactory();
+        Mapa m = mF.getMapa(topologia.toString(), adyacencia.toString(), matrixResult);
+
+        Partida p = new Partida(ID, userID.toString(), numerosInicio, numerosInsertados, Integer.valueOf(cantidadInterrogantes.toString()), m, Integer.valueOf(reloj.toString()));
+        //ya tiene el mapa bien puesto, lo único que he de modificar son numerosInicio, numerosRestantes, reloj,
+        // ID (para que tenga el mismo y poder sobreescribir)
+
+        //return p; //retorna la partida tal y como la dejamos
+
         partidasMap.put(ID, p);
         return p;
     }
