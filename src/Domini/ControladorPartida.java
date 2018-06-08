@@ -142,7 +142,7 @@ public class ControladorPartida
 
     public static void deletePartida (Partida p) {
         partidasMap.remove(p.getID());
-        PartidaDAO.deletePartida(p);
+        PartidaDAO.deletePartida(p.getID());
         ControladorUsuari.removePartidaToUser(p.getUsuari(), p.getID());
     }
 

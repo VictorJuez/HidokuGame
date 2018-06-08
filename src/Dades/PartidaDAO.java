@@ -143,11 +143,11 @@ public class PartidaDAO {
 
     /**
      * Borra la partida seleccionada
-     * @param p
+     * @param partidaID
      */
 
-    public static void deletePartida(Partida p) {
-        File file = new File("data/partidas/"+p.getID()+".properties");
+    public static void deletePartida(String partidaID) {
+        File file = new File("data/partidas/"+partidaID+".properties");
 
         file.delete();
     }
