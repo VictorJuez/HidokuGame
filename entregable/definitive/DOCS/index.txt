@@ -1,0 +1,1 @@
+Directori JavaDOC: conte el javaDOC generat del codi.

@@ -1,0 +1,3 @@
+Descripcion de directorios:
+- manifests: directorio donde se alojan los MANIFESTS generados por el IDE para generar los ejecutables .jar
+- data: directorio donde se alojan los archivos de guardado en disco.

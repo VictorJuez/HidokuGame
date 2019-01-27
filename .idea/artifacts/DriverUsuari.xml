@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DriverUsuari">
+    <output-path>$PROJECT_DIR$/entregable/definitive/EXE</output-path>
+    <root id="archive" name="DriverUsuari.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/entregable/definitive/EXE/manifests/DriverUsuari/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="prop" />
+    </root>
+  </artifact>
+</component>
